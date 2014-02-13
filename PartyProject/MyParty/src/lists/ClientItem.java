@@ -22,10 +22,10 @@ public class ClientItem extends LinearLayout implements Items{
 				   															   LinearLayout.LayoutParams.WRAP_CONTENT);
 		layoutParams.setMargins(20, 0, 20, 0);
 		layoutClientData.setLayoutParams(layoutParams);
-
+		layoutParams.weight = 2;
 		ImageView imgView = new ImageView(context);
-		LayoutParams llp = new LayoutParams(140, 250, Gravity.CENTER_HORIZONTAL); 
-		imgView.setBackgroundResource(R.drawable.ic_action_person);
+		LayoutParams llp = new LayoutParams(140, 300, Gravity.CENTER_HORIZONTAL); 
+		imgView.setBackgroundResource(R.drawable.ic_action_person_blue);
 		imgView.setLayoutParams(llp);
 		this.addView(imgView);
 		

@@ -1,5 +1,7 @@
 package charts;
 
+import java.util.HashMap;
+
 import org.afree.data.general.DefaultPieDataset;
 import org.afree.data.general.PieDataset;
 
@@ -21,10 +23,16 @@ public class ChartTicketsSold extends Charts{
      */
     public PieDataset createDataset(int[] values) {
     	DefaultPieDataset dataset = new DefaultPieDataset();
-        dataset.setValue("Sold", values[0]);
-        dataset.setValue("Unsold", values[1]);
+        dataset.setValue("Sold", Double.valueOf(values[0]));
+        dataset.setValue("Unsold", Double.valueOf(values[1]));
         return dataset;
     }
+
+	@Override
+	public PieDataset createDataset(HashMap<String, Integer> values) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
     
 }

@@ -1,5 +1,7 @@
 package charts;
 
+import java.util.HashMap;
+
 import org.afree.data.general.DefaultPieDataset;
 import org.afree.data.general.PieDataset;
 
@@ -17,8 +19,10 @@ public class ChartPersonsIn extends Charts{
      */
 	public PieDataset createDataset(int[] values) {
         DefaultPieDataset dataset = new DefaultPieDataset();
-        dataset.setValue("In", values[0]);
-        dataset.setValue("Out", values[1]);
+        dataset.setValue("In", Double.valueOf(values[0]));
+        dataset.setValue("Out", Double.valueOf(values[1]));
         return dataset;
     }
+	@Override
+	public PieDataset createDataset(HashMap<String, Integer> values) {return null;}
 }
