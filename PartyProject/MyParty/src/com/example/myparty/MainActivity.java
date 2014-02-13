@@ -1,13 +1,21 @@
 package com.example.myparty;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.sax.TextElementListener;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+import databaseHandler.DatabaseHandler;
 import databaseHandler.UserFunctions;
 
 public class MainActivity extends Activity implements OnClickListener {
@@ -17,6 +25,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private MenuItem item;
 	private UserFunctions userFunctions = new UserFunctions();
 	private boolean running = true;
+	private DatabaseHandler dataBase;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +36,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		buttonConnexion.setOnClickListener(this);
 		buttonRegister.setOnClickListener(this);
 		lightHandler();
+		dataBase = new DatabaseHandler(this);
+		dataBase.open();
 	}
 
 	@Override
@@ -66,8 +77,32 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		Button b = (Button)v;
 		if (v == buttonConnexion){
+			
 			Intent intent = new Intent(this, ConcertActivity.class);
 	    	this.startActivity(intent);
+			
+	    	/*A DECOMMENTER POUR POUVOIR UTILISER AUTHENTIFICATION*/
+			/*EditText login = (EditText)findViewById(R.id.loginTextEdit);
+			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
+			
+			Log.i("TEST", login.getText().toString());
+			Log.i("TEST", pwd.getText().toString());
+			
+			if (dataBase.authentification(login.getText().toString(), pwd.getText().toString())){
+				Intent intent = new Intent(this, ConcertActivity.class);
+		    	this.startActivity(intent);
+			}
+			else{
+				//MESSAGE ERREUR
+				Context myContext = getApplicationContext();
+				CharSequence text = "ERROR LOGIN OR PASSWORD !";
+				int duration = Toast.LENGTH_SHORT;
+
+				Toast toast = Toast.makeText(myContext, text, duration);
+				toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
+				toast.show();
+			}*/
+		
 		}else {
 			Intent intent = new Intent(this, RegisterActivity.class);
 	    	this.startActivity(intent);
