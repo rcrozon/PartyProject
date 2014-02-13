@@ -6,17 +6,11 @@ import java.util.List;
 
 import lists.ClientAdapter;
 import lists.ClientItem;
-
-import concert.Client;
-
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.Menu;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.ViewFlipper;
+import concert.Client;
 
 public class ClientListActivity extends Activity {
 	

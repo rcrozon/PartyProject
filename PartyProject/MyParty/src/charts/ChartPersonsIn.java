@@ -1,19 +1,11 @@
 package charts;
 
-import java.util.HashMap;
-
-import org.afree.chart.AFreeChart;
-import org.afree.chart.ChartFactory;
-import org.afree.chart.plot.PiePlot;
-import org.afree.chart.title.TextTitle;
 import org.afree.data.general.DefaultPieDataset;
 import org.afree.data.general.PieDataset;
-import org.afree.graphics.geom.Font;
 
 import android.content.Context;
-import android.graphics.Typeface;
 
-public class ChartPersonsIn extends DemoView implements Charts{
+public class ChartPersonsIn extends Charts{
 
 
 	public ChartPersonsIn(Context context){
@@ -23,33 +15,10 @@ public class ChartPersonsIn extends DemoView implements Charts{
      * Creates a sample dataset.
      * @return a sample dataset.
      */
-	public PieDataset createDataset(int in, int out) {
+	public PieDataset createDataset(int[] values) {
         DefaultPieDataset dataset = new DefaultPieDataset();
-        dataset.setValue("In", in);
-        dataset.setValue("Out", out);
+        dataset.setValue("In", values[0]);
+        dataset.setValue("Out", values[1]);
         return dataset;
     }
-
-    /**
-     * Creates a chart.
-     * @param dataset the dataset.
-     * @return a chart.
-     */
-    public void createChart(PieDataset dataset) {
-    	AFreeChart chart = ChartFactory.createPieChart( "Persons In", // chart title
-										                dataset, // data
-										                true, // include legend
-										                true,
-										                false);
-//        TextTitle title = chart.getTitle();
-//        title.setToolTipText("A title tooltip!");
-
-        PiePlot plot = (PiePlot) chart.getPlot();
-        plot.setLabelFont(new Font("SansSerif", Typeface.NORMAL, 12));
-        plot.setNoDataMessage("No data available");
-        plot.setCircular(false);
-        plot.setLabelGap(0.02);
-        this.setChart(chart);
-    }
-	
 }

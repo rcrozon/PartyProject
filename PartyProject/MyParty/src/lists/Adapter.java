@@ -2,14 +2,14 @@ package lists;
 
 import java.util.ArrayList;
 
-import charts.ChartPersonsIn;
-import charts.ChartTarif;
-import charts.ChartTicketsSold;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import charts.ChartPersonsIn;
+import charts.ChartTarif;
+import charts.ChartTicketsSold;
 
 public class Adapter extends BaseAdapter
 { 
@@ -44,8 +44,10 @@ public class Adapter extends BaseAdapter
 			return (ConcertItem)listItems.get(position);
 		else if (listItems.get(position) instanceof ClientItem)
 			return (ClientItem)listItems.get(position);
-		else if (listItems.get(position) instanceof ChartPersonsIn)
+		else if (listItems.get(position) instanceof ChartPersonsIn){
+			Log.i("INSTANCE", listItems.get(position).getClass().getName());	
 			return (ChartPersonsIn)listItems.get(position);
+		}
 		else if (listItems.get(position) instanceof ChartTarif)
 			return (ChartTarif)listItems.get(position);
 		else if (listItems.get(position) instanceof ChartTicketsSold)

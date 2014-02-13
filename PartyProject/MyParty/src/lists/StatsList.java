@@ -3,53 +3,64 @@ package lists;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.example.myparty.R;
-
 import android.content.Context;
+import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.RelativeLayout.LayoutParams;
 import charts.ChartPersonsIn;
 import charts.ChartTarif;
 import charts.ChartTicketsSold;
+import charts.Charts;
+
+import com.example.myparty.R;
+
+import concert.Client;
 
 public class StatsList extends LinearLayout {
 
-	Adapter adapter ;
-	ChartTicketsSold chartTicketSold ; 
-	ChartTarif chartTarif ;
-	ChartPersonsIn chartPersonsIn ;
+	Charts chartTicketSold ; 
+	Charts chartTarif ;
+	Charts chartPersonsIn ;
 	LinearLayout layout ;
+	LinearLayout personslegend;
+	Adapter adapter ;
+	ScrollView scrollStats;
 	
-	public StatsList(final Context context) {
+	public StatsList(Context context) {
 		super(context);
+		ScrollView scrollStats = new ScrollView(context);
+		
 		layout = new LinearLayout(context); 
 		layout.setOrientation(LinearLayout.VERTICAL);
+		
+		personslegend = new LinearLayout(context); 
+		personslegend.setOrientation(LinearLayout.HORIZONTAL);
+		
 		chartTicketSold = new ChartTicketsSold(context);
 		chartTarif = new ChartTarif(context); 
 		chartPersonsIn = new ChartPersonsIn(context);
-		HashMap<String , Integer> tariffs = new HashMap<String, Integer>();
-		tariffs.put("Etudiant", 15);
-		tariffs.put("Normal", 24);
-		tariffs.put("Sénior", 5); 
-		chartTicketSold.createChart(chartTicketSold.createDataset(8, 12));
+		int tariffs[] = {15, 24, 5};  
+		int tickets[] = {8, 12};  
+		int persons[] = {52, 12}; 
+		chartTicketSold.createChart(chartTicketSold.createDataset(tickets));
 		chartTarif.createChart(chartTarif.createDataset(tariffs));
-		chartPersonsIn.createChart(chartPersonsIn.createDataset(52, 12));
-		LayoutParams llp = new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, 
-				LinearLayout.LayoutParams.WRAP_CONTENT);
-		chartPersonsIn.setLayoutParams(llp);
-		chartTicketSold.setLayoutParams(llp);
-		chartTarif.setLayoutParams(llp);
-		//this.setAdapter(adapter);
-	
+		chartPersonsIn.createChart(chartPersonsIn.createDataset(persons));
+
+		chartPersonsIn.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,500));
+		chartTicketSold.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,500));
+		chartTarif.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,500));
+		
 		layout.addView(chartPersonsIn);
-		chartPersonsIn.setBackgroundResource(R.drawable.list_border);
+		layout.addView(chartTicketSold);
 		layout.addView(chartTarif);
-//		layout.addView(chartTicketSold);
-//		this.setBackgroundResource(R.drawable.list_border);
-		this.addView(layout);
+		
+		scrollStats.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
+		scrollStats.setFillViewport(true);
+		scrollStats.setBackgroundResource(R.drawable.list_border);
+		scrollStats.addView(layout);
+		this.addView(scrollStats);
 	}
 
 }

@@ -1,22 +1,15 @@
 package com.example.myparty;
 
-import java.util.Date;
-
-import concert.Concert;
-import lists.ClientList;
-import lists.ConcertItem;
 import lists.ConcertList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ViewFlipper;
 
 public class ConcertActivity extends Activity implements OnClickListener, OnMenuItemClickListener{
