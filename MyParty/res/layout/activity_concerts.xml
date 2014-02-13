@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="@color/black"
+	android:orientation="vertical" >
+
+        <TableRow
+            android:id="@+id/tableRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            
+            <Button
+		        android:id="@+id/buttonAllConcerts"
+		        style="@style/AppBaseTheme"
+		        android:layout_weight="1"
+		        android:textColor="@color/white"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:background="@drawable/button_selected"
+		        android:text="@string/all_concerts" />
+            
+            <Button
+		        android:id="@+id/buttonNextConcerts"
+		        style="@style/AppBaseTheme"
+		        android:layout_width="wrap_content"
+		        android:layout_weight="1"
+		        android:textColor="@color/white"
+		        android:layout_height="wrap_content"
+		        android:background="@drawable/button_unselected"
+		        android:text="@string/next_concerts" />
+            
+            <Button
+		        android:id="@+id/buttonNews"
+		        style="@style/AppBaseTheme"
+		        android:layout_width="wrap_content"
+		        android:layout_weight="1"
+		        android:textColor="@color/white"
+		        android:layout_height="wrap_content"
+		        android:background="@drawable/button_unselected"
+		        android:text="@string/news" />
+
+        </TableRow>
+
+        <ViewFlipper
+            android:id="@+id/view_flipper"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_horizontal" >
+	        
+	    </ViewFlipper>
+	
+</LinearLayout>
+                

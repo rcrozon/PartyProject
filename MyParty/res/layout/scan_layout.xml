@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_scan"
+    android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="@color/black">
+	
+    <ImageView 
+        android:id="@+id/imgScan"
+        android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:background="@drawable/qrcode_red"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+		android:contentDescription="@string/scan"/>
+
+    <TextView
+        android:id="@+id/textScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:text="@string/scan" />   
+            
+	
+</RelativeLayout>
+                

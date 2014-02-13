@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/black"
+    tools:context=".MainActivity" >
+	
+	<Button
+	    android:id="@+id/buttonConnexion"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="20dip"
+	    android:layout_marginRight="20dip"
+	    android:layout_alignParentBottom="true"
+	    android:layout_marginBottom="60dp"
+	    android:layout_above="@+id/buttonRegister"
+	    android:background="@color/blue"
+	    android:text="@string/connexion" />
+	
+	<Button
+        android:id="@+id/buttonRegister"
+        android:layout_width="fill_parent"
+	    android:layout_alignParentBottom="true"
+	    android:layout_marginLeft="20dip"
+	    android:layout_marginRight="20dip"
+	    android:layout_marginBottom="20dip"
+	    android:layout_centerHorizontal="true"
+        android:layout_height="30dp"
+        android:background="@color/blue"
+        android:layout_gravity="center_vertical"
+        android:text="@string/register" />
+
+	<EditText
+	    android:id="@+id/loginTextEdit"
+	    android:layout_width="fill_parent"
+	    android:layout_marginTop="30dip"
+	    android:layout_marginLeft="20dip"
+	    android:layout_marginRight="20dip"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:ems="10"
+	    android:hint="@string/login"
+	    android:gravity="center"
+	    android:textColor="@color/white"
+	    android:textSize="@dimen/itemDimension" >
+
+	</EditText>
+
+
+	<EditText
+	    android:id="@+id/pwdTextEdit"
+	    android:layout_width="fill_parent"
+	    android:layout_marginTop="30dip"
+	    android:layout_marginLeft="20dip"
+	    android:layout_marginRight="20dip"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/loginTextEdit"
+	    android:ems="10"
+	    android:hint="@string/password"
+	    android:inputType="textPassword"
+	    android:gravity="center"
+	    android:textColor="@color/white"
+	    android:textSize="@dimen/itemDimension" >
+	</EditText>
+        
+</RelativeLayout>

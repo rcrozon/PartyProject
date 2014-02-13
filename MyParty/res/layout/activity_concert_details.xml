@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="@color/black"
+	android:orientation="vertical" >
+
+        <TableRow
+            android:id="@+id/tableRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            
+            <Button
+		        android:id="@+id/buttonDetails"
+		        style="@style/AppBaseTheme"
+		        android:layout_weight="1"
+		        android:textColor="@color/white"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:background="@drawable/button_selected"
+		        android:text="@string/details" />
+            
+            <Button
+		        android:id="@+id/buttonClient"
+		        style="@style/AppBaseTheme"
+		        android:layout_width="wrap_content"
+		        android:layout_weight="1"
+		        android:textColor="@color/white"
+		        android:layout_height="wrap_content"
+		        android:background="@drawable/button_unselected"
+		        android:text="@string/client" /> 
+            
+            <Button
+		        android:id="@+id/buttonScan"
+		        style="@style/AppBaseTheme"
+		        android:layout_width="wrap_content"
+		        android:layout_weight="1"
+		        android:textColor="@color/white"
+		        android:layout_height="wrap_content"
+		        android:background="@drawable/button_unselected"
+		        android:text="@string/scan" />
+            
+            <Button
+		        android:id="@+id/buttonStats"
+		        style="@style/AppBaseTheme"
+		        android:layout_width="wrap_content"
+		        android:layout_weight="1"
+		        android:textColor="@color/white"
+		        android:layout_height="wrap_content"
+		        android:background="@drawable/button_unselected"
+		        android:text="@string/stats" />
+
+        </TableRow>
+
+        <ViewFlipper
+            android:id="@+id/view_flipper"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_horizontal" >
+
+	    </ViewFlipper>
+	
+</LinearLayout>
+                
