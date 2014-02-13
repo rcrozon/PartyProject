@@ -28,26 +28,26 @@ public class DatabaseHandler {
 	
 	
 	public DatabaseHandler(Context context){
-		//On créer la BDD et sa table
+		//On crï¿½er la BDD et sa table
 		SQLiteBase = new DatabaseCreate(context, BDD_NAME, null, VERSION_BDD);
 	}
  
 	public void open(){
-		//on ouvre la BDD en écriture
+		//on ouvre la BDD en ï¿½criture
 		bdd = SQLiteBase.getWritableDatabase();
-		Client c1 = new Client("romain", "CROZON", new Date(), "crozonr@gmail.com", "rcrozon", "oee120");
+		/*Client c1 = new Client("romain", "CROZON", new Date(), "crozonr@gmail.com", "rcrozon", "oee120");
 		Client c2 = new Client("simon", "SAVIN", new Date(), "simsav1@gmail.com", "simsav1", "oee121");
 		Client c3 = new Client("julie", "DUFOUR", new Date(), "julie@gmail.com", "julie", "oee122");
 		insertClient(c1);
 		insertClient(c2);
-		insertClient(c3);
+		insertClient(c3);*/
 		Log.i("CLIENT 1", "Client 1 : " + getClientWithNames("romain", "CROZON").toString());
 		Log.i("CLIENT 2", "Client 2 : " + getClientWithNames("simon", "SAVIN").toString());
 		Log.i("CLIENT 3", "Client 3 : " + getClientWithNames("julie", "DUFOUR").toString());
 	}
  
 	public void close(){
-		//on ferme l'accès à la BDD
+		//on ferme l'accï¿½s ï¿½ la BDD
 		bdd.close();
 	}
  
@@ -56,18 +56,18 @@ public class DatabaseHandler {
 	}
 
 	public long insertClient(Client client){
-		//Création d'un ContentValues (fonctionne comme une HashMap)
+		//Crï¿½ation d'un ContentValues (fonctionne comme une HashMap)
 		ContentValues values = new ContentValues();
-		//on lui ajoute une valeur associé à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
+		//on lui ajoute une valeur associï¿½ ï¿½ une clï¿½ (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
 		values.put(COL_FIRSTNAME, client.getFirstName());
 		values.put(COL_LASTNAME, client.getLastName());
-		//on insère l'objet dans la BDD via le ContentValues
+		//on insï¿½re l'objet dans la BDD via le ContentValues
 		return bdd.insert(CLIENT_TABLE, null, values);
 	}
  
 //	public int updateLivre(int id, Livre livre){
-//		//La mise à jour d'un livre dans la BDD fonctionne plus ou moins comme une insertion
-//		//il faut simple préciser quelle livre on doit mettre à jour grâce à l'ID
+//		//La mise ï¿½ jour d'un livre dans la BDD fonctionne plus ou moins comme une insertion
+//		//il faut simple prï¿½ciser quelle livre on doit mettre ï¿½ jour grï¿½ce ï¿½ l'ID
 //		ContentValues values = new ContentValues();
 //		values.put(COL_FIRSTNAME, livre.getIsbn());
 //		values.put(COL_TITRE, livre.getTitre());
@@ -75,28 +75,28 @@ public class DatabaseHandler {
 //	}
  
 //	public int removeLivreWithID(int id){
-//		//Suppression d'un livre de la BDD grâce à l'ID
+//		//Suppression d'un livre de la BDD grï¿½ce ï¿½ l'ID
 //		return bdd.delete(CLIENT_TABLE, COL_ID + " = " +id, null);
 //	}
  
 	public Client getClientWithNames(String firstName, String lastName){ 
-		//Récupère dans un Cursor les valeur correspondant à un livre contenu dans la BDD (ici on sélectionne le livre grâce à son titre)
+		//Rï¿½cupï¿½re dans un Cursor les valeur correspondant ï¿½ un livre contenu dans la BDD (ici on sï¿½lectionne le livre grï¿½ce ï¿½ son titre)
 		Cursor c = bdd.query(CLIENT_TABLE, new String[] {COL_ID, COL_FIRSTNAME, COL_LASTNAME}, COL_LASTNAME + " LIKE \"" + lastName +"\"", null, null, null, null);
 		return cursorToClient(c);
 	}
 	
 	private Client cursorToClient(Cursor c){
-		//si aucun élément n'a été retourné dans la requête, on renvoie null
+		//si aucun ï¿½lï¿½ment n'a ï¿½tï¿½ retournï¿½ dans la requï¿½te, on renvoie null
 		if (c.getCount() == 0){
 			Log.i("ERRORO PAS COOL", "Client null");
 			return null;
 		}
 		
-		//Sinon on se place sur le premier élément
+		//Sinon on se place sur le premier ï¿½lï¿½ment
 		c.moveToFirst();
-		//On créé un livre
+		//On crï¿½ï¿½ un livre
 		Client client = new Client(c.getString(NUM_COL_FIRSTNAME), c.getString(NUM_COL_LASTNAME), new Date(), "", "rcrozon", "oee120");
-		//on lui affecte toutes les infos grâce aux infos contenues dans le Cursor
+		//on lui affecte toutes les infos grï¿½ce aux infos contenues dans le Cursor
 		
 		//On ferme le cursor
 		c.close();
@@ -104,4 +104,19 @@ public class DatabaseHandler {
 		//On retourne le livre
 		return client;
 	}
+
+	/*IL FAUT REMPLACER PAR LES BONNES COLONNES !!*/
+	public Boolean authentification(String login, String pwd){ 
+		//Rï¿½cupï¿½re dans un Cursor les valeur correspondant ï¿½ un livre contenu dans la BDD (ici on sï¿½lectionne le livre grï¿½ce ï¿½ son titre)
+		Cursor c = bdd.query(CLIENT_TABLE, new String[] {COL_ID, COL_FIRSTNAME, COL_LASTNAME}, COL_FIRSTNAME + " LIKE \"" + login +"\"", null, null, null, null);
+		if (c.getCount() == 1){
+			c.moveToFirst();
+			//test si c'est le bon mot de passe
+			if (pwd.equals(c.getString(NUM_COL_LASTNAME))){
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

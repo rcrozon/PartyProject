@@ -1,4 +1,4 @@
-package databaseHandler;
+	package databaseHandler;
 
 import concert.Client;
 import android.content.ContentValues;
@@ -16,7 +16,7 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 	private static final String COL_FIRSTNAME = "firstname";
 	private static final String COL_LASTNAME = "lastname";
  
-	private static final String CREATE_BDD = "CREATE TABLE " + CLIENT_TABLE + " ("
+	private static final String CREATE_BDD = "CREATE TABLE IF NOT EXISTS " + CLIENT_TABLE + " ("
 	+ COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_FIRSTNAME + " TEXT NOT NULL, "
 	+ COL_LASTNAME + " TEXT NOT NULL);";
  
