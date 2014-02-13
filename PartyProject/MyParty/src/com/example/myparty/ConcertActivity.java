@@ -47,7 +47,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 		decoItem = menu.findItem(R.id.menu_deconect);
-		decoItem.setIcon(R.drawable.ic_action_location_found_green);
+		//decoItem.setIcon(R.drawable.ic_action_location_found_green);
 		decoItem.setOnMenuItemClickListener(this);
 		return true;
 	}
