@@ -78,7 +78,11 @@ public class MainActivity extends Activity implements OnClickListener {
 		Button b = (Button)v;
 		if (v == buttonConnexion){
 			
-			EditText login = (EditText)findViewById(R.id.loginTextEdit);
+			Intent intent = new Intent(this, ConcertActivity.class);
+	    	this.startActivity(intent);
+			
+	    	/*A DECOMMENTER POUR POUVOIR UTILISER AUTHENTIFICATION*/
+			/*EditText login = (EditText)findViewById(R.id.loginTextEdit);
 			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
 			
 			Log.i("TEST", login.getText().toString());
@@ -97,7 +101,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				Toast toast = Toast.makeText(myContext, text, duration);
 				toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
 				toast.show();
-			}
+			}*/
 		
 		}else {
 			Intent intent = new Intent(this, RegisterActivity.class);
