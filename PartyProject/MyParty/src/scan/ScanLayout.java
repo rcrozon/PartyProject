@@ -29,7 +29,7 @@ public class ScanLayout extends RelativeLayout implements OnClickListener{
 		LayoutParams llpImg = new LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
 				RelativeLayout.LayoutParams.WRAP_CONTENT);
 		llpImg.addRule(this.CENTER_HORIZONTAL);
-		llpImg.addRule(this.ALIGN_PARENT_TOP);
+		llpImg.addRule(this.ALIGN_PARENT_TOP); 
 		llpImg.setMargins(0, 50, 0, 0);  
 		LayoutParams llpTextView = new LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
 				RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -41,7 +41,7 @@ public class ScanLayout extends RelativeLayout implements OnClickListener{
 		llpTextView.addRule(this.CENTER_HORIZONTAL);
 		llpTextView.addRule(this.ALIGN_PARENT_BOTTOM);
 		llpTextView.setMargins(0, 500, 0, 0); 
-		llpButtonTariff.setMargins(20, 500, 20, 0); 
+		llpButtonTariff.setMargins(20, 0, 20, 0); 
 		this.imgView.setBackgroundResource(R.drawable.qrcode_blue);
 		this.imgView.setOnClickListener(this);
 		this.addView(this.imgView, llpImg);
