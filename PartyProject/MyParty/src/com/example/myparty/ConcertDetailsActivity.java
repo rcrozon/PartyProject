@@ -46,6 +46,9 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 		scrollScan.addView(scanner);
 		
 		
+		
+		
+		
 		this.view_flipper.addView(new ClientList(this));
 		this.view_flipper.addView(new ClientList(this));
 		this.view_flipper.addView(scrollScan);
