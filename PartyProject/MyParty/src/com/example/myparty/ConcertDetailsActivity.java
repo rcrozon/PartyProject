@@ -121,7 +121,11 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 			typ = scanResult.getFormatName();
 			scanner.getTextView().setText(barcode + "   " + typ);
 			scanner.getTextView().setFreezesText(true);
-			scanner.getImageView().setBackgroundResource(R.drawable.qrcode_green);
+			if (codeDatabaseHandler())
+				scanner.getImageView().setBackgroundResource(R.drawable.qrcode_green);
+			else
+				scanner.getImageView().setBackgroundResource(R.drawable.qrcode_red);
+			
 		}
 	}
 	@Override
@@ -130,4 +134,13 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 		this.startActivity(intent);
 		return false;
 	}	
+	/**
+	 * Test in the database if the given QR code is correct and if the client's reservation is recorded
+	 * @return
+	 */
+	public boolean codeDatabaseHandler(){
+		// TODO when the database is done
+		scanner.getButtonTariff().setText("Carte Etudiante nécessaire");
+		return true;
+	}
 }

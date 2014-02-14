@@ -20,14 +20,12 @@ public class ClientItem extends LinearLayout implements Items{
 		layoutClientData.setOrientation(VERTICAL);
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 
 				   LinearLayout.LayoutParams.WRAP_CONTENT);
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 
-				   LinearLayout.LayoutParams.MATCH_PARENT);
-		this.setLayoutParams(lp);
 		layoutParams.setMargins(20, 0, 20, 0);
-		layoutClientData.setLayoutParams(layoutParams);
-		layoutParams.weight = 2;
+		layoutClientData.setLayoutParams(layoutParams); 
+		layoutParams.weight = 1;
 		ImageView imgView = new ImageView(context);
-		LayoutParams llp = new LayoutParams(140, 300, Gravity.CENTER_HORIZONTAL); 
+		LayoutParams llp = new LayoutParams(400, 300, Gravity.CENTER_HORIZONTAL); 
+		layoutParams.weight = 4;
 		imgView.setBackgroundResource(R.drawable.ic_action_person_blue);
 		imgView.setLayoutParams(llp);
 		this.addView(imgView);

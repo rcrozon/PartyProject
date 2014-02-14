@@ -17,6 +17,7 @@ public class ScanLayout extends RelativeLayout implements OnClickListener{
 	Activity activity ;
 	TextView text; 
 	ImageView imgView; 
+	Button buttonTariff;
 	
 	public ScanLayout(Context context, Activity activity) {
 		super(context);
@@ -28,21 +29,30 @@ public class ScanLayout extends RelativeLayout implements OnClickListener{
 		LayoutParams llpImg = new LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
 				RelativeLayout.LayoutParams.WRAP_CONTENT);
 		llpImg.addRule(this.CENTER_HORIZONTAL);
-		llpImg.addRule(this.ALIGN_PARENT_TOP); 
+		llpImg.addRule(this.ALIGN_PARENT_TOP);
 		llpImg.setMargins(0, 50, 0, 0);  
 		LayoutParams llpTextView = new LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-											RelativeLayout.LayoutParams.WRAP_CONTENT);
+				RelativeLayout.LayoutParams.WRAP_CONTENT);
+		llpTextView.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+		LayoutParams llpButtonTariff = new LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+				RelativeLayout.LayoutParams.WRAP_CONTENT);
+		llpButtonTariff.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		
 		llpTextView.addRule(this.CENTER_HORIZONTAL);
 		llpTextView.addRule(this.ALIGN_PARENT_BOTTOM);
 		llpTextView.setMargins(0, 500, 0, 0); 
-		this.imgView.setBackgroundResource(R.drawable.qrcode_red);
+		llpButtonTariff.setMargins(20, 500, 20, 0); 
+		this.imgView.setBackgroundResource(R.drawable.qrcode_blue);
 		this.imgView.setOnClickListener(this);
 		this.addView(this.imgView, llpImg);
 		this.text = new TextView(context);
+		this.buttonTariff = new Button(context);
+		this.buttonTariff.setBackgroundResource(R.color.blue);
 		this.text.setText("J'aime quand on m'enduit d'huile!");
 		this.text.setTextColor(getResources().getColor(R.color.white));
 		this.addView(this.text, llpTextView);
+		this.addView(this.buttonTariff, llpButtonTariff); 
+		this.setBackgroundResource(R.drawable.list_border);
 	}
 
 	public void onClick (View view){
@@ -53,9 +63,13 @@ public class ScanLayout extends RelativeLayout implements OnClickListener{
 	public TextView getTextView(){
 		return text;
 	}
-	
+
 	public ImageView getImageView(){
 		return imgView;
+	}
+	
+	public Button getButtonTariff(){
+		return buttonTariff;
 	}
 	
 	

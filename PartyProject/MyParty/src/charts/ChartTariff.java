@@ -25,7 +25,6 @@ public class ChartTariff extends Charts {
 	public PieDataset createDataset(HashMap<String, Integer> values) {
 		DefaultPieDataset dataset = new DefaultPieDataset();
 		for(String tariff : values.keySet()){
-			Log.i("TARIF", tariff);
 	        dataset.setValue(tariff, Double.valueOf(values.get(tariff)));
 		}
 		return dataset;
