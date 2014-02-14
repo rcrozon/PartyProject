@@ -1,6 +1,7 @@
 package lists;
 
 import android.content.Context;
+import android.text.GetChars;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,8 +13,11 @@ import concert.Concert;
 
 public class ConcertItem extends LinearLayout implements Items{
 	
+	private Concert concert;
+	
 	public ConcertItem(Context context, Concert concert){
 		super(context);
+		this.concert = concert;
 		this.setBackgroundResource(R.drawable.list_border);
 		this.setOrientation(HORIZONTAL);
 		
@@ -56,6 +60,10 @@ public class ConcertItem extends LinearLayout implements Items{
 		this.addView(layoutConcertData);
 		
 		
+	}
+	
+	public Concert getConcert(){
+		return this.concert;
 	}
 
 }
