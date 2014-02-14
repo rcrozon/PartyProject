@@ -60,14 +60,20 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 		scrollScan.addView(scanner);
 		
 
+		this.scanner.getButtonTariff().setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				scanner.getImageView().setBackgroundResource(R.drawable.qrcode_blue);	
+			}
+		});
 		this.view_flipper.addView(new ConcertDetailed(this, concert));
 		this.view_flipper.addView(new ClientList(this));
 		this.view_flipper.addView(scrollScan);
 		this.view_flipper.addView(new StatsList(this));
-		buttonClients.setOnClickListener(this);
-		buttonDetails.setOnClickListener(this);
-		buttonScan.setOnClickListener(this);
-		buttonStats.setOnClickListener(this);
+		this.buttonClients.setOnClickListener(this);
+		this.buttonDetails.setOnClickListener(this);
+		this.buttonScan.setOnClickListener(this);
+		this.buttonStats.setOnClickListener(this);
 	}
 	
 	@Override
