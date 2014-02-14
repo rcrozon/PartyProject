@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import databaseHandler.DatabaseHandler;
+import databaseHandler.Tables;
 import databaseHandler.UserFunctions;
 
 public class MainActivity extends Activity implements OnClickListener {
@@ -38,7 +39,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		lightHandler();
 //		dataBase = new DatabaseHandler(this);
 //		dataBase.open();
-	}
+		}
 
 	@Override
     public void onPause(){
