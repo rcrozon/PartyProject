@@ -1,6 +1,9 @@
 package com.example.myparty;
 
+import java.util.Date;
+
 import lists.ClientList;
+import lists.ConcertDetailed;
 import lists.StatsList;
 import scan.IntentIntegrator;
 import scan.IntentResult;
@@ -8,15 +11,18 @@ import scan.ScanLayout;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
+import concert.Concert;
 
 public class ConcertDetailsActivity extends Activity implements OnClickListener,OnMenuItemClickListener{
 
@@ -24,15 +30,22 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 	Button buttonDetails ;
 	Button buttonScan ;
 	Button buttonStats ;
+	RelativeLayout layoutConcertDetails ;
 	ViewFlipper view_flipper ;
 	MenuItem decoItem;
 	ScanLayout scanner;
 	ScrollView scrollScan ;
+	ImageView imgView ;
+	TextView textTitle;
+	TextView textDate;
+	TextView textFull;
+	TextView textLocation;
+	TextView textNbSeets;
+	TextView textPrice;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
-		Log.i("PASSE", "PAR ONCREATE MAINACTIVITY");
 		setContentView(R.layout.activity_concert_details);
 		
 		scrollScan = new ScrollView(this); 
@@ -42,14 +55,12 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 		buttonStats = (Button)findViewById(R.id.buttonStats);
 		view_flipper = (ViewFlipper)findViewById(R.id.view_flipper);
 	
-		scanner = new ScanLayout(this,  this);
+		Concert concert = new Concert("", "Francofolie", new Date(), new Date(), "La Rochelle", 10.5, 14000, false);
+		scanner = new ScanLayout(this, this);
 		scrollScan.addView(scanner);
 		
-		
-		
-		
-		
-		this.view_flipper.addView(new ClientList(this));
+
+		this.view_flipper.addView(new ConcertDetailed(this, concert));
 		this.view_flipper.addView(new ClientList(this));
 		this.view_flipper.addView(scrollScan);
 		this.view_flipper.addView(new StatsList(this));

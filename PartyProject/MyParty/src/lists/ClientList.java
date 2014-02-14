@@ -27,13 +27,13 @@ public class ClientList extends ListView{
 			
 			mAdapter = new Adapter(context, items);
 	        this.setAdapter(mAdapter);
-	        this.setOnItemClickListener(new OnItemClickListener() {
-	            @Override
-	            public void onItemClick(AdapterView<?> arg0, View view, int pos,long id) {
-	                //Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
-	                
-	            }
-	        }); 
+//	        this.setOnItemClickListener(new OnItemClickListener() {
+//	            @Override
+//	            public void onItemClick(AdapterView<?> arg0, View view, int pos,long id) {
+//	                //Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
+//	                
+//	            }
+//	        }); 
 			this.setBackgroundColor(getResources().getColor(R.color.black));
 			
 		}

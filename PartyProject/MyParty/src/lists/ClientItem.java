@@ -18,14 +18,17 @@ public class ClientItem extends LinearLayout implements Items{
 		this.setOrientation(HORIZONTAL);
 		LinearLayout layoutClientData = new LinearLayout(context);
 		layoutClientData.setOrientation(VERTICAL);
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT-50, 
-				   															   LinearLayout.LayoutParams.WRAP_CONTENT);
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 
+				   LinearLayout.LayoutParams.WRAP_CONTENT);
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 
+				   LinearLayout.LayoutParams.MATCH_PARENT);
+		this.setLayoutParams(lp);
 		layoutParams.setMargins(20, 0, 20, 0);
 		layoutClientData.setLayoutParams(layoutParams);
-
+		layoutParams.weight = 2;
 		ImageView imgView = new ImageView(context);
-		LayoutParams llp = new LayoutParams(140, 250, Gravity.CENTER_HORIZONTAL); 
-		imgView.setBackgroundResource(R.drawable.ic_action_person);
+		LayoutParams llp = new LayoutParams(140, 300, Gravity.CENTER_HORIZONTAL); 
+		imgView.setBackgroundResource(R.drawable.ic_action_person_blue);
 		imgView.setLayoutParams(llp);
 		this.addView(imgView);
 		
@@ -54,8 +57,8 @@ public class ClientItem extends LinearLayout implements Items{
 		layoutClientData.addView(lastName);
 		layoutClientData.addView(birth);
 		layoutClientData.addView(email);
-		layoutClientData.addView(login);
-		layoutClientData.addView(pwd);
+//		layoutClientData.addView(login);
+//		layoutClientData.addView(pwd);
 		
 		this.addView(layoutClientData); 
 	}

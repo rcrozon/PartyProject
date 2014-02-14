@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import charts.ChartPersonsIn;
-import charts.ChartTarif;
+import charts.ChartTariff;
 import charts.ChartTicketsSold;
 
 public class Adapter extends BaseAdapter
@@ -44,14 +44,6 @@ public class Adapter extends BaseAdapter
 			return (ConcertItem)listItems.get(position);
 		else if (listItems.get(position) instanceof ClientItem)
 			return (ClientItem)listItems.get(position);
-		else if (listItems.get(position) instanceof ChartPersonsIn){
-			Log.i("INSTANCE", listItems.get(position).getClass().getName());	
-			return (ChartPersonsIn)listItems.get(position);
-		}
-		else if (listItems.get(position) instanceof ChartTarif)
-			return (ChartTarif)listItems.get(position);
-		else if (listItems.get(position) instanceof ChartTicketsSold)
-			return (ChartTicketsSold)listItems.get(position);
 		else
 			return null;
 	}

@@ -119,10 +119,10 @@ public class DemoView extends View implements ChartChangeListener,
 	public static final boolean DEFAULT_BUFFER_USED = true;
 
 	/** The default panel width. */
-	public static final int DEFAULT_WIDTH = 680;
+	public static final int DEFAULT_WIDTH = 800;
 
 	/** The default panel height. */
-	public static final int DEFAULT_HEIGHT = 420;
+	public static final int DEFAULT_HEIGHT = 600;
 
 	/** The default limit below which chart scaling kicks in. */
 	public static final int DEFAULT_MINIMUM_DRAW_WIDTH = 10;
@@ -131,10 +131,10 @@ public class DemoView extends View implements ChartChangeListener,
 	public static final int DEFAULT_MINIMUM_DRAW_HEIGHT = 10;
 
 	/** The default limit above which chart scaling kicks in. */
-	public static final int DEFAULT_MAXIMUM_DRAW_WIDTH = 750;
+	public static final int DEFAULT_MAXIMUM_DRAW_WIDTH = 1200;
 
 	/** The default limit above which chart scaling kicks in. */
-	public static final int DEFAULT_MAXIMUM_DRAW_HEIGHT = 650;
+	public static final int DEFAULT_MAXIMUM_DRAW_HEIGHT = 800;
 
 	/** The minimum size required to perform a zoom on a RectShape */
 	public static final int DEFAULT_ZOOM_TRIGGER_DISTANCE = 10;
