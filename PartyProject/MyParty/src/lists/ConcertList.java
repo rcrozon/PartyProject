@@ -5,6 +5,8 @@ import java.util.Date;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -22,7 +24,7 @@ public class ConcertList extends ListView {
 	
 	public ConcertList(final Context context) {
 		super(context);
-		Concert c1 = new Concert("", "Bee Gees", new Date(), new Date(), "Talence", 20.0, 500, false);
+		Concert c1 = new Concert("", "Michael Jackson", new Date(), new Date(), "Lyon", 10.0, 200, false);
 		Concert c2 = new Concert("", "Edith Piaf", new Date(), new Date(), "Paris", 25.0, 500, false);
 		Concert c3 = new Concert("", "Balavoine", new Date(), new Date(), "Grenoble", 30.0, 500, false);
 		Concert c4 = new Concert("", "Goldman", new Date(), new Date(), "Londres", 40.0, 500, false);
@@ -56,7 +58,20 @@ public class ConcertList extends ListView {
             @Override
             public void onItemClick(AdapterView<?> arg0, View view, int pos,long id) {
                 //Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
+  
+            	ConcertItem selectedItem = (ConcertItem)view;
+            	Concert concert = selectedItem.getConcert();
+            	
     			Intent intent = new Intent(context, ConcertDetailsActivity.class);
+    			intent.putExtra("imgPath", concert.getImagePath());
+    			intent.putExtra("title", concert.getTitle());
+    			//intent.putExtra("beginDate", concert.getBeginDate());
+    			//intent.putExtra("endDate", concert.getEndDate());
+    			intent.putExtra("location", concert.getLocation());
+    			intent.putExtra("price", concert.getPrice());
+    			intent.putExtra("nbSeets", concert.getNbSeets());
+    			//intent.putExtra("full", concert.getFull());
+
     	    	context.startActivity(intent);
             }
         }); 

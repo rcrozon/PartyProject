@@ -11,6 +11,7 @@ import scan.ScanLayout;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
@@ -43,6 +44,8 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 	TextView textNbSeets;
 	TextView textPrice;
 	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
@@ -54,8 +57,17 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 		buttonScan = (Button)findViewById(R.id.buttonScan);
 		buttonStats = (Button)findViewById(R.id.buttonStats);
 		view_flipper = (ViewFlipper)findViewById(R.id.view_flipper);
+		
+		
+		
+		Bundle b = getIntent().getExtras();
+		
+		
+		Concert concert = new Concert(b.getString("imgPath"), 
+				b.getString("title"), new Date(), new Date(), b.getString("location"), b.getDouble("price"),
+				b.getInt("nbSeets"), false);
 	
-		Concert concert = new Concert("", "Francofolie", new Date(), new Date(), "La Rochelle", 10.5, 14000, false);
+		//Concert concert = new Concert("", "Francofolie", new Date(), new Date(), "La Rochelle", 10.5, 14000, false);
 		scanner = new ScanLayout(this, this);
 		scrollScan.addView(scanner);
 		
@@ -147,7 +159,7 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 	 */
 	public boolean codeDatabaseHandler(){
 		// TODO when the database is done
-		scanner.getButtonTariff().setText("Carte Etudiante nécessaire");
+		scanner.getButtonTariff().setText("Carte Etudiante nï¿½cessaire");
 		return true;
 	}
 }
