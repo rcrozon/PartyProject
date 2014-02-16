@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="@color/black"
-	android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/black"
+    tools:context=".RegisterActivity" >
+	
+	<ScrollView
+	    android:id="@+id/scrollRegister"
+		android:layout_width="match_parent"
+		android:layout_above="@id/buttonRegister"
+		android:layout_height="wrap_content"
+		android:background="@color/black"
+		android:orientation="vertical">
 
-	<LinearLayout
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_marginBottom="10dp"
-	    android:layout_marginLeft="10dp"
-	    android:layout_marginRight="10dp"
-	    android:orientation="vertical" >
     
 		<GridLayout 
 			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
+			android:layout_height="wrap_content"
 			android:useDefaultMargins="false"
 			android:alignmentMode="alignBounds"
 			android:columnCount="2"
@@ -30,6 +31,7 @@
 				android:layout_marginTop="20dp"
 				android:layout_marginRight="20dp"
 		        android:layout_column="0"
+			    style="@style/AppBaseTheme"
 		        android:layout_row="0"
 				android:gravity="left"
 				android:text="@string/firstname"
@@ -39,6 +41,7 @@
 			    android:id="@+id/firstnameTextEdit"
 			    android:layout_height="wrap_content"
 			    android:layout_column="1"
+			    style="@style/AppBaseTheme"
 			    android:layout_gravity="fill_horizontal"
 			    android:layout_row="0"
 			    android:hint=""
@@ -51,6 +54,7 @@
 		        android:layout_height="wrap_content"
 				android:textColor="@color/white"
 		        android:layout_column="0"
+			    style="@style/AppBaseTheme"
 		        android:layout_row="1"
 		        android:text="@string/lastname"
 		        android:textSize="@dimen/itemDimension" />
@@ -61,6 +65,7 @@
 		        android:layout_height="wrap_content"
 				android:textColor="@color/white"
 		        android:layout_column="1"
+			    style="@style/AppBaseTheme"
 		        android:layout_row="1"
 		        android:hint=""
 		        android:textSize="@dimen/itemDimension" />
@@ -71,6 +76,7 @@
 		        android:layout_height="wrap_content"
 				android:textColor="@color/white"
 	            android:layout_column="0"
+			    style="@style/AppBaseTheme"
 	            android:layout_row="2"
 		        android:layout_marginTop="10dp"
 		        android:text="@string/birth"
@@ -84,6 +90,7 @@
 			    android:layout_column="1"
 			    android:layout_gravity="center"
 		        android:layout_row="2"
+			    style="@style/AppBaseTheme"
 			    android:ems="10"
 			    android:inputType="date"
 			    android:textSize="@dimen/itemDimension" />
@@ -94,6 +101,7 @@
 		        android:layout_height="wrap_content"
 				android:textColor="@color/white"
 		        android:layout_column="0"
+			    style="@style/AppBaseTheme"
 		        android:layout_row="3"
 		        android:text="@string/email"
 		        android:textSize="@dimen/itemDimension" />
@@ -104,6 +112,7 @@
 			    android:layout_height="wrap_content"
 				android:textColor="@color/white"
 		        android:layout_column="1"
+			    style="@style/AppBaseTheme"
 		        android:layout_row="3"
 			    android:ems="10"
 			    android:inputType="textEmailAddress" />
@@ -114,6 +123,7 @@
 		        android:layout_height="wrap_content"
 				android:textColor="@color/white"
 		        android:layout_column="0"
+			    style="@style/AppBaseTheme"
 		        android:layout_row="4"
 		        android:text="@string/address"
 		        android:textSize="@dimen/itemDimension" />
@@ -124,6 +134,7 @@
 			    android:layout_height="wrap_content"
 				android:textColor="@color/white"
 		        android:layout_column="1"
+			    style="@style/AppBaseTheme"
 		        android:layout_row="4"
 			    android:ems="10"
 			    android:inputType="textPostalAddress" />
@@ -134,6 +145,7 @@
 		        android:layout_height="wrap_content"
 				android:textColor="@color/white"
 		        android:layout_column="0"
+			    style="@style/AppBaseTheme"
 		        android:layout_row="5"
 		        android:text="@string/login"
 		        android:textSize="@dimen/itemDimension" />
@@ -143,6 +155,7 @@
 		        android:layout_width="match_parent"
 				android:textColor="@color/white"
 		        android:layout_column="1"
+			    style="@style/AppBaseTheme"
 		        android:layout_row="5"
 		        android:hint=""
 		        android:textSize="@dimen/itemDimension" />
@@ -153,6 +166,7 @@
 		        android:layout_height="wrap_content"
 				android:textColor="@color/white"
 	            android:layout_column="0"
+			    style="@style/AppBaseTheme"
 	            android:layout_row="6"
 		        android:text="@string/password"
 		        android:textSize="@dimen/itemDimension" />
@@ -163,6 +177,7 @@
 			    android:layout_height="wrap_content"
 				android:textColor="@color/white"
 	            android:layout_column="1"
+			    style="@style/AppBaseTheme"
 		        android:layout_row="6"
 			    android:ems="10"
 			    android:inputType="textPassword" />
@@ -172,6 +187,7 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 				android:textColor="@color/white"
+			    style="@style/AppBaseTheme"
 		        android:layout_column="0"
 		        android:layout_row="7"
 		        android:text="@string/retype_password"
@@ -181,6 +197,7 @@
 			    android:id="@+id/pwd2TextEdit"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
+			    style="@style/AppBaseTheme"
 				android:textColor="@color/white"
 				android:layout_column="1"
 				android:layout_row="7"
@@ -188,16 +205,18 @@
 			    android:inputType="textPassword" />
 		</GridLayout>
 		
-		<Button
-		    android:id="@+id/buttonRegister"
-		    android:maxHeight="100dp"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_gravity="bottom"
-		    android:background="@color/blue"
-		    android:text="@string/register" />
-				
-	</LinearLayout>
+	</ScrollView>
+
+	<Button
+	    android:id="@+id/buttonRegister"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/scrollRegister"
+	    android:background="@color/blue"
+	    android:text="@string/register"
+	    android:textSize="@dimen/titleDimension" />
+
 	
-</ScrollView>
+</RelativeLayout>
+		
 	

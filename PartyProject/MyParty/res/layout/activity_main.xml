@@ -43,6 +43,7 @@
 	    android:hint="@string/login"
 	    android:gravity="center"
 	    android:textColor="@color/white"
+	    style="@style/EditTextAppTheme"
 	    android:textSize="@dimen/itemDimension" >
 
 	</EditText>
@@ -58,6 +59,7 @@
 	    android:layout_alignParentLeft="true"
 	    android:layout_below="@+id/loginTextEdit"
 	    android:ems="10"
+	    style="@style/EditTextAppTheme"
 	    android:hint="@string/password"
 	    android:inputType="textPassword"
 	    android:gravity="center"
