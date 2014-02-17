@@ -19,13 +19,21 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 	private static final String CONCERT_TABLE = "concert";
 	private static final String COL_ID_CONCERT = "id";
 	private static final String COL_NAME_CONCERT = "name";
+	
+	private static final String RES_TABLE = "reservation";
+	private static final String COL_ID_RES = "id";
+	private static final String COL_ID_CLIENT_RES = "id_client";
+	private static final String COL_ID_CONCERT_RES = "id_concert";
  
 	private static final String CREATE_BDD = "CREATE TABLE IF NOT EXISTS " + CLIENT_TABLE + " ("
-	+ COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_FIRSTNAME + " TEXT NOT NULL, "
+	+ COL_ID + " INTEGER PRIMARY KEY, " + COL_FIRSTNAME + " TEXT NOT NULL, "
 	+ COL_LASTNAME + " TEXT NOT NULL);";
 	
 	private static final String CREATE_BDD_CONCERT ="CREATE TABLE IF NOT EXISTS " + CONCERT_TABLE + " (" + COL_ID_CONCERT
-	+ " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_CONCERT + " TEXT NOT NULL);";
+	+ " INTEGER PRIMARY KEY, " + COL_NAME_CONCERT + " TEXT NOT NULL);";
+	
+	private static final String CREATE_BDD_RES ="CREATE TABLE IF NOT EXISTS " + RES_TABLE + " (" + COL_ID_RES
+			+ " INTEGER PRIMARY KEY, " + COL_ID_CLIENT_RES + " INTEGER, "+ COL_ID_CONCERT_RES + " INTEGER);";
  
 	public DatabaseCreate(Context context, String name, CursorFactory factory, int version) {
 		super(context, name, factory, version);
@@ -38,6 +46,7 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 		db.execSQL(CREATE_BDD);
 		Log.i("ONCREATE", "on passe");
 		db.execSQL(CREATE_BDD_CONCERT);
+		db.execSQL(CREATE_BDD_RES);
 	}
  
 	@Override
@@ -46,6 +55,7 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 		//comme �a lorsque je change la version les id repartent de 0
 		db.execSQL("DROP TABLE " + CLIENT_TABLE + ";");
 		db.execSQL("DROP TABLE " + CONCERT_TABLE + ";");
+		db.execSQL("DROP TABLE " + RES_TABLE + ";");
 		onCreate(db);
 	}
 }

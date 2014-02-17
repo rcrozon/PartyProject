@@ -1,6 +1,8 @@
 package databaseHandler;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import concert.Client;
 import concert.Concert;
@@ -12,7 +14,7 @@ import android.util.Log;
 
 public class DatabaseHandler {
 	
-	private static final int VERSION_BDD = 9;
+	private static final int VERSION_BDD = 11;
 	private static final String BDD_NAME = "myparty.db";
  
 	private static final String CLIENT_TABLE = "table_livres";
@@ -28,6 +30,14 @@ public class DatabaseHandler {
 	private static final int NUM_COL_ID_CONCERT = 0;
 	private static final String COL_NAME_CONCERT = "name";
 	private static final int NUM_COL_NAME_CONCERT = 1;
+	
+	private static final String RES_TABLE = "reservation";
+	private static final String COL_ID_RES = "id";
+	private static final int NUM_COL_ID_RES = 0;
+	private static final String COL_ID_CLIENT_RES = "id_client";
+	private static final int NUM_COL_ID_CLIENT_RES = 1;
+	private static final String COL_ID_CONCERT_RES = "id_concert";
+	private static final int NUM_COL_ID_CONCERT_RES = 2;
  
 	private SQLiteDatabase bdd;
   
@@ -42,21 +52,39 @@ public class DatabaseHandler {
 	public void open(){
 		//on ouvre la BDD en ���criture
 		bdd = SQLiteBase.getWritableDatabase();
-		/*Client c1 = new Client(0,"romain", "CROZON", new Date(), "crozonr@gmail.com", "rcrozon", "oee120");
-		Client c2 = new Client(0,"simon", "SAVIN", new Date(), "simsav1@gmail.com", "simsav1", "oee121");
-		Client c3 = new Client(0,"julie", "DUFOUR", new Date(), "julie@gmail.com", "julie", "oee122");
+		/*Client c1 = new Client(1,"romain", "CROZON", new Date(), "crozonr@gmail.com", "rcrozon", "oee120");
+		Client c2 = new Client(2,"simon", "SAVIN", new Date(), "simsav1@gmail.com", "simsav1", "oee121");
+		Client c3 = new Client(5,"julie", "DUFOUR", new Date(), "julie@gmail.com", "julie", "oee122");
 		insertClient(c1);
 		insertClient(c2);
 		insertClient(c3);
-		Concert conc1 = new Concert(5, "", "This is it", new Date(), new Date(), "Paris", 10.0, 100, false);
-		insertConcert(conc1);*/
-		Log.i("CLIENT 1", "Client 1 : " + getClientWithNames("romain", "CROZON").toString());
+		Concert conc1 = new Concert(1, "", "This is it", new Date(), new Date(), "Paris", 10.0, 100, false);
+		insertConcert(conc1);
+		Concert conc2 = new Concert(2, "", "Yeah !", new Date(), new Date(), "Paris", 10.0, 100, false);
+		insertConcert(conc2);
+		insertRes(1, c1, conc1);
+		insertRes(2, c2, conc1);
+		insertRes(3, c3, conc2);*/
+		
+		/*Log.i("CLIENT 1", "Client 1 : " + getClientWithNames("romain", "CROZON").toString());
 		Log.i("CLIENT 2", "Client 2 : " + getClientWithNames("simon", "SAVIN").toString());
 		Log.i("CLIENT 3", "Client 3 : " + getClientWithNames("julie", "DUFOUR").toString());
 		Log.i("CLIENT 1", "Client 1 : " + getClientWithId(1).toString());
 		Log.i("CLIENT 2", "Client 2 : " + getClientWithId(2).toString());
-		Log.i("CLIENT 3", "Client 3 : " + getClientWithId(3).toString());
+		Log.i("CLIENT 3", "Client 3 : " + getClientWithId(5).toString());
 		Log.i("Concert", "Concert1 : " + getConcertWithId(1).toString());
+		
+		List<Client> tmp = new ArrayList<Client>();
+		tmp = getClientForOneConcert(1);
+		for(int i=0; i<tmp.size();i++){
+			Log.i("RES", "Concert :"+ getConcertWithId(1)+ " // Client : " + getClientWithId(tmp.get(i).getId()).toString());
+		}
+		
+		List<Client> tmp2 = new ArrayList<Client>();
+		tmp2 = getClientForOneConcert(2);
+		for(int i=0; i<tmp2.size();i++){
+			Log.i("RES", "Concert :"+ getConcertWithId(2)+ " // Client : " + getClientWithId(tmp2.get(i).getId()).toString());
+		}*/
 		
 		
 	}
@@ -83,6 +111,7 @@ public class DatabaseHandler {
 		//Cr���ation d'un ContentValues (fonctionne comme une HashMap)
 		ContentValues values = new ContentValues();
 		//on lui ajoute une valeur associ��� ��� une cl��� (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
+		values.put(COL_ID, client.getId());
 		values.put(COL_FIRSTNAME, client.getFirstName());
 		values.put(COL_LASTNAME, client.getLastName());
 		//on ins���re l'objet dans la BDD via le ContentValues
@@ -93,9 +122,21 @@ public class DatabaseHandler {
 		//Cr���ation d'un ContentValues (fonctionne comme une HashMap)
 		ContentValues values = new ContentValues();
 		//on lui ajoute une valeur associ��� ��� une cl��� (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
+		values.put(COL_ID_CONCERT,concert.getId());
 		values.put(COL_NAME_CONCERT, concert.getTitle());
 		//on ins���re l'objet dans la BDD via le ContentValues
 		return bdd.insert(CONCERT_TABLE, null, values);
+	}
+	
+	public long insertRes(int id_res,Client client,Concert concert){
+		//Cr���ation d'un ContentValues (fonctionne comme une HashMap)
+		ContentValues values = new ContentValues();
+		//on lui ajoute une valeur associ��� ��� une cl��� (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
+		values.put(COL_ID_RES,id_res);
+		values.put(COL_ID_CLIENT_RES,client.getId());
+		values.put(COL_ID_CONCERT_RES, concert.getId());
+		//on ins���re l'objet dans la BDD via le ContentValues
+		return bdd.insert(RES_TABLE, null, values);
 	}
 	
 //	public int updateLivre(int id, Livre livre){
@@ -187,6 +228,29 @@ public class DatabaseHandler {
  
 		//On retourne le livre
 		return client;
+		
+	}
+	
+	public List<Client> getClientForOneConcert(int id_concert){
+		List<Client> cl = new ArrayList<Client>();
+		
+		Cursor c = bdd.query(RES_TABLE, new String[] {COL_ID_RES, COL_ID_CLIENT_RES, COL_ID_CONCERT_RES}, COL_ID_CONCERT_RES + " LIKE \"" + id_concert +"\"", null, null, null, null);
+		if (c.getCount() ==0 ){
+			return null;
+		}
+		c.moveToFirst();
+		
+		for (int i =0; i< c.getCount(); i++){
+		if (i!=0){
+			c.move(1);
+		}
+		Client client = getClientWithId(c.getInt(NUM_COL_ID_CLIENT_RES));
+		cl.add(client);
+		}
+		c.close();
+		
+		return cl;
+		
 		
 	}
 	

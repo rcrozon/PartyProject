@@ -2,6 +2,8 @@ package lists;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import com.example.myparty.R;
 import concert.Client;
 import android.content.Context;
@@ -15,12 +17,11 @@ public class ClientList extends ListView{
 	    private Adapter mAdapter;
 	    private ArrayList<Items> items = new ArrayList<Items>();
 		
-		public ClientList(Context context) {
+		public ClientList(Context context,List<Client> cl) {
 			super(context);
 			/*Test*/
-			for (int i=0;i<15;i++){
-				Client test = new Client(i,"Prenom"+i, "Nom"+i,new Date(), i+"@labri.fr", "login"+i, "passe"+i);
-				ClientItem testAff = new ClientItem(context, test);
+			for (int i=0;i<cl.size();i++){
+				ClientItem testAff = new ClientItem(context, cl.get(i));
 				items.add(testAff);
 			}
 			/*FIN TEST*/

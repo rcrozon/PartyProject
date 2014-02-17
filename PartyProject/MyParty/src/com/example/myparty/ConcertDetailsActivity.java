@@ -77,7 +77,7 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 				b.getInt("nbSeets"), false);
 		
 		//Récupération de la liste des clients pour ce concert
-		List<Client> clientForConcert = new ArrayList<Client>();
+		List<Client> clientForConcert = dataBase.getClientForOneConcert(concert.getId());
 		
 	
 		//Concert concert = new Concert("", "Francofolie", new Date(), new Date(), "La Rochelle", 10.5, 14000, false);
@@ -92,7 +92,7 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 			}
 		});
 		this.view_flipper.addView(new ConcertDetailed(this, concert));
-		this.view_flipper.addView(new ClientList(this));
+		this.view_flipper.addView(new ClientList(this,clientForConcert));
 		this.view_flipper.addView(scrollScan);
 		this.view_flipper.addView(new StatsList(this));
 		this.buttonClients.setOnClickListener(this);
