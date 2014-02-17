@@ -28,7 +28,7 @@ public class ConcertList extends ListView {
 		super(context);
 		dataBase = new DatabaseHandler(context);
 		dataBase.open();
-		/*Concert c1 = new Concert(1,"", "Michael Jackson", new Date(), new Date(), "Lyon", 10.0, 200, false);
+		Concert c1 = new Concert(1,"", "Michael Jackson", new Date(), new Date(), "Lyon", 10.0, 200, false);
 		Concert c2 = new Concert(2,"", "Edith Piaf", new Date(), new Date(), "Paris", 25.0, 500, false);
 		Concert c3 = new Concert(3,"", "Balavoine", new Date(), new Date(), "Grenoble", 30.0, 500, false);
 		Concert c4 = new Concert(4,"", "Goldman", new Date(), new Date(), "Londres", 40.0, 500, false);
@@ -36,25 +36,28 @@ public class ConcertList extends ListView {
 		Concert c6 = new Concert(6,"", "AC/DC", new Date(), new Date(), "Poitiers", 25.0, 500, false);
 		Concert c7 = new Concert(7,"", "Dire Straits", new Date(), new Date(), "Londres", 40.0, 500, false);
 		Concert c8 = new Concert(8,"", "Boston", new Date(), new Date(), "La Rochelle", 12.0, 500, false);
-		Concert c9 = new Concert(9,"", "The Beatles", new Date(), new Date(), "Poitiers", 25.0, 500, false);*/
-		ConcertItem i1 = new ConcertItem(this.getContext(),dataBase.getConcertWithId(1) );
-		ConcertItem i2 = new ConcertItem(this.getContext(), dataBase.getConcertWithId(2));
-		/*ConcertItem i3 = new ConcertItem(this.getContext(), c3);
+		Concert c9 = new Concert(9,"", "The Beatles", new Date(), new Date(), "Poitiers", 25.0, 500, false);
+		/*TODO A decommenter pour utiliser la bdd*/
+		/*ConcertItem i1 = new ConcertItem(this.getContext(),dataBase.getConcertWithId(1) );
+		ConcertItem i2 = new ConcertItem(this.getContext(), dataBase.getConcertWithId(2));*/
+		ConcertItem i1 = new ConcertItem(this.getContext(), c1);
+		ConcertItem i2 = new ConcertItem(this.getContext(), c2);
+		ConcertItem i3 = new ConcertItem(this.getContext(), c3);
 		ConcertItem i4 = new ConcertItem(this.getContext(), c4);
 		ConcertItem i5 = new ConcertItem(this.getContext(), c5);
 		ConcertItem i6 = new ConcertItem(this.getContext(), c6);
 		ConcertItem i7 = new ConcertItem(this.getContext(), c7);
 		ConcertItem i8 = new ConcertItem(this.getContext(), c8);
-		ConcertItem i9 = new ConcertItem(this.getContext(), c9);*/
+		ConcertItem i9 = new ConcertItem(this.getContext(), c9);
 		items.add(i1);
 		items.add(i2);
-		/*items.add(i3);
+		items.add(i3);
 		items.add(i4);
 		items.add(i5);
 		items.add(i6);
 		items.add(i7);
 		items.add(i8);
-		items.add(i9);*/
+		items.add(i9);
 		
 		mAdapter = new Adapter(context, items);
         this.setAdapter(mAdapter);

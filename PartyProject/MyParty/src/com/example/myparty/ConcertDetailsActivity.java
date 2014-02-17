@@ -77,8 +77,9 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 				b.getInt("nbSeets"), false);
 		
 		//Récupération de la liste des clients pour ce concert
-		List<Client> clientForConcert = dataBase.getClientForOneConcert(concert.getId());
-		
+		/*TODO A decommenter pour BDD interne*/
+		/*List<Client> clientForConcert = dataBase.getClientForOneConcert(concert.getId());*/
+		List<Client> clientForConcert = new ArrayList<Client>();
 	
 		//Concert concert = new Concert("", "Francofolie", new Date(), new Date(), "La Rochelle", 10.5, 14000, false);
 		scanner = new ScanLayout(this, this);

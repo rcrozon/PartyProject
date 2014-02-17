@@ -19,12 +19,17 @@ public class ClientList extends ListView{
 		
 		public ClientList(Context context,List<Client> cl) {
 			super(context);
-			/*Test*/
-			for (int i=0;i<cl.size();i++){
+			/*TODO A Decommenter pour bdd interne*/
+			/*for (int i=0;i<cl.size();i++){
 				ClientItem testAff = new ClientItem(context, cl.get(i));
 				items.add(testAff);
-			}
+			}*/
 			/*FIN TEST*/
+			for (int i=0;i<15;i++){
+				Client test = new Client(i,"Prenom"+i, "Nom"+i,new Date(), i+"@labri.fr", "login"+i, "passe"+i);
+				ClientItem testAff = new ClientItem(context, test);
+				items.add(testAff);
+			}
 			
 			mAdapter = new Adapter(context, items);
 	        this.setAdapter(mAdapter);
