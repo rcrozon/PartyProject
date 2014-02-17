@@ -1,6 +1,8 @@
 package com.example.myparty;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import lists.ClientList;
 import lists.ConcertDetailed;
@@ -23,7 +25,9 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
+import concert.Client;
 import concert.Concert;
+import databaseHandler.DatabaseHandler;
 
 public class ConcertDetailsActivity extends Activity implements OnClickListener,OnMenuItemClickListener{
 
@@ -43,6 +47,7 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 	TextView textLocation;
 	TextView textNbSeets;
 	TextView textPrice;
+	private DatabaseHandler dataBase;
 	
 	
 	
@@ -58,6 +63,12 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 		buttonStats = (Button)findViewById(R.id.buttonStats);
 		view_flipper = (ViewFlipper)findViewById(R.id.view_flipper);
 		
+		dataBase = new DatabaseHandler(this);
+		dataBase.open();
+		
+		//dataBase.deleteAll();
+		//Log.i("Concert", "Concert1 : " + dataBase.getConcertWithId(1).toString());
+		
 		//Récupération des extras
 		Bundle b = getIntent().getExtras();
 		//Concert sur lequel on a appuyé
@@ -66,6 +77,7 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 				b.getInt("nbSeets"), false);
 		
 		//Récupération de la liste des clients pour ce concert
+		List<Client> clientForConcert = new ArrayList<Client>();
 		
 	
 		//Concert concert = new Concert("", "Francofolie", new Date(), new Date(), "La Rochelle", 10.5, 14000, false);

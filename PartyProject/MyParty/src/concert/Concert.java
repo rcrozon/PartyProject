@@ -37,5 +37,9 @@ public class Concert {
 	public int getNbSeets(){return this.nbSeets;}
 	public boolean isFull(){return this.full;}
 	
+	public String toString(){
+		return "Concert : " + title ;
+	}
+	
 	
 }

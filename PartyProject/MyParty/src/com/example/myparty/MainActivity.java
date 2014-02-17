@@ -37,8 +37,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		buttonConnexion.setOnClickListener(this);
 		buttonRegister.setOnClickListener(this);
 		lightHandler();
-//		dataBase = new DatabaseHandler(this);
-//		dataBase.open();
+		/*TODO A décommenter pour authentification*/
+		//dataBase = new DatabaseHandler(this);
+		//dataBase.open();
 		}
 
 	@Override
