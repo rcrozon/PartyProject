@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Client {
 
+	private int id;
 	private String firstName;
 	private String lastName;
 	private Date   birth;
@@ -11,7 +12,8 @@ public class Client {
 	private String login;
 	private String password;
 	
-	public Client(String firstName,	String lastName, Date birth, String email, String login, String password){
+	public Client(int id, String firstName,	String lastName, Date birth, String email, String login, String password){
+		this.id = id;
 		this.firstName 	= firstName;
 		this.lastName 	= lastName;
 		this.birth 		= birth;
@@ -20,6 +22,7 @@ public class Client {
 		this.password 	= password;
 	}
 
+	public int getId(){return id;}
 	public String getFirstName(){return firstName;}
 	public String getLastName(){return lastName;}
 	public Date getBirth(){return birth;}

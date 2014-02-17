@@ -82,7 +82,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			Intent intent = new Intent(this, ConcertActivity.class);
 	    	this.startActivity(intent);
 			
-	    	/*A DECOMMENTER POUR POUVOIR UTILISER AUTHENTIFICATION*/
+	    	/* TODO A DECOMMENTER POUR POUVOIR UTILISER AUTHENTIFICATION avec BDD interne*/
 			/*EditText login = (EditText)findViewById(R.id.loginTextEdit);
 			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
 			

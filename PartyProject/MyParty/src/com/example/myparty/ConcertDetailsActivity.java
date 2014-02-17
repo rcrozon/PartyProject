@@ -58,14 +58,15 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 		buttonStats = (Button)findViewById(R.id.buttonStats);
 		view_flipper = (ViewFlipper)findViewById(R.id.view_flipper);
 		
-		
-		
+		//Récupération des extras
 		Bundle b = getIntent().getExtras();
-		
-		
-		Concert concert = new Concert(b.getString("imgPath"), 
+		//Concert sur lequel on a appuyé
+		Concert concert = new Concert(b.getInt("id"),b.getString("imgPath"), 
 				b.getString("title"), new Date(), new Date(), b.getString("location"), b.getDouble("price"),
 				b.getInt("nbSeets"), false);
+		
+		//Récupération de la liste des clients pour ce concert
+		
 	
 		//Concert concert = new Concert("", "Francofolie", new Date(), new Date(), "La Rochelle", 10.5, 14000, false);
 		scanner = new ScanLayout(this, this);
@@ -159,7 +160,7 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 	 */
 	public boolean codeDatabaseHandler(){
 		// TODO when the database is done
-		scanner.getButtonTariff().setText("Carte Etudiante n�cessaire");
+		scanner.getButtonTariff().setText("Carte Etudiante n���cessaire");
 		return true;
 	}
 }

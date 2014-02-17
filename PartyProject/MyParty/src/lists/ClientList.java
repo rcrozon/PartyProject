@@ -19,7 +19,7 @@ public class ClientList extends ListView{
 			super(context);
 			/*Test*/
 			for (int i=0;i<15;i++){
-				Client test = new Client("Prenom"+i, "Nom"+i,new Date(), i+"@labri.fr", "login"+i, "passe"+i);
+				Client test = new Client(i,"Prenom"+i, "Nom"+i,new Date(), i+"@labri.fr", "login"+i, "passe"+i);
 				ClientItem testAff = new ClientItem(context, test);
 				items.add(testAff);
 			}

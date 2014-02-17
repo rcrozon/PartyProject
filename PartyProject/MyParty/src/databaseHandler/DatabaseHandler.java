@@ -28,12 +28,12 @@ public class DatabaseHandler {
 	
 	
 	public DatabaseHandler(Context context){
-		//On cr�er la BDD et sa table
+		//On cr���er la BDD et sa table
 		SQLiteBase = new DatabaseCreate(context, BDD_NAME, null, VERSION_BDD);
 	}
  
 	public void open(){
-		//on ouvre la BDD en �criture
+		//on ouvre la BDD en ���criture
 		bdd = SQLiteBase.getWritableDatabase();
 		/*Client c1 = new Client("romain", "CROZON", new Date(), "crozonr@gmail.com", "rcrozon", "oee120");
 		Client c2 = new Client("simon", "SAVIN", new Date(), "simsav1@gmail.com", "simsav1", "oee121");
@@ -47,7 +47,7 @@ public class DatabaseHandler {
 	}
  
 	public void close(){
-		//on ferme l'acc�s � la BDD
+		//on ferme l'acc���s ��� la BDD
 		bdd.close();
 	}
  
@@ -56,18 +56,18 @@ public class DatabaseHandler {
 	}
 
 	public long insertClient(Client client){
-		//Cr�ation d'un ContentValues (fonctionne comme une HashMap)
+		//Cr���ation d'un ContentValues (fonctionne comme une HashMap)
 		ContentValues values = new ContentValues();
-		//on lui ajoute une valeur associ� � une cl� (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
+		//on lui ajoute une valeur associ��� ��� une cl��� (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
 		values.put(COL_FIRSTNAME, client.getFirstName());
 		values.put(COL_LASTNAME, client.getLastName());
-		//on ins�re l'objet dans la BDD via le ContentValues
+		//on ins���re l'objet dans la BDD via le ContentValues
 		return bdd.insert(CLIENT_TABLE, null, values);
 	}
  
 //	public int updateLivre(int id, Livre livre){
-//		//La mise � jour d'un livre dans la BDD fonctionne plus ou moins comme une insertion
-//		//il faut simple pr�ciser quelle livre on doit mettre � jour gr�ce � l'ID
+//		//La mise ��� jour d'un livre dans la BDD fonctionne plus ou moins comme une insertion
+//		//il faut simple pr���ciser quelle livre on doit mettre ��� jour gr���ce ��� l'ID
 //		ContentValues values = new ContentValues();
 //		values.put(COL_FIRSTNAME, livre.getIsbn());
 //		values.put(COL_TITRE, livre.getTitre());
@@ -75,28 +75,28 @@ public class DatabaseHandler {
 //	}
  
 //	public int removeLivreWithID(int id){
-//		//Suppression d'un livre de la BDD gr�ce � l'ID
+//		//Suppression d'un livre de la BDD gr���ce ��� l'ID
 //		return bdd.delete(CLIENT_TABLE, COL_ID + " = " +id, null);
 //	}
  
 	public Client getClientWithNames(String firstName, String lastName){ 
-		//R�cup�re dans un Cursor les valeur correspondant � un livre contenu dans la BDD (ici on s�lectionne le livre gr�ce � son titre)
+		//R���cup���re dans un Cursor les valeur correspondant ��� un livre contenu dans la BDD (ici on s���lectionne le livre gr���ce ��� son titre)
 		Cursor c = bdd.query(CLIENT_TABLE, new String[] {COL_ID, COL_FIRSTNAME, COL_LASTNAME}, COL_LASTNAME + " LIKE \"" + lastName +"\"", null, null, null, null);
 		return cursorToClient(c);
 	}
 	
 	private Client cursorToClient(Cursor c){
-		//si aucun �l�ment n'a �t� retourn� dans la requ�te, on renvoie null
+		//si aucun ���l���ment n'a ���t��� retourn��� dans la requ���te, on renvoie null
 		if (c.getCount() == 0){
 			Log.i("ERRORO PAS COOL", "Client null");
 			return null;
 		}
 		
-		//Sinon on se place sur le premier �l�ment
+		//Sinon on se place sur le premier ���l���ment
 		c.moveToFirst();
-		//On cr�� un livre
-		Client client = new Client(c.getString(NUM_COL_FIRSTNAME), c.getString(NUM_COL_LASTNAME), new Date(), "", "rcrozon", "oee120");
-		//on lui affecte toutes les infos gr�ce aux infos contenues dans le Cursor
+		//On cr������ un livre
+		Client client = new Client(c.getInt(NUM_COL_ID),c.getString(NUM_COL_FIRSTNAME), c.getString(NUM_COL_LASTNAME), new Date(), "", "rcrozon", "oee120");
+		//on lui affecte toutes les infos gr���ce aux infos contenues dans le Cursor
 		
 		//On ferme le cursor
 		c.close();
@@ -105,9 +105,9 @@ public class DatabaseHandler {
 		return client;
 	}
 
-	/*IL FAUT REMPLACER PAR LES BONNES COLONNES !!*/
+	/*TODO IL FAUT REMPLACER PAR LES BONNES COLONNES !!*/
 	public Boolean authentification(String login, String pwd){ 
-		//R�cup�re dans un Cursor les valeur correspondant � un livre contenu dans la BDD (ici on s�lectionne le livre gr�ce � son titre)
+		//R���cup���re dans un Cursor les valeur correspondant ��� un livre contenu dans la BDD (ici on s���lectionne le livre gr���ce ��� son titre)
 		Cursor c = bdd.query(CLIENT_TABLE, new String[] {COL_ID, COL_FIRSTNAME, COL_LASTNAME}, COL_FIRSTNAME + " LIKE \"" + login +"\"", null, null, null, null);
 		if (c.getCount() == 1){
 			c.moveToFirst();

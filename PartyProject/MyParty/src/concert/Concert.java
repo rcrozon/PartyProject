@@ -5,7 +5,7 @@ import java.util.Date;
 import android.R.bool;
 
 public class Concert {
-
+	private int id;
 	private String    	imgPath ;
 	private String    	title ;
 	private Date 		beginDate ;
@@ -15,7 +15,8 @@ public class Concert {
 	private int 		nbSeets;
 	private boolean		full;
 	
-	public Concert(String imgPath, String title, Date begin, Date end, String location, Double price, int nbSeets, boolean full){
+	public Concert(int id, String imgPath, String title, Date begin, Date end, String location, Double price, int nbSeets, boolean full){
+		this.id = id;
 		this.imgPath = imgPath;		
 		this.title = title;
 		this.beginDate = begin;
@@ -26,6 +27,7 @@ public class Concert {
 		this.full = full;
 	}
 
+	public int getId(){return this.id;}
 	public String getImagePath(){return this.imgPath;}
 	public String getTitle(){return this.title;}
 	public Date getBeginDate(){return this.beginDate;}

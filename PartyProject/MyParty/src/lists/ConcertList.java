@@ -24,15 +24,15 @@ public class ConcertList extends ListView {
 	
 	public ConcertList(final Context context) {
 		super(context);
-		Concert c1 = new Concert("", "Michael Jackson", new Date(), new Date(), "Lyon", 10.0, 200, false);
-		Concert c2 = new Concert("", "Edith Piaf", new Date(), new Date(), "Paris", 25.0, 500, false);
-		Concert c3 = new Concert("", "Balavoine", new Date(), new Date(), "Grenoble", 30.0, 500, false);
-		Concert c4 = new Concert("", "Goldman", new Date(), new Date(), "Londres", 40.0, 500, false);
-		Concert c5 = new Concert("", "Queen", new Date(), new Date(), "La Rochelle", 12.0, 500, false);
-		Concert c6 = new Concert("", "AC/DC", new Date(), new Date(), "Poitiers", 25.0, 500, false);
-		Concert c7 = new Concert("", "Dire Straits", new Date(), new Date(), "Londres", 40.0, 500, false);
-		Concert c8 = new Concert("", "Boston", new Date(), new Date(), "La Rochelle", 12.0, 500, false);
-		Concert c9 = new Concert("", "The Beatles", new Date(), new Date(), "Poitiers", 25.0, 500, false);
+		Concert c1 = new Concert(0,"", "Michael Jackson", new Date(), new Date(), "Lyon", 10.0, 200, false);
+		Concert c2 = new Concert(1,"", "Edith Piaf", new Date(), new Date(), "Paris", 25.0, 500, false);
+		Concert c3 = new Concert(2,"", "Balavoine", new Date(), new Date(), "Grenoble", 30.0, 500, false);
+		Concert c4 = new Concert(3,"", "Goldman", new Date(), new Date(), "Londres", 40.0, 500, false);
+		Concert c5 = new Concert(4,"", "Queen", new Date(), new Date(), "La Rochelle", 12.0, 500, false);
+		Concert c6 = new Concert(5,"", "AC/DC", new Date(), new Date(), "Poitiers", 25.0, 500, false);
+		Concert c7 = new Concert(6,"", "Dire Straits", new Date(), new Date(), "Londres", 40.0, 500, false);
+		Concert c8 = new Concert(7,"", "Boston", new Date(), new Date(), "La Rochelle", 12.0, 500, false);
+		Concert c9 = new Concert(8,"", "The Beatles", new Date(), new Date(), "Poitiers", 25.0, 500, false);
 		ConcertItem i1 = new ConcertItem(this.getContext(), c1);
 		ConcertItem i2 = new ConcertItem(this.getContext(), c2);
 		ConcertItem i3 = new ConcertItem(this.getContext(), c3);
@@ -63,6 +63,7 @@ public class ConcertList extends ListView {
             	Concert concert = selectedItem.getConcert();
             	
     			Intent intent = new Intent(context, ConcertDetailsActivity.class);
+    			intent.putExtra("id", concert.getId());
     			intent.putExtra("imgPath", concert.getImagePath());
     			intent.putExtra("title", concert.getTitle());
     			//intent.putExtra("beginDate", concert.getBeginDate());
