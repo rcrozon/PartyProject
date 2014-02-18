@@ -16,9 +16,9 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 	private static final String COL_FIRSTNAME = "firstname";
 	private static final String COL_LASTNAME = "lastname";
 	
-	private static final String CONCERT_TABLE = "concert";
+	/*private static final String CONCERT_TABLE = "concert";
 	private static final String COL_ID_CONCERT = "id";
-	private static final String COL_NAME_CONCERT = "name";
+	private static final String COL_NAME_CONCERT = "name";*/
 	
 	private static final String RES_TABLE = "reservation";
 	private static final String COL_ID_RES = "id";
@@ -29,8 +29,16 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 	+ COL_ID + " INTEGER PRIMARY KEY, " + COL_FIRSTNAME + " TEXT NOT NULL, "
 	+ COL_LASTNAME + " TEXT NOT NULL);";
 	
-	private static final String CREATE_BDD_CONCERT ="CREATE TABLE IF NOT EXISTS " + CONCERT_TABLE + " (" + COL_ID_CONCERT
-	+ " INTEGER PRIMARY KEY, " + COL_NAME_CONCERT + " TEXT NOT NULL);";
+	private static final String CREATE_BDD_CONCERT ="CREATE TABLE IF NOT EXISTS " + Tables.CONCERT_TABLE 
+			+ " (" + Tables.CONCERT_NAME_ID + " INTEGER PRIMARY KEY, "
+			+ Tables.CONCERT_NAME_START_DATE + " TEXT NOT NULL, "
+			+ Tables.CONCERT_NAME_END_DATE + " TEXT NOT NULL, "
+			+ Tables.CONCERT_NAME_LOCATION + " TEXT NOT NULL, "
+			+ Tables.CONCERT_NAME_IMAGE + " TEXT NOT NULL, "
+			+ Tables.CONCERT_NAME_NB_SEAT + " INTEGER, "
+			+ Tables.CONCERT_NAME_FULL + " INTEGER, "
+			+ Tables.CONCERT_NAME_ID_CREATOR + " INTEGER, "
+			+ Tables.CONCERT_NAME_TITLE_CONCERT + " TEXT NOT NULL);";
 	
 	private static final String CREATE_BDD_RES ="CREATE TABLE IF NOT EXISTS " + RES_TABLE + " (" + COL_ID_RES
 			+ " INTEGER PRIMARY KEY, " + COL_ID_CLIENT_RES + " INTEGER, "+ COL_ID_CONCERT_RES + " INTEGER);";
@@ -54,7 +62,7 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 		//On peut fait ce qu'on veut ici moi j'ai d�cid� de supprimer la table et de la recr�er
 		//comme �a lorsque je change la version les id repartent de 0
 		db.execSQL("DROP TABLE " + CLIENT_TABLE + ";");
-		db.execSQL("DROP TABLE " + CONCERT_TABLE + ";");
+		db.execSQL("DROP TABLE " + Tables.CONCERT_TABLE + ";");
 		db.execSQL("DROP TABLE " + RES_TABLE + ";");
 		onCreate(db);
 	}

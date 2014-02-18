@@ -68,7 +68,7 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 		Bundle b = getIntent().getExtras();
 		//Concert sur lequel on a appuyé
 		Concert concert = new Concert(b.getInt("id"),b.getString("imgPath"), 
-				b.getString("title"), new Date(), new Date(), b.getString("location"), b.getDouble("price"),
+				b.getString("title"), "10/12/14", "11/12/14", b.getString("location"), b.getDouble("price"),
 				b.getInt("nbSeets"), false);
 		
 		//Récupération de la liste des clients pour ce concert

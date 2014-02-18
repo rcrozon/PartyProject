@@ -6,15 +6,18 @@ import java.util.List;
 
 import concert.Client;
 import concert.Concert;
+import android.app.ActionBar.Tab;
+import android.app.TabActivity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.format.DateFormat;
 import android.util.Log;
 
 public class DatabaseHandler {
 	
-	private static final int VERSION_BDD = 11;
+	private static final int VERSION_BDD = 14;
 	private static final String BDD_NAME = "myparty.db";
  
 	private static final String CLIENT_TABLE = "table_livres";
@@ -25,11 +28,11 @@ public class DatabaseHandler {
 	private static final String COL_LASTNAME = "lastname";
 	private static final int NUM_COL_LASTNAME = 2;
 	
-	private static final String CONCERT_TABLE = "concert";
+	/*private static final String CONCERT_TABLE = "concert";
 	private static final String COL_ID_CONCERT = "id";
 	private static final int NUM_COL_ID_CONCERT = 0;
 	private static final String COL_NAME_CONCERT = "name";
-	private static final int NUM_COL_NAME_CONCERT = 1;
+	private static final int NUM_COL_NAME_CONCERT = 1;*/
 	
 	private static final String RES_TABLE = "reservation";
 	private static final String COL_ID_RES = "id";
@@ -86,6 +89,12 @@ public class DatabaseHandler {
 			Log.i("RES", "Concert :"+ getConcertWithId(2)+ " // Client : " + getClientWithId(tmp2.get(i).getId()).toString());
 		}*/
 		
+		/*NEW BDD*/
+		Concert jh = new Concert(1, "chemin", "Jphnny", "15/03/14", "16/03/14", "Londres",
+				12.0, 189, false);
+		insertConcert(jh);
+		Log.i("DATE", "Concert 1 : " + getConcertWithId(1).toString());
+		
 		
 	}
  
@@ -101,9 +110,9 @@ public class DatabaseHandler {
 	public void deleteAll()
 	{
 	    bdd = SQLiteBase.getWritableDatabase();
-	   bdd.delete(CONCERT_TABLE,null,null);
-	    bdd.execSQL("delete from "+ CONCERT_TABLE);
-	    bdd.execSQL("TRUNCATE table " + CONCERT_TABLE);
+	    bdd.delete(Tables.CONCERT_TABLE,null,null);
+	    bdd.execSQL("delete from "+ Tables.CONCERT_TABLE);
+	    bdd.execSQL("TRUNCATE table " + Tables.CONCERT_TABLE);
 	    bdd.close();
 	}
 
@@ -122,10 +131,17 @@ public class DatabaseHandler {
 		//Cr���ation d'un ContentValues (fonctionne comme une HashMap)
 		ContentValues values = new ContentValues();
 		//on lui ajoute une valeur associ��� ��� une cl��� (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
-		values.put(COL_ID_CONCERT,concert.getId());
-		values.put(COL_NAME_CONCERT, concert.getTitle());
+		values.put(Tables.CONCERT_NAME_ID,concert.getId());
+		values.put(Tables.CONCERT_NAME_START_DATE, concert.getBeginDate());
+		values.put(Tables.CONCERT_NAME_END_DATE, concert.getEndDate());
+		values.put(Tables.CONCERT_NAME_LOCATION, concert.getLocation());
+		values.put(Tables.CONCERT_NAME_IMAGE, concert.getImagePath());
+		values.put(Tables.CONCERT_NAME_NB_SEAT, concert.getNbSeets());
+		values.put(Tables.CONCERT_NAME_FULL,0);
+		values.put(Tables.CONCERT_NAME_ID_CREATOR,1);
+		values.put(Tables.CONCERT_NAME_TITLE_CONCERT, concert.getTitle());
 		//on ins���re l'objet dans la BDD via le ContentValues
-		return bdd.insert(CONCERT_TABLE, null, values);
+		return bdd.insert(Tables.CONCERT_TABLE, null, values);
 	}
 	
 	public long insertRes(int id_res,Client client,Concert concert){
@@ -195,13 +211,17 @@ public class DatabaseHandler {
 
 	public Concert getConcertWithId(int id){ 
 		//R���cup���re dans un Cursor les valeur correspondant ��� un livre contenu dans la BDD (ici on s���lectionne le livre gr���ce ��� son titre)
-		Cursor c = bdd.query(CONCERT_TABLE, new String[] {COL_ID_CONCERT, COL_NAME_CONCERT}, COL_ID_CONCERT + " LIKE \"" + id +"\"", null, null, null, null);
+		Cursor c = bdd.query(Tables.CONCERT_TABLE,
+				new String[] {Tables.CONCERT_NAME_ID, Tables.CONCERT_NAME_START_DATE,Tables.CONCERT_NAME_END_DATE,
+				Tables.CONCERT_NAME_LOCATION,Tables.CONCERT_NAME_IMAGE,Tables.CONCERT_NAME_NB_SEAT,
+				Tables.CONCERT_NAME_FULL,Tables.CONCERT_NAME_ID_CREATOR,Tables.CONCERT_NAME_TITLE_CONCERT}, Tables.CONCERT_NAME_ID + " LIKE \"" + id +"\"", null, null, null, null);
 		if (c.getCount() != 1){
 			return null;
 		}
 		c.moveToFirst();
-		
-		Concert concert = new Concert(c.getInt(NUM_COL_ID_CONCERT), "", c.getString(NUM_COL_NAME_CONCERT), new Date(), new Date(), "ici", 100.0, 2, false);
+		String tmp = c.getString(Tables.CONCERT_NUM_START_DATE);
+		Log.i("DATE", "ON obtient : "+ tmp);
+		Concert concert = new Concert(c.getInt(Tables.CONCERT_NUM_ID), "", c.getString(Tables.CONCERT_NUM_TITLE_CONCERT), "now", "tomor", "ici", 100.0, 2, false);
 		//on lui affecte toutes les infos gr���ce aux infos contenues dans le Cursor
 		
 		//On ferme le cursor
