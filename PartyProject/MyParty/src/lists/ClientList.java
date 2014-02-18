@@ -2,6 +2,7 @@ package lists;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.example.myparty.R;
 
@@ -12,21 +13,24 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 
-public class ClientList extends List {
+public class ClientList extends lists.List {
 		
     private Adapter adapter;
-    
-	public ClientList(Context context) {
+    	
+	public ClientList(Context context,List<Client> cl) {
 		super(context);
 		items = new ArrayList<Items>();
-		
-		/*Test*/
+		/*TODO A Decommenter pour bdd interne*/
+		/*for (int i=0;i<cl.size();i++){
+			ClientItem testAff = new ClientItem(context, cl.get(i));
+			items.add(testAff);
+		}*/
+		/*FIN TEST*/
 		for (int i=0;i<15;i++){
-			Client test = new Client("Prenom"+i, "Nom"+i,new Date(), i+"@labri.fr", "login"+i, "passe"+i);
+			Client test = new Client(i,"Prenom"+i, "Nom"+i,new Date(), i+"@labri.fr", "login"+i, "passe"+i);
 			ClientItem testAff = new ClientItem(context, test);
 			items.add(testAff);
 		}
-		/*FIN TEST*/
 		
 		adapter = new Adapter(items);
         this.setAdapter(adapter);
@@ -38,7 +42,6 @@ public class ClientList extends List {
             }
         }); 
 		this.setBackgroundColor(getResources().getColor(R.color.black));
-		
 	}
 	
 	public ArrayList<Items> getItems(){

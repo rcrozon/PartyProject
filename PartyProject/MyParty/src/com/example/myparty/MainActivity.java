@@ -34,8 +34,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		buttonConnexion = (Button)findViewById(R.id.buttonConnexion);
 		buttonConnexion.setOnClickListener(this);
 		lightHandler();
-//		dataBase = new DatabaseHandler(this);
-//		dataBase.open();
+		/*TODO A décommenter pour authentification*/
+		//dataBase = new DatabaseHandler(this);
+		//dataBase.open();
 		}
 
 	@Override
@@ -79,7 +80,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			Intent intent = new Intent(this, ConcertActivity.class);
 	    	this.startActivity(intent);
 			
-	    	/*A DECOMMENTER POUR POUVOIR UTILISER AUTHENTIFICATION*/
+	    	/* TODO A DECOMMENTER POUR POUVOIR UTILISER AUTHENTIFICATION avec BDD interne*/
 			/*EditText login = (EditText)findViewById(R.id.loginTextEdit);
 			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
 			
