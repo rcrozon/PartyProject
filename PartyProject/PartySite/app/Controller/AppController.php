@@ -25,14 +25,21 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
    
     public $components = array('Session','Cookie','Auth');
+
     function beforeFilter(){
+    	//debug($this->request);
 
+		$this->Auth->authenticate = array(
+		    AuthComponent::ALL => array('userModel' => 'Client'),
+		    'Basic',
+		    'Form'
+		);
+		$this->Auth->allow();
 
-$this->Auth->authenticate = array(
-    AuthComponent::ALL => array('userModel' => 'Client'),
-    'Basic',
-    'Form'
-);
-   $this->Auth->allow();
-    }
+		if(isset($this->request->params['admin']) && $this->request->params['admin'] == 'true') {
+			$this->layout = 'admin';
+		} else {
+			$this->layout = 'default';
+		}
+	}
 }

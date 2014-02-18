@@ -25,10 +25,8 @@
  * to use (in this case, /app/View/Pages/home.ctp)...
  */
 	
-Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
-Router::connect('/page/:slug-id');
-
-
+Router::connect('/', array('controller' => 'Concerts', 'action' => 'showLastConcerts', 'home'));
+ Router::connect('/page/:slug-:id',array('controller'=>'Concerts','action'=>'showConcert'),array('pass'=> array('id','slug'), 'id'=>'[0-9]+','slug' =>'[a-z0-9\-]+'));
 /**
  * ...and connect the rest of 'Pages' controller's URLs.
 

@@ -2,24 +2,24 @@
 class Concert extends AppModel{
      
     public $validate = array(
-    	'name_concert' => array(
+        'name_concert' => array(
             array(
-                'rule' => 'alphanumeric',
+                'rule' => array('custom','/([\w.-]+ )+[\w+.-]/'),
                 'required' => true,
                 'allowEmpty' => false, 
                 'message' => "The format of your party name is not valid"
             ),
         ),
         'location' => array(
-        	array(
-                'rule' => 'alphanumeric',
+            array(
+                'rule' => array('custom','/([\w.-]+ )+[\w+.-]/'),
                 'required' => true,
                 'allowEmpty' => false, 
                 'message' => "The format is not valid"
             )
         ),
         'nb_seats' => array(
-        	array(
+            array(
                 'rule' => 'numeric',
                 'required' => true,
                 'allowEmpty' => false, 
@@ -27,7 +27,7 @@ class Concert extends AppModel{
             )
         ),
         /*'image' => array(
-        	array(
+            array(
                 'rule' => array('extension', array('gif', 'jpeg', 'png', 'jpg')),
                 'message' => "The extension of your background image is not valid."
             )

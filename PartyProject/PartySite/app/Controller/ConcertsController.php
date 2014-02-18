@@ -1,10 +1,10 @@
 <?php
 class ConcertsController extends AppController{
 
-	function addConcert() {
-		//$this->layout = 'login';
+	   function addConcert() {
+        //$this->layout = 'login';
         if($this->request->is('post')) {
-        	$d = $this->request->data; 
+            $d = $this->request->data; 
             $id_client = $this->Session->read('Auth.User.id');
             $d['Concert']['id_creator'] = $id_client;
 
@@ -29,10 +29,46 @@ class ConcertsController extends AppController{
             if($this->Concert->save($d,true,array('name_concert','location','nb_seats','image','start_datetime','end_datetime','id_creator'))) {
                 $this->Session->setFlash("Your party has been well created", "notif");
                 $this->request->data = array();
+                //echo $this->Concert->getLastInsertId();
+                $this->redirect(array('controller' => 'Tarifs', 'action' => 'addTarif', $this->Concert->getLastInsertId()));
             } else{
                 $this->Session->setFlash("Thanks to correct your mistakes","notif",array('type'=>'error'));
             }
         }
-	}
+    }
+
+    function admin_index() {
+        $this->paginate = array('Concert' => array(
+            'limit' => 15
+        ));
+        $d['concerts'] = $this->Paginate('Concert'/*, array(name_concert => '')*/);
+        $this->set($d);
+    }
+
+    function admin_delete($id) {
+        $this->Session->setFlash('The party has been successfully deleted', 'notif',array('type'=>'alert-danger'));
+        $this->Concert->delete($id);
+        $this->redirect($this->referer());
+    } 
+
+
+    function showLastConcerts (){
+          $d = $this->Concert->find('all', array('order' => array('Concert.id DESC')));
+
+          $this->set('showLastConcerts',$d);
+
+
+    }
+
+     function showConcert (){   
+       
+        $id = $this->params['named']['id'];   
+        $d = $this->Concert->find('first',array(
+            'conditions' => array('Concert.id' => $id)
+        ));
+     
+        $d = Hash::extract($d, 'Concert'); 
+          $this->set('showConcert',$d);
+    }
+
 }
-    
