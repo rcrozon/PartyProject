@@ -4,25 +4,25 @@ public final class Tables {
 	
 	/************* TABLE CLIENTS *************************/
 	
-	public static final String CLIENT_TABLE = "client";
+	public static final String CLIENT_TABLE = "clients";
 
-	/*public static final String CLIENT_NAME_FIRSTNAME = "firstname";
-	public static final int CLIENT_NUM_FIRSTNAME = 1;
+	public static final String CLIENT_NAME_ID = "id";
+	public static final int CLIENT_NUM_ID = 0;
+	public static final String CLIENT_NAME_USERNAME = "username";
+	public static final int CLIENT_NUM_USERNAME = 1;
+	public static final String CLIENT_NAME_MAIL = "mail";
+	public static final int CLIENT_NUM_MAIL = 2;
+	public static final String CLIENT_NAME_PASSWORD = "password";
+	public static final int CLIENT_NUM_PASSWORD = 3;
 	public static final String CLIENT_NAME_FIRSTNAME = "firstname";
-	public static final int CLIENT_NUM_FIRSTNAME = 1;
-	public static final String CLIENT_NAME_FIRSTNAME = "firstname";
-	public static final int CLIENT_NUM_FIRSTNAME = 1;
-	public static final String CLIENT_NAME_FIRSTNAME = "firstname";
-	public static final int CLIENT_NUM_FIRSTNAME = 1;
-	public static final String CLIENT_NAME_FIRSTNAME = "firstname";
-	public static final int CLIENT_NUM_FIRSTNAME = 1;
-	public static final String CLIENT_NAME_FIRSTNAME = "firstname";
-	public static final int CLIENT_NUM_FIRSTNAME = 1;
-	public static final String CLIENT_NAME_FIRSTNAME = "firstname";
-	public static final int CLIENT_NUM_FIRSTNAME = 1;
+	public static final int CLIENT_NUM_FIRSTNAME = 4;
+	public static final String CLIENT_NAME_LASTNAME = "lastname";
+	public static final int CLIENT_NUM_LASTNAME = 5;
+	public static final String CLIENT_NAME_ADMIN= "admin";
+	public static final int CLIENT_NUM_ADMIN = 6;
+	public static final String CLIENT_NAME_DATE_CREATE= "created";
+	public static final int CLIENT_NUM_DATE_CREATE = 7;
 	
-	*/
-
 	/************* TABLE CONCERTS *************************/
 	
 	public static final String CONCERT_TABLE = "concerts";

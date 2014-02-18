@@ -27,7 +27,7 @@ public class ClientList extends lists.List {
 		}*/
 		/*FIN TEST*/
 		for (int i=0;i<15;i++){
-			Client test = new Client(i,"Prenom"+i, "Nom"+i,new Date(), i+"@labri.fr", "login"+i, "passe"+i);
+			Client test = new Client(i,"Prenom"+i, "Nom"+i, i+"@labri.fr", "login"+i, "passe"+i,1,"10/03/14");
 			ClientItem testAff = new ClientItem(context, test);
 			items.add(testAff);
 		}

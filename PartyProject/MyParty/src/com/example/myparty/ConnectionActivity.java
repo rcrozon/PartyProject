@@ -1,13 +1,18 @@
 package com.example.myparty;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 import databaseHandler.DatabaseHandler;
 import databaseHandler.UserFunctions;
 
@@ -26,9 +31,9 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		buttonConnexion = (Button)findViewById(R.id.buttonConnexion);
 		buttonConnexion.setOnClickListener(this);
 		lightHandler();
-		/*TODO A décommenter pour authentification*/
-		//dataBase = new DatabaseHandler(this);
-		//dataBase.open();
+		/*TODO A d��commenter pour authentification*/
+		dataBase = new DatabaseHandler(this);
+		dataBase.open();
 		}
 
 	@Override
@@ -75,9 +80,6 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 	    	/* TODO A DECOMMENTER POUR POUVOIR UTILISER AUTHENTIFICATION avec BDD interne*/
 			/*EditText login = (EditText)findViewById(R.id.loginTextEdit);
 			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
-			
-			Log.i("TEST", login.getText().toString());
-			Log.i("TEST", pwd.getText().toString());
 			
 			if (dataBase.authentification(login.getText().toString(), pwd.getText().toString())){
 				Intent intent = new Intent(this, ConcertActivity.class);
