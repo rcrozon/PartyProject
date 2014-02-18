@@ -56,6 +56,13 @@ public abstract class Charts extends DemoView implements Items {
 
     }
 
+	@Override
+	public void setVisible(boolean visible) {
+		if (visible)
+			this.setVisibility(VISIBLE);
+		else
+			this.setVisibility(INVISIBLE);
+	}
     public abstract PieDataset createDataset(int[] values);
     public abstract PieDataset createDataset(HashMap<String, Integer> values);
 

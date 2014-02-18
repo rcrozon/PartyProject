@@ -2,9 +2,10 @@ package databaseHandler;
 
 public final class Tables {
 	
+	/************* TABLE CLIENTS *************************/
 	
 	public static final String CLIENT_TABLE = "client";
-	
+
 	/*public static final String CLIENT_NAME_FIRSTNAME = "firstname";
 	public static final int CLIENT_NUM_FIRSTNAME = 1;
 	public static final String CLIENT_NAME_FIRSTNAME = "firstname";
@@ -20,41 +21,33 @@ public final class Tables {
 	public static final String CLIENT_NAME_FIRSTNAME = "firstname";
 	public static final int CLIENT_NUM_FIRSTNAME = 1;
 	
-	/*CREATE TABLE IF NOT EXISTS `concert` (
-			  `id_concert` int(11) NOT NULL AUTO_INCREMENT,
-			  `begin_date` date NOT NULL,
-			  `end_date` date NOT NULL,
-			  `begin_time` time NOT NULL,
-			  `end_time` time NOT NULL,
-			  `location` varchar(50) NOT NULL,
-			  `image` varchar(50) NOT NULL,
-			  `id_tarif` int(11) NOT NULL,
-			  `nb_seets` int(11) NOT NULL,
-			  `full` tinyint(1) NOT NULL,
-			  `id_creator` int(11) NOT NULL,
-			  PRIMARY KEY (`id_concert`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+	*/
 
-
+	/************* TABLE CONCERTS *************************/
 	
-public static final String CLIENT_TABLE = "client";
+	public static final String CONCERT_TABLE = "concerts";
 	
-	public static final String CLIENT_NAME_FIRSTNAME = "firstname";
-	public static final int CLIENT_NUM_FIRSTNAME = 1;
-	public static final String CLIENT_NAME_FIRSTNAME = "firstname";
-	public static final int CLIENT_NUM_FIRSTNAME = 1;
-	public static final String CLIENT_NAME_FIRSTNAME = "firstname";
-	public static final int CLIENT_NUM_FIRSTNAME = 1;
-	public static final String CLIENT_NAME_FIRSTNAME = "firstname";
-	public static final int CLIENT_NUM_FIRSTNAME = 1;
-	public static final String CLIENT_NAME_FIRSTNAME = "firstname";
-	public static final int CLIENT_NUM_FIRSTNAME = 1;
-	public static final String CLIENT_NAME_FIRSTNAME = "firstname";
-	public static final int CLIENT_NUM_FIRSTNAME = 1;
-	public static final String CLIENT_NAME_FIRSTNAME = "firstname";
-	public static final int CLIENT_NUM_FIRSTNAME = 1;
+	public static final String CONCERT_NAME_ID = "id";
+	public static final int CONCERT_NUM_ID = 0;
+	public static final String CONCERT_NAME_START_DATE = "start_datetime";
+	public static final int CONCERT_NUM_START_DATE = 1;
+	public static final String CONCERT_NAME_END_DATE = "end_datetime";
+	public static final int CONCERT_NUM_END_DATE = 2;
+	public static final String CONCERT_NAME_LOCATION = "location";
+	public static final int CONCERT_NUM_LOCATION = 3;
+	public static final String CONCERT_NAME_IMAGE = "image";
+	public static final int CONCERT_NUM_IMAGE = 4;
+	public static final String CONCERT_NAME_NB_SEAT = "nb_seats";
+	public static final int CONCERT_NUM_NB_SEAT = 5;
+	public static final String CONCERT_NAME_FULL = "full";
+	public static final int CONCERT_NUM_FULL = 6;
+	public static final String CONCERT_NAME_ID_CREATOR = "id_creator";
+	public static final int CONCERT_NUM_ID_CREATOR = 7;
+	public static final String CONCERT_NAME_TITLE_CONCERT = "name_concert";
+	public static final int CONCERT_NUM_TITLE_CONCERT = 8;
 	
 	
+	/*
 public static final String CLIENT_TABLE = "client";
 	
 	public static final String CLIENT_NAME_FIRSTNAME = "firstname";

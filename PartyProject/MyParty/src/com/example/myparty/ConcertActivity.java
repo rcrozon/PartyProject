@@ -1,6 +1,6 @@
 package com.example.myparty;
 
-import lists.ConcertList;
+import lists.ConcertListLayout;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,11 +14,13 @@ import android.widget.ViewFlipper;
 
 public class ConcertActivity extends Activity implements OnClickListener, OnMenuItemClickListener{
 
-	Button buttonAllConcerts ;
-	Button buttonNextConcerts ;
-	Button buttonNews ;
-	ViewFlipper view_flipper ;
+	private Button buttonAllConcerts ;
+	private Button buttonNextConcerts ;
+	private Button buttonNews ;
+	private ViewFlipper view_flipper ;
 	private MenuItem decoItem;
+	private int index = 0;
+	private int nextIndex = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +30,16 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		buttonNews = (Button)findViewById(R.id.buttonNews);
 		buttonNextConcerts = (Button)findViewById(R.id.buttonNextConcerts);
 		view_flipper = (ViewFlipper)findViewById(R.id.view_flipper);
-		this.view_flipper.addView(new ConcertList(this));
-		this.view_flipper.addView(new ConcertList(this));
-		this.view_flipper.addView(new ConcertList(this));
+		ConcertListLayout listAll = new ConcertListLayout(this);
+		ConcertListLayout listNext = new ConcertListLayout(this);
+		ConcertListLayout listNews = new ConcertListLayout(this);
+		this.view_flipper.addView(listAll);
+		this.view_flipper.addView(listNext);
+		this.view_flipper.addView(listNews);
 		buttonAllConcerts.setOnClickListener(this);
 		buttonNews.setOnClickListener(this);
 		buttonNextConcerts.setOnClickListener(this);
-	}
+	} 
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -48,8 +53,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	@Override
 	public void onClick(View v) {
 		Button b = (Button)v;
-		int index = view_flipper.getDisplayedChild();
-		int nextIndex ;
+		index = view_flipper.getDisplayedChild();
 		buttonAllConcerts.setBackgroundResource(R.drawable.button_unselected);
 		buttonNews.setBackgroundResource(R.drawable.button_unselected);
 		buttonNextConcerts.setBackgroundResource(R.drawable.button_unselected);
@@ -78,7 +82,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	@Override
 	public boolean onMenuItemClick(MenuItem item) {
 	
-		Intent intent = new Intent(this, MainActivity.class);
+		Intent intent = new Intent(this, ConnectionActivity.class);
 		this.startActivity(intent);
 		return false;
 	}

@@ -1,28 +1,19 @@
 package com.example.myparty;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.sax.TextElementListener;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 import databaseHandler.DatabaseHandler;
-import databaseHandler.Tables;
 import databaseHandler.UserFunctions;
 
-public class MainActivity extends Activity implements OnClickListener {
+public class ConnectionActivity extends Activity implements OnClickListener {
 
 	private Button buttonConnexion ;
-	private Button buttonRegister ;
 	private MenuItem item;
 	private UserFunctions userFunctions = new UserFunctions();
 	private boolean running = true;
@@ -33,12 +24,11 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		buttonConnexion = (Button)findViewById(R.id.buttonConnexion);
-		buttonRegister = (Button)findViewById(R.id.buttonRegister);
 		buttonConnexion.setOnClickListener(this);
-		buttonRegister.setOnClickListener(this);
 		lightHandler();
-//		dataBase = new DatabaseHandler(this);
-//		dataBase.open();
+		/*TODO A décommenter pour authentification*/
+		//dataBase = new DatabaseHandler(this);
+		//dataBase.open();
 		}
 
 	@Override
@@ -82,7 +72,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			Intent intent = new Intent(this, ConcertActivity.class);
 	    	this.startActivity(intent);
 			
-	    	/*A DECOMMENTER POUR POUVOIR UTILISER AUTHENTIFICATION*/
+	    	/* TODO A DECOMMENTER POUR POUVOIR UTILISER AUTHENTIFICATION avec BDD interne*/
 			/*EditText login = (EditText)findViewById(R.id.loginTextEdit);
 			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
 			
@@ -104,9 +94,6 @@ public class MainActivity extends Activity implements OnClickListener {
 				toast.show();
 			}*/
 		
-		}else {
-			Intent intent = new Intent(this, RegisterActivity.class);
-	    	this.startActivity(intent);
 		}
 	}
 	

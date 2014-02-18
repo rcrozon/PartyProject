@@ -23,7 +23,7 @@ public class ClientListActivity extends Activity {
 		setContentView(R.layout.activity_client_list);
 		Date d = new Date(100000);
 		for (int i=0;i<15;i++){
-			Client test = new Client("Prenom"+i, "Nom"+i,d, i+"@labri.fr", "login"+i, "passe"+i);
+			Client test = new Client(i,"Prenom"+i, "Nom"+i,d, i+"@labri.fr", "login"+i, "passe"+i);
 			ClientItem testAff = new ClientItem(this, test);
 			clientList.add(testAff);
 		}

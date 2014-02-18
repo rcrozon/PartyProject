@@ -12,8 +12,10 @@ import concert.Client;
 
 public class ClientItem extends LinearLayout implements Items{ 
 	
+	private Client client ;
 	public ClientItem(Context context, Client client){
 		super(context);
+		this.client = client;
 		this.setBackgroundResource(R.drawable.list_border);
 		this.setOrientation(HORIZONTAL);
 		LinearLayout layoutClientData = new LinearLayout(context);
@@ -59,5 +61,15 @@ public class ClientItem extends LinearLayout implements Items{
 //		layoutClientData.addView(pwd);
 		
 		this.addView(layoutClientData); 
+	}
+	
+	@Override
+	public String toString(){
+		return client.getFirstName() + " " + client.getLastName();
+	}
+	
+	@Override
+	public void setVisible(boolean visible) {
+		this.setVisible(visible);
 	}
 }

@@ -39,8 +39,8 @@ public class ConcertItem extends LinearLayout implements Items{
 		TextView end = new TextView(context);
 		
 		title.setText(concert.getTitle());
-		begin.setText(""+concert.getBeginDate().getTime());
-		end.setText(""+concert.getEndDate().getTime());
+		begin.setText(""+concert.getBeginDate());
+		end.setText(""+concert.getEndDate());
 		price.setText("Price : " + concert.getPrice());
 		location.setText("Location : " + concert.getLocation());
 		
@@ -66,4 +66,13 @@ public class ConcertItem extends LinearLayout implements Items{
 		return this.concert;
 	}
 
+	@Override
+	public String toString(){
+		return concert.getTitle();
+	}
+
+	@Override
+	public void setVisible(boolean visible) {
+		this.setVisible(visible);
+	}
 }

@@ -13,11 +13,11 @@ import com.example.myparty.R;
 
 public class ScanLayout extends RelativeLayout implements OnClickListener{
 
-	Button scan;
-	Activity activity ;
-	TextView text; 
-	ImageView imgView; 
-	Button buttonTariff;
+	private Button scan;
+	private Activity activity ;
+	private TextView text; 
+	private ImageView imgView; 
+	private Button buttonTariff;
 	
 	public ScanLayout(Context context, Activity activity) {
 		super(context);
@@ -48,11 +48,11 @@ public class ScanLayout extends RelativeLayout implements OnClickListener{
 		this.text = new TextView(context);
 		this.buttonTariff = new Button(context);
 		this.buttonTariff.setBackgroundResource(R.color.blue);
-		this.text.setText("J'aime quand on m'enduit d'huile!");
+		this.text.setText("Bonjour!");
 		this.text.setTextColor(getResources().getColor(R.color.white));
 		this.addView(this.text, llpTextView);
-		this.addView(this.buttonTariff, llpButtonTariff); 
-		this.setBackgroundResource(R.drawable.list_border);
+//		this.addView(this.buttonTariff, llpButtonTariff); 
+//		this.setBackgroundResource(R.drawable.list_border);
 	}
 
 	public void onClick (View view){
