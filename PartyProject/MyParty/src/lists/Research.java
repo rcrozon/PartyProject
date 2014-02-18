@@ -1,26 +1,16 @@
 package lists;
 
-import java.util.ArrayList;
-
-import com.example.myparty.R;
-
-import android.app.SearchManager;
-import android.content.ClipData.Item;
 import android.content.Context;
-import android.widget.AutoCompleteTextView;
+import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.TextView;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView.OnQueryTextListener;
+
+import com.example.myparty.R;
 
 public class Research extends LinearLayout {
 

@@ -17,7 +17,7 @@ public class ClientList extends lists.List {
 		
     private Adapter adapter;
     	
-	public ClientList(Context context,List<Client> cl) {
+	public ClientList(Context context) {
 		super(context);
 		items = new ArrayList<Items>();
 		/*TODO A Decommenter pour bdd interne*/

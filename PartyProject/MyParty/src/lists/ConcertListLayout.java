@@ -6,7 +6,7 @@ import android.widget.RelativeLayout;
 
 public class ConcertListLayout extends LinearLayout {
 
-	public ConcertListLayout(Context context, List list){
+	public ConcertListLayout(Context context){
 		super(context);
 		this.setOrientation(VERTICAL);
 		ConcertList listConcert = new ConcertList(context);

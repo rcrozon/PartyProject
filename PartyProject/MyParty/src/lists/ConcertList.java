@@ -5,13 +5,9 @@ import java.util.Date;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
-import com.example.myparty.ConcertActivity;
 import com.example.myparty.ConcertDetailsActivity;
 import com.example.myparty.R;
 
@@ -27,8 +23,8 @@ public class ConcertList extends List {
 	public ConcertList(final Context context) {
 		super(context);
 		items = new ArrayList<Items>();
-		dataBase = new DatabaseHandler(context);
-		dataBase.open();
+//		dataBase = new DatabaseHandler(context);
+//		dataBase.open();
 		Concert c1 = new Concert(1, "", "Michael Jackson", new Date(),
 				new Date(), "Lyon", 10.0, 200, false);
 		Concert c2 = new Concert(2, "", "Edith Piaf", new Date(), new Date(),

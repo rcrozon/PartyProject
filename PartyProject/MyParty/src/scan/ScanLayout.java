@@ -13,11 +13,11 @@ import com.example.myparty.R;
 
 public class ScanLayout extends RelativeLayout implements OnClickListener{
 
-	Button scan;
-	Activity activity ;
-	TextView text; 
-	ImageView imgView; 
-	Button buttonTariff;
+	private Button scan;
+	private Activity activity ;
+	private TextView text; 
+	private ImageView imgView; 
+	private Button buttonTariff;
 	
 	public ScanLayout(Context context, Activity activity) {
 		super(context);
@@ -41,7 +41,7 @@ public class ScanLayout extends RelativeLayout implements OnClickListener{
 		llpTextView.addRule(this.CENTER_HORIZONTAL);
 		llpTextView.addRule(this.ALIGN_PARENT_BOTTOM);
 		llpTextView.setMargins(0, 500, 0, 0); 
-		llpButtonTariff.setMargins(20, 1400, 20, 0); 
+		llpButtonTariff.setMargins(20, 0, 20, 0); 
 		this.imgView.setBackgroundResource(R.drawable.qrcode_blue);
 		this.imgView.setOnClickListener(this);
 		this.addView(this.imgView, llpImg);
