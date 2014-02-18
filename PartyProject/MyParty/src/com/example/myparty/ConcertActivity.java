@@ -1,8 +1,12 @@
 package com.example.myparty;
 
 import lists.ConcertList;
+import lists.ConcertListLayout;
+import lists.Research;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,14 +14,15 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ViewFlipper;
 
 public class ConcertActivity extends Activity implements OnClickListener, OnMenuItemClickListener{
 
-	Button buttonAllConcerts ;
-	Button buttonNextConcerts ;
-	Button buttonNews ;
-	ViewFlipper view_flipper ;
+	private Button buttonAllConcerts ;
+	private Button buttonNextConcerts ;
+	private Button buttonNews ;
+	private ViewFlipper view_flipper ;
 	private MenuItem decoItem;
 	
 	@Override
@@ -28,13 +33,16 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		buttonNews = (Button)findViewById(R.id.buttonNews);
 		buttonNextConcerts = (Button)findViewById(R.id.buttonNextConcerts);
 		view_flipper = (ViewFlipper)findViewById(R.id.view_flipper);
-		this.view_flipper.addView(new ConcertList(this));
-		this.view_flipper.addView(new ConcertList(this));
-		this.view_flipper.addView(new ConcertList(this));
+		ConcertListLayout listAll = new ConcertListLayout(this, new ConcertList(this));
+		ConcertListLayout listNext = new ConcertListLayout(this, new ConcertList(this));
+		ConcertListLayout listNews = new ConcertListLayout(this, new ConcertList(this));
+		this.view_flipper.addView(listAll);
+		this.view_flipper.addView(listNext);
+		this.view_flipper.addView(listNews);
 		buttonAllConcerts.setOnClickListener(this);
 		buttonNews.setOnClickListener(this);
 		buttonNextConcerts.setOnClickListener(this);
-	}
+	} 
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

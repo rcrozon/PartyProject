@@ -17,13 +17,13 @@ import com.example.myparty.R;
 
 import concert.Concert;
 
-public class ConcertList extends ListView {
+public class ConcertList extends List{
 	
-    private Adapter mAdapter;
-    private ArrayList<Items> items = new ArrayList<Items>();
+    private Adapter adapter;
 	
 	public ConcertList(final Context context) {
 		super(context);
+		items = new ArrayList<Items>();
 		Concert c1 = new Concert("", "Michael Jackson", new Date(), new Date(), "Lyon", 10.0, 200, false);
 		Concert c2 = new Concert("", "Edith Piaf", new Date(), new Date(), "Paris", 25.0, 500, false);
 		Concert c3 = new Concert("", "Balavoine", new Date(), new Date(), "Grenoble", 30.0, 500, false);
@@ -52,8 +52,8 @@ public class ConcertList extends ListView {
 		items.add(i8);
 		items.add(i9);
 		
-		mAdapter = new Adapter(context, items);
-        this.setAdapter(mAdapter);
+		adapter = new Adapter(items);
+        this.setAdapter(adapter);
         this.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View view, int pos,long id) {

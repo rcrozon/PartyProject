@@ -2,20 +2,14 @@ package lists;
 
 import java.util.ArrayList;
 
-import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import charts.ChartPersonsIn;
-import charts.ChartTariff;
-import charts.ChartTicketsSold;
 
-public class Adapter extends BaseAdapter
-{ 
+public class Adapter extends BaseAdapter implements Cloneable { 
 	private ArrayList<Items> listItems;
 	
-	public Adapter(Context context, ArrayList<Items> arrayList){
+	public Adapter(ArrayList<Items> arrayList){
 		listItems = arrayList;
 	}
 
@@ -46,5 +40,16 @@ public class Adapter extends BaseAdapter
 			return (ClientItem)listItems.get(position);
 		else
 			return null;
+	}
+	
+	public ArrayList<Items> getItemsList(){
+		return listItems;
+	}
+	
+	public Adapter clone() throws CloneNotSupportedException{
+		ArrayList<Items> items = new ArrayList<Items>();
+		for (Items i : listItems)
+			items.add(i);
+		return new Adapter(items);
 	}
 }

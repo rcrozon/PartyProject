@@ -22,7 +22,6 @@ import databaseHandler.UserFunctions;
 public class MainActivity extends Activity implements OnClickListener {
 
 	private Button buttonConnexion ;
-	private Button buttonRegister ;
 	private MenuItem item;
 	private UserFunctions userFunctions = new UserFunctions();
 	private boolean running = true;
@@ -33,9 +32,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		buttonConnexion = (Button)findViewById(R.id.buttonConnexion);
-		buttonRegister = (Button)findViewById(R.id.buttonRegister);
 		buttonConnexion.setOnClickListener(this);
-		buttonRegister.setOnClickListener(this);
 		lightHandler();
 //		dataBase = new DatabaseHandler(this);
 //		dataBase.open();
@@ -104,9 +101,6 @@ public class MainActivity extends Activity implements OnClickListener {
 				toast.show();
 			}*/
 		
-		}else {
-			Intent intent = new Intent(this, RegisterActivity.class);
-	    	this.startActivity(intent);
 		}
 	}
 	

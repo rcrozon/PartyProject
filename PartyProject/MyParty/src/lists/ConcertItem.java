@@ -66,4 +66,13 @@ public class ConcertItem extends LinearLayout implements Items{
 		return this.concert;
 	}
 
+	@Override
+	public String toString(){
+		return concert.getTitle();
+	}
+
+	@Override
+	public void setVisible(boolean visible) {
+		this.setVisible(visible);
+	}
 }

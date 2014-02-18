@@ -41,18 +41,18 @@ public class ScanLayout extends RelativeLayout implements OnClickListener{
 		llpTextView.addRule(this.CENTER_HORIZONTAL);
 		llpTextView.addRule(this.ALIGN_PARENT_BOTTOM);
 		llpTextView.setMargins(0, 500, 0, 0); 
-		llpButtonTariff.setMargins(20, 0, 20, 0); 
+		llpButtonTariff.setMargins(20, 1400, 20, 0); 
 		this.imgView.setBackgroundResource(R.drawable.qrcode_blue);
 		this.imgView.setOnClickListener(this);
 		this.addView(this.imgView, llpImg);
 		this.text = new TextView(context);
 		this.buttonTariff = new Button(context);
 		this.buttonTariff.setBackgroundResource(R.color.blue);
-		this.text.setText("J'aime quand on m'enduit d'huile!");
+		this.text.setText("Bonjour!");
 		this.text.setTextColor(getResources().getColor(R.color.white));
 		this.addView(this.text, llpTextView);
-		this.addView(this.buttonTariff, llpButtonTariff); 
-		this.setBackgroundResource(R.drawable.list_border);
+//		this.addView(this.buttonTariff, llpButtonTariff); 
+//		this.setBackgroundResource(R.drawable.list_border);
 	}
 
 	public void onClick (View view){
