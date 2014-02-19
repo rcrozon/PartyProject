@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/black"
+    tools:context=".BluetoothActivity" >
+	
+    <LinearLayout 
+        android:id="@+id/layoutBTPassword"
+        android:orientation="horizontal"
+		android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:background="@color/black">
+	    
+	    <TextView
+		    android:id="@+id/textBTPassword"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:background="@color/blue"
+		    android:text="@string/connexion" />
+	    
+		<EditText
+		    android:id="@+id/pwdTextEdit"
+		    android:layout_width="fill_parent"
+		    android:layout_marginTop="30dip"
+		    android:layout_marginLeft="20dip"
+		    android:layout_marginRight="20dip"
+		    android:layout_height="wrap_content"
+		    android:ems="10"
+		    style="@style/EditTextAppTheme"
+		    android:gravity="center"
+		    android:textColor="@color/white"
+		    android:textSize="@dimen/itemDimension" >
+		</EditText>
+	</LinearLayout>
+	
+
+	<ScrollView
+	    android:id="@+id/scrollList"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content">
+	    
+	    <LinearLayout android:id="@+id/layoutList"
+	        android:orientation="vertical"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content">
+	        
+	    </LinearLayout>
+	</ScrollView>
+
+	<Button
+        android:id="@+id/buttonUpdateAll"
+        android:background="@color/blue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/update_all" />
+
+</RelativeLayout>

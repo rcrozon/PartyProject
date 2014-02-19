@@ -185,6 +185,7 @@ td,
 th {
   padding: 0;
   padding-right: 15px;
+  padding-bottom: 10px;
 }
 @media print {
   * {
@@ -5833,7 +5834,7 @@ td.visible-print {
 /*# sourceMappingURL=bootstrap.css.map */
 .label-important {
   margin-bottom: 5px;
-  display: inline-block;
+  /*display: inline-block;*/
   padding: 2px 4px;
   font-size: 11.844px;
   font-weight: bold;
@@ -5851,7 +5852,7 @@ td.visible-print {
 
 .label-warning {
   margin-bottom: 5px;
-  display: inline-block;
+  /*display: inline-block;*/
   padding: 2px 4px;
   font-size: 11.844px;
   font-weight: bold;
@@ -5868,7 +5869,7 @@ td.visible-print {
 
 .label-success {
   margin-bottom: 5px;
-  display: inline-block;
+  /*display: inline-block;*/
   padding: 2px 4px;
   font-size: 11.844px;
   font-weight: bold;
@@ -5885,7 +5886,7 @@ td.visible-print {
 
 .label-info {
   margin-bottom: 5px;
-  display: inline-block;
+  /*display: inline-block;*/
   padding: 2px 4px;
   font-size: 11.844px;
   font-weight: bold;
@@ -5902,7 +5903,7 @@ td.visible-print {
 
 .label-inverse {
   margin-bottom: 5px;
-  display: inline-block;
+  /*display: inline-block;*/
   padding: 2px 4px;
   font-size: 11.844px;
   font-weight: bold;
