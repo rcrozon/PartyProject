@@ -1,5 +1,5 @@
 <div id="page-wrapper">        
 	<div class="page-header">
-		<h1>Dashboard</h1>
+		<h1>Assoc Tariffs</h1>
 	</div>
 </div>

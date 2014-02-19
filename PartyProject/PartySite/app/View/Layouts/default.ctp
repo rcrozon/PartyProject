@@ -11,10 +11,9 @@
     <title>Starter Template for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
-     <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap.min.css');?>">
-  
+    <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap.min.css');?>">
     <link rel="stylesheet" href="<?php echo $this->Html->url('/css/headerCss.css');?>">
-        <link rel="stylesheet" href="<?php echo $this->Html->url('/css/mosaic.css');?>">
+    <link rel="stylesheet" href="<?php echo $this->Html->url('/css/mosaic.css');?>">
 
     <?php echo $this->Html->script('jquery-1.11.0.min.js');?>
 
@@ -36,7 +35,6 @@
   <style type="text/css"></style></head>
 
   <body>
-
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -46,24 +44,20 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-               <a href="/" class="logo">
-           <?php
-     echo $this->Html->image('logo.png') ;
-?>
+          <a href="/" class="logo">
+           <?php echo $this->Html->image('logo.png'); ?>
         </a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-          
-           <?php if(AuthComponent::user('id')): ?>
-                       
-                        <li><?php echo $this->Html->link("Mon compte",array('action'=>'edit','controller'=>'clients')); ?></li>
-                         <li><?php echo $this->Html->link("Administration",array('action'=>'edit','controller'=>'clients')); ?></li>
-                          <li><?php echo $this->Html->link("Se déconnecter",'/clients/logout'); ?></li>
-                        <?php else: ?>   
-                        <li><?php echo $this->Html->link("Se connecter",array('action'=>'login','controller'=>'clients')); ?></li>   
-                        <li><?php echo $this->Html->link("S'inscrire",array('action'=>'signup','controller'=>'clients')); ?></li>
-                        <?php endif; ?>
+            <?php if(AuthComponent::user('id')): ?>           
+              <li><?php echo $this->Html->link("My account",array('action'=>'edit','controller'=>'clients')); ?></li>
+              <li><?php echo $this->Html->link("Administration",array('action'=>'index','controller'=>'admin/concerts')); ?></li>
+              <li><?php echo $this->Html->link("Log out",'/clients/logout'); ?></li>
+            <?php else: ?>   
+              <li><?php echo $this->Html->link("Login",array('action'=>'login','controller'=>'clients')); ?></li>   
+              <li><?php echo $this->Html->link("Register",array('action'=>'signup','controller'=>'clients')); ?></li>
+            <?php endif; ?>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -71,27 +65,16 @@
  
 
     <div class="container">
-
-<div class="row">
-  <div class="col-md-12">
-   <?php echo $content_for_layout; ?>
-
-</div>
-</div>
-</div>
-
-     
-      
-  
-
-
-
+      <div class="row">
+        <div class="col-md-12">
+          <?php echo $content_for_layout; ?>
+        </div>
+      </div>
+    </div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-  
-      
-
-<?php echo $this->Html->script('bootstrap.min.js');?>
-</body></html>
+    <?php echo $this->Html->script('bootstrap.min.js');?>
+  </body>
+</html>
