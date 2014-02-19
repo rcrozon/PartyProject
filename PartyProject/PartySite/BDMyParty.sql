@@ -57,7 +57,8 @@ CREATE TABLE IF NOT EXISTS assoc_tarifs (
   FOREIGN KEY (id_tarif)
 	REFERENCES tarifs(id),
 	FOREIGN KEY (id_concert)
-		REFERENCES concerts (id)
+		REFERENCES concerts (id) ON DELETE CASCADE
+		
 ); 
 
 
@@ -69,7 +70,7 @@ CREATE TABLE IF NOT EXISTS assoc_style (
   FOREIGN KEY (id_style)
 	REFERENCES styles(id),
 	FOREIGN KEY (id_concert)
-		REFERENCES concerts (id)
+		REFERENCES concerts (id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS assoc_artist (
@@ -80,7 +81,7 @@ CREATE TABLE IF NOT EXISTS assoc_artist (
   FOREIGN KEY (id_artist)
 	REFERENCES artists(id),
 	FOREIGN KEY (id_concert)
-		REFERENCES concerts (id)
+		REFERENCES concerts (id) ON DELETE CASCADE
 )
 
 
