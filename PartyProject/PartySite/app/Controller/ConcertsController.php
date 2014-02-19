@@ -1,7 +1,7 @@
 <?php
 class ConcertsController extends AppController{
 
-	   function addConcert() {
+		function admin_addConcert() {
         //$this->layout = 'login';
         if($this->request->is('post')) {
             $d = $this->request->data; 
@@ -38,6 +38,10 @@ class ConcertsController extends AppController{
     }
 
     function admin_index() {
+        
+    }
+
+    function admin_table_concert() {
         $this->paginate = array('Concert' => array(
             'limit' => 15
         ));
@@ -49,19 +53,19 @@ class ConcertsController extends AppController{
         $this->Session->setFlash('The party has been successfully deleted', 'notif',array('type'=>'alert-danger'));
         $this->Concert->delete($id);
         $this->redirect($this->referer());
+    }
+
+    function admin_edit($id) {
+
     } 
 
 
     function showLastConcerts (){
           $d = $this->Concert->find('all', array('order' => array('Concert.id DESC')));
-
           $this->set('showLastConcerts',$d);
-
-
     }
 
-     function showConcert (){   
-       
+    function showConcert (){
         $id = $this->params['named']['id'];   
         $d = $this->Concert->find('first',array(
             'conditions' => array('Concert.id' => $id)
@@ -72,17 +76,11 @@ class ConcertsController extends AppController{
         $v = $this->AssocTarif->find('all',array('conditions' => array('AssocTarif.id_concert' => $id)));
        
        for ($i = 0; $i <= sizeof($v)-1; $i++) {
-                //$idC = $showAssocTarif[$i]['AssocTarif']['id_concert'];
-                $idT = $v[$i]['AssocTarif']['id_tarif'];
-$result[$i] = $this->Tarif->find('all',array('conditions' => array('Tarif.id' => $idT)));
-
-            }
-
-
-
-           
-          $this->set('showConcert',$d);
-          $this->set('showTarif',$result);
+			//$idC = $showAssocTarif[$i]['AssocTarif']['id_concert'];
+			$idT = $v[$i]['AssocTarif']['id_tarif'];
+			$result[$i] = $this->Tarif->find('all',array('conditions' => array('Tarif.id' => $idT)));
+        }
+        $this->set('showConcert',$d);
+        $this->set('showTarif',$result);
     }
-
 }

@@ -45,22 +45,59 @@
             <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                  </button>
-                  <a class="navbar-brand" href="index">SB Admin</a>
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!--<a class="navbar-brand" href="index">SB Admin</a>-->
+                    <?php echo $this->Html->link('SB Admin',
+                        array('action'=>'index','controller'=>'concerts'), 
+                        array('class' => 'navbar-brand')); 
+                    ?>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                   <ul class="nav navbar-nav side-nav">
-                    <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li class="active">
+                        <!--<a href="#">
+                            <i class="fa fa-dashboard"></i> Dashboard
+                        </a>-->
+                        <?php echo $this->Html->link('<i class="fa fa-dashboard"></i> Dashboard',
+                            array('action'=>'index','controller'=>'concerts'), array('escape' => false)); ?>
+                        <!--<i class="fa fa-dashboard"></i> Dashboard</a>-->
+                    </li>
                     <li><a href="#"><i class="fa fa-bar-chart-o"></i> Charts</a></li>
-                    <li><a href="#"><i class="fa fa-table"></i> Tables</a></li>
-                    <li><a href="#"><i class="fa fa-edit"></i> Forms</a></li>
+                    <!--<li><a href="#"><i class="fa fa-table"></i> Tables</a></li>-->
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-table"></i> Tables <b class="caret"></b>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li>
+                            <?php echo $this->Html->link("Concert Table",array('action'=>'table_concert','controller'=>'concerts'));?>
+                        </li>
+                        <li><a href="#">Tarif Table</a></li>
+                        <li><a href="#">Reservation Table</a></li>
+                      </ul>
+                    </li>
+                    <!--<li><a href="#"><i class="fa fa-edit"></i> Forms</a></li>-->
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-edit"></i> Forms <b class="caret"></b>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li>
+                            <?php 
+                                echo $this->Html->link("Add concert and tariff",array('action'=>'addConcert','controller'=>'concerts'));
+                            ?>
+                        </li>
+                        <li><a href="#">Other Add</a></li>
+                        <li><a href="#">Last Add</a></li>
+                      </ul>
+                    </li>
                     <li><a href="#"><i class="fa fa-font"></i> Typography</a></li>
                     <li><a href="#"><i class="fa fa-desktop"></i> Bootstrap Elements</a></li>
                     <li><a href="#"><i class="fa fa-wrench"></i> Bootstrap Grid</a></li>
@@ -155,5 +192,5 @@
     <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
     <script src="js/morris/chart-data-morris.js"></script>
     <script src="js/tablesorter/jquery.tablesorter.js"></script>
-    <script src="js/tablesorter/tables.js"></script>->
+    <script src="js/tablesorter/tables.js"></script>-->
 </html>
