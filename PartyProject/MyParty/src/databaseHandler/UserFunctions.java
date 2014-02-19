@@ -8,6 +8,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.util.Log;
 
 public class UserFunctions {
 
@@ -17,15 +18,29 @@ public class UserFunctions {
 	// use http://10.0.2.2/ to connect to your localhost ie http://localhost/
 	private static String loginURL = "http://ah_login_api/";
 	private static String registerURL = "http://10.0.2.2/ah_login_api/";
+	private static String concertURL = "http://jeremy.etcheverry.emi.u-bordeaux.fr/PartySite/concerts.json";
 
 	private static String login_tag = "login";
 	private static String register_tag = "register";
+	private static String concerts_tag = "concert";
 
 	// constructor
 	public UserFunctions() {
 		jsonParser = new JSONParser();
 	}
 
+	public JSONObject getConcerts() {
+		// Building Parameters
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		//params.add(new BasicNameValuePair("tag", concerts_tag));
+		JSONObject json = jsonParser.getJSONFromUrl(concertURL, params);
+		// return json
+		// Log.e("JSON", json.toString());
+		Log.i("JSON", json.toString());
+		return json;
+	}
+	
+	
 	/**
 	 * function make Login Request
 	 * 

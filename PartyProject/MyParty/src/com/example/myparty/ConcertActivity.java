@@ -1,19 +1,43 @@
 package com.example.myparty;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import lists.ConcertList;
 import lists.ListLayout;
 import lists.ReservationsList;
 import android.R.bool;
 import databaseHandler.DatabaseHandler;
+import databaseHandler.UserFunctions;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Paint.Join;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 public class ConcertActivity extends Activity implements OnClickListener, OnMenuItemClickListener{
@@ -58,6 +82,49 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		buttonAllConcerts.setOnClickListener(this);
 		buttonNews.setOnClickListener(this);
 		buttonNextConcerts.setOnClickListener(this);
+		
+/****************** BDD EXTERNE ***********************************/
+	
+	//public static final String strURL = "http://jeremy.etcheverry.emi.u-bordeaux.fr/PartySite/concerts.json?cursor=-1&screen_name=twitterapi";
+	new Thread(new Runnable() {
+	
+	@Override
+	public void run() {
+		StringBuilder response = new StringBuilder();
+		 URI uri2=null;
+		try {
+			uri2 = new URI("http://jeremy.etcheverry.emi.u-bordeaux.fr/PartySite/concerts/1.json");
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	            try {
+	                HttpGet get = new HttpGet();
+	                get.setURI(uri2);
+	                DefaultHttpClient httpClient = new DefaultHttpClient();
+	                HttpResponse httpResponse = httpClient.execute(get);
+	         
+	 
+	                    HttpEntity messageEntity = httpResponse.getEntity();
+	                    InputStream is = messageEntity.getContent();
+	                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
+	                    String line;
+	                    while ((line = br.readLine()) != null) {
+	                        response.append(line);
+	                    
+	                }
+	            } catch (Exception e) {
+	               //Log.e("[GET REQUEST]", e.getMessage());
+	            	Log.i("twit", "excep");
+	            }
+	           Log.d("[GET REQUEST]", "Done with HTTP getting");
+			
+	            Log.i("TWIT", "on recoit : "+ response.toString());
+		
+	}
+	
+}).start();
+	 
 		
 /****************** OUVERTURE BDD ***********************************/
 		
