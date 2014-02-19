@@ -4,6 +4,7 @@ import lists.ConcertList;
 import lists.ListLayout;
 import lists.ReservationsList;
 import android.R.bool;
+import databaseHandler.DatabaseHandler;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	private int index = 0;
 	private int nextIndex = 0;
 	private boolean client = true;
+	private DatabaseHandler dataBase;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,8 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		buttonAllConcerts.setOnClickListener(this);
 		buttonNews.setOnClickListener(this);
 		buttonNextConcerts.setOnClickListener(this);
+		dataBase = new DatabaseHandler(this);
+		dataBase.open();
 	} 
 	
 	@Override

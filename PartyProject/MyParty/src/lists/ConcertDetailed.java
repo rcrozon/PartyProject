@@ -28,18 +28,18 @@ public class ConcertDetailed extends RelativeLayout {
 		layoutConcertData.setLayoutParams(layoutConcert);
 		TextView textTitle = new TextView(context);
 		TextView textLocation = new TextView(context);
-		TextView textPrice = new TextView(context);
+		//TextView textPrice = new TextView(context);
 		TextView textNbSeets = new TextView(context);
 		TextView textDate = new TextView(context);
 		
 		textTitle.setTextColor(getResources().getColor(R.color.white));
 		textLocation.setTextColor(getResources().getColor(R.color.white));
-		textPrice.setTextColor(getResources().getColor(R.color.white));
+		//textPrice.setTextColor(getResources().getColor(R.color.white));
 		textNbSeets.setTextColor(getResources().getColor(R.color.white));
 		textDate.setTextColor(getResources().getColor(R.color.white));
   
 	    textLocation.setText("Location : " + concert.getLocation());
-	    textPrice.setText("Price : " + concert.getPrice());
+	    //textPrice.setText("Price : " + concert.getPrice());
 	    textNbSeets.setText("Number of seets : " + concert.getNbSeets());
 	    textDate.setText("Beginning : " + concert.getBeginDate().toString());
 	    textTitle.setText(concert.getTitle());
@@ -48,7 +48,7 @@ public class ConcertDetailed extends RelativeLayout {
 		layoutConcertData.addView(textDate);
 		layoutConcertData.addView(textLocation);
 		layoutConcertData.addView(textNbSeets);
-		layoutConcertData.addView(textPrice);
+		//layoutConcertData.addView(textPrice);
 		
 		this.addView(imgView);
 		this.addView(layoutConcertData); 

@@ -14,7 +14,14 @@
      <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap.min.css');?>">
   
     <link rel="stylesheet" href="<?php echo $this->Html->url('/css/headerCss.css');?>">
+        <link rel="stylesheet" href="<?php echo $this->Html->url('/css/mosaic.css');?>">
 
+    <?php echo $this->Html->script('jquery-1.11.0.min.js');?>
+
+     <?php echo $this->Html->script('mosaic.1.0.1.js');?>
+
+    
+    
     <!-- Custom styles for this template -->
 
 
@@ -85,7 +92,6 @@
     <!-- Placed at the end of the document so the pages load faster -->
   
       
-<?php echo $this->Html->script('jquery-1.11.0.min.js');?>
 
 <?php echo $this->Html->script('bootstrap.min.js');?>
 </body></html>

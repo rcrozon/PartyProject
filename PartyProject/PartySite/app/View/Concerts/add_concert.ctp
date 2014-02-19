@@ -4,7 +4,6 @@
 	<?php echo $this->Form->input('nb_seats',array('label'=>"Numbrer of seats : ")); ?>
 	<?php echo $this->Form->input('image_file', array('type' => 'file', 'label'=>"Background image : ")); ?>
 	<?php echo $this->Form->input('start_datetime', array('type' => 'datetime', 'label'=>"Start date and hour : ")); ?>
-
   <?php echo $this->Form->input('end_datetime', array('type' => 'datetime', 'label'=>"End date and hour : ")); ?>
 <?php echo $this->Form->end("Create my party"); ?>
 
