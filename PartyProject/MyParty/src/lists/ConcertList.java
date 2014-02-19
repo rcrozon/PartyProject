@@ -5,6 +5,7 @@ import java.util.Date;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -25,7 +26,6 @@ public class ConcertList extends List {
 	public ConcertList(final Context context, ArrayList<Entity> list) {
 		super(context);
 		items = new ArrayList<Items>();
-
 //		dataBase = new DatabaseHandler(context);
 //		dataBase.open(); 
 
@@ -81,19 +81,19 @@ public class ConcertList extends List {
 					long id) {
 				// Toast.makeText(getBaseContext(), item,
 				// Toast.LENGTH_LONG).show();
-
 				ConcertItem selectedItem = (ConcertItem) view;
 				Concert concert = selectedItem.getConcert();
 
 				Intent intent = new Intent(context,
 						ConcertDetailsActivity.class);
+				
 				intent.putExtra("id", concert.getId());
-				intent.putExtra("imgPath", concert.getImagePath());
-				intent.putExtra("title", concert.getTitle());
+				//intent.putExtra("imgPath", concert.getImagePath());
+				//intent.putExtra("title", concert.getTitle());
 				// intent.putExtra("beginDate", concert.getBeginDate());
 				// intent.putExtra("endDate", concert.getEndDate());
-				intent.putExtra("location", concert.getLocation());
-				intent.putExtra("nbSeets", concert.getNbSeets());
+				//intent.putExtra("location", concert.getLocation());
+				//intent.putExtra("nbSeets", concert.getNbSeets());
 				// intent.putExtra("full", concert.getFull());
 
 				context.startActivity(intent);

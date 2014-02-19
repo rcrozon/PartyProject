@@ -17,7 +17,7 @@ import android.util.Log;
 
 public class DatabaseHandler {
 	
-	private static final int VERSION_BDD = 20;
+	private static final int VERSION_BDD = 21;
 	private static final String BDD_NAME = "myparty.db";
 	
 	private static final String RES_TABLE = "reservation";
@@ -42,14 +42,14 @@ public class DatabaseHandler {
 		bdd = SQLiteBase.getWritableDatabase();
 		
 		/*TEST NEW BDD*/
-		/*for (int i=1; i< 11; i++){
+		for (int i=1; i< 11; i++){
 			Concert c = new Concert(i, "chemin", "Name"+i, i+"/"+i, i+"/"+i, "A"+i, i*10, 0);
 			insertConcert(c);
-		}*/
-		List<Concert> tmp = getConcerts();
+		}
+		/*List<Concert> tmp = getConcerts();
 		for (int i = 0; i< tmp.size();i++){
 			Log.i("LISTE", "Concert"+ i+1 +" : " + getConcertWithId(i+1).toString());
-		}
+		}*/
 		//Log.i("DATE", "Concert 1 : " + getConcertWithId(1).toString());
 		/*Client c = new Client(1, "JEAN", "Dujardin", 
 				"jean@labri.fr", "zlatan", "azerty1@", 1, "19/02/2014");

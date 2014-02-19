@@ -11,6 +11,7 @@ import scan.ScanLayout;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
@@ -44,7 +45,7 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 	private TextView textNbSeets;
 	private TextView textPrice;
 	private DatabaseHandler dataBase;
-	private boolean isCLient = true;
+	private boolean isCLient = false;
 	
 	
 	@Override
@@ -61,19 +62,22 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 		buttonStats = (Button)findViewById(R.id.buttonStats);
 		view_flipper = (ViewFlipper)findViewById(R.id.view_flipper);
 		
-//		dataBase = new DatabaseHandler(this);
-//		dataBase.open();
+	dataBase = new DatabaseHandler(this);
+	dataBase.open();
 		
 		//dataBase.deleteAll();
 		//Log.i("Concert", "Concert1 : " + dataBase.getConcertWithId(1).toString());
 		
-		//Récupération des extras
-//		Bundle b = getIntent().getExtras();
-//		//Concert sur lequel on a appuyé
-//		Concert concert = new Concert(b.getInt("id"),b.getString("imgPath"), 
-//				b.getString("title"), "10/12/14", "11/12/14", b.getString("location"), b.getDouble("price"),
-//				b.getInt("nbSeets"), false);
-		Concert concert = new Concert(0,  "", "Michael Jackson", "22/01/2014", "22/01/2014", "Talence", 30.0, 500, false);
+		//Rï¿½cupï¿½ration des extras
+		Bundle b = getIntent().getExtras();
+//		//Concert sur lequel on a appuyï¿½
+		
+		
+		Concert concert = dataBase.getConcertWithId(b.getInt("id"));
+		
+		//Concert concert = new Concert(b.getInt("id"),b.getString("imgPath"),b.getString("title"), "10/12/14", "11/12/14", b.getString("location"),
+				//b.getInt("nbSeets"), 0);
+		//Concert concert = new Concert(0,  "", "Michael Jackson", "22/01/2014", "22/01/2014", "Talence", 30.0, 500, false);
 
 		//Rï¿½cupï¿½ration des extras
 //		Bundle b = getIntent().getExtras();

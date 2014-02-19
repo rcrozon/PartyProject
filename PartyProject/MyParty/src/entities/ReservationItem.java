@@ -47,6 +47,10 @@ public class ReservationItem extends LinearLayout implements Items{
 		this.addView(layoutClientData); 
 	}
 	
+	public Reservation getReservation(){
+		return reservation;
+	}
+	
 	@Override
 	public String toString(){
 		return reservation.getConcertName() + "  " + reservation.getNbSeets();

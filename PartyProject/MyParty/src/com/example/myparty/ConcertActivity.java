@@ -26,7 +26,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	private MenuItem decoItem;
 	private int index = 0;
 	private int nextIndex = 0;
-	private boolean client = true;
+	private boolean client = false;
 	private DatabaseHandler dataBase;
 	
 	@Override
