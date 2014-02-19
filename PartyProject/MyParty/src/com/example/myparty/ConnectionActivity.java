@@ -32,8 +32,8 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		buttonConnexion.setOnClickListener(this);
 		lightHandler();
 		/*TODO A d��commenter pour authentification*/
-		dataBase = new DatabaseHandler(this);
-		dataBase.open();
+//		dataBase = new DatabaseHandler(this);
+//		dataBase.open();
 		}
 
 	@Override

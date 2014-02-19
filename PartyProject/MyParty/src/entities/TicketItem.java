@@ -11,7 +11,7 @@ import com.example.myparty.R;
 
 public class TicketItem extends LinearLayout implements Items{ 
 	
-	public TicketItem(Context context, Reservation reservation){
+	public TicketItem(Context context, Ticket ticket){
 		super(context);
 		this.setBackgroundResource(R.drawable.list_border);
 		this.setOrientation(HORIZONTAL);
@@ -25,18 +25,18 @@ public class TicketItem extends LinearLayout implements Items{
 		ImageView imgView = new ImageView(context);
 		LayoutParams llp = new LayoutParams(400, 300, Gravity.CENTER_HORIZONTAL); 
 		layoutParams.weight = 4;
-		imgView.setBackgroundResource(R.drawable.party3);
+		imgView.setBackgroundResource(R.drawable.party2);
 		imgView.setLayoutParams(llp);
 		this.addView(imgView);
 		
 		TextView concert = new TextView(context);
 		TextView nbSeets = new TextView(context);
 		
-		concert.setText(reservation.getConcertName());
-		nbSeets.setText(reservation.getNbSeets());
+		concert.setText(ticket.getConcertName());
+		nbSeets.setText("" +ticket.getNbSeets());
 		
-		concert.setTextColor(getResources().getColor(R.color.white));
-		nbSeets.setTextColor(getResources().getColor(R.color.white));
+		concert.setTextColor(getResources().getColor(R.color.blue));
+		nbSeets.setTextColor(getResources().getColor(R.color.blue));
 		
 		layoutClientData.addView(concert);
 		layoutClientData.addView(nbSeets);

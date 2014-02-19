@@ -5,6 +5,7 @@ import lists.ConcertDetailed;
 import lists.ListLayout;
 import lists.ReservationsList;
 import lists.StatsList;
+import lists.TicketsList;
 import scan.IntentIntegrator;
 import scan.IntentResult;
 import scan.ScanLayout;
@@ -68,12 +69,11 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 		//Log.i("Concert", "Concert1 : " + dataBase.getConcertWithId(1).toString());
 		
 		//Récupération des extras
-//		Bundle b = getIntent().getExtras();
-//		//Concert sur lequel on a appuyé
+		//Bundle b = getIntent().getExtras();
+		//Concert sur lequel on a appuyé
 //		Concert concert = new Concert(b.getInt("id"),b.getString("imgPath"), 
-//				b.getString("title"), "10/12/14", "11/12/14", b.getString("location"), b.getDouble("price"),
-//				b.getInt("nbSeets"), false);
-		Concert concert = new Concert(0,  "", "Michael Jackson", "22/01/2014", "22/01/2014", "Talence", 30.0, 500, false);
+//				b.getString("title"), "10/12/14", "11/12/14", b.getString("location"), b.getInt("nbSeets"), 0);
+		Concert concert = new Concert(0,  "", "Michael Jackson", "22/01/2014", "22/01/2014", "Talence", 500, 0);
 
 		//Rï¿½cupï¿½ration des extras
 //		Bundle b = getIntent().getExtras();
@@ -99,26 +99,25 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 			}
 		});
 
-//		ClientListLayout clientList = new ClientListLayout(this); 
 		this.view_flipper.addView(new ConcertDetailed(this, concert));
+		this.view_flipper.addView(new ListLayout(this, new TicketsList(this, null)));
+		this.view_flipper.addView(new ListLayout(this, new ReservationsList(this, null)));
+		this.view_flipper.addView(new ListLayout(this, new ClientList(this, null)));
+		this.view_flipper.addView(scrollScan);
+		this.view_flipper.addView(new StatsList(this));
+
 		if(isCLient){
 			this.buttonTickets.setVisibility(View.VISIBLE);
 			this.buttonMap.setVisibility(View.VISIBLE);
-			this.buttonClients.setVisibility(View.INVISIBLE);
-			this.buttonScan.setVisibility(View.INVISIBLE);
-			this.buttonStats.setVisibility(View.INVISIBLE);
-			this.view_flipper.addView(new ListLayout(this, new ReservationsList(this, null)));
-			this.view_flipper.addView(new ListLayout(this, new ReservationsList(this, null)));
-//			this.view_flipper.addView(new Map(concert));
+			this.buttonClients.setVisibility(View.GONE);
+			this.buttonScan.setVisibility(View.GONE);
+			this.buttonStats.setVisibility(View.GONE);
 		}else{
 			this.buttonClients.setVisibility(View.VISIBLE);
 			this.buttonScan.setVisibility(View.VISIBLE);
 			this.buttonStats.setVisibility(View.VISIBLE);
-			this.buttonTickets.setVisibility(View.INVISIBLE);
-			this.buttonMap.setVisibility(View.VISIBLE);
-			this.view_flipper.addView(new ListLayout(this, new ClientList(this, null)));
-			this.view_flipper.addView(scrollScan);
-			this.view_flipper.addView(new StatsList(this));
+			this.buttonTickets.setVisibility(View.GONE);
+			this.buttonMap.setVisibility(View.GONE);
 		}
 		this.buttonTickets.setOnClickListener(this);
 		this.buttonMap.setOnClickListener(this);
@@ -153,18 +152,18 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 			buttonDetails.setBackgroundResource(R.drawable.button_selected);
 		}else if(b == buttonTickets){
 			nextIndex = 1;
-			buttonMap.setBackgroundResource(R.drawable.button_selected);
+			buttonTickets.setBackgroundResource(R.drawable.button_selected);
 		}else if (b == buttonMap){
 			nextIndex = 2;
 			buttonMap.setBackgroundResource(R.drawable.button_selected);
 		}else if (b == buttonClients){
-			nextIndex = 1;
+			nextIndex = 3;
 			buttonClients.setBackgroundResource(R.drawable.button_selected);
 		}else if (b == buttonScan){
-			nextIndex = 2;
+			nextIndex = 4;
 			buttonScan.setBackgroundResource(R.drawable.button_selected);
 		}else{
-			nextIndex = 3; 
+			nextIndex = 5; 
 			buttonStats.setBackgroundResource(R.drawable.button_selected);
 		}
 		if (nextIndex != index){
