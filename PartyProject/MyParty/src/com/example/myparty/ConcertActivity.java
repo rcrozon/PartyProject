@@ -57,8 +57,12 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		buttonAllConcerts.setOnClickListener(this);
 		buttonNews.setOnClickListener(this);
 		buttonNextConcerts.setOnClickListener(this);
-//		dataBase = new DatabaseHandler(this);
-//		dataBase.open();
+		
+/****************** OUVERTURE BDD ***********************************/
+		
+		dataBase = new DatabaseHandler(this);
+		dataBase.open();
+	
 	} 
 	
 	@Override
