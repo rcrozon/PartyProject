@@ -5,6 +5,7 @@
         <title>
             <?php echo $title_for_layout; ?>
         </title>
+        <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap.min.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/sb-admin.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/font-awesome/css/font-awesome.min.css');?>">
@@ -13,33 +14,6 @@
         <?php echo $scripts_for_layout; ?>
     </head>
     <body>  
-        <!--<div class="topbar">
-            <a href="/" class="logo">
-                <?php echo $this->Html->image('logo.png'); ?>
-            </a>
-            <ul class="account">
-                <?php if(AuthComponent::user('id')): ?>
-                    <li><?php echo $this->Html->link("Se déconnecter",'/clients/logout'); ?></li>
-                    <li><?php echo $this->Html->link("Mon compte",array('action'=>'edit','controller'=>'clients')); ?></li>
-                    <li><?php echo $this->Html->link("Administration",array('action'=>'edit','controller'=>'clients')); ?></li>
-                <?php else: ?>   
-                    <li><?php echo $this->Html->link("Se connecter",array('action'=>'login','controller'=>'clients')); ?></li>   
-                    <li><?php echo $this->Html->link("S'inscrire",array('action'=>'signup','controller'=>'clients')); ?></li>
-                <?php endif; ?>
-            </ul>
-            <div class="topbar-inner">
-                <div class="container">
-                    <h3><a href="#">Title</a></h3>
-                    <ul class="nav">
-                        <li><a href="#" title=""></a></li>
-                    </ul>
-                </div>            
-            </div>      
-        </div>
-
-        <div class="container">
-            <?php echo $content_for_layout; ?>
-        </div>-->
         <div id="wrapper">
             <!-- Sidebar -->
             <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -51,11 +25,11 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <!--<a class="navbar-brand" href="index">SB Admin</a>-->
-                    <?php echo $this->Html->link('SB Admin',
-                        array('action'=>'index','controller'=>'concerts'), 
-                        array('class' => 'navbar-brand')); 
-                    ?>
+                    <?php echo $this->Html->link(
+                        $this->Html->image("logo.png", array("alt" => "Home")),
+                        "/",
+                        array('escape' => false)
+                    ); ?>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -163,7 +137,7 @@
                         <li><a href="#">View All</a></li>
                       </ul>
                     </li>
-                    <li class="dropdown user-dropdown">
+                    <!--<li class="dropdown user-dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
                       <ul class="dropdown-menu">
                         <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
@@ -172,7 +146,28 @@
                         <li class="divider"></li>
                         <li><a href="#"><i class="fa fa-power-off"></i> Log Out</a></li>
                       </ul>
+                    </li>-->
+
+                    <li class="dropdown user-dropdown">
+                        <?php if(AuthComponent::user('id')): ?>
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
+                            <?php echo ucfirst(AuthComponent::user('username')); ?> <b class="caret"></b></a>
+                        <?php endif; ?>
+                        <ul class="dropdown-menu">
+                          <?php if(AuthComponent::user('id')): ?>
+                            <li><?php echo $this->Html->link('<i class="fa fa-user"></i> Profile',
+                              array('action'=>'edit','controller'=>'../clients'), array('escape' => false)); ?></li>
+                            <li><?php echo $this->Html->link('<i class="fa fa-gear"></i> Site',
+                              "/", array('escape' => false)); ?></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge">7</span></a></li>
+                            <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li>
+                            <li class="divider"></li>
+                            <li><?php echo $this->Html->link('<i class="fa fa-power-off"></i> Log Out',
+                              array('action'=>'logout','controller'=>'clients'), array('escape' => false)); ?></li>
+                        </ul>
+                        <?php endif; ?>
                     </li>
+
                   </ul>
                 </div>
             </nav>

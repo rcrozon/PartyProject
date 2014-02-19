@@ -17,10 +17,16 @@
 				'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false));?>
   			<?php echo $this->Form->input('end_datetime', array('type' => 'datetime', 'label'=>"End date and hour : ", 
   				'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false));?>
-  			<?php echo $this->Form->input('full', array('type' => 'checkbox', 'label'=>"Is Full ? ", 
-  				'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false));?>
-  			<?php echo $this->Form->input('online', array('type' => 'checkbox', 'label'=>"Is Online ? ", 
-  				'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false));?>
+  			<tr>
+  				<td><label>Is Full ?</label></td>
+	  			<?php echo $this->Form->input('full', array( 
+	  				'before' => '<td>', 'after' => '</td>', 'div' => false));?>
+  			</tr>
+  			<tr>
+  				<td><label>Is Online ?</label></td>
+  				<?php echo $this->Form->input('online', array( 
+  				'before' => '<td>', 'after' => '</td>', 'div' => false));?>
+  			</tr>
   			<?php echo $this->Form->input('id');?>
 		<tr><td><?php echo $this->Form->end("Update my party");?></td></tr>
 	</table>
