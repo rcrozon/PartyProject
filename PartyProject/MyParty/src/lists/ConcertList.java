@@ -24,26 +24,26 @@ public class ConcertList extends List {
 		super(context);
 		items = new ArrayList<Items>();
 
-		dataBase = new DatabaseHandler(context);
-		dataBase.open();
+		//dataBase = new DatabaseHandler(context);
+		//dataBase.open();
 		Concert c1 = new Concert(1, "", "Michael Jackson", "11/12/14",
-				"11/12/14", "Lyon", 10.0, 200, false);
+				"11/12/14", "Lyon",  200, 0);
 		Concert c2 = new Concert(2, "", "Edith Piaf", "11/12/14", "11/12/14",
-				"Paris", 25.0, 500, false);
+				"Paris", 500, 0);
 		Concert c3 = new Concert(3, "", "Balavoine", "11/12/14", "11/12/14",
-				"Grenoble", 30.0, 500, false);
+				"Grenoble", 500, 0);
 		Concert c4 = new Concert(4, "", "Goldman", "11/12/14", "11/12/14",
-				"Londres", 40.0, 500, false);
+				"Londres", 500, 0);
 		Concert c5 = new Concert(5, "", "Queen", "11/12/14", "11/12/14",
-				"La Rochelle", 12.0, 500, false);
+				"La Rochelle", 500, 0);
 		Concert c6 = new Concert(6, "", "AC/DC", "11/12/14", "11/12/14",
-				"Poitiers", 25.0, 500, false);
+				"Poitiers", 500, 0);
 		Concert c7 = new Concert(7, "", "Dire Straits", "11/12/14", "11/12/14",
-				"Londres", 40.0, 500, false);
+				"Londres",500, 0);
 		Concert c8 = new Concert(8, "", "Boston", "11/12/14", "11/12/14",
-				"La Rochelle", 12.0, 500, false);
+				"La Rochelle", 500, 0);
 		Concert c9 = new Concert(9, "", "The Beatles", "11/12/14", "11/12/14",
-				"Poitiers", 25.0, 500, false);
+				"Poitiers", 500, 0);
 		/* TODO A decommenter pour utiliser la bdd */
 		/*
 		 * ConcertItem i1 = new
@@ -90,7 +90,6 @@ public class ConcertList extends List {
 				// intent.putExtra("beginDate", concert.getBeginDate());
 				// intent.putExtra("endDate", concert.getEndDate());
 				intent.putExtra("location", concert.getLocation());
-				intent.putExtra("price", concert.getPrice());
 				intent.putExtra("nbSeets", concert.getNbSeets());
 				// intent.putExtra("full", concert.getFull());
 

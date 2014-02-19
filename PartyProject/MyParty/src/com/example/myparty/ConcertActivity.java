@@ -1,5 +1,6 @@
 package com.example.myparty;
 
+import databaseHandler.DatabaseHandler;
 import lists.ConcertListLayout;
 import android.app.Activity;
 import android.content.Intent;
@@ -21,6 +22,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	private MenuItem decoItem;
 	private int index = 0;
 	private int nextIndex = 0;
+	private DatabaseHandler dataBase;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,8 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		buttonAllConcerts.setOnClickListener(this);
 		buttonNews.setOnClickListener(this);
 		buttonNextConcerts.setOnClickListener(this);
+		dataBase = new DatabaseHandler(this);
+		dataBase.open();
 	} 
 	
 	@Override

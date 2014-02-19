@@ -64,12 +64,12 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 		//dataBase.deleteAll();
 		//Log.i("Concert", "Concert1 : " + dataBase.getConcertWithId(1).toString());
 		
-		//Récupération des extras
+		//Rï¿½cupï¿½ration des extras
 		Bundle b = getIntent().getExtras();
 		//Concert sur lequel on a appuyÃ©
 		Concert concert = new Concert(b.getInt("id"),b.getString("imgPath"), 
-				b.getString("title"), "10/12/14", "11/12/14", b.getString("location"), b.getDouble("price"),
-				b.getInt("nbSeets"), false);
+				b.getString("title"), "10/12/14", "11/12/14", b.getString("location"),
+				b.getInt("nbSeets"), 0);
 		
 		//RÃ©cupÃ©ration de la liste des clients pour ce concert
 		/*TODO A decommenter pour BDD interne*/

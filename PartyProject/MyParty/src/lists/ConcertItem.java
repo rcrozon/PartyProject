@@ -33,7 +33,7 @@ public class ConcertItem extends LinearLayout implements Items{
 		imgView.setLayoutParams(llp);
 		this.addView(imgView);
 		TextView title = new TextView(context);
-		TextView price = new TextView(context);
+		//TextView price = new TextView(context);
 		TextView location = new TextView(context);
 		TextView begin = new TextView(context);
 		TextView end = new TextView(context);
@@ -41,19 +41,18 @@ public class ConcertItem extends LinearLayout implements Items{
 		title.setText(concert.getTitle());
 		begin.setText(""+concert.getBeginDate());
 		end.setText(""+concert.getEndDate());
-		price.setText("Price : " + concert.getPrice());
 		location.setText("Location : " + concert.getLocation());
 		
 		title.setTextColor(getResources().getColor(R.color.white));
 		location.setTextColor(getResources().getColor(R.color.white));
-		price.setTextColor(getResources().getColor(R.color.white));
+		//price.setTextColor(getResources().getColor(R.color.white));
 		end.setTextColor(getResources().getColor(R.color.white));
 		begin.setTextColor(getResources().getColor(R.color.white));
 		
 		layoutConcertData.addView(title);
 		layoutConcertData.addView(begin);
 		layoutConcertData.addView(end);
-		layoutConcertData.addView(price);
+		//layoutConcertData.addView(price);
 		layoutConcertData.addView(location);
 		
 		//this.addView(imgView);

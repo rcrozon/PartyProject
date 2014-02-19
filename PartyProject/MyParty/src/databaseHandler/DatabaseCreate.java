@@ -11,10 +11,10 @@ import android.util.Log;
 public class DatabaseCreate extends SQLiteOpenHelper {
 	private SQLiteDatabase bdd;
 	
-	private static final String CLIENT_TABLE = "table_livres";
+	/*private static final String CLIENT_TABLE = "table_livres";
 	private static final String COL_ID = "id";
 	private static final String COL_FIRSTNAME = "firstname";
-	private static final String COL_LASTNAME = "lastname";
+	private static final String COL_LASTNAME = "lastname";*/
 	
 	/*private static final String CONCERT_TABLE = "concert";
 	private static final String COL_ID_CONCERT = "id";
@@ -25,9 +25,15 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 	private static final String COL_ID_CLIENT_RES = "id_client";
 	private static final String COL_ID_CONCERT_RES = "id_concert";
  
-	private static final String CREATE_BDD = "CREATE TABLE IF NOT EXISTS " + CLIENT_TABLE + " ("
-	+ COL_ID + " INTEGER PRIMARY KEY, " + COL_FIRSTNAME + " TEXT NOT NULL, "
-	+ COL_LASTNAME + " TEXT NOT NULL);";
+	private static final String CREATE_BDD = "CREATE TABLE IF NOT EXISTS " + Tables.CLIENT_TABLE 
+			+ " ("+ Tables.CLIENT_NAME_ID + " INTEGER PRIMARY KEY, " 
+			+ Tables.CLIENT_NAME_USERNAME + " TEXT NOT NULL, "
+			+ Tables.CLIENT_NAME_MAIL + " TEXT NOT NULL, "
+			+ Tables.CLIENT_NAME_PASSWORD + " TEXT NOT NULL, "
+			+ Tables.CLIENT_NAME_FIRSTNAME + " TEXT NOT NULL, "
+			+ Tables.CLIENT_NAME_LASTNAME + " TEXT NOT NULL, "
+			+ Tables.CLIENT_NAME_ADMIN + " TEXT NOT NULL, "
+			+ Tables.CLIENT_NAME_DATE_CREATE + " TEXT NOT NULL);";
 	
 	private static final String CREATE_BDD_CONCERT ="CREATE TABLE IF NOT EXISTS " + Tables.CONCERT_TABLE 
 			+ " (" + Tables.CONCERT_NAME_ID + " INTEGER PRIMARY KEY, "
@@ -61,7 +67,7 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		//On peut fait ce qu'on veut ici moi j'ai d�cid� de supprimer la table et de la recr�er
 		//comme �a lorsque je change la version les id repartent de 0
-		db.execSQL("DROP TABLE " + CLIENT_TABLE + ";");
+		db.execSQL("DROP TABLE " + Tables.CLIENT_TABLE + ";");
 		db.execSQL("DROP TABLE " + Tables.CONCERT_TABLE + ";");
 		db.execSQL("DROP TABLE " + RES_TABLE + ";");
 		onCreate(db);
