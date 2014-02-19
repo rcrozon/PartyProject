@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import concert.Client;
-import concert.Concert;
+import entities.Client;
+import entities.Concert;
 import android.app.ActionBar.Tab;
 import android.app.TabActivity;
 import android.content.ContentValues;

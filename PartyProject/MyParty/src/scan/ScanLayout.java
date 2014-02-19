@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -13,46 +14,60 @@ import com.example.myparty.R;
 
 public class ScanLayout extends RelativeLayout implements OnClickListener{
 
-	private Button scan;
 	private Activity activity ;
 	private TextView text; 
 	private ImageView imgView; 
 	private Button buttonTariff;
+	private LinearLayout linearLayout ;
 	
 	public ScanLayout(Context context, Activity activity) {
 		super(context);
 		this.activity = activity; 
-		this.imgView = new ImageView(context);
+		this.linearLayout = new LinearLayout(context);
+		this.linearLayout.setId(500);
+		this.linearLayout.setOrientation(LinearLayout.VERTICAL);
 		LayoutParams llpLayout = new LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 
-				RelativeLayout.LayoutParams.MATCH_PARENT);  
-		this.setLayoutParams(llpLayout); 
+				RelativeLayout.LayoutParams.MATCH_PARENT);
+		this.linearLayout.setLayoutParams(llpLayout);
+		this.setLayoutParams(llpLayout);  
+	
+		this.imgView = new ImageView(context);
+		this.imgView.setId(1000);
+		this.imgView.setBackgroundResource(R.drawable.qrcode_blue);
+		this.imgView.setOnClickListener(this);
 		LayoutParams llpImg = new LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
 				RelativeLayout.LayoutParams.WRAP_CONTENT);
+		llpImg.addRule(RelativeLayout.ABOVE, 1001);
 		llpImg.addRule(this.CENTER_HORIZONTAL);
 		llpImg.addRule(this.ALIGN_PARENT_TOP); 
 		llpImg.setMargins(0, 50, 0, 0);  
-		LayoutParams llpTextView = new LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-				RelativeLayout.LayoutParams.WRAP_CONTENT);
-		llpTextView.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-		LayoutParams llpButtonTariff = new LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-				RelativeLayout.LayoutParams.WRAP_CONTENT);
-		llpButtonTariff.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		
-		llpTextView.addRule(this.CENTER_HORIZONTAL);
-		llpTextView.addRule(this.ALIGN_PARENT_BOTTOM);
-		llpTextView.setMargins(0, 500, 0, 0); 
-		llpButtonTariff.setMargins(20, 0, 20, 0); 
-		this.imgView.setBackgroundResource(R.drawable.qrcode_blue);
-		this.imgView.setOnClickListener(this);
-		this.addView(this.imgView, llpImg);
 		this.text = new TextView(context);
-		this.buttonTariff = new Button(context);
-		this.buttonTariff.setBackgroundResource(R.color.blue);
+		this.text.setId(1001);
 		this.text.setText("Bonjour!");
 		this.text.setTextColor(getResources().getColor(R.color.white));
-		this.addView(this.text, llpTextView);
-//		this.addView(this.buttonTariff, llpButtonTariff); 
-//		this.setBackgroundResource(R.drawable.list_border);
+		LayoutParams llpTextView = new LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+				RelativeLayout.LayoutParams.MATCH_PARENT);
+		llpTextView.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+		llpTextView.addRule(RelativeLayout.CENTER_HORIZONTAL);
+		llpTextView.setMargins(0, 500, 0, 0); 
+		
+		this.buttonTariff = new Button(context);
+		this.buttonTariff.setBackgroundResource(R.color.blue);
+		this.buttonTariff.setText("Student Tariff");
+		LayoutParams llpButtonTariff = new LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+				RelativeLayout.LayoutParams.WRAP_CONTENT);  
+		llpLayout.addRule(RelativeLayout.BELOW, 500);
+//		llpTextView.addRule(RelativeLayout.BELOW, 1001);
+//		llpButtonTariff.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		llpButtonTariff.setMargins(20, 0, 20, 0); 
+		
+		this.linearLayout.addView(this.imgView, llpImg);
+		this.linearLayout.addView(this.text, llpTextView);
+		this.addView(linearLayout);
+		this.addView(this.buttonTariff, llpButtonTariff);
+		
+		this.setBackgroundResource(R.drawable.list_border);
 	}
 
 	public void onClick (View view){

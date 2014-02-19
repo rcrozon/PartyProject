@@ -2,6 +2,9 @@ package lists;
 
 import java.util.ArrayList;
 
+import entities.ClientItem;
+import entities.ConcertItem;
+import entities.ReservationItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -38,6 +41,8 @@ public class Adapter extends BaseAdapter implements Cloneable {
 			return (ConcertItem)listItems.get(position);
 		else if (listItems.get(position) instanceof ClientItem)
 			return (ClientItem)listItems.get(position);
+		else if (listItems.get(position) instanceof ReservationItem)
+			return (ReservationItem)listItems.get(position);
 		else
 			return null;
 	}

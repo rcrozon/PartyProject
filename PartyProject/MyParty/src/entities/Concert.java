@@ -1,11 +1,11 @@
-package concert;
+package entities;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.R.bool;
 
-public class Concert {
+public class Concert implements Entity {
 	private int id;
 	private String    	imgPath ;
 	private String    	title ;

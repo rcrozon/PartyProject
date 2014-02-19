@@ -2,22 +2,22 @@ package lists;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import com.example.myparty.R;
 
-import concert.Client;
+import entities.Client;
+import entities.ClientItem;
+import entities.Entity;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
 
-public class ClientList extends lists.List {
+public class ClientList extends List {
 		
     private Adapter adapter;
     	
-	public ClientList(Context context) {
+	public ClientList(Context context, ArrayList<Entity> list) {
 		super(context);
 		items = new ArrayList<Items>();
 		/*TODO A Decommenter pour bdd interne*/

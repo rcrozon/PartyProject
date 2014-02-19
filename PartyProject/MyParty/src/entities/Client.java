@@ -1,8 +1,8 @@
-package concert;
+package entities;
 
 import java.util.Date;
 
-public class Client {
+public class Client implements Entity {
 
 	private int id;
 	private String firstName;

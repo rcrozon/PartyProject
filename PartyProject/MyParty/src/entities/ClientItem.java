@@ -1,5 +1,6 @@
-package lists;
+package entities;
 
+import lists.Items;
 import android.content.Context;
 import android.view.Gravity;
 import android.widget.ImageView;
@@ -7,8 +8,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.myparty.R;
-
-import concert.Client;
 
 public class ClientItem extends LinearLayout implements Items{ 
 	

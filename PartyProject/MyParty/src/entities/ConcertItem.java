@@ -1,5 +1,6 @@
-package lists;
+package entities;
 
+import lists.Items;
 import android.content.Context;
 import android.text.GetChars;
 import android.view.Gravity;
@@ -8,8 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.myparty.R;
-
-import concert.Concert;
 
 public class ConcertItem extends LinearLayout implements Items{
 	

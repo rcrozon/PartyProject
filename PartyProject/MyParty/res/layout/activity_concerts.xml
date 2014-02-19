@@ -11,13 +11,23 @@
             android:layout_height="wrap_content" >
             
             <Button
-		        android:id="@+id/buttonAllConcerts"
+		        android:id="@+id/buttonReservations"
 		        style="@style/AppBaseTheme"
 		        android:layout_weight="1"
 		        android:textColor="@color/white"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:background="@drawable/button_selected"
+		        android:text="@string/reservations" />
+            
+            <Button
+		        android:id="@+id/buttonAllConcerts"
+		        style="@style/AppBaseTheme"
+		        android:layout_weight="1"
+		        android:textColor="@color/white"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:background="@drawable/button_unselected"
 		        android:text="@string/all_concerts" />
             
             <Button

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.example.myparty.R;
 
-import concert.Concert;
+import entities.Concert;
 
 public class ConcertDetailed extends RelativeLayout { 
 	

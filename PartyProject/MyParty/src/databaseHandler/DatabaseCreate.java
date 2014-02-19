@@ -1,6 +1,6 @@
 	package databaseHandler;
 
-import concert.Client;
+import entities.Client;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

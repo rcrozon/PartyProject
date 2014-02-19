@@ -8,15 +8,19 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 public class BluetoothClient extends Thread {
 	
-    private final BluetoothSocket blueSocket = null;
-    private final BluetoothDevice blueDevice = null;
+    private BluetoothSocket blueSocket ;
+    private final BluetoothDevice blueDevice ;
     private final BluetoothAdapter blueAdapter = null;
-    
+
+//	private static final UUID uuid = UUID.fromString("a60f35f0-b93a-11de-8a39-08102009c666");
+	
     public BluetoothClient(BluetoothDevice device, Context context) {
-    
+    	
+    	blueDevice = device;
     	BluetoothAdapter blueAdapter = BluetoothAdapter.getDefaultAdapter();
     	if (blueAdapter == null) {
     	    // Le terminal ne possède pas le Bluetooth
@@ -28,13 +32,15 @@ public class BluetoothClient extends Thread {
 	        //blueDevice = device;
 	
 	        // On récupère un objet BluetoothSocket grâce à l'objet BluetoothDevice
-//	        try {
-//	            // MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est nécessaire côté serveur également !
-//	        	TelephonyManager tManager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
-//	        	String uuid = tManager.getDeviceId();
-//	        	tmp = device.createRfcommSocketToServiceRecord(uuid);
-//	        } catch (IOException e) { }
-//	        blueSocket = tmp;
+	        try {
+	            // MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est nécessaire côté serveur également !
+	        	TelephonyManager tManager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+	        	String uuid = tManager.getDeviceId();
+	        	UUID u = UUID.fromString(uuid);
+	        	Log.i("UUID ", uuid);
+	        	tmp = device.createRfcommSocketToServiceRecord(u);
+	        } catch (IOException e) { }
+	        blueSocket = tmp;
     	}
     }
 

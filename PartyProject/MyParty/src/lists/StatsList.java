@@ -17,7 +17,7 @@ import charts.Charts;
 
 import com.example.myparty.R;
 
-import concert.Client;
+import entities.Client;
 
 public class StatsList extends LinearLayout {
 

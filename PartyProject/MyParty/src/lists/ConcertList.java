@@ -11,8 +11,10 @@ import android.widget.AdapterView;
 import com.example.myparty.ConcertDetailsActivity;
 import com.example.myparty.R;
 
-import concert.Concert;
 import databaseHandler.DatabaseHandler;
+import entities.Concert;
+import entities.ConcertItem;
+import entities.Entity;
 
 public class ConcertList extends List {
 
@@ -20,12 +22,12 @@ public class ConcertList extends List {
 
 	private DatabaseHandler dataBase;
 
-	public ConcertList(final Context context) {
+	public ConcertList(final Context context, ArrayList<Entity> list) {
 		super(context);
 		items = new ArrayList<Items>();
 
-		dataBase = new DatabaseHandler(context);
-		dataBase.open();
+//		dataBase = new DatabaseHandler(context);
+//		dataBase.open(); 
 		Concert c1 = new Concert(1, "", "Michael Jackson", "11/12/14",
 				"11/12/14", "Lyon", 10.0, 200, false);
 		Concert c2 = new Concert(2, "", "Edith Piaf", "11/12/14", "11/12/14",

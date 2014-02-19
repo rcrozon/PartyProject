@@ -21,9 +21,32 @@
 		        android:text="@string/details" />
             
             <Button
+		        android:id="@+id/buttonTickets"
+		        style="@style/AppBaseTheme"
+		        android:layout_weight="1"
+		        android:textColor="@color/white"
+		        android:visibility="invisible"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:background="@drawable/button_unselected"
+		        android:text="@string/tickets" />
+            
+            <Button
+		        android:id="@+id/buttonMap"
+		        style="@style/AppBaseTheme"
+		        android:layout_weight="1"
+		        android:textColor="@color/white"
+		        android:visibility="invisible"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:background="@drawable/button_unselected"
+		        android:text="@string/map" />
+            
+            <Button
 		        android:id="@+id/buttonClient"
 		        style="@style/AppBaseTheme"
 		        android:layout_width="wrap_content"
+		        android:visibility="invisible"
 		        android:layout_weight="1"
 		        android:textColor="@color/white"
 		        android:layout_height="wrap_content"
@@ -34,6 +57,7 @@
 		        android:id="@+id/buttonScan"
 		        style="@style/AppBaseTheme"
 		        android:layout_width="wrap_content"
+		        android:visibility="invisible"
 		        android:layout_weight="1"
 		        android:textColor="@color/white"
 		        android:layout_height="wrap_content"
@@ -44,6 +68,7 @@
 		        android:id="@+id/buttonStats"
 		        style="@style/AppBaseTheme"
 		        android:layout_width="wrap_content"
+		        android:visibility="invisible"
 		        android:layout_weight="1"
 		        android:textColor="@color/white"
 		        android:layout_height="wrap_content"
