@@ -1,5 +1,22 @@
 <?php
 class ConcertsController extends AppController{
+	    public $components = array('RequestHandler');
+
+	public function index() {
+        $posts = $this->Concert->find('all');
+        $this->set(array(
+            'posts' => $posts,
+            '_serialize' => array('posts')
+        ));
+    }
+
+      public function view($id) {
+        $post = $this->Concert->findById($id);
+        $this->set(array(
+            'post' => $post,
+            '_serialize' => array('post')
+        ));
+    }
 
 		function admin_addConcert() {
         //$this->layout = 'login';

@@ -23,7 +23,12 @@
  * Here, we are connecting '/' (base path) to controller called 'Pages',
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/View/Pages/home.ctp)...
+ 
+ 
  */
+ 
+ Router::mapResources('Concerts');
+Router::parseExtensions();
 	
 Router::connect('/', array('controller' => 'Concerts', 'action' => 'showLastConcerts', 'home'));
  Router::connect('/page/:slug-:id',array('controller'=>'Concerts','action'=>'showConcert'),array('pass'=> array('id','slug'), 'id'=>'[0-9]+','slug' =>'[a-z0-9\-]+'));
