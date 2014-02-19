@@ -49,6 +49,7 @@ public class ConcertDetailed extends RelativeLayout {
 		textDate.setTextColor(getResources().getColor(R.color.white));
 		buttonMap.setTextColor(getResources().getColor(R.color.white));
 
+		final Concert fConcert = concert;
 		textLocation.setText("Location : " + concert.getLocation());
 		textNbSeets.setText("Number of seets : " + concert.getNbSeets());
 		textDate.setText("Beginning : " + concert.getBeginDate().toString());
@@ -61,6 +62,7 @@ public class ConcertDetailed extends RelativeLayout {
 			@Override
 			public void onClick(View v) { 
 				Intent intent = new Intent(context, MapActivity.class);
+				intent.putExtra("address", fConcert.getLocation());
 		    	context.startActivity(intent);
 			}
 		});
