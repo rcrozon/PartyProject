@@ -52,11 +52,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+            <div class=logo style="max-height: 40px;
+    max-width: 180px;">
             <?php echo $this->Html->link(
                   $this->Html->image("logo.png", array("alt" => "Home")),
                   "/",
                   array('escape' => false)
               ); ?>
+            </div>
         </div>
 
         <ul class="nav navbar-nav navbar-right navbar-user">
