@@ -7,5 +7,6 @@
     <dimen name="spacement">10px</dimen>
     <dimen name="topSpacement">80px</dimen>
     <dimen name="itemDimension">50px</dimen>
+    <dimen name="textDimension">35px</dimen>
 
 </resources>

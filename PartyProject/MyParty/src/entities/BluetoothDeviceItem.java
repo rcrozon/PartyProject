@@ -18,7 +18,7 @@ public class BluetoothDeviceItem extends LinearLayout implements Items {
 
 	private BluetoothDevice device;
 	private ProgressBar progressBar;
-	private int progress;
+	private int progress = 0;
 	private Handler progressBarHandler = new Handler();
 	private LinearLayout layoutDevicesData;
 
@@ -32,64 +32,50 @@ public class BluetoothDeviceItem extends LinearLayout implements Items {
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT);
-		layoutParams.setMargins(20, 0, 20, 0);
+		LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.WRAP_CONTENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+		layoutParams2.setMargins(0, 0, 0, 0);
+		this.setLayoutParams(layoutParams);
 		layoutDevicesData.setLayoutParams(layoutParams);
-		layoutParams.weight = 1;
-		ImageView imgView = new ImageView(context);
-		LayoutParams llp = new LayoutParams(400, 300, Gravity.CENTER_HORIZONTAL);
+		
+		LinearLayout.LayoutParams layoutParamsText = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.MATCH_PARENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+		layoutParamsText.weight = 1;
 		layoutParams.weight = 4;
+		ImageView imgView = new ImageView(context);
+		LayoutParams llp = new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT, Gravity.RIGHT);
+		llp.weight = 1; 
 		imgView.setBackgroundResource(R.drawable.ic_action_refresh);
 		imgView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO
+				updateDevices();
 			}
 		});
 		imgView.setLayoutParams(llp);
 
-		progressBar = new ProgressBar(context);
+		progressBar = new ProgressBar(context, null,android.R.attr.progressBarStyleHorizontal);
 		progressBar.setProgress(0);
 		progressBar.setMax(100);
+		progressBar.setIndeterminate(true);
+		progressBar.setVisibility(INVISIBLE);
 
 		TextView deviceName = new TextView(context);
 		deviceName.setText(device.getName());
 		deviceName.setTextColor(getResources().getColor(R.color.white));
 
-		this.layoutDevicesData.addView(deviceName);
+		this.layoutDevicesData.addView(deviceName, layoutParamsText);
 		this.layoutDevicesData.addView(imgView);
 		this.addView(this.layoutDevicesData);
-		this.addView(progressBar);
-		updateDevices();
-	}
+		this.addView(progressBar); 
+	} 
 
 	public void updateDevices() {
-		new Thread(new Runnable() {
-			public void run() {
-				while (progress < 100) {
-					// process some tasks
-					progress += 5;
-					// your computer is too fast, sleep 1 second
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					// Update the progress bar
-					progressBar.setProgress(progress);
-				}
-				// ok, file is downloaded,
-				if (progress >= 100) {
-					// sleep 2 seconds, so that you can see the 100%
-					try {
-						Thread.sleep(2000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-
-				}
-			}
-		}).start();
-
+		progressBar.setVisibility(VISIBLE);
 	}
 
 	@Override

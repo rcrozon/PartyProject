@@ -30,6 +30,9 @@
     <string name="stats">Stats</string>
     <string name="menu_refresh">Refresh</string>
     <string name="menu_deconect">Deconnexion</string>
+    <string name="api_key">AIzaSyCoaJos2V3NSJg0-d_QE-8xIuV_2QEiaS4</string>
+    
+    <integer name="google_play_services_version">4242000</integer>
     
     <color name="blue">#1E7FCB</color>
     <color name="trueblue">#0000FF</color>

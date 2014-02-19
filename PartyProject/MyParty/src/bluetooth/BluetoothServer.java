@@ -10,7 +10,6 @@ import android.bluetooth.BluetoothSocket;
 public class BluetoothServer extends Thread {
     
 	private final BluetoothServerSocket blueServerSocket;
-	private final BluetoothAdapter blueAdapter = null;
 	private static final UUID uuid = UUID.fromString("a60f35f0-b93a-11de-8a39-08102009c666");
 	 
     public BluetoothServer() {

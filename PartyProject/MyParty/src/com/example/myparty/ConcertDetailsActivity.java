@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lists.ClientList;
-import lists.ConcertDetailed;
 import lists.ListLayout;
 import lists.ReservationsList;
 import lists.StatsList;
@@ -31,6 +30,7 @@ import android.widget.ViewFlipper;
 import databaseHandler.DatabaseHandler;
 import entities.Client;
 import entities.Concert;
+import entities.ConcertDetailed;
 
 public class ConcertDetailsActivity extends Activity implements OnClickListener,OnMenuItemClickListener{
 
