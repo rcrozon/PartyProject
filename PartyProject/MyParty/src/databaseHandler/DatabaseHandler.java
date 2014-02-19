@@ -17,45 +17,18 @@ import android.util.Log;
 
 public class DatabaseHandler {
 	
-	private static final int VERSION_BDD = 21;
+	private static final int VERSION_BDD = 33;
 	private static final String BDD_NAME = "myparty.db";
-	
-	private static final String RES_TABLE = "reservation";
-	private static final String COL_ID_RES = "id";
-	private static final int NUM_COL_ID_RES = 0;
-	private static final String COL_ID_CLIENT_RES = "id_client";
-	private static final int NUM_COL_ID_CLIENT_RES = 1;
-	private static final String COL_ID_CONCERT_RES = "id_concert";
-	private static final int NUM_COL_ID_CONCERT_RES = 2;
- 
 	private SQLiteDatabase bdd;
-  
 	private DatabaseCreate SQLiteBase ;
-	
 	
 	public DatabaseHandler(Context context){
 		SQLiteBase = new DatabaseCreate(context, BDD_NAME, null, VERSION_BDD);
 	}
  
 	public void open(){
-		//on ouvre la BDD en ���criture
 		bdd = SQLiteBase.getWritableDatabase();
-		
-		/*TEST NEW BDD*/
-		for (int i=1; i< 11; i++){
-			Concert c = new Concert(i, "chemin", "Name"+i, i+"/"+i, i+"/"+i, "A"+i, i*10, 0);
-			insertConcert(c);
-		}
-		/*List<Concert> tmp = getConcerts();
-		for (int i = 0; i< tmp.size();i++){
-			Log.i("LISTE", "Concert"+ i+1 +" : " + getConcertWithId(i+1).toString());
-		}*/
-		//Log.i("DATE", "Concert 1 : " + getConcertWithId(1).toString());
-		/*Client c = new Client(1, "JEAN", "Dujardin", 
-				"jean@labri.fr", "zlatan", "azerty1@", 1, "19/02/2014");
-		insertClient(c);*/
-		//Log.i("DATE", "Client 1 : " + getClientWithId(1).toString());
-		
+		initBDD();
 		
 	}
  
@@ -75,6 +48,86 @@ public class DatabaseHandler {
 	    bdd.execSQL("TRUNCATE table " + Tables.CONCERT_TABLE);
 	    bdd.close();
 	}
+	
+/***************** INITIALISATION DE LA BDD ***************************/	
+
+	public void initBDD(){
+		/*On regarde si il existe un concert*/
+		Cursor c = bdd.query(Tables.CONCERT_TABLE,
+				new String[] {Tables.CONCERT_NAME_ID, 
+				Tables.CONCERT_NAME_START_DATE,
+				Tables.CONCERT_NAME_END_DATE,
+				Tables.CONCERT_NAME_LOCATION,
+				Tables.CONCERT_NAME_IMAGE,
+				Tables.CONCERT_NAME_NB_SEAT,
+				Tables.CONCERT_NAME_FULL,
+				Tables.CONCERT_NAME_ID_CREATOR,
+				Tables.CONCERT_NAME_TITLE_CONCERT}, 
+				null, null, null, null, null);
+		if (c.getCount() !=0){
+			return ;
+		}
+		else{
+			Log.i("init", "ON PASSE");
+			Concert c1 = new Concert(1, "", "Michael Jackson", "11/12/14",
+			"11/12/14", "Lyon",  200, 0);
+			Concert c2 = new Concert(2, "", "Edith Piaf", "11/12/14", "11/12/14",
+			"Paris", 500, 0);
+			Concert c3 = new Concert(3, "", "Balavoine", "11/12/14", "11/12/14",
+			"Grenoble", 500, 0);
+			Concert c4 = new Concert(4, "", "Goldman", "11/12/14", "11/12/14",
+			"Londres", 500, 0);
+			Concert c5 = new Concert(5, "", "Queen", "11/12/14", "11/12/14",
+			"La Rochelle", 500, 0);
+			Concert c6 = new Concert(6, "", "AC/DC", "11/12/14", "11/12/14",
+			"Poitiers", 500, 0);
+			Concert c7 = new Concert(7, "", "Dire Straits", "11/12/14", "11/12/14",
+			"Londres",500, 0);
+			Concert c8 = new Concert(8, "", "Boston", "11/12/14", "11/12/14",
+			"La Rochelle", 500, 0);
+			Concert c9 = new Concert(9, "", "The Beatles", "11/12/14", "11/12/14",
+			"Poitiers", 500, 0);
+			insertConcert(c1);
+			insertConcert(c2);	
+			insertConcert(c3);	
+			insertConcert(c4);	
+			insertConcert(c5);	
+			insertConcert(c6);	
+			insertConcert(c7);	
+			insertConcert(c8);	
+			insertConcert(c9);	
+			
+			for (int i=1; i< 11; i++){
+				
+				Client cl = new Client(i, "Prenom"+i, "Nom"+i, i+"@lab.fr", "log"+i, "pas"+i, 0, "12/019/19");
+				insertClient(cl);
+			}
+			Client admin = new Client(11, "Admin", "Admin", "admin@lab.fr", "test", "test", 1, "12/019/19");
+			insertClient(admin);
+			Log.i("init", "ADMIN " + getClientWithId(11).getLogin() + "  " + getClientWithId(11).getPassword());
+			
+			insertRes(1, getConcertWithId(1), getClientWithId(1));
+			insertRes(2, getConcertWithId(1), getClientWithId(2));
+			insertRes(3, getConcertWithId(1), getClientWithId(3));
+			insertRes(4, getConcertWithId(1), getClientWithId(4));
+			
+			insertRes(5, getConcertWithId(2), getClientWithId(3));
+			insertRes(6, getConcertWithId(2), getClientWithId(5));
+			
+			insertRes(7, getConcertWithId(3), getClientWithId(6));
+			insertRes(8, getConcertWithId(3), getClientWithId(7));
+			insertRes(9, getConcertWithId(3), getClientWithId(1));
+			insertRes(10, getConcertWithId(3), getClientWithId(3));
+			
+			insertRes(11, getConcertWithId(4), getClientWithId(10));
+			insertRes(12, getConcertWithId(4), getClientWithId(8));
+			insertRes(13, getConcertWithId(4), getClientWithId(2));
+			insertRes(14, getConcertWithId(4), getClientWithId(6));
+			
+		}
+		
+	}
+	
 /***************** INSERER UN CLIENT DANS LA BDD ***************************/
 	
 	public long insertClient(Client client){
@@ -108,15 +161,12 @@ public class DatabaseHandler {
 	
 /***************** INSERER UNE RESERVATION DANS LA BDD ***************************/
 	
-	public long insertRes(int id_res,Client client,Concert concert){
-		//Cr���ation d'un ContentValues (fonctionne comme une HashMap)
+	public long insertRes(int id_res,Concert concert,Client client){
 		ContentValues values = new ContentValues();
-		//on lui ajoute une valeur associ��� ��� une cl��� (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
-		values.put(COL_ID_RES,id_res);
-		values.put(COL_ID_CLIENT_RES,client.getId());
-		values.put(COL_ID_CONCERT_RES, concert.getId());
-		//on ins���re l'objet dans la BDD via le ContentValues
-		return bdd.insert(RES_TABLE, null, values);
+		values.put(Tables.RES_NAME_ID,id_res);
+		values.put(Tables.RES_NAME_ID_CONCERT,concert.getId());
+		values.put(Tables.RES_NAME_ID_CLIENT, client.getId());
+		return bdd.insert(Tables.RES_TABLE, null, values);
 	}
 	
 /***************** MISE A JOUR DANS LA BDD ***************************/
@@ -142,8 +192,10 @@ public class DatabaseHandler {
 				Tables.CLIENT_NAME_USERNAME,
 				Tables.CLIENT_NAME_PASSWORD}, 
 				Tables.CLIENT_NAME_USERNAME + " LIKE \"" + login +"\"", null, null, null, null);
+		Log.i("ini", "ON TROUVE  "+ c.getCount());
 		if (c.getCount() == 1){
 			c.moveToFirst();
+			Log.i("ini", "log  "+ c.getString(1) + "    MDP   "+ c.getString(2) + "  attendu "+ pwd);
 			if (pwd.equals(c.getString(2))){
 				return true;
 			}
@@ -220,8 +272,12 @@ public class DatabaseHandler {
 	
 	public List<Client> getClientForOneConcert(int id_concert){
 		List<Client> cl = new ArrayList<Client>();
-		
-		Cursor c = bdd.query(RES_TABLE, new String[] {COL_ID_RES, COL_ID_CLIENT_RES, COL_ID_CONCERT_RES}, COL_ID_CONCERT_RES + " LIKE \"" + id_concert +"\"", null, null, null, null);
+	
+		Cursor c = bdd.query(Tables.RES_TABLE, 
+				new String[] {Tables.RES_NAME_ID, 
+				Tables.RES_NAME_ID_CONCERT, 
+				Tables.RES_NAME_ID_CLIENT}, 
+				Tables.RES_NAME_ID_CONCERT + " LIKE \"" + id_concert +"\"", null, null, null, null);
 		if (c.getCount() ==0 ){
 			return null;
 		}
@@ -231,7 +287,7 @@ public class DatabaseHandler {
 		if (i!=0){
 			c.move(1);
 		}
-		Client client = getClientWithId(c.getInt(NUM_COL_ID_CLIENT_RES));
+		Client client = getClientWithId(c.getInt(Tables.RES_NUM_ID_CLIENT));
 		cl.add(client);
 		}
 		c.close();

@@ -1,16 +1,20 @@
 package com.example.myparty;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lists.ClientList;
 import lists.ConcertDetailed;
 import lists.ListLayout;
 import lists.ReservationsList;
 import lists.StatsList;
 import lists.TicketsList;
-//import lists.TicketsList;
+import lists.TicketsList;
 import scan.IntentIntegrator;
 import scan.IntentResult;
 import scan.ScanLayout;
 import android.app.Activity;
+import android.content.Entity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +29,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 import databaseHandler.DatabaseHandler;
+import entities.Client;
 import entities.Concert;
 
 public class ConcertDetailsActivity extends Activity implements OnClickListener,OnMenuItemClickListener{
@@ -65,45 +70,20 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 		buttonStats = (Button)findViewById(R.id.buttonStats);
 		view_flipper = (ViewFlipper)findViewById(R.id.view_flipper);
 		
-	dataBase = new DatabaseHandler(this);
-	dataBase.open();
-		
-		//dataBase.deleteAll();
-		//Log.i("Concert", "Concert1 : " + dataBase.getConcertWithId(1).toString());
-		
+/****************** OUVERTURE BDD ***********************************/
 
-		//R�cup�ration des extras
+		dataBase = new DatabaseHandler(this);
+		dataBase.open();
+		
+/****************** RECUPERATION DE L'ID DU CONCERT *****************/		
+		
 		Bundle b = getIntent().getExtras();
-//		//Concert sur lequel on a appuy�
-		
-		
 		Concert concert = dataBase.getConcertWithId(b.getInt("id"));
 		
-		//Concert concert = new Concert(b.getInt("id"),b.getString("imgPath"),b.getString("title"), "10/12/14", "11/12/14", b.getString("location"),
-				//b.getInt("nbSeets"), 0);
-		//Concert concert = new Concert(0,  "", "Michael Jackson", "22/01/2014", "22/01/2014", "Talence", 30.0, 500, false);
-
-		//R�cup�ration des extras
-		//Bundle b = getIntent().getExtras();
-		//Concert sur lequel on a appuy�
-//		Concert concert = new Concert(b.getInt("id"),b.getString("imgPath"), 
-//				b.getString("title"), "10/12/14", "11/12/14", b.getString("location"), b.getInt("nbSeets"), 0);
-		//Concert concert = new Concert(0,  "", "Michael Jackson", "22/01/2014", "22/01/2014", "Talence", 500, 0);
-
-
-		//R�cup�ration des extras
-//		Bundle b = getIntent().getExtras();
-//		//Concert sur lequel on a appuyé
-//		Concert concert = new Concert(b.getInt("id"),b.getString("imgPath"), 
-//				b.getString("title"), "10/12/14", "11/12/14", b.getString("location"),
-//				b.getInt("nbSeets"), 0);
+/****************** RECUPERATION DE LA LISTE DES CLIENTS *****************/	
 		
-		//Récupération de la liste des clients pour ce concert
-		/*TODO A decommenter pour BDD interne*/
-		/*List<Client> clientForConcert = dataBase.getClientForOneConcert(concert.getId());*/
-		//List<Client> clientForConcert = new ArrayList<Client>();
-	
-		//Concert concert = new Concert("", "Francofolie", new Date(), new Date(), "La Rochelle", 10.5, 14000, false);
+		List<Client> clientForConcert =  dataBase.getClientForOneConcert(concert.getId());
+		
 		scanner = new ScanLayout(this, this);
 		scrollScan.addView(scanner);
 		
@@ -118,7 +98,7 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 		this.view_flipper.addView(new ConcertDetailed(this, concert));
 		this.view_flipper.addView(new ListLayout(this, new TicketsList(this, null)));
 		this.view_flipper.addView(new ListLayout(this, new ReservationsList(this, null)));
-		this.view_flipper.addView(new ListLayout(this, new ClientList(this, null)));
+		this.view_flipper.addView(new ListLayout(this, new ClientList(this,clientForConcert)));
 		this.view_flipper.addView(scrollScan);
 		this.view_flipper.addView(new StatsList(this));
 
