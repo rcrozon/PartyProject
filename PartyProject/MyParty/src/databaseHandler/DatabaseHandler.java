@@ -17,7 +17,7 @@ import android.util.Log;
 
 public class DatabaseHandler {
 	
-	private static final int VERSION_BDD = 33;
+	private static final int VERSION_BDD = 34;
 	private static final String BDD_NAME = "myparty.db";
 	private SQLiteDatabase bdd;
 	private DatabaseCreate SQLiteBase ;
@@ -104,8 +104,9 @@ public class DatabaseHandler {
 			}
 			Client admin = new Client(11, "Admin", "Admin", "admin@lab.fr", "test", "test", 1, "12/019/19");
 			insertClient(admin);
-			Log.i("init", "ADMIN " + getClientWithId(11).getLogin() + "  " + getClientWithId(11).getPassword());
-			
+			Client tmp = new Client(25, "tmp", "tmp", "admin@lab.fr", "tmp", "tmp", 1, "12/019/19");
+			insertClient(tmp);
+
 			insertRes(1, getConcertWithId(1), getClientWithId(1));
 			insertRes(2, getConcertWithId(1), getClientWithId(2));
 			insertRes(3, getConcertWithId(1), getClientWithId(3));
