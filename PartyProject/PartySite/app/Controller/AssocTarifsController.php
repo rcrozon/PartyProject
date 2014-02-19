@@ -1,7 +1,7 @@
 <?php
 class AssocTarifsController extends AppController{
 
-	function index() {
+        function admin_index() {
                 $id_concert = $this->request['named']['id_concert'][0];
                 //debug($id_concert);
                 

@@ -1,7 +1,7 @@
 <?php
 class TarifsController extends AppController{
 
-	function addTarif() {
+    function admin_addTarif() {
         $idConcert = $this->request['pass'];
         //debug($idConcert);
 
@@ -19,7 +19,8 @@ class TarifsController extends AppController{
                 debug($idTarif);
                 //$data = array($idConcert, $idTarif);
                 //$this->render('/AssocTarifs/index');
-                $this->redirect(array('controller' => 'AssocTarifs', 'action' => 'index', 'id_concert' => $idConcert, 'id_tarif' => $idTarif));
+                $this->redirect(array('controller' => 'AssocTarifs', 'action' => 'index', 
+                    'id_concert' => $idConcert, 'id_tarif' => $idTarif));
                 
                 
 

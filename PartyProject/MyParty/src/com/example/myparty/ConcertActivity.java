@@ -26,7 +26,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	private MenuItem decoItem;
 	private int index = 0;
 	private int nextIndex = 0;
-	private boolean client = false;
+	private boolean isClient = false;
 	private DatabaseHandler dataBase;
 	
 	@Override
@@ -42,18 +42,23 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		ListLayout listAll = new ListLayout(this, new ConcertList(this, null));
 		ListLayout listNext = new ListLayout(this, new ConcertList(this, null));
 		ListLayout listNews = new ListLayout(this, new ConcertList(this, null));
-		if (client){
-			this.view_flipper.addView(listReservations);	
-		}
+		this.view_flipper.addView(listReservations);	
 		this.view_flipper.addView(listAll);
 		this.view_flipper.addView(listNext);
 		this.view_flipper.addView(listNews);
+		if (isClient){
+			this.buttonReservations.setVisibility(View.VISIBLE);
+			this.view_flipper.setDisplayedChild(0);
+		}else{
+			this.buttonReservations.setVisibility(View.GONE);
+			this.view_flipper.setDisplayedChild(1);
+		}
 		buttonReservations.setOnClickListener(this);
 		buttonAllConcerts.setOnClickListener(this);
 		buttonNews.setOnClickListener(this);
 		buttonNextConcerts.setOnClickListener(this);
-		dataBase = new DatabaseHandler(this);
-		dataBase.open();
+//		dataBase = new DatabaseHandler(this);
+//		dataBase.open();
 	} 
 	
 	@Override
@@ -73,18 +78,17 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		buttonAllConcerts.setBackgroundResource(R.drawable.button_unselected);
 		buttonNews.setBackgroundResource(R.drawable.button_unselected);
 		buttonNextConcerts.setBackgroundResource(R.drawable.button_unselected);
-		int offset = client ? 0 : -1 ;
 		if (b == buttonReservations){
-			nextIndex = offset;
-			buttonAllConcerts.setBackgroundResource(R.drawable.button_selected);
+			nextIndex = 0;
+			buttonReservations.setBackgroundResource(R.drawable.button_selected);
 		}else if (b == buttonAllConcerts){
-			nextIndex = offset + 1;
+			nextIndex = 1;
 			buttonAllConcerts.setBackgroundResource(R.drawable.button_selected);
 		}else if (b == buttonNextConcerts){
-			nextIndex = offset + 2; 
+			nextIndex = 2; 
 			buttonNextConcerts.setBackgroundResource(R.drawable.button_selected);
 		}else{ 
-			nextIndex = offset + 3;
+			nextIndex = 3;
 			buttonNews.setBackgroundResource(R.drawable.button_selected);
 		}
 		if (nextIndex != index){
