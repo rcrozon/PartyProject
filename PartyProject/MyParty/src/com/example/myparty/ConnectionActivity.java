@@ -31,10 +31,13 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		buttonConnexion = (Button)findViewById(R.id.buttonConnexion);
 		buttonConnexion.setOnClickListener(this);
 		lightHandler();
-		/*TODO A d��commenter pour authentification*/
+
+/****************** OUVERTURE BDD ***********************************/
+		
 		dataBase = new DatabaseHandler(this);
 		dataBase.open();
-		}
+		
+	}
 
 	@Override
     public void onPause(){
@@ -74,19 +77,21 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		Button b = (Button)v;
 		if (v == buttonConnexion){
 			
-			Intent intent = new Intent(this, ConcertActivity.class);
-	    	this.startActivity(intent);
+			/* TODO A DECOMMENTER SI ON NE VEUT PAS UTILISER AUTHENTIFICATION*/
+			/*Intent intent = new Intent(this, ConcertActivity.class);
+	    	this.startActivity(intent);*/
 			
-	    	/* TODO A DECOMMENTER POUR POUVOIR UTILISER AUTHENTIFICATION avec BDD interne*/
-			/*EditText login = (EditText)findViewById(R.id.loginTextEdit);
+/****************** AUTHENTIFICATION ***********************************/			
+
+			EditText login = (EditText)findViewById(R.id.loginTextEdit);
 			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
-			
+			Log.i("LOGIN", login.getText().toString() + "  " + pwd.getText().toString());
 			if (dataBase.authentification(login.getText().toString(), pwd.getText().toString())){
 				Intent intent = new Intent(this, ConcertActivity.class);
 		    	this.startActivity(intent);
 			}
 			else{
-				//MESSAGE ERREUR
+				/*** ERREUR *************/
 				Context myContext = getApplicationContext();
 				CharSequence text = "ERROR LOGIN OR PASSWORD !";
 				int duration = Toast.LENGTH_SHORT;
@@ -94,7 +99,7 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 				Toast toast = Toast.makeText(myContext, text, duration);
 				toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
 				toast.show();
-			}*/
+			}
 		
 		}
 	}

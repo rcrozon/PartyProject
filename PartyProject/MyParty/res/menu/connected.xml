@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_refresh"
+        android:icon="@drawable/ic_action_location_found_red"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_refresh" />
+    
+	<item
+		android:id="@+id/menu_deconect"
+		android:icon="@drawable/logout"
+		android:showAsAction="ifRoom"
+		android:title="@string/menu_deconect" />
+		
+	<item android:id="@+id/bluetooth"
+		android:icon="@drawable/ic_action_bluetooth_searching"
+		android:showAsAction="ifRoom"
+	    android:title="@string/bluetooth"  />
+
+</menu>

@@ -16,30 +16,32 @@ import entities.ConcertItem;
 import entities.Entity;
 import entities.Reservation;
 import entities.ReservationItem;
+import entities.Ticket;
+import entities.TicketItem;
 
-public class ReservationsList extends List {
+public class TicketsList extends List {
 
 	private Adapter adapter;
 
 	private DatabaseHandler dataBase;
 
-	public ReservationsList(final Context context, ArrayList<Entity> list) {
+	public TicketsList(final Context context, ArrayList<Entity> list) {
 		super(context);
 		items = new ArrayList<Items>();
 
 //		dataBase = new DatabaseHandler(context);
 //		dataBase.open();
 
-		ReservationItem r1 = new ReservationItem(context, new Reservation(0, 3, "Michael Jackson",1));
-		ReservationItem r2 = new ReservationItem(context, new Reservation(1, 5, "AC/DC",2));
-		ReservationItem r3 = new ReservationItem(context, new Reservation(2, 1, "Queen",3));
-		ReservationItem r4 = new ReservationItem(context, new Reservation(3, 8, "Dire Straits",4));
-		ReservationItem r5 = new ReservationItem(context, new Reservation(4, 9, "Boston",5));
-		items.add(r1);
-		items.add(r2);
-		items.add(r3);
-		items.add(r4);
-		items.add(r5);
+		TicketItem t1 = new TicketItem(context, new Ticket(0, 3, "Michael Jackson"));
+		TicketItem t2 = new TicketItem(context, new Ticket(0, 3, "Michael Jackson"));
+		TicketItem t3 = new TicketItem(context, new Ticket(0, 3, "Michael Jackson"));
+		TicketItem t4 = new TicketItem(context, new Ticket(0, 3, "Michael Jackson"));
+		TicketItem t5 = new TicketItem(context, new Ticket(0, 3, "Michael Jackson"));
+		items.add(t1);
+		items.add(t2);
+		items.add(t3);
+		items.add(t4);
+		items.add(t5);
 		
 		adapter = new Adapter(items);
 		this.setAdapter(adapter);
@@ -47,13 +49,8 @@ public class ReservationsList extends List {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int pos,
 					long id) {
-				
-				ReservationItem selectedItem = (ReservationItem) view;
-				Reservation res = selectedItem.getReservation();
-				
 				Intent intent = new Intent(context,
 						ConcertDetailsActivity.class);
-				intent.putExtra("id", res.getIdConcert());
 				context.startActivity(intent);
 			}
 		});

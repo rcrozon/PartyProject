@@ -17,17 +17,20 @@ public class ClientList extends List {
 		
     private Adapter adapter;
     	
-	public ClientList(Context context, ArrayList<Entity> list) {
+	public ClientList(Context context, java.util.List<Client> list) {
 		super(context);
 		items = new ArrayList<Items>();
-		/*TODO A Decommenter pour bdd interne*/
-		/*for (int i=0;i<cl.size();i++){
-			ClientItem testAff = new ClientItem(context, cl.get(i));
-			items.add(testAff);
-		}*/
-		/*FIN TEST*/
-		for (int i=0;i<15;i++){
-			Client test = new Client(i,"Prenom"+i, "Nom"+i, i+"@labri.fr", "login"+i, "passe"+i,1,"10/03/14");
+		
+/****************** UTILISATION DE LA BONNE LISTE DE CLIENTS ***********************************/
+		
+		if (list!=null){
+			for (int i=0;i<list.size();i++){
+				ClientItem testAff = new ClientItem(context, list.get(i));
+				items.add(testAff);
+			}
+		}
+		else{
+			Client test = new Client(0,"NO CLIENT", "NO CLIENT","NO CLIENT", "NO CLIENT", "NO CLIENT",0,"NO CLIENT");
 			ClientItem testAff = new ClientItem(context, test);
 			items.add(testAff);
 		}
