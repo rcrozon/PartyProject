@@ -5,18 +5,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
  
+
+
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
  
+
+
+
 import android.util.Log;
  
 public class JSONParser {
@@ -34,11 +43,24 @@ public class JSONParser {
         try {
             // defaultHttpClient
             DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost(url);
-            httpPost.setEntity(new UrlEncodedFormEntity(params));
- 
-            HttpResponse httpResponse = httpClient.execute(httpPost);
-            HttpEntity httpEntity = httpResponse.getEntity();
+            
+            HttpGet request = new HttpGet();
+            try {
+            	URI uri = new URI(url);
+            	Log.i("JSON REQUEST", uri.toString());
+				request.setURI(uri);
+				
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            HttpResponse response = httpClient.execute(request);
+            
+//            HttpPost httpPost = new HttpPost(url);
+//            httpPost.setEntity(new UrlEncodedFormEntity(params));
+// 
+//            HttpResponse response = httpClient.execute(httpPost);
+            HttpEntity httpEntity = response.getEntity();
             is = httpEntity.getContent();
  
         } catch (UnsupportedEncodingException e) {
@@ -71,7 +93,7 @@ public class JSONParser {
             Log.e("JSON Parser", "Error parsing data " + e.toString());
         }
  
-        // return JSON String
+        //return JSON String
         return jObj;
  
     }

@@ -9,6 +9,7 @@ import lists.ListLayout;
 import lists.ReservationsList;
 import lists.StatsList;
 import lists.TicketsList;
+import lists.TicketsList;
 import scan.IntentIntegrator;
 import scan.IntentResult;
 import scan.ScanLayout;
@@ -41,6 +42,7 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 	private Button buttonStats ;
 	private ViewFlipper view_flipper ;
 	private MenuItem decoItem;
+	private MenuItem bluetoothItem;
 	private ScanLayout scanner;
 	private ScrollView scrollScan ;
 	private ImageView imgView ;
@@ -123,10 +125,12 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.connected, menu);
 		decoItem = menu.findItem(R.id.menu_deconect);
+		bluetoothItem = menu.findItem(R.id.bluetooth);
 		//decoItem.setIcon(R.drawable.logout);
 		decoItem.setOnMenuItemClickListener(this);
+		bluetoothItem.setOnMenuItemClickListener(this);
 		return true;
 	}
 
@@ -188,10 +192,16 @@ public class ConcertDetailsActivity extends Activity implements OnClickListener,
 			
 		}
 	}
+	
 	@Override
 	public boolean onMenuItemClick(MenuItem item) {
-		Intent intent = new Intent(this, ConnectionActivity.class);
-		this.startActivity(intent);
+		Intent intent;
+		if (item == decoItem){
+			intent = new Intent(this, ConnectionActivity.class);
+		}else{
+			intent = new Intent(this, BluetoothActivity.class);
+		}
+		this.startActivity(intent);	
 		return false;
 	}	
 	/**
