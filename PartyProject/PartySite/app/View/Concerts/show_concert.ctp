@@ -12,7 +12,7 @@ echo $this->Html->url($this->Html->image('Concerts/'.$showConcert['image'],array
 
 ?>
 
-
+	
 <style type="text/css">
 		body{
 background-image:url('<?php echo $this->webroot.'img/Concerts/'.$showConcert['image']; ?>');
@@ -25,6 +25,19 @@ background-image:url('<?php echo $this->webroot.'img/Concerts/'.$showConcert['im
     padding-bottom: 15px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
 }
+.plan-price {
+
+margin:auto;
+width: 90px;
+height: 90px;
+line-height: 90px;
+font-size: 19px;
+font-weight: bold;
+color: white;
+background: #3276b1;
+border-radius: 45px;
+text-align: center;
+}
 		</style>
 
 		<div class="row">  
@@ -36,14 +49,43 @@ background-image:url('<?php echo $this->webroot.'img/Concerts/'.$showConcert['im
 			echo '<p>'.'Begin date: '.$showConcert['start_datetime'].'<p>';
 			echo '<p>'.'End date: '.$showConcert['end_datetime'].'<p>';
 			echo '<p>'.'Location: '.$showConcert['location'].'<p>';
+			echo "<div class='row'>";  
+			
+			echo "<div class=\"col-md-8\">";
+			echo '<p>'.'Tarif: <p>';
+
+			echo "<select  name=\"select\" style='margin-top:0px;' class=\"form-control\">";
+
+			//Affichage des tarifs
+			 for ($i = 0; $i <= sizeof($showTarif)-1; $i++) {              
+            echo "<option value=\"".$showTarif[$i][0]['Tarif']['price']."\">".$showTarif[$i][0]['Tarif']['label']."</option>";
+            }
+            echo "</select>";
+            echo "</div>";
+            echo "<div class=\"col-md-3\">";
+
+ 			echo"<p id=\"price\" class='plan-price'>"; 			  
+            echo"</p>";
+                        			echo "</div>";
+
 			?>
 
 
-					</div>
+  		<button type="button" style="margin-left:15px; margin-top:5px;" class="btn btn-primary">Accéder à la billeterie</button>
 
 		</div>
 
 
 
-
 		</div>
+	<script>
+	
+
+$( "select" )
+  .change(function () {
+    var str = $( "select" ).val() + " €";
+    
+    $( "#price" ).text( str );
+  })
+  .change();
+</script>

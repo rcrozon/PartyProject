@@ -21,9 +21,9 @@
 
 App::uses('Controller', 'Controller');
     
-
 class AppController extends Controller {
-   
+   public $uses=array('Client','Concert','Tarif','AssocTarif');
+
     public $components = array('Session','Cookie','Auth');
 
     function beforeFilter(){

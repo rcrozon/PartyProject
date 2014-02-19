@@ -68,7 +68,21 @@ class ConcertsController extends AppController{
         ));
      
         $d = Hash::extract($d, 'Concert'); 
+        //Get id of Tarif
+        $v = $this->AssocTarif->find('all',array('conditions' => array('AssocTarif.id_concert' => $id)));
+       
+       for ($i = 0; $i <= sizeof($v)-1; $i++) {
+                //$idC = $showAssocTarif[$i]['AssocTarif']['id_concert'];
+                $idT = $v[$i]['AssocTarif']['id_tarif'];
+$result[$i] = $this->Tarif->find('all',array('conditions' => array('Tarif.id' => $idT)));
+
+            }
+
+
+
+           
           $this->set('showConcert',$d);
+          $this->set('showTarif',$result);
     }
 
 }
