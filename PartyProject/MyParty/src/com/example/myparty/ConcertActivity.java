@@ -24,6 +24,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	private Button buttonNews ;
 	private ViewFlipper view_flipper ;
 	private MenuItem decoItem;
+	private MenuItem bluetoothItem;
 	private int index = 0;
 	private int nextIndex = 0;
 	private boolean isClient = false;
@@ -61,12 +62,15 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 //		dataBase.open();
 	} 
 	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.connected, menu);
 		decoItem = menu.findItem(R.id.menu_deconect);
-		//decoItem.setIcon(R.drawable.ic_action_location_found_green);
+		bluetoothItem = menu.findItem(R.id.bluetooth);
+		//decoItem.setIcon(R.drawable.logout);
 		decoItem.setOnMenuItemClickListener(this);
+		bluetoothItem.setOnMenuItemClickListener(this);
 		return true;
 	}
 
@@ -103,10 +107,16 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		}
 	}
 	
+
 	@Override
 	public boolean onMenuItemClick(MenuItem item) {
-		Intent intent = new Intent(this, ConnectionActivity.class);
-		this.startActivity(intent);
+		Intent intent;
+		if (item == decoItem){
+			intent = new Intent(this, ConnectionActivity.class);
+		}else{
+			intent = new Intent(this, BluetoothActivity.class);
+		}
+		this.startActivity(intent);	
 		return false;
 	}
 	

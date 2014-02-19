@@ -36,6 +36,10 @@
             android:name="com.example.myparty.ConcertDetailsActivity"
             android:label="Concert Details" >
         </activity>
+        <activity
+            android:name="com.example.myparty.BluetoothActivity"
+            android:label="Bluetooth devices" >
+        </activity>
     </application>
 
 </manifest>

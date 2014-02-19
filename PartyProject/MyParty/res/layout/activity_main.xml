@@ -36,7 +36,7 @@
 
 
 	<EditText
-	    android:id="@+id/pwdTextEdit"
+	    android:id="@+id/pwdBTEdit"
 	    android:layout_width="fill_parent"
 	    android:layout_marginTop="30dip"
 	    android:layout_marginLeft="20dip"
