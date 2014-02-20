@@ -57,7 +57,7 @@
         </activity>
         <activity
             android:name="com.example.myparty.MapActivity"
-            android:label="Bluetooth devices" >
+            android:label="@string/map" >
         </activity>
         <meta-data
 		    android:name="com.google.android.maps.v2.API_KEY"

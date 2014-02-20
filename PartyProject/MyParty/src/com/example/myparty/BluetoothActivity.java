@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,7 +25,6 @@ public class BluetoothActivity extends Activity implements OnClickListener {
 	
     private BluetoothServer bluetoothServer ;
     private LinearLayout layoutDevices ;
-    private BroadcastReceiver receiver;
     private ProgressBar progressBar ;
 	private BluetoothAdapter bluetoothAdapter;
 
@@ -49,11 +49,11 @@ public class BluetoothActivity extends Activity implements OnClickListener {
 	    
 	    // Register for broadcasts when a device is discovered
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        this.registerReceiver(mReceiver, filter);
+        this.registerReceiver(receiver, filter);
 
         // Register for broadcasts when discovery has finished
         filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-        this.registerReceiver(mReceiver, filter);
+        this.registerReceiver(receiver, filter);
 	    //re-start discovery
 	    //cancel any prior BT device discovery
 	    if (bluetoothAdapter.isDiscovering()){
@@ -67,24 +67,27 @@ public class BluetoothActivity extends Activity implements OnClickListener {
 	    for (BluetoothDevice device : pairedDevices) {
 	    	layoutDevices.addView(new BluetoothDeviceItem(this, device));
         }
+	    BluetoothServer server = new BluetoothServer();
+		server.start();
+		
 	}
 
 	
 	
-	private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+	private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-
             // When discovery finds a device
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 progressBar.setVisibility(View.VISIBLE);
                 // Get the BluetoothDevice object from the Intent
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                Log.i("DEVICE", "device "+  device.getName());
                 // If it's already paired, skip it, because it's been listed already
                 if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
                 	layoutDevices.addView(new BluetoothDeviceItem(context, device));
-                }
+                } 
             // When discovery is finished, change the Activity title
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 progressBar.setVisibility(View.INVISIBLE);

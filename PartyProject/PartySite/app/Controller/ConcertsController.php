@@ -1,6 +1,55 @@
 <?php
 class ConcertsController extends AppController{
-	    public $components = array('RequestHandler');
+
+	public $components = array('RequestHandler');
+
+    /*function beforeFilter(){
+        $type = $this->Session->read('Auth.User.admin');
+        //debug($type);
+        if($type == '0') {
+            echo "NO ADMIN";
+            //$this->Auth->allow('index','view','showLastConcerts','showConcert');
+        }
+        else if($type == null) {
+            echo "NOTHING";
+            $this->Auth->allow('index','view','showLastConcerts','showConcert');
+        }
+        else {
+            echo "ADMIN";
+            $this->Auth->allow('*');
+        }
+    }*/
+    
+        /*if(isset($this->request->params['admin']) && $this->request->params['admin'] == 'true') {
+            if(AuthComponent::user('admin')=='1') {
+                $this->layout = 'admin';
+                $this->Auth->allow('*');
+            }
+            else {
+                $this->layout = 'default';
+                $this->Auth->allow('index','view','showLastConcerts','showConcert');
+            }
+        } else {
+            $this->layout = 'default';
+            $this->Auth->allow('index','view','showLastConcerts','showConcert');
+        }*/
+    /*function beforeFilter(){
+        $type = $this->Session->read('Auth.User.admin');
+        if($type == null || $type == '0') {
+            $this->Auth->allow('index','view','showLastConcerts','showConcert');
+            $this->layout = 'default';
+            //$this->Session->setFlash("PLOP", "notif", array('type'=>'error'));
+        }
+        else if($type == '1') {
+            $this->Auth->allow('*');
+            if(isset($this->request->params['admin']) && $this->request->params['admin'] == 'true') {
+                $this->layout = 'admin';
+            }
+            else {
+                $this->layout = 'default';
+            }
+        }
+    }*/
 
 	public function index() {
         $posts = $this->Concert->find('all');
@@ -10,7 +59,7 @@ class ConcertsController extends AppController{
         ));
     }
 
-      public function view($id) {
+    public function view($id) {
         $post = $this->Concert->findById($id);
         $this->set(array(
             'post' => $post,
@@ -18,7 +67,7 @@ class ConcertsController extends AppController{
         ));
     }
 
-		function admin_addConcert() {
+	function admin_addConcert() {
         //$this->layout = 'login';
         if($this->request->is('post')) {
             $d = $this->request->data; 
@@ -44,7 +93,7 @@ class ConcertsController extends AppController{
             }
 
             if($this->Concert->save($d,true,array('name_concert','location','nb_seats','image','start_datetime','end_datetime','id_creator'))) {
-                $this->Session->setFlash("Your party has been well created", "notif");
+                $this->Session->setFlash("Your party has been well created", "notif", array('type'=>'success'));
                 $this->request->data = array();
                 //echo $this->Concert->getLastInsertId();
                 $this->redirect(array('controller' => 'Tarifs', 'action' => 'addTarif', $this->Concert->getLastInsertId()));
@@ -100,7 +149,7 @@ class ConcertsController extends AppController{
                     $this->Session->setFlash('The party has been successfully updated', 'notif', array('type'=>'success'));
                     $this->redirect(array('action' => 'table_concert'));
             } else{
-                $this->Session->setFlash("Thanks to correct your mistakes","notif",array('type'=>'alert-danger'));
+                $this->Session->setFlash("Thanks to correct your mistakes","notif",array('type'=>'error'));
             }
 
             //$this->Concert->save($this->request->data);

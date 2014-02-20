@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.view.View.OnClickListener;
+import bluetooth.BluetoothClient;
+import bluetooth.BluetoothServer;
 
 import com.example.myparty.R;
 
@@ -22,7 +25,7 @@ public class BluetoothDeviceItem extends LinearLayout implements Items {
 	private Handler progressBarHandler = new Handler();
 	private LinearLayout layoutDevicesData;
 
-	public BluetoothDeviceItem(Context context, BluetoothDevice device) {
+	public BluetoothDeviceItem(final Context context, final BluetoothDevice device) {
 		super(context);
 
 		this.setBackgroundResource(R.drawable.list_border);
@@ -49,13 +52,6 @@ public class BluetoothDeviceItem extends LinearLayout implements Items {
 				LinearLayout.LayoutParams.WRAP_CONTENT, Gravity.RIGHT);
 		llp.weight = 1; 
 		imgView.setBackgroundResource(R.drawable.ic_action_refresh);
-		imgView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO
-				updateDevices();
-			}
-		});
 		imgView.setLayoutParams(llp);
 
 		progressBar = new ProgressBar(context, null,android.R.attr.progressBarStyleHorizontal);
@@ -72,6 +68,14 @@ public class BluetoothDeviceItem extends LinearLayout implements Items {
 		this.layoutDevicesData.addView(imgView);
 		this.addView(this.layoutDevicesData);
 		this.addView(progressBar); 
+
+		this.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {	
+				BluetoothClient client = new BluetoothClient(device, context);
+				client.start();
+			}
+		}); 
 	} 
 
 	public void updateDevices() {
@@ -87,4 +91,5 @@ public class BluetoothDeviceItem extends LinearLayout implements Items {
 	public void setVisible(boolean visible) {
 		this.setVisible(visible);
 	}
+
 }

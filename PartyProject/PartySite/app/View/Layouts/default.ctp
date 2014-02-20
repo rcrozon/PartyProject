@@ -74,8 +74,10 @@
               <?php if(AuthComponent::user('id')): ?>
                 <li><?php echo $this->Html->link('<i class="fa fa-user"></i> Profile',
                   array('action'=>'edit','controller'=>'clients'), array('escape' => false)); ?></li>
-                <li><?php echo $this->Html->link('<i class="fa fa-gear"></i> Administration',
-                  array('action'=>'index','controller'=>'admin/concerts'), array('escape' => false)); ?></li>
+                <?php if(AuthComponent::user('admin')=='1'): ?>
+                  <li><?php echo $this->Html->link('<i class="fa fa-gear"></i> Administration',
+                    array('action'=>'index','controller'=>'admin/concerts'), array('escape' => false)); ?></li>
+                <?php endif; ?>
                 <li class="divider"></li>
                 <li><?php echo $this->Html->link('<i class="fa fa-power-off"></i> Log Out',
                   array('action'=>'logout','controller'=>'clients'), array('escape' => false)); ?></li>
@@ -95,6 +97,7 @@
         <div class="row">
           <div class="col-md-12">
             <?php echo $this->Session->Flash(); ?>
+            <?php echo $this->Session->Flash('Auth'); ?>
             <?php echo $content_for_layout; ?>
           </div>
         </div>

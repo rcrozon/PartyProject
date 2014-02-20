@@ -1,6 +1,10 @@
 <?php
 class ClientsController extends AppController{
      
+    /*function beforeFilter(){
+        
+    }*/
+
     function signup(){
         $this->layout = 'login';
         if($this->request->is('post')){
@@ -22,10 +26,11 @@ class ClientsController extends AppController{
                     ->template('signup')
                     ->viewVars(array('username'=>$d['User']['username'],'link'=>$link))
                     ->send();*/
-                $this->Session->setFlash("Votre compte a bien été créé","notif");
+                $this->Session->setFlash("Your account has been well created","notif",array('type'=>'success'));
                 $this->request->data = array(); 
+                $this->redirect('/');
             }else{
-                $this->Session->setFlash("Merci de corriger vos erreurs","notif",array('type'=>'error'));
+                $this->Session->setFlash("Please correct your mistakes","notif",array('type'=>'error'));
             }
         }
     }
