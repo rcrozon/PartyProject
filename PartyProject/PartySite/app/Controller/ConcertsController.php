@@ -44,7 +44,7 @@ class ConcertsController extends AppController{
             }
 
             if($this->Concert->save($d,true,array('name_concert','location','nb_seats','image','start_datetime','end_datetime','id_creator'))) {
-                $this->Session->setFlash("Your party has been well created", "notif");
+                $this->Session->setFlash("Your party has been well created", "notif", array('type'=>'success'));
                 $this->request->data = array();
                 //echo $this->Concert->getLastInsertId();
                 $this->redirect(array('controller' => 'Tarifs', 'action' => 'addTarif', $this->Concert->getLastInsertId()));

@@ -4,7 +4,7 @@ class Tarif extends AppModel{
     public $validate = array(
         'label' => array(
             array(
-                'rule' => 'alphanumeric',
+                'rule' => array('custom','/([\w.-]+ )+[\w+.-]/'),
                 'required' => true,
                 'allowEmpty' => false, 
                 'message' => "The format of your label is not valid"
