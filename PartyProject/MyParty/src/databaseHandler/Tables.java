@@ -14,9 +14,9 @@ public final class Tables {
 	public static final int CLIENT_NUM_MAIL = 2;
 	public static final String CLIENT_NAME_PASSWORD = "password";
 	public static final int CLIENT_NUM_PASSWORD = 3;
-	public static final String CLIENT_NAME_FIRSTNAME = "firstname";
+	public static final String CLIENT_NAME_FIRSTNAME = "first_name";
 	public static final int CLIENT_NUM_FIRSTNAME = 4;
-	public static final String CLIENT_NAME_LASTNAME = "lastname";
+	public static final String CLIENT_NAME_LASTNAME = "last_name";
 	public static final int CLIENT_NUM_LASTNAME = 5;
 	public static final String CLIENT_NAME_ADMIN= "admin";
 	public static final int CLIENT_NUM_ADMIN = 6;

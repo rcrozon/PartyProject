@@ -38,4 +38,10 @@ public class Client implements Entity {
 	public String toString(){
 		return "Client : " + firstName + " " + lastName;
 	}
+	
+	public String testToString(){
+		return "ID : "+id+ " First : " + firstName + " Last : " + lastName
+				+" Mail : "+ email + " Login : " + login
+				+ " MDP : "+password+ " Admin : " + admin+ " Date : "+dateCreated;
+	}
 }

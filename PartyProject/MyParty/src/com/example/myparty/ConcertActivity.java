@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -15,6 +16,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +26,9 @@ import lists.ListLayout;
 import lists.ReservationsList;
 import android.R.bool;
 import databaseHandler.DatabaseHandler;
-import databaseHandler.UserFunctions;
+import databaseHandler.DatabaseServer;
+import databaseHandler.MyJsonParser;
+import entities.Client;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Paint.Join;
@@ -83,81 +87,35 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		buttonNews.setOnClickListener(this);
 		buttonNextConcerts.setOnClickListener(this);
 		
-/****************** BDD EXTERNE ***********************************/
-	
-	new Thread(new Runnable() {
-	
-	@Override
-	public void run() {
-		StringBuilder response = new StringBuilder();
-		 URI uri2=null;
-		try {
-			uri2 = new URI("http://jeremy.etcheverry.emi.u-bordeaux.fr/PartySite/concerts.json");
-		} catch (URISyntaxException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	            try {
-	                HttpGet get = new HttpGet();
-	                get.setURI(uri2);
-	                DefaultHttpClient httpClient = new DefaultHttpClient();
-	                HttpResponse httpResponse = httpClient.execute(get);
-	         
-	 
-	                    HttpEntity messageEntity = httpResponse.getEntity();
-	                    InputStream is = messageEntity.getContent();
-	                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
-	                    String line;
-	                    while ((line = br.readLine()) != null) {
-	                        response.append(line);
-	                    
-	                }
-	            } catch (Exception e) {
-	               //Log.e("[GET REQUEST]", e.getMessage());
-	            	Log.i("twit", "excep");
-	            }
-	           Log.d("[GET REQUEST]", "Done with HTTP getting");
-			
-	            Log.i("TWIT", "on recoit : "+ response.toString());
-	        
-	            try {
-	            	
-					//ON CREER UN JSON GRACE A LA REPONSE
-	            	JSONObject js = new JSONObject(response.toString());
-	            	//ON EXTRAIT LA STRING SANS POST
-					String tmp = js.getString("posts");
-					//ON CRÉE UN TABLEEAU
-					JSONArray ja = js.getJSONArray("posts");
-					//ON CRÉE UN JSON AVEC CHAQUE LIGNE DU TABLEAU
-					JSONObject t = ja.getJSONObject(0);
-					//ON EXTRAIT LA CHAINE DE LA LIGNE
-					String te = t.getString("Concert");
-					//ON CRÉE UN OBJET DEPUIS LA CHIANE
-					JSONObject en = new JSONObject(te);
-					//ON A LES INFO
-					String p = en.getString("id");
-					String p2 = en.getString("location");
-					
-					Log.i("twit",p2);
-					
-					
-					String s = ja.getString(0);
-					String tab[] = s.split("\"");
-					//Log.i("twit",tab[5] );
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		
-	}
-	
-}).start();
-	 
-		
 /****************** OUVERTURE BDD ***********************************/
 		
 		dataBase = new DatabaseHandler(this);
 		dataBase.open();
+		
+/****************** BDD EXTERNE ***********************************/
+	
+		/*ON ENVOI LA REQUET*/
+		DatabaseServer dbbs = new DatabaseServer(); 
+		String tmp =dbbs.getRequest("getAllClients");
+		//Log.i("factor", "ON A : "+tmp);
+		//dbbs.postRequest("decodejs","il");
+		/*ON Parse le json pour récupérer la liste des clients*/
+		MyJsonParser parser = new MyJsonParser();
+		List<Client> cl = parser.getClientFromJson(tmp);
+		/*On insere les clients dans bdd*/
+		for (int i=0 ; i< cl.size() ; i++){
+			Client c = cl.get(i);
+			Log.i("Client",c.testToString());
+		//	dataBase.insertClient(c);
+		}
+		//dataBase.insertRes(15, dataBase.getConcertWithId(4), dataBase.getClientWithId(12));
+		//dataBase.insertRes(16, dataBase.getConcertWithId(5), dataBase.getClientWithId(13));
+		//dataBase.insertRes(17, dataBase.getConcertWithId(4), dataBase.getClientWithId(12));
+		Log.i("ClientBase",dataBase.getClientWithId(12).testToString());
+		Log.i("ClientBase",dataBase.getClientWithId(13).testToString());
+		
+		
+		
 	
 	} 
 	

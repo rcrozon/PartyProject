@@ -14,13 +14,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import databaseHandler.DatabaseHandler;
-import databaseHandler.UserFunctions;
+
 
 public class ConnectionActivity extends Activity implements OnClickListener {
 
 	private Button buttonConnexion ;
 	private MenuItem item;
-	private UserFunctions userFunctions = new UserFunctions();
+	
 	private boolean running = true;
 	private DatabaseHandler dataBase;
 	
@@ -78,28 +78,28 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		if (v == buttonConnexion){
 			
 			/* TODO A DECOMMENTER SI ON NE VEUT PAS UTILISER AUTHENTIFICATION*/
-			Intent intent = new Intent(this, ConcertActivity.class);
-	    	this.startActivity(intent);
+			/*Intent intent = new Intent(this, ConcertActivity.class);
+	    	this.startActivity(intent);*/
 			
 /****************** AUTHENTIFICATION ***********************************/			
-//
-//			EditText login = (EditText)findViewById(R.id.loginTextEdit);
-//			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
-//			Log.i("LOGIN", login.getText().toString() + "  " + pwd.getText().toString());
-//			if (dataBase.authentification(login.getText().toString(), pwd.getText().toString())){
-//				Intent intent = new Intent(this, ConcertActivity.class);
-//		    	this.startActivity(intent);
-//			}
-//			else{
-//				/*** ERREUR *************/
-//				Context myContext = getApplicationContext();
-//				CharSequence text = "ERROR LOGIN OR PASSWORD !";
-//				int duration = Toast.LENGTH_SHORT;
-//
-//				Toast toast = Toast.makeText(myContext, text, duration);
-//				toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
-//				toast.show();
-//			}
+
+			EditText login = (EditText)findViewById(R.id.loginTextEdit);
+			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
+		Log.i("LOGIN", login.getText().toString() + "  " + pwd.getText().toString());
+		if (dataBase.authentification(login.getText().toString(), pwd.getText().toString())){
+			Intent intent = new Intent(this, ConcertActivity.class);
+		    	this.startActivity(intent);
+		}
+			else{
+				/*** ERREUR *************/
+			Context myContext = getApplicationContext();
+				CharSequence text = "ERROR LOGIN OR PASSWORD !";
+				int duration = Toast.LENGTH_SHORT;
+
+				Toast toast = Toast.makeText(myContext, text, duration);
+				toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
+				toast.show();
+			}
 		
 		}
 	}
@@ -111,9 +111,9 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		new Thread(new Runnable() {
 	        public void run() {
             	while(running){
-            		if (userFunctions.isUserLoggedIn())
-            			connectedToServer(0);
-            		else
+            		//if (userFunctions.isUserLoggedIn())
+            //			connectedToServer(0);
+            	//	else
             			connectedToServer(1);
 		            try {
 						Thread.sleep(500);
