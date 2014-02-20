@@ -33,7 +33,11 @@ class AppController extends Controller {
 		    'Basic',
 		    'Form'
 		);
-		$this->Auth->allow();
+		//$this->Auth->allow();
+        $this->Auth->authorize = 'controller';
+        if((empty($this->params['admin']) || $this->params['admin'] != 'true') /*&& $this->action != 'login'*/) {
+            $this->Auth->allow();
+        }
     }
 		
         /*if(AuthComponent::user('admin')=='1') {
@@ -80,7 +84,12 @@ class AppController extends Controller {
 	
     public function beforeRender() {
         if(isset($this->request->params['admin']) && $this->request->params['admin'] == 'true') {
-            $this->layout = 'admin';
+            if(AuthComponent::user('admin')=='1') {
+                $this->layout = 'admin';
+            }
+            else {
+                $this->layout = 'error';
+            }
         } else {
             $this->layout = 'default';
         }
