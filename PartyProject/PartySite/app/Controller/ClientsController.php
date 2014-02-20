@@ -1,6 +1,10 @@
 <?php
 class ClientsController extends AppController{
      
+    /*function beforeFilter(){
+        
+    }*/
+
     function signup(){
         $this->layout = 'login';
         if($this->request->is('post')){

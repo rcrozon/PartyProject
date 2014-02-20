@@ -97,6 +97,7 @@
         <div class="row">
           <div class="col-md-12">
             <?php echo $this->Session->Flash(); ?>
+            <?php echo $this->Session->Flash('Auth'); ?>
             <?php echo $content_for_layout; ?>
           </div>
         </div>
