@@ -85,7 +85,6 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		
 /****************** BDD EXTERNE ***********************************/
 	
-	//public static final String strURL = "http://jeremy.etcheverry.emi.u-bordeaux.fr/PartySite/concerts.json?cursor=-1&screen_name=twitterapi";
 	new Thread(new Runnable() {
 	
 	@Override
@@ -93,7 +92,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		StringBuilder response = new StringBuilder();
 		 URI uri2=null;
 		try {
-			uri2 = new URI("http://jeremy.etcheverry.emi.u-bordeaux.fr/PartySite/concerts/1.json");
+			uri2 = new URI("http://jeremy.etcheverry.emi.u-bordeaux.fr/PartySite/concerts.json");
 		} catch (URISyntaxException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -120,6 +119,35 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	           Log.d("[GET REQUEST]", "Done with HTTP getting");
 			
 	            Log.i("TWIT", "on recoit : "+ response.toString());
+	        
+	            try {
+	            	
+					//ON CREER UN JSON GRACE A LA REPONSE
+	            	JSONObject js = new JSONObject(response.toString());
+	            	//ON EXTRAIT LA STRING SANS POST
+					String tmp = js.getString("posts");
+					//ON CRÉE UN TABLEEAU
+					JSONArray ja = js.getJSONArray("posts");
+					//ON CRÉE UN JSON AVEC CHAQUE LIGNE DU TABLEAU
+					JSONObject t = ja.getJSONObject(0);
+					//ON EXTRAIT LA CHAINE DE LA LIGNE
+					String te = t.getString("Concert");
+					//ON CRÉE UN OBJET DEPUIS LA CHIANE
+					JSONObject en = new JSONObject(te);
+					//ON A LES INFO
+					String p = en.getString("id");
+					String p2 = en.getString("location");
+					
+					Log.i("twit",p2);
+					
+					
+					String s = ja.getString(0);
+					String tab[] = s.split("\"");
+					//Log.i("twit",tab[5] );
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		
 	}
 	
