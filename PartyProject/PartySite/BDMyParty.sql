@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS assoc_tarifs (
 ); 
 
 
-CREATE TABLE IF NOT EXISTS assoc_style (
+CREATE TABLE IF NOT EXISTS assoc_styles (
   id int(11) NOT NULL AUTO_INCREMENT,
   id_style int(11) NOT NULL,
   id_concert int(11) NOT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS assoc_style (
 		REFERENCES concerts (id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS assoc_artist (
+CREATE TABLE IF NOT EXISTS assoc_artists (
   id int(11) NOT NULL AUTO_INCREMENT,
   id_artist int(11) NOT NULL,
   id_concert int(11) NOT NULL,
@@ -82,10 +82,20 @@ CREATE TABLE IF NOT EXISTS assoc_artist (
 	REFERENCES artists(id),
 	FOREIGN KEY (id_concert)
 		REFERENCES concerts (id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE IF NOT EXISTS reservations (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  id_client int(11) NOT NULL,
+  id_concert int(11) NOT NULL,
+  scan int(1) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_client)
+	REFERENCES clients(id),
+	FOREIGN KEY (id_concert)
+		REFERENCES concerts (id) ON DELETE CASCADE
 )
-
-
-
 
 
 
