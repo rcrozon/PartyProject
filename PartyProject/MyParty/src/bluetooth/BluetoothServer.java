@@ -6,6 +6,7 @@ import java.util.UUID;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.util.Log;
 
 public class BluetoothServer extends Thread {
     
@@ -28,6 +29,7 @@ public class BluetoothServer extends Thread {
         // On attend une erreur ou une connexion entrante
         while (true) {
             try {
+            	Log.i("INIT", "init connection");
                 blueSocket = blueServerSocket.accept();
             } catch (IOException e) {
                 break;

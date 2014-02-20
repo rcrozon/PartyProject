@@ -73,9 +73,11 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		this.view_flipper.addView(listNews);
 		if (isClient){
 			this.buttonReservations.setVisibility(View.VISIBLE);
+			this.buttonReservations.setBackgroundResource(R.drawable.button_selected);
 			this.view_flipper.setDisplayedChild(0);
 		}else{
 			this.buttonReservations.setVisibility(View.GONE);
+			this.buttonAllConcerts.setBackgroundResource(R.drawable.button_selected);
 			this.view_flipper.setDisplayedChild(1);
 		}
 		buttonReservations.setOnClickListener(this);
@@ -185,7 +187,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		if (item == decoItem){
 			intent = new Intent(this, ConnectionActivity.class);
 		}else{
-			intent = new Intent(this, MapActivity.class);
+			intent = new Intent(this, BluetoothActivity.class);
 		}
 		this.startActivity(intent);	
 		return false;
