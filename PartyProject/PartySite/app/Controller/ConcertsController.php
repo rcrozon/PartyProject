@@ -97,7 +97,7 @@ class ConcertsController extends AppController{
 
             if($this->Concert->save($d,true,
                 array('name_concert','location','nb_seats','image','start_datetime','end_datetime','full','online'))) {
-                    $this->Session->setFlash('The party has been successfully updated', 'notif');
+                    $this->Session->setFlash('The party has been successfully updated', 'notif', array('type'=>'success'));
                     $this->redirect(array('action' => 'table_concert'));
             } else{
                 $this->Session->setFlash("Thanks to correct your mistakes","notif",array('type'=>'alert-danger'));

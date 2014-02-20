@@ -35,13 +35,12 @@ class ClientsController extends AppController{
         if($this->request->is('post')){
             if($this->Auth->login()){
                // $this->User->id =  $this->Auth->user("id");
-                //$this->User->saveField('lastlogin',date('Y-m-d H:i:s')); 
-                $this->Session->setFlash("Vous êtes maintenant connecté","notif");
-                $this->header('Refresh: 2');
-
-               // $this->redirect('/');
+               //$this->User->saveField('lastlogin',date('Y-m-d H:i:s')); 
+               $this->Session->setFlash("You are connected","notif",array('type'=>'success'));
+               //$this->header('Refresh: 2');
+               $this->redirect('/');
             }else{
-                $this->Session->setFlash("Identifiants incorrects","notif",array('type'=>'error'));
+                $this->Session->setFlash("Wrong username or password","notif",array('type'=>'error'));
             }
         }
     }
@@ -54,6 +53,11 @@ class ClientsController extends AppController{
     function logout(){
         $this->Auth->logout(); 
         $this->redirect($this->referer());
+    }
+
+    function admin_logout(){
+        $this->Auth->logout(); 
+        $this->redirect("/");
     }
  
     function activate($token){

@@ -213,7 +213,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		if (item == decoItem){
 			intent = new Intent(this, ConnectionActivity.class);
 		}else{
-			intent = new Intent(this, BluetoothActivity.class);
+			intent = new Intent(this, MapActivity.class);
 		}
 		this.startActivity(intent);	
 		return false;

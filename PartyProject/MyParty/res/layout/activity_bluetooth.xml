@@ -6,29 +6,44 @@
     android:background="@color/black"
     tools:context=".BluetoothActivity" >
 	
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:indeterminate="true"/>
+    
     <LinearLayout 
         android:id="@+id/layoutBTPassword"
         android:orientation="horizontal"
-		android:layout_width="fill_parent"
+	    android:layout_alignParentTop="true"
+	    android:layout_centerInParent="true"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginRight="10dp"
+	    android:layout_marginTop="10dp"
+	    android:layout_marginBottom="20dp"
+		android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:background="@color/black">
 	    
 	    <TextView
 		    android:id="@+id/textBTPassword"
-		    android:layout_width="fill_parent"
+		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:background="@color/blue"
-		    android:text="@string/connexion" />
+		    android:layout_marginRight="20dp"
+		    android:textSize="@dimen/itemDimension" 
+		    android:textColor="@color/white"
+		    
+		    android:text="@string/password" />
 	    
 		<EditText
 		    android:id="@+id/pwdTextEdit"
-		    android:layout_width="fill_parent"
-		    android:layout_marginTop="30dip"
-		    android:layout_marginLeft="20dip"
-		    android:layout_marginRight="20dip"
+		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:ems="10"
-		    style="@style/EditTextAppTheme"
+		    style="@style/AppBaseTheme"
 		    android:gravity="center"
 		    android:textColor="@color/white"
 		    android:textSize="@dimen/itemDimension" >
@@ -38,10 +53,16 @@
 
 	<ScrollView
 	    android:id="@+id/scrollList"
+	    android:layout_alignParentTop="true"
+	    android:layout_below="@id/layoutBTPassword"
+	    android:layout_marginTop="80dp"
+	    android:layout_marginLeft="20dp"
+	    android:layout_marginRight="20dp"
+	    android:layout_marginBottom="70dp"
 	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content">
+	    android:layout_height="fill_parent">
 	    
-	    <LinearLayout android:id="@+id/layoutList"
+	    <LinearLayout android:id="@+id/layoutDevicesList"
 	        android:orientation="vertical"
 	    	android:layout_width="fill_parent"
 	    	android:layout_height="wrap_content">
@@ -51,7 +72,12 @@
 
 	<Button
         android:id="@+id/buttonUpdateAll"
+	    android:layout_alignParentBottom="true"
         android:background="@color/blue"
+	    android:layout_marginLeft="20dp"
+	    android:layout_marginRight="20dp"
+	    android:layout_marginTop="20dp"
+	    android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/update_all" />
