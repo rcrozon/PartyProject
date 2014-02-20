@@ -100,7 +100,7 @@ class ConcertsController extends AppController{
                     $this->Session->setFlash('The party has been successfully updated', 'notif', array('type'=>'success'));
                     $this->redirect(array('action' => 'table_concert'));
             } else{
-                $this->Session->setFlash("Thanks to correct your mistakes","notif",array('type'=>'alert-danger'));
+                $this->Session->setFlash("Thanks to correct your mistakes","notif",array('type'=>'error'));
             }
 
             //$this->Concert->save($this->request->data);
