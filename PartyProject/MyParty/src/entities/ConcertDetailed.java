@@ -2,6 +2,7 @@ package entities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,6 +13,9 @@ import android.widget.TextView;
 import com.example.myparty.MapActivity;
 import com.example.myparty.R;
 import com.google.android.gms.internal.bu;
+
+import databaseHandler.Tables;
+import databaseHandler.ThreadBitMap;
 
 public class ConcertDetailed extends RelativeLayout {
 
@@ -26,9 +30,32 @@ public class ConcertDetailed extends RelativeLayout {
 		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
 				RelativeLayout.LayoutParams.MATCH_PARENT, 500);
 		layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-		imgView.setBackgroundResource(R.drawable.party2);
-		imgView.setLayoutParams(layoutParams);
+		
+		
+		
+		/*TODO SI HORS ligne*/
+		/*imgView.setBackgroundResource(R.drawable.party2);
+		imgView.setLayoutParams(layoutParams);*/
 
+		
+/*********** Si le serveur est dispo **********************/
+		
+		ThreadBitMap t = new ThreadBitMap(Tables.IMG_PATH_SERVER + concert.getImagePath());
+		t.start();
+		try {
+			t.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		imgView.setImageBitmap(t.getResult());
+		imgView.setLayoutParams(layoutParams);
+		
+		Log.i("ConcertPath", Tables.IMG_PATH_SERVER + concert.getImagePath());
+		
+		/***********************************************************/
+		
+		
 		LinearLayout layoutConcertData = new LinearLayout(context);
 		layoutConcertData.setOrientation(LinearLayout.VERTICAL);
 		RelativeLayout.LayoutParams layoutConcert = new RelativeLayout.LayoutParams(
