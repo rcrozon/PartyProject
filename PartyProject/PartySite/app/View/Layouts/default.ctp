@@ -52,8 +52,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <div class=logo style="max-height: 40px;
-    max-width: 180px;">
+            <div class=logo style="max-height: 40px; max-width: 180px;">
             <?php echo $this->Html->link(
                   $this->Html->image("logo.png", array("alt" => "Home")),
                   "/",
@@ -63,33 +62,28 @@
         </div>
 
         <ul class="nav navbar-nav navbar-right navbar-user">
-          <li class="dropdown user-dropdown">
-            <?php if(AuthComponent::user('id')): ?>
+          <?php if(AuthComponent::user('id')): ?>
+            <li class="dropdown user-dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
                 <?php echo ucfirst(AuthComponent::user('username')); ?> <b class="caret"></b></a>
-            <?php else: ?>
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Doe <b class="caret"></b></a>
-            <?php endif; ?>
-            <ul class="dropdown-menu">
-              <?php if(AuthComponent::user('id')): ?>
-                <li><?php echo $this->Html->link('<i class="fa fa-user"></i> Profile',
-                  array('action'=>'edit','controller'=>'clients'), array('escape' => false)); ?></li>
-                <?php if(AuthComponent::user('admin')=='1'): ?>
-                  <li><?php echo $this->Html->link('<i class="fa fa-gear"></i> Administration',
-                    array('action'=>'index','controller'=>'admin/concerts'), array('escape' => false)); ?></li>
-                <?php endif; ?>
-                <li class="divider"></li>
-                <li><?php echo $this->Html->link('<i class="fa fa-power-off"></i> Log Out',
-                  array('action'=>'logout','controller'=>'clients'), array('escape' => false)); ?></li>
-              <?php else: ?>
-                <li><?php echo $this->Html->link('<i class="fa fa-user"></i> Register',
-                  array('action'=>'signup','controller'=>'clients'), array('escape' => false)); ?></li>
-                <li class="divider"></li>
-                <li><?php echo $this->Html->link('<i class="fa fa-power-off"></i> Log In',
-                  array('action'=>'login','controller'=>'clients'), array('escape' => false)); ?></li>
-              <?php endif; ?>
-            </ul>
-          </li>
+              <ul class="dropdown-menu">
+                  <li><?php echo $this->Html->link('<i class="fa fa-user"></i> Profile',
+                    array('action'=>'edit','controller'=>'clients'), array('escape' => false)); ?></li>
+                  <?php if(AuthComponent::user('admin')=='1'): ?>
+                    <li><?php echo $this->Html->link('<i class="fa fa-gear"></i> Administration',
+                      array('action'=>'index','controller'=>'admin/concerts'), array('escape' => false)); ?></li>
+                  <?php endif; ?>
+                  <li class="divider"></li>
+                  <li><?php echo $this->Html->link('<i class="fa fa-power-off"></i> Log Out',
+                    array('action'=>'logout','controller'=>'clients'), array('escape' => false)); ?></li>
+              </ul>
+            </li>
+          <?php else: ?>
+            <li><?php echo $this->Html->link('<i class="fa fa-user"></i> Register',
+              array('action'=>'signup','controller'=>'clients'), array('escape' => false)); ?></li>
+            <li><?php echo $this->Html->link('<i class="fa fa-power-off"></i> Log In',
+              array('action'=>'login','controller'=>'clients'), array('escape' => false)); ?></li>
+          <?php endif; ?>
         </ul>
       </nav>
 

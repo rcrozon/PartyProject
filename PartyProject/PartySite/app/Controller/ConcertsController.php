@@ -115,6 +115,13 @@ class ConcertsController extends AppController{
         $this->set($d);
     }
 
+    //function admin_tariff($id) {
+        /*$this->Concert->id = $id;
+        $this->request->data = $this->Concert->read();
+        $d['partyName'] = $this->Concert->data['Concert']['name_concert'];
+        $this->set($d);*/
+    //}
+
     function admin_delete($id) {
         $this->Session->setFlash('The party has been successfully deleted', 'notif'/*,array('type'=>'alert-danger')*/);
         $this->Concert->delete($id);
