@@ -1,0 +1,60 @@
+<?php
+class ReservationsController extends AppController{
+
+	function addReservations (){
+		if($this->request->is('post')) {
+			$resultPost = $this->request->data; 
+			$idConcert = $this->params['named']['idC']; 
+
+			
+
+        //Get id of Tarif
+			$v = $this->AssocTarif->find('all',array('conditions' => array('AssocTarif.id_concert' => $idConcert)));		      
+        //Parcours des tarifs
+			for ($i = 0; $i <= sizeof($v)-1; $i++) {
+				$idT= $v[$i]['AssocTarif']['id_tarif'];
+				$quantite = $resultPost [$idT];
+
+			//Ajout des reservations
+
+				for ($j = 0; $j <= $quantite-1;$j++){
+				$table['id_client'] = $userId = $this->Auth->user('id');
+
+				$table['id_concert'] = $idConcert;
+				$table['id_tarif'] = $idT;
+				$table['scan'] = 0;
+
+				$this->Reservation->create();
+
+				if($this->Reservation->save($table,false,array('id_client','id_concert','id_tarif','scan')))
+				{
+				$this->Session->setFlash("success","notif",array('type'=>'success'));
+
+				}
+				else {
+					
+				}
+			}
+		}
+	}
+
+
+	$id = $this->params['named']['idC'];   
+	$d = $this->Concert->find('first',array(
+		'conditions' => array('Concert.id' => $id)
+		));
+
+	$d = Hash::extract($d, 'Concert'); 
+        //Get id of Tarif
+	$v = $this->AssocTarif->find('all',array('conditions' => array('AssocTarif.id_concert' => $id)));
+
+	for ($i = 0; $i <= sizeof($v)-1; $i++) {
+		$idT = $v[$i]['AssocTarif']['id_tarif'];
+		$result[$i] = $this->Tarif->find('all',array('conditions' => array('Tarif.id' => $idT)));
+	}
+	$this->set('showConcert',$d);
+	$this->set('showTarif',$result);
+
+}
+
+}
