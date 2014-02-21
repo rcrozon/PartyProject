@@ -1,14 +1,24 @@
 package entities;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import lists.Items;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.GetChars;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.myparty.R;
+
+import databaseHandler.Tables;
 
 public class ConcertItem extends LinearLayout implements Items{
 	
@@ -30,6 +40,9 @@ public class ConcertItem extends LinearLayout implements Items{
 		LayoutParams llp = new LayoutParams(140, 250, Gravity.CENTER_HORIZONTAL); 
 		imgView.setBackgroundResource(R.drawable.party2);
 		imgView.setLayoutParams(llp);
+		
+		Log.i("ConcertPath", Tables.IMG_PATH_SERVER + concert.getImagePath());
+		
 		this.addView(imgView);
 		TextView title = new TextView(context);
 		//TextView price = new TextView(context);

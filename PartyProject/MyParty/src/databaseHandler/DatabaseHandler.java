@@ -17,7 +17,7 @@ import android.util.Log;
 
 public class DatabaseHandler {
 	
-	private static final int VERSION_BDD = 37;
+	private static final int VERSION_BDD = 40;
 	private static final String BDD_NAME = "myparty.db";
 	private SQLiteDatabase bdd;
 	private DatabaseCreate SQLiteBase ;
@@ -28,7 +28,7 @@ public class DatabaseHandler {
  
 	public void open(){
 		bdd = SQLiteBase.getWritableDatabase();
-		initBDD();
+		//initBDD();
 		
 	}
  
@@ -62,7 +62,9 @@ public class DatabaseHandler {
 				Tables.CONCERT_NAME_NB_SEAT,
 				Tables.CONCERT_NAME_FULL,
 				Tables.CONCERT_NAME_ID_CREATOR,
-				Tables.CONCERT_NAME_TITLE_CONCERT}, 
+				Tables.CONCERT_NAME_TITLE_CONCERT,
+				Tables.CONCERT_NAME_ONLINE,
+				Tables.CONCERT_NAME_ID_TARIF}, 
 				null, null, null, null, null);
 		if (c.getCount() !=0){
 			return ;
@@ -70,23 +72,23 @@ public class DatabaseHandler {
 		else{
 			Log.i("init", "ON PASSE");
 			Concert c1 = new Concert(1, "", "Michael Jackson", "11/12/14",
-			"11/12/14", "Lyon",  200, 0);
+			"11/12/14", "Lyon",  200, 0,1,1, 1);
 			Concert c2 = new Concert(2, "", "Edith Piaf", "11/12/14", "11/12/14",
-			"Paris", 500, 0);
+			"Paris", 500, 0,1,1, 1);
 			Concert c3 = new Concert(3, "", "Balavoine", "11/12/14", "11/12/14",
-			"Grenoble", 500, 0);
+			"Grenoble", 500, 0,1,1, 1);
 			Concert c4 = new Concert(4, "", "Goldman", "11/12/14", "11/12/14",
-			"Londres", 500, 0);
+			"Londres", 500, 0,1,1, 1);
 			Concert c5 = new Concert(5, "", "Queen", "11/12/14", "11/12/14",
-			"La Rochelle", 500, 0);
+			"La Rochelle", 500, 0,1,1, 1);
 			Concert c6 = new Concert(6, "", "AC/DC", "11/12/14", "11/12/14",
-			"Poitiers", 500, 0);
+			"Poitiers", 500, 0,1,1, 1);
 			Concert c7 = new Concert(7, "", "Dire Straits", "11/12/14", "11/12/14",
-			"Londres",500, 0);
+			"Londres",500, 0,1,1, 1);
 			Concert c8 = new Concert(8, "", "Boston", "11/12/14", "11/12/14",
-			"La Rochelle", 500, 0);
+			"La Rochelle", 500, 0,1,1, 1);
 			Concert c9 = new Concert(9, "", "The Beatles", "11/12/14", "11/12/14",
-			"Poitiers", 500, 0);
+			"Poitiers", 500, 0,1,1, 1);
 			insertConcert(c1);
 			insertConcert(c2);	
 			insertConcert(c3);	
@@ -155,8 +157,10 @@ public class DatabaseHandler {
 		values.put(Tables.CONCERT_NAME_IMAGE, concert.getImagePath());
 		values.put(Tables.CONCERT_NAME_NB_SEAT, concert.getNbSeets());
 		values.put(Tables.CONCERT_NAME_FULL,concert.isFull());
-		values.put(Tables.CONCERT_NAME_ID_CREATOR,1);
+		values.put(Tables.CONCERT_NAME_ID_CREATOR,concert.getIdCreator());
 		values.put(Tables.CONCERT_NAME_TITLE_CONCERT, concert.getTitle());
+		values.put(Tables.CONCERT_NAME_ONLINE,concert.getOnline());
+		values.put(Tables.CONCERT_NAME_ID_TARIF,concert.getIdTarif());
 		return bdd.insert(Tables.CONCERT_TABLE, null, values);
 	}
 	
@@ -216,7 +220,9 @@ public class DatabaseHandler {
 				Tables.CONCERT_NAME_NB_SEAT,
 				Tables.CONCERT_NAME_FULL,
 				Tables.CONCERT_NAME_ID_CREATOR,
-				Tables.CONCERT_NAME_TITLE_CONCERT}, 
+				Tables.CONCERT_NAME_TITLE_CONCERT,
+				Tables.CONCERT_NAME_ONLINE,
+				Tables.CONCERT_NAME_ID_TARIF}, 
 				Tables.CONCERT_NAME_ID + " LIKE \"" + id +"\"", null, null, null, null);
 		if (c.getCount() != 1){
 			return null;
@@ -229,8 +235,10 @@ public class DatabaseHandler {
 				c.getString(Tables.CONCERT_NUM_END_DATE),
 				c.getString(Tables.CONCERT_NUM_LOCATION),
 				c.getInt(Tables.CONCERT_NUM_NB_SEAT), 
-				c.getInt(Tables.CONCERT_NUM_FULL));
-		
+				c.getInt(Tables.CONCERT_NUM_FULL),
+				c.getInt(Tables.CONCERT_NUM_ID_TARIF),
+				c.getInt(Tables.CONCERT_NUM_ID_CREATOR),
+				c.getInt(Tables.CONCERT_NUM_ONLINE));
 		c.close();
  
 		return concert;
@@ -310,7 +318,9 @@ public class DatabaseHandler {
 				Tables.CONCERT_NAME_NB_SEAT,
 				Tables.CONCERT_NAME_FULL,
 				Tables.CONCERT_NAME_ID_CREATOR,
-				Tables.CONCERT_NAME_TITLE_CONCERT}, 
+				Tables.CONCERT_NAME_TITLE_CONCERT,
+				Tables.CONCERT_NAME_ONLINE,
+				Tables.CONCERT_NAME_ID_TARIF}, 
 				null, null, null, null, null);
 		if (c.getCount() == 0){
 			return null;
@@ -327,7 +337,10 @@ public class DatabaseHandler {
 				c.getString(Tables.CONCERT_NUM_END_DATE),
 				c.getString(Tables.CONCERT_NUM_LOCATION),
 				c.getInt(Tables.CONCERT_NUM_NB_SEAT), 
-				c.getInt(Tables.CONCERT_NUM_FULL));
+				c.getInt(Tables.CONCERT_NUM_FULL),
+				c.getInt(Tables.CONCERT_NUM_ID_TARIF),
+				c.getInt(Tables.CONCERT_NUM_ID_CREATOR),
+				c.getInt(Tables.CONCERT_NUM_ONLINE));
 		cl.add(concert);
 		
 		}

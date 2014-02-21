@@ -29,6 +29,7 @@ import databaseHandler.DatabaseHandler;
 import databaseHandler.DatabaseServer;
 import databaseHandler.MyJsonParser;
 import entities.Client;
+import entities.Concert;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Paint.Join;
@@ -94,30 +95,18 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		dataBase = new DatabaseHandler(this);
 		dataBase.open();
 		
-/****************** BDD EXTERNE ***********************************/
-	
-		/*ON ENVOI LA REQUET*/
-		DatabaseServer dbbs = new DatabaseServer(); 
-		String tmp =dbbs.getRequest("getAllClients");
-		//Log.i("factor", "ON A : "+tmp);
-		//dbbs.postRequest("decodejs","il");
-		/*ON Parse le json pour récupérer la liste des clients*/
-		MyJsonParser parser = new MyJsonParser();
-		List<Client> cl = parser.getClientFromJson(tmp);
-		/*On insere les clients dans bdd*/
-		for (int i=0 ; i< cl.size() ; i++){
-			Client c = cl.get(i);
-			Log.i("Client",c.testToString());
-		//	dataBase.insertClient(c);
+		List<Concert> concert = dataBase.getConcerts();
+		for (int i=0 ; i< concert.size() ; i++){
+			Concert c = concert.get(i);
+			Log.i("ConcertVerif",c.testToString());
 		}
-		//dataBase.insertRes(15, dataBase.getConcertWithId(4), dataBase.getClientWithId(12));
-		//dataBase.insertRes(16, dataBase.getConcertWithId(5), dataBase.getClientWithId(13));
-		//dataBase.insertRes(17, dataBase.getConcertWithId(4), dataBase.getClientWithId(12));
-		Log.i("ClientBase",dataBase.getClientWithId(12).testToString());
-		Log.i("ClientBase",dataBase.getClientWithId(13).testToString());
 		
+		for (int i=1 ; i< 3 ; i++){
+			Client c = dataBase.getClientWithId(i);
+			Log.i("ClientVerif",c.testToString());
+		}
 		
-		
+/****************** BDD EXTERNE ***********************************/
 	
 	} 
 	

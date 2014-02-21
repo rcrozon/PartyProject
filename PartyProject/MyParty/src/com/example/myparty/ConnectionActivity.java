@@ -1,5 +1,7 @@
 package com.example.myparty;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +16,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import databaseHandler.DatabaseHandler;
+import databaseHandler.DatabaseServer;
+import databaseHandler.MyJsonParser;
+import entities.Client;
+import entities.Concert;
 
 
 public class ConnectionActivity extends Activity implements OnClickListener {
@@ -36,6 +42,31 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		
 		dataBase = new DatabaseHandler(this);
 		dataBase.open();
+		
+/******************  BDD EXTERNE  ***********************************/
+		/*ON ENVOI LA REQUET*/
+		DatabaseServer dbbs = new DatabaseServer(); 
+		MyJsonParser parser = new MyJsonParser();
+		
+		String tmp =dbbs.getRequest("getAllClients");
+		String concertString = dbbs.getRequest("getAllConcerts");
+		
+		List<Client> clientlist = parser.getClientFromJson(tmp);
+		List<Concert> concertlist = parser.getConcertFromJson(concertString);
+		
+		/*On insere les concerts dans bdd*/
+		for (int i=0 ; i< concertlist.size() ; i++){
+			Concert c = concertlist.get(i);
+			Log.i("Concert",c.testToString());
+			//dataBase.insertConcert(c);
+		}
+		
+		/*On insere les clients dans bdd*/
+		for (int i=0 ; i< clientlist.size() ; i++){
+			Client c = clientlist.get(i);
+			Log.i("Client",c.testToString());
+			//dataBase.insertClient(c);
+		}
 		
 	}
 
@@ -78,12 +109,12 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		if (v == buttonConnexion){
 			
 			/* TODO A DECOMMENTER SI ON NE VEUT PAS UTILISER AUTHENTIFICATION*/
-			/*Intent intent = new Intent(this, ConcertActivity.class);
-	    	this.startActivity(intent);*/
+			Intent intent = new Intent(this, ConcertActivity.class);
+	    	this.startActivity(intent);
 			
 /****************** AUTHENTIFICATION ***********************************/			
 
-			EditText login = (EditText)findViewById(R.id.loginTextEdit);
+			/*EditText login = (EditText)findViewById(R.id.loginTextEdit);
 			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
 		Log.i("LOGIN", login.getText().toString() + "  " + pwd.getText().toString());
 		if (dataBase.authentification(login.getText().toString(), pwd.getText().toString())){
@@ -92,14 +123,14 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		}
 			else{
 				/*** ERREUR *************/
-			Context myContext = getApplicationContext();
+		/*	Context myContext = getApplicationContext();
 				CharSequence text = "ERROR LOGIN OR PASSWORD !";
 				int duration = Toast.LENGTH_SHORT;
 
 				Toast toast = Toast.makeText(myContext, text, duration);
 				toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
 				toast.show();
-			}
+			}*/
 		
 		}
 	}

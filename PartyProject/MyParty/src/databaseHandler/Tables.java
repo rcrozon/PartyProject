@@ -2,6 +2,10 @@ package databaseHandler;
 
 public final class Tables {
 	
+	/***************** ADRESSE SERVEUR *************************************/
+	
+	public static final String IMG_PATH_SERVER = "http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/img/Concerts/";
+	
 	/************* TABLE CLIENTS *************************/
 	
 	public static final String CLIENT_TABLE = "clients";
@@ -45,6 +49,10 @@ public final class Tables {
 	public static final int CONCERT_NUM_ID_CREATOR = 7;
 	public static final String CONCERT_NAME_TITLE_CONCERT = "name_concert";
 	public static final int CONCERT_NUM_TITLE_CONCERT = 8;
+	public static final String CONCERT_NAME_ONLINE = "online";
+	public static final int CONCERT_NUM_ONLINE = 9;
+	public static final String CONCERT_NAME_ID_TARIF = "id_tarif";
+	public static final int CONCERT_NUM_ID_TARIF = 10;
 	
 /************* TABLE RESERVATION *************************/
 	
