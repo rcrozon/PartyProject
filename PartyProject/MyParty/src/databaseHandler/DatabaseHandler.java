@@ -17,7 +17,7 @@ import android.util.Log;
 
 public class DatabaseHandler {
 	
-	private static final int VERSION_BDD = 40;
+	private static final int VERSION_BDD = 42;
 	private static final String BDD_NAME = "myparty.db";
 	private SQLiteDatabase bdd;
 	private DatabaseCreate SQLiteBase ;

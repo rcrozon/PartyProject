@@ -96,14 +96,17 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		dataBase.open();
 		
 		List<Concert> concert = dataBase.getConcerts();
-		for (int i=0 ; i< concert.size() ; i++){
-			Concert c = concert.get(i);
-			Log.i("ConcertVerif",c.testToString());
+		if (concert != null){
+			for (int i=0 ; i< concert.size() ; i++){
+				Concert c = concert.get(i);
+				Log.i("ConcertVerif",c.testToString());
+			}
 		}
 		
 		for (int i=1 ; i< 3 ; i++){
 			Client c = dataBase.getClientWithId(i);
-			Log.i("ClientVerif",c.testToString());
+			if (c != null)
+				Log.i("ClientVerif",c.testToString());
 		}
 		
 /****************** BDD EXTERNE ***********************************/
