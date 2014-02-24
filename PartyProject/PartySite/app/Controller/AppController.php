@@ -34,7 +34,7 @@ class AppController extends Controller {
 		    'Form'
 		);
 		//$this->Auth->allow();
-        $this->Auth->authorize = 'controller';
+        $this->Auth->authorize = 'Controller';
         if((empty($this->params['admin']) || $this->params['admin'] != 'true') /*&& $this->action != 'login'*/) {
             $this->Auth->allow();
         }
