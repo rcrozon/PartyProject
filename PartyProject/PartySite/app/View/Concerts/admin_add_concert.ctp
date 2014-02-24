@@ -7,6 +7,8 @@
 		<?php echo $this->Form->create('Concert', array('type' => 'file')); ?>
 		  	<?php echo $this->Form->input('name_concert',array('label'=>"Party name : ",
 		  		'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false)); ?>
+		  	<?php echo $this->Form->input('name',array('label'=>"Artists : ",
+		  		'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false, 'id' => 'demo-input-facebook-theme')); ?>
 			<?php echo $this->Form->input('location',array('label'=>"Scene : ", 
 				'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false)); ?>
 			<?php echo $this->Form->input('nb_seats',array('label'=>"Numbrer of seats : ",
@@ -17,6 +19,18 @@
 				'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false)); ?>
 		  	<?php echo $this->Form->input('end_datetime', array('type' => 'datetime', 'label'=>"End date and hour : ",
 		  		'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false)); ?>
-		<tr><td><?php echo $this->Form->end("Create my party"); ?></td></tr>
+		<tr><td><?php echo $this->Form->button("Create my party", array('class' => 'btn btn-primary')); ?></td></tr>
+		<?php echo $this->Form->end(); ?>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$("#demo-input-facebook-theme").tokenInput("http://localhost/depot/PartyProject/PartyProject/script-web/search.php?q=$name",
+				{
+					theme: "facebook",
+					noResultsText: "No result",
+					preventDuplicates: true,
+					tokenDelimiter: "|"
+				});
+			});
+		</script>
 	</table>
 </div>

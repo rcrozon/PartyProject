@@ -118,6 +118,8 @@ textarea {
 }
 button {
   overflow: visible;
+  margin-left: 18px;
+  margin-top: 10px;
 }
 button,
 select {
@@ -1407,6 +1409,8 @@ table {
 }
 th {
   text-align: left;
+  /*width: 268px;*/
+  width: 300px;
 }
 .table {
   width: 100%;
