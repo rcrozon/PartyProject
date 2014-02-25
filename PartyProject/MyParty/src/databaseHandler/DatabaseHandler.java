@@ -17,7 +17,7 @@ import android.util.Log;
 
 public class DatabaseHandler {
 	
-	private static final int VERSION_BDD = 42;
+	private static final int VERSION_BDD = 43;
 	private static final String BDD_NAME = "myparty.db";
 	private SQLiteDatabase bdd;
 	private DatabaseCreate SQLiteBase ;
@@ -52,83 +52,6 @@ public class DatabaseHandler {
 /***************** INITIALISATION DE LA BDD ***************************/	
 
 	public void initBDD(){
-		/*On regarde si il existe un concert*/
-		Cursor c = bdd.query(Tables.CONCERT_TABLE,
-				new String[] {Tables.CONCERT_NAME_ID, 
-				Tables.CONCERT_NAME_START_DATE,
-				Tables.CONCERT_NAME_END_DATE,
-				Tables.CONCERT_NAME_LOCATION,
-				Tables.CONCERT_NAME_IMAGE,
-				Tables.CONCERT_NAME_NB_SEAT,
-				Tables.CONCERT_NAME_FULL,
-				Tables.CONCERT_NAME_ID_CREATOR,
-				Tables.CONCERT_NAME_TITLE_CONCERT,
-				Tables.CONCERT_NAME_ONLINE,
-				Tables.CONCERT_NAME_ID_TARIF}, 
-				null, null, null, null, null);
-		if (c.getCount() !=0){
-			return ;
-		}
-		else{
-			Log.i("init", "ON PASSE");
-			Concert c1 = new Concert(1, "", "Michael Jackson", "11/12/14",
-			"11/12/14", "Lyon",  200, 0,1,1, 1);
-			Concert c2 = new Concert(2, "", "Edith Piaf", "11/12/14", "11/12/14",
-			"Paris", 500, 0,1,1, 1);
-			Concert c3 = new Concert(3, "", "Balavoine", "11/12/14", "11/12/14",
-			"Grenoble", 500, 0,1,1, 1);
-			Concert c4 = new Concert(4, "", "Goldman", "11/12/14", "11/12/14",
-			"Londres", 500, 0,1,1, 1);
-			Concert c5 = new Concert(5, "", "Queen", "11/12/14", "11/12/14",
-			"La Rochelle", 500, 0,1,1, 1);
-			Concert c6 = new Concert(6, "", "AC/DC", "11/12/14", "11/12/14",
-			"Poitiers", 500, 0,1,1, 1);
-			Concert c7 = new Concert(7, "", "Dire Straits", "11/12/14", "11/12/14",
-			"Londres",500, 0,1,1, 1);
-			Concert c8 = new Concert(8, "", "Boston", "11/12/14", "11/12/14",
-			"La Rochelle", 500, 0,1,1, 1);
-			Concert c9 = new Concert(9, "", "The Beatles", "11/12/14", "11/12/14",
-			"Poitiers", 500, 0,1,1, 1);
-			insertConcert(c1);
-			insertConcert(c2);	
-			insertConcert(c3);	
-			insertConcert(c4);	
-			insertConcert(c5);	
-			insertConcert(c6);	
-			insertConcert(c7);	
-			insertConcert(c8);	
-			insertConcert(c9);	
-			
-			for (int i=1; i< 11; i++){
-				
-				Client cl = new Client(i, "Prenom"+i, "Nom"+i, i+"@lab.fr", "log"+i, "pas"+i, 0, "12/019/19");
-				insertClient(cl);
-			}
-			Client admin = new Client(11, "Admin", "Admin", "admin@lab.fr", "test", "test", 1, "12/019/19");
-			insertClient(admin);
-			Client tmp = new Client(25, "tmp", "tmp", "admin@lab.fr", "tmp", "tmp", 1, "12/019/19");
-			insertClient(tmp);
-
-			insertRes(1, getConcertWithId(1), getClientWithId(1));
-			insertRes(2, getConcertWithId(1), getClientWithId(2));
-			insertRes(3, getConcertWithId(1), getClientWithId(3));
-			insertRes(4, getConcertWithId(1), getClientWithId(4));
-			
-			insertRes(5, getConcertWithId(2), getClientWithId(3));
-			insertRes(6, getConcertWithId(2), getClientWithId(5));
-			
-			insertRes(7, getConcertWithId(3), getClientWithId(6));
-			insertRes(8, getConcertWithId(3), getClientWithId(7));
-			insertRes(9, getConcertWithId(3), getClientWithId(1));
-			insertRes(10, getConcertWithId(3), getClientWithId(3));
-			
-			insertRes(11, getConcertWithId(4), getClientWithId(10));
-			insertRes(12, getConcertWithId(4), getClientWithId(8));
-			insertRes(13, getConcertWithId(4), getClientWithId(2));
-			insertRes(14, getConcertWithId(4), getClientWithId(6));
-			
-		}
-		
 	}
 	
 /***************** INSERER UN CLIENT DANS LA BDD ***************************/
@@ -166,11 +89,13 @@ public class DatabaseHandler {
 	
 /***************** INSERER UNE RESERVATION DANS LA BDD ***************************/
 	
-	public long insertRes(int id_res,Concert concert,Client client){
+	public long insertRes(int id_res,Concert concert,Client client,int scan){
 		ContentValues values = new ContentValues();
 		values.put(Tables.RES_NAME_ID,id_res);
 		values.put(Tables.RES_NAME_ID_CONCERT,concert.getId());
 		values.put(Tables.RES_NAME_ID_CLIENT, client.getId());
+		values.put(Tables.RES_NAME_ID_TARIF,concert.getIdTarif());
+		values.put(Tables.RES_NAME_SCAN, scan);
 		return bdd.insert(Tables.RES_TABLE, null, values);
 	}
 	
@@ -285,7 +210,9 @@ public class DatabaseHandler {
 		Cursor c = bdd.query(Tables.RES_TABLE, 
 				new String[] {Tables.RES_NAME_ID, 
 				Tables.RES_NAME_ID_CONCERT, 
-				Tables.RES_NAME_ID_CLIENT}, 
+				Tables.RES_NAME_ID_CLIENT,
+				Tables.RES_NAME_ID_TARIF,
+				Tables.RES_NAME_SCAN}, 
 				Tables.RES_NAME_ID_CONCERT + " LIKE \"" + id_concert +"\"", null, null, null, null);
 		if (c.getCount() ==0 ){
 			return null;

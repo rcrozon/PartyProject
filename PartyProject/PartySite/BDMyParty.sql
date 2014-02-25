@@ -89,10 +89,13 @@ CREATE TABLE IF NOT EXISTS reservations (
   id int(11) NOT NULL AUTO_INCREMENT,
   id_client int(11) NOT NULL,
   id_concert int(11) NOT NULL,
+  id_tarif int (11)  NOT NULL,
   scan int(1) NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (id_client)
 	REFERENCES clients(id),
+	FOREIGN KEY (id_tarif)
+	REFERENCES tarifs(id),
 	FOREIGN KEY (id_concert)
 		REFERENCES concerts (id) ON DELETE CASCADE
 )
