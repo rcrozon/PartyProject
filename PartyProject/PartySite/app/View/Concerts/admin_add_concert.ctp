@@ -5,13 +5,13 @@
 
 	<table>
 		<?php echo $this->Form->create('Concert', array('type' => 'file')); ?>
-		  	<?php echo $this->Form->input('name_concert',array('label'=>"Party name : ",
+		  	<?php echo $this->Form->input('name_concert',array('label'=>"Party name* : ",
 		  		'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false)); ?>
-		  	<?php echo $this->Form->input('name',array('label'=>"Artists : ",
-		  		'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false, 'id' => 'demo-input-facebook-theme')); ?>
-			<?php echo $this->Form->input('location',array('label'=>"Scene : ", 
+		  	<?php echo $this->Form->input('name',array('label'=>"Artists* : ",
+		  		'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false, 'id' => 'demo-input-facebook-theme'/*, 'class' => 'form-error', 'required' => 'required'*/)); ?>
+			<?php echo $this->Form->input('location',array('label'=>"Scene* : ", 
 				'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false)); ?>
-			<?php echo $this->Form->input('nb_seats',array('label'=>"Numbrer of seats : ",
+			<?php echo $this->Form->input('nb_seats',array('label'=>"Numbrer of seats* : ",
 				'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false)); ?>
 			<?php echo $this->Form->input('image_file', array('type' => 'file', 'label'=>"Background image : ",
 				'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false)); ?>
