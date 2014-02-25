@@ -22,23 +22,39 @@
 /**
  * Here, we are connecting '/' (base path) to controller called 'Pages',
  * its action called 'display', and we pass a param to select the view file
- * to use (in this case, /app/View/Pages/home.ctp)...
- 
- 
+ * to use (in this case, /app/View/Pages/home.ctp)... 
  */
  
- Router::mapResources('Concerts');
+Router::mapResources('Concerts');
 Router::parseExtensions();
 	
 Router::connect('/', array('controller' => 'Concerts', 'action' => 'showLastConcerts', 'home'));
- Router::connect('/page/:slug-:id',array('controller'=>'Concerts','action'=>'showConcert'),array('pass'=> array('id','slug'), 'id'=>'[0-9]+','slug' =>'[a-z0-9\-]+'));
-/**
- * ...and connect the rest of 'Pages' controller's URLs.
+Router::connect('/page/:slug-:id',array('controller'=>'Concerts','action'=>'showConcert'),array('pass'=> array('id','slug'), 'id'=>'[0-9]+','slug' =>'[a-z0-9\-]+'));
+
+Router::connect('/page/:idC',array('controller'=>'Reservations','action'=>'addReservations'),array('pass'=> array('idC'), 'idC' =>'[0-9]+'));
+
+
+
+Router::connect('/page/:id',array('controller'=>'Mobiles','action'=>'getConcertByID'),array('pass'=> array('id'), 'id'=>'[0-9]+'));
+Router::connect('/page/:login',array('controller'=>'Mobiles','action'=>'getClientByName'),array('pass'=> array('login'), 'login' =>'[a-z0-9\-]+'));
+
+
+
+
 
 /**
+ * ...and connect the rest of 'Pages' controller's URLs./**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
  */
+
+
+
+
+
+
+
+
 	CakePlugin::routes();
 
 /**

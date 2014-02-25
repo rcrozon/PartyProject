@@ -5,11 +5,16 @@
         <title>
             <?php echo $title_for_layout; ?>
         </title>
+        <link rel="stylesheet" href="<?php echo $this->Html->url('/css/token-input.css');?>" type="text/css">
+        <link rel="stylesheet" href="<?php echo $this->Html->url('/css/token-input-facebook.css');?>" type="text/css">
+
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap.min.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/sb-admin.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/font-awesome/css/font-awesome.min.css');?>">
-        <!--<link rel="stylesheet" href="<?php echo $this->Html->url('http://cdn.oesmith.co.uk/morris-0.4.3.min.css');?>">-->
+        
+        <?php echo $this->Html->script('jquery-1.10.2'); ?>
+        <?php echo $this->Html->script('jquery.tokeninput'); ?>
         <?php echo $this->Html->script('less'); ?>
         <?php echo $scripts_for_layout; ?>
     </head>
@@ -36,15 +41,10 @@
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                   <ul class="nav navbar-nav side-nav">
                     <li class="active">
-                        <!--<a href="#">
-                            <i class="fa fa-dashboard"></i> Dashboard
-                        </a>-->
                         <?php echo $this->Html->link('<i class="fa fa-dashboard"></i> Dashboard',
                             array('action'=>'index','controller'=>'concerts'), array('escape' => false)); ?>
-                        <!--<i class="fa fa-dashboard"></i> Dashboard</a>-->
                     </li>
                     <li><a href="#"><i class="fa fa-bar-chart-o"></i> Charts</a></li>
-                    <!--<li><a href="#"><i class="fa fa-table"></i> Tables</a></li>-->
                     <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-table"></i> Tables <b class="caret"></b>
@@ -57,7 +57,6 @@
                         <li><a href="#">Reservation Table</a></li>
                       </ul>
                     </li>
-                    <!--<li><a href="#"><i class="fa fa-edit"></i> Forms</a></li>-->
                     <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-edit"></i> Forms <b class="caret"></b>
@@ -137,16 +136,6 @@
                         <li><a href="#">View All</a></li>
                       </ul>
                     </li>
-                    <!--<li class="dropdown user-dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
-                        <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge">7</span></a></li>
-                        <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-power-off"></i> Log Out</a></li>
-                      </ul>
-                    </li>-->
 
                     <li class="dropdown user-dropdown">
                         <?php if(AuthComponent::user('id')): ?>
@@ -178,9 +167,7 @@
             </div>
         </div>
     </body>
-    <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery. min.js"></script> -->
     <!-- JavaScript -->
-    <?php echo $this->Html->script('jquery-1.10.2'); ?>
     <?php echo $this->Html->script('bootstrap'); ?>
     <!-- Page Specific Plugins -->
     <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>

@@ -70,8 +70,12 @@ text-align: center;
 
 			?>
 
-
-  		<button type="button" style="margin-left:15px; margin-top:5px;" class="btn btn-primary">Accéder à la billeterie</button>
+        <a  href="<?php echo $this->Html->url(array(
+    				"controller" => "reservations",
+  					"action" => "addReservations",
+  					"idC"=>$showConcert['id']    			
+					));?>" role="button" style="margin-left:15px; margin-top:5px;" class="btn btn-primary">Accéder à la billeterie</a>
+  	
 
 		</div>
 
