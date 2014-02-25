@@ -26,20 +26,22 @@ class ConcertsController extends AppController{
             # On récupère et concatène les noms des artistes 
             # # # # # # # # # # # # # # # # # # # # # # # # #
             $artists = $d['Concert']['name'];
-            $artists = explode("|", $artists);
-            $tab = array();
-            foreach ($artists as $k => $v) {
-                $name_artists = $this->Artist->find('all', array(
-                    'conditions' => array('Artist.id' => $v)
-                ));
-                $tab[] = $name_artists[0]['Artist']['name'];
+            if(!empty($artists)) {
+                $artists = explode("|", $artists);
+                $tab = array();
+                foreach ($artists as $k => $v) {
+                    $name_artists = $this->Artist->find('all', array(
+                        'conditions' => array('Artist.id' => $v)
+                    ));
+                    $tab[] = $name_artists[0]['Artist']['name'];
+                }
+                $concat_art = "";
+                foreach ($tab as $k => $v) {
+                    $concat_art = $concat_art . $v . ", ";
+                }
+                $concat_art = substr($concat_art, 0, -2);
+                $d['Concert']['artists'] = $concat_art;
             }
-            $concat_art = "";
-            foreach ($tab as $k => $v) {
-                $concat_art = $concat_art . $v . ", ";
-            }
-            $concat_art = substr($concat_art, 0, -2);
-            $d['Concert']['artists'] = $concat_art;
             # # # # # # # # # # # # #
             # On récupère le créateur 
             # # # # # # # # # # # # #
@@ -131,21 +133,22 @@ class ConcertsController extends AppController{
             # Partie artists : comme addConcert()
             # # # # # # # # # # # # # # # # # # # #
             $artists = $d['Concert']['name'];
-            $artists = explode("|", $artists);
-            $tab = array();
-            foreach ($artists as $k => $v) {
-                $name_artists = $this->Artist->find('all', array(
-                    'conditions' => array('Artist.id' => $v)
-                ));
-                $tab[] = $name_artists[0]['Artist']['name'];
+            if(!empty($artists)) {
+                $artists = explode("|", $artists);
+                $tab = array();
+                foreach ($artists as $k => $v) {
+                    $name_artists = $this->Artist->find('all', array(
+                        'conditions' => array('Artist.id' => $v)
+                    ));
+                    $tab[] = $name_artists[0]['Artist']['name'];
+                }
+                $concat_art = "";
+                foreach ($tab as $k => $v) {
+                    $concat_art = $concat_art . $v . ", ";
+                }
+                $concat_art = substr($concat_art, 0, -2);
+                $d['Concert']['artists'] = $concat_art;
             }
-            $concat_art = "";
-            foreach ($tab as $k => $v) {
-                $concat_art = $concat_art . $v . ", ";
-            }
-            $concat_art = substr($concat_art, 0, -2);
-            $d['Concert']['artists'] = $concat_art;
-
             # # # # # # # # # # # 
             # Partie load image
             # # # # # # # # # # # 
