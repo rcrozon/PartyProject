@@ -115,9 +115,45 @@ class ConcertsController extends AppController{
         $this->set($d);
     }
 
+    function admin_tariff($id) {
+        $d = $this->Concert->find('first', array(
+            'conditions' => array('Concert.id' => $id)
+        ));
+        //debug($d['Concert']['name_concert']);
+        $d['idConcert'] = $d['Concert']['id'];
+        $this->set($d);
+
+        $d['partyName'] = $d['Concert']['name_concert'];
+        $this->set($d);
+
+        $d = $this->AssocTarif->find('all', array(
+            'conditions' => array('AssocTarif.id_concert' => $id)
+        ));
+        //debug($d);
+
+        for ($i = 0; $i <= sizeof($d)-1; $i++) {
+            $id_tarif = $d[$i]['AssocTarif']['id_tarif'];
+            //debug($id_tarif);
+            $result[$i] = $this->Tarif->find('all',array('conditions' => array('Tarif.id' => $id_tarif)));
+        }
+
+        //debug($result);
+        //$result = Hash::extract($result, 'Tarif'); 
+        //debug($result);
+        $d['tariffs'] = $result;
+        $this->set($d);
+        
+    }
+
     function admin_delete($id) {
-        $this->Session->setFlash('The party has been successfully deleted', 'notif'/*,array('type'=>'alert-danger')*/);
+        $this->Session->setFlash('The party has been successfully deleted', 'notif',array('type'=>'success'));
         $this->Concert->delete($id);
+        $this->redirect($this->referer());
+    }
+
+    function admin_tarif_delete($id) {
+        $this->Session->setFlash('The tariff has been successfully deleted', 'notif',array('type'=>'success'));
+        $this->Tarif->delete($id);
         $this->redirect($this->referer());
     }
 
@@ -161,6 +197,27 @@ class ConcertsController extends AppController{
         $d['partyName'] = $this->Concert->data['Concert']['name_concert'];
         $this->set($d);
     } 
+
+    function admin_tarif_edit($id, $partyName, $idConcert) {
+        if($this->request->is('put')) {
+            $d = $this->request->data;
+
+            if($this->Tarif->save($d,true,array('label','price'))) {
+                    $this->Session->setFlash('The tariff has been successfully updated', 'notif', array('type'=>'success'));
+                    $this->redirect(array('action' => 'tariff', $idConcert));
+            } else{
+                $this->Session->setFlash("Thanks to correct your mistakes","notif",array('type'=>'error'));
+            }
+
+            //$this->Concert->save($this->request->data);
+            //$this->Session->setFlash('The party has been successfully updated', 'notif');
+            //$this->redirect(array('action' => 'table_concert'));
+        }
+        $this->Tarif->id = $id;
+        $this->request->data = $this->Tarif->read();
+        $d['partyName'] = $partyName;
+        $this->set($d);
+    }
 
 
     function showLastConcerts (){

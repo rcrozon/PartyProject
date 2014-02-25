@@ -29,6 +29,7 @@ import databaseHandler.DatabaseHandler;
 import databaseHandler.DatabaseServer;
 import databaseHandler.MyJsonParser;
 import entities.Client;
+import entities.Concert;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Paint.Join;
@@ -116,8 +117,21 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		Log.i("ClientBase",dataBase.getClientWithId(12).testToString());
 		Log.i("ClientBase",dataBase.getClientWithId(13).testToString());
 		
+		List<Concert> concert = dataBase.getConcerts();
+		if (concert != null){
+			for (int i=0 ; i< concert.size() ; i++){
+				Concert c = concert.get(i);
+				Log.i("ConcertVerif",c.testToString());
+			}
+		}
 		
+		for (int i=1 ; i< 3 ; i++){
+			Client c = dataBase.getClientWithId(i);
+			if (c != null)
+				Log.i("ClientVerif",c.testToString());
+		}
 		
+/****************** BDD EXTERNE ***********************************/
 	
 	} 
 	

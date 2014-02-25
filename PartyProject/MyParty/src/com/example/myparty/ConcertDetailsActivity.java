@@ -79,12 +79,15 @@ public class ConcertDetailsActivity extends Activity implements
 		/****************** RECUPERATION DE L'ID DU CONCERT *****************/
 
 		Bundle b = getIntent().getExtras();
-		Concert concert = dataBase.getConcertWithId(b.getInt("id"));
+		List<Client> clientForConcert = null;
+		Concert concert = null;
+		if (b.getInt("id") != 0){
+			concert = dataBase.getConcertWithId(b.getInt("id"));
+			clientForConcert = dataBase.getClientForOneConcert(concert.getId());
+		}
+		
 
-		/****************** RECUPERATION DE LA LISTE DES CLIENTS *****************/
-
-		List<Client> clientForConcert = dataBase.getClientForOneConcert(concert
-				.getId());
+		
 
 		this.scanner = new ScanLayout(this, this);
 		this.scanner.getButtonTariff().setOnClickListener(

@@ -1,14 +1,29 @@
 package entities;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import lists.Items;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.GetChars;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.myparty.R;
+
+import databaseHandler.Tables;
+import databaseHandler.ThreadBitMap;
 
 public class ConcertItem extends LinearLayout implements Items{
 	
@@ -28,8 +43,28 @@ public class ConcertItem extends LinearLayout implements Items{
 		layoutConcertData.setLayoutParams(layoutParams);
 		ImageView imgView = new ImageView(context);
 		LayoutParams llp = new LayoutParams(140, 250, Gravity.CENTER_HORIZONTAL); 
-		imgView.setBackgroundResource(R.drawable.party2);
+		
+		/*TODO Si pas de connexion*/
+		//imgView.setBackgroundResource(R.drawable.party2);
+		//imgView.setLayoutParams(llp);
+		
+		/*********** Si le serveur est dispo **********************/
+		
+		ThreadBitMap t = new ThreadBitMap(Tables.IMG_PATH_SERVER + concert.getImagePath());
+		t.start();
+		try {
+			t.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		imgView.setImageBitmap(t.getResult());
 		imgView.setLayoutParams(llp);
+		
+		Log.i("ConcertPath", Tables.IMG_PATH_SERVER + concert.getImagePath());
+		
+		/***********************************************************/
+		
 		this.addView(imgView);
 		TextView title = new TextView(context);
 		//TextView price = new TextView(context);
@@ -73,4 +108,6 @@ public class ConcertItem extends LinearLayout implements Items{
 	public void setVisible(boolean visible) {
 		this.setVisible(visible);
 	}
+	
+
 }

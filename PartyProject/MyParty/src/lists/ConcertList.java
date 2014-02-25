@@ -13,6 +13,8 @@ import com.example.myparty.ConcertDetailsActivity;
 import com.example.myparty.R;
 
 import databaseHandler.DatabaseHandler;
+import entities.Client;
+import entities.ClientItem;
 import entities.Concert;
 import entities.ConcertItem;
 import entities.Entity;
@@ -36,9 +38,17 @@ public class ConcertList extends List {
 		
 		java.util.List<Concert> listeConcerts = dataBase.getConcerts();
 		
-		for (int i=0; i<listeConcerts.size();i++){
-			ConcertItem item = new ConcertItem(this.getContext(),listeConcerts.get(i));
-			items.add(item);
+		if (listeConcerts != null){
+			for (int i=0; i<listeConcerts.size();i++){
+				ConcertItem item = new ConcertItem(this.getContext(),listeConcerts.get(i));
+				items.add(item);
+			}
+		}
+		else{
+			Concert concert = new Concert(0, "NO CONCERT", "NO CONCERT", "NO CONCERT", 
+					"NO CONCERT", "NO CONCERT", 0, 0, 0, 0, 0);
+			ConcertItem testAff = new ConcertItem(context, concert);
+			items.add(testAff);
 		}
 		
 		/*Concert c1 = new Concert(1, "", "Michael Jackson", "11/12/14",

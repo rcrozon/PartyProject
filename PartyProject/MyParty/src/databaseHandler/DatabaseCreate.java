@@ -1,6 +1,5 @@
 	package databaseHandler;
 
-import entities.Client;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,7 +29,9 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 			+ Tables.CONCERT_NAME_NB_SEAT + " INTEGER, "
 			+ Tables.CONCERT_NAME_FULL + " INTEGER, "
 			+ Tables.CONCERT_NAME_ID_CREATOR + " INTEGER, "
-			+ Tables.CONCERT_NAME_TITLE_CONCERT + " TEXT NOT NULL);";
+			+ Tables.CONCERT_NAME_TITLE_CONCERT + " TEXT NOT NULL, "
+			+ Tables.CONCERT_NAME_ONLINE + " INTEGER, "
+			+ Tables.CONCERT_NAME_ID_TARIF + " INTEGER);";
 	
 	private static final String CREATE_BDD_RES ="CREATE TABLE IF NOT EXISTS " + Tables.RES_TABLE 
 			+ " (" + Tables.RES_NAME_ID+ " INTEGER PRIMARY KEY, " 

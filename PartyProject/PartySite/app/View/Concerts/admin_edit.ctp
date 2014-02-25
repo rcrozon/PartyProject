@@ -30,5 +30,4 @@
   			<?php echo $this->Form->input('id');?>
 		<tr><td><?php echo $this->Form->end("Update my party");?></td></tr>
 	</table>
-
 </div>
