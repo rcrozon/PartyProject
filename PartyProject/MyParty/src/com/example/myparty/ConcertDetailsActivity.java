@@ -83,7 +83,7 @@ public class ConcertDetailsActivity extends Activity implements
 		Concert concert = null;
 		if (b.getInt("id") != 0){
 			concert = dataBase.getConcertWithId(b.getInt("id"));
-			clientForConcert = dataBase.getClientForOneConcert(concert.getId());
+			clientForConcert = dataBase.getClientsForOneConcert(concert.getId());
 		}
 		
 

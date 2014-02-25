@@ -2,6 +2,7 @@ package databaseHandler;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import entities.Client;
@@ -86,7 +87,7 @@ public class DatabaseHandler {
 		values.put(Tables.CONCERT_NAME_ID_TARIF,concert.getIdTarif());
 		return bdd.insert(Tables.CONCERT_TABLE, null, values);
 	}
-	
+
 /***************** INSERER UNE RESERVATION DANS LA BDD ***************************/
 	
 	public long insertRes(int id_res,Concert concert,Client client,int scan){
@@ -97,6 +98,62 @@ public class DatabaseHandler {
 		values.put(Tables.RES_NAME_ID_TARIF,concert.getIdTarif());
 		values.put(Tables.RES_NAME_SCAN, scan);
 		return bdd.insert(Tables.RES_TABLE, null, values);
+	}
+
+/***************** INSERER UN ARTISTE DANS LA BDD ***************************/
+	
+	public long insertArtist(int id_artist, String artistName){
+		ContentValues values = new ContentValues();
+		values.put(Tables.ARTIST_NAME_ID, id_artist);
+		values.put(Tables.ARTIST_NAME_ARTIST_NAME, artistName);
+		return bdd.insert(Tables.ARTISTS_TABLE, null, values);
+	}
+
+/***************** INSERER UN STYLE DANS LA BDD ***************************/
+	
+	public long insertStyle(int id_style, String styleName){
+		ContentValues values = new ContentValues();
+		values.put(Tables.STYLE_NAME_ID, id_style);
+		values.put(Tables.STYLE_NAME_STYLE_NAME, styleName);
+		return bdd.insert(Tables.STYLES_TABLE, null, values);
+	}
+
+/***************** INSERER UN TARIF DANS LA BDD ***************************/
+	
+	public long insertTariff(int id_tariff, String label, Double price){
+		ContentValues values = new ContentValues();
+		values.put(Tables.TARIFF_NAME_ID, id_tariff);
+		values.put(Tables.TARIFF_NAME_LABEL, label);
+		values.put(Tables.TARIFF_NAME_PRICE, price);
+		return bdd.insert(Tables.TARIFFS_TABLE, null, values);
+	}
+
+/***************** INSERER UN ASSOC_TARIF DANS LA BDD ***************************/
+	
+	public long insertAssocTariff(int id, int id_tariff, int id_concert){
+		ContentValues values = new ContentValues();
+		values.put(Tables.ASSOC_TARIFF_NAME_ID, id);
+		values.put(Tables.ASSOC_TARIFF_NAME_ID_TARIFF, id_tariff);
+		values.put(Tables.ASSOC_TARIFF_NAME_ID_CONCERT, id_concert);
+		return bdd.insert(Tables.ASSOC_TARIFFS_TABLE, null, values);
+	}
+/***************** INSERER UN ASSOC_STYLE DANS LA BDD ***************************/
+
+	public long insertAssocStyle(int id, int id_style, int id_concert){
+		ContentValues values = new ContentValues();
+		values.put(Tables.ASSOC_STYLES_NAME_ID, id);
+		values.put(Tables.ASSOC_STYLES_NAME_ID_STYLES, id_style);
+		values.put(Tables.ASSOC_STYLES_NAME_ID_CONCERT, id_concert);
+		return bdd.insert(Tables.ASSOC_STYLES_TABLE, null, values);
+	}
+/***************** INSERER UN ASSOC_ARTIST DANS LA BDD ***************************/
+
+	public long insertAssocArtist(int id, int id_artist, int id_concert){
+		ContentValues values = new ContentValues();
+		values.put(Tables.ASSOC_ARTIST_NAME_ID, id);
+		values.put(Tables.ASSOC_ARTIST_NAME_ID_ARTISTS, id_artist);
+		values.put(Tables.ASSOC_TARIFF_NAME_ID_CONCERT, id_concert);
+		return bdd.insert(Tables.ASSOC_ARTISTS_TABLE, null, values);
 	}
 	
 /***************** MISE A JOUR DANS LA BDD ***************************/
@@ -133,8 +190,76 @@ public class DatabaseHandler {
 		return false;
 	}
 	
-/***************** TROUVER UN CONCERT PAR ID DANS LA BDD ***************************/
+	
+	/***************** TROUVER LES TARIFS PAR ID DE CONCERT DANS LA BDD ***************************/
+	public HashMap<String, Double> getTariffsFromConcert(int id_concert){
+		HashMap<String, Double> mapTariffs = new HashMap<String, Double>();
+		Cursor c1 = bdd.query(Tables.ASSOC_TARIFFS_TABLE, 
+				new String[] {Tables.ASSOC_TARIFF_NAME_ID_TARIFF}, 
+				Tables.ASSOC_TARIFF_NAME_ID_CONCERT + " LIKE \"" + id_concert + "\"", null, null, null, null);
+		c1.moveToFirst();
+		int id_tariff ;
+		Cursor c;
+		for(int i = 0; i < c1.getCount(); ++i){
+			if (i != 0)
+				c1.move(1);
+			id_tariff = c1.getInt(0);
+			c = bdd.query(Tables.TARIFFS_TABLE, 
+				new String[] {Tables.TARIFF_NAME_LABEL, 
+				Tables.TARIFF_NAME_PRICE}, 
+				Tables.TARIFF_NAME_ID + " LIKE \"" + id_tariff + "\"", null, null, null, null);
+			c.moveToFirst();
+			mapTariffs.put(c.getString(0), c.getDouble(1));
+		}
+		return mapTariffs;
+	}
 
+	/***************** TROUVER LES STYLES PAR ID DE CONCERT DANS LA BDD ***************************/
+	public ArrayList<String> getStylesFromConcert(int id_concert){
+		ArrayList<String> listStyles = new ArrayList<String>();
+		Cursor c1 = bdd.query(Tables.ASSOC_STYLES_TABLE, 
+				new String[] {Tables.ASSOC_STYLES_NAME_ID_STYLES}, 
+				Tables.ASSOC_STYLES_NAME_ID_CONCERT + " LIKE \"" + id_concert + "\"", null, null, null, null);
+		c1.moveToFirst();
+		int id_style ;
+		Cursor c;
+		for(int i = 0; i < c1.getCount(); ++i){
+			if (i != 0)
+				c1.move(1);
+			id_style = c1.getInt(0);
+			c = bdd.query(Tables.STYLES_TABLE, 
+				new String[] {Tables.STYLE_NAME_STYLE_NAME}, 
+				Tables.STYLE_NAME_ID + " LIKE \"" + id_style + "\"", null, null, null, null);
+			c.moveToFirst();
+			listStyles.add(c.getString(0));
+		}
+		return listStyles;
+	}
+
+	/***************** TROUVER LES ARTISTES PAR ID DE CONCERT DANS LA BDD ***************************/
+	public ArrayList<String> getArtistsFromConcert(int id_concert){
+		ArrayList<String> listArtists = new ArrayList<String>();
+		Cursor c1 = bdd.query(Tables.ASSOC_ARTISTS_TABLE, 
+				new String[] {Tables.ASSOC_ARTIST_NAME_ID_ARTISTS}, 
+				Tables.ASSOC_ARTIST_NAME_ID_CONCERT + " LIKE \"" + id_concert + "\"", null, null, null, null);
+		c1.moveToFirst();
+		int id_artist ;
+		Cursor c;
+		for(int i = 0; i < c1.getCount(); ++i){
+			if (i != 0)
+				c1.move(1);
+			id_artist = c1.getInt(0);
+			c = bdd.query(Tables.ARTISTS_TABLE, 
+				new String[] {Tables.ARTIST_NAME_ARTIST_NAME}, 
+				Tables.ARTIST_NAME_ID + " LIKE \"" + id_artist + "\"", null, null, null, null);
+			c.moveToFirst();
+			listArtists.add(c.getString(0));
+		}
+		return listArtists;
+	}
+
+	/***************** TROUVER UN CONCERT PAR ID DANS LA BDD ***************************/
+	
 	public Concert getConcertWithId(int id){ 
 		Cursor c = bdd.query(Tables.CONCERT_TABLE,
 				new String[] {Tables.CONCERT_NAME_ID, 
@@ -204,7 +329,7 @@ public class DatabaseHandler {
 	
 /***************** TROUVER LA LISTE DES CLIENTS POUR UN CONCERT DANS LA BDD ***************************/
 	
-	public List<Client> getClientForOneConcert(int id_concert){
+	public List<Client> getClientsForOneConcert(int id_concert){
 		List<Client> cl = new ArrayList<Client>();
 	
 		Cursor c = bdd.query(Tables.RES_TABLE, 
@@ -276,7 +401,4 @@ public class DatabaseHandler {
 		return cl;
 		
 	}
-	
-	
-	
 }

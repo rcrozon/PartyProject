@@ -6,11 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import databaseHandler.DatabaseHandler;
 import databaseHandler.DatabaseServer;
@@ -37,7 +32,7 @@ public class LoadingActivity extends Activity {
 		dataBase.open();
 		
 /******************  BDD EXTERNE  ***********************************/
-		/*ON ENVOI LA REQUET*/
+		/*ON ENVOI LA REQUETE*/
 		DatabaseServer dbbs = new DatabaseServer(); 
 		MyJsonParser parser = new MyJsonParser();
 		
