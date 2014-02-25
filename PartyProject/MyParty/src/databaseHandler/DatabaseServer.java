@@ -29,6 +29,7 @@ public class DatabaseServer {
 	public String getRequest(final String urlAdd){
 		
 		ThreadRequestResult reqThread2 = new ThreadRequestResult(urlBase,urlAdd);
+		Log.i("ADDRESS", reqThread2.getResult());
 		try {
 			reqThread2.start();
 			reqThread2.join();
