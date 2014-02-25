@@ -31,12 +31,15 @@ import entities.Concert;
 
 
 
+import android.content.Context;
 import android.util.Log;
  
 public class MyJsonParser {
+	
+	private Context context;
 
-
-    public MyJsonParser() {
+    public MyJsonParser(Context context) {
+    	this.context = context;
     }
  
     public List<Client> getClientFromJson(String json) {
@@ -114,5 +117,34 @@ public class MyJsonParser {
 			e.printStackTrace();
 		}
     	return cl;
+    }   
+    
+    public void getReservationAndInsert(String json) {
+    	DatabaseHandler dataBase = new DatabaseHandler(context);
+		dataBase.open();
+    	
+    	JSONArray rep;
+		try {
+			rep = new JSONArray(json);
+			for (int i = 0 ; i<rep.length() ; i++){
+	    		
+				JSONObject reservation = rep.getJSONObject(i);
+				String infoStr = reservation.getString("Reservation");
+				JSONObject infoReservation = new JSONObject(infoStr);
+				int id = Integer.parseInt(infoReservation.getString(Tables.RES_NAME_ID));
+				int id_concert = Integer.parseInt(infoReservation.getString(Tables.RES_NAME_ID_CONCERT));
+				int id_client = Integer.parseInt(infoReservation.getString(Tables.RES_NAME_ID_CLIENT));
+				int id_tarif = Integer.parseInt(infoReservation.getString(Tables.RES_NAME_ID_TARIF));
+				int scan = Integer.parseInt(infoReservation.getString(Tables.RES_NAME_SCAN));
+				dataBase.insertRes(id, id_concert, id_client, id_tarif, scan);
+				
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }    	
+    
+    
+    
 }

@@ -91,50 +91,7 @@ public class DatabaseServer {
 	}
 }
 		
-		
-		/*try {
-		        	   Log.i("get", "avant0");
-						//ON CREER UN JSON GRACE A LA REPONSE
-		            	//JSONObject js = new JSONObject(response.toString());
-		            	//ON EXTRAIT LA STRING SANS POST
-						//String tmp = js.getString("Client");
-						//ON CRÉE UN TABLEEAU
-		            	//Log.i("get", "passe");
-		            	//JSONObject client =js.getJSONObject("Client");
-		        	   JSONArray rep = new JSONArray(response.toString());
-		            	Log.i("get", "avant");
-						//JSONArray ja = js.getJSONArray("Client");
-		            	
-						Log.i("get", "apres");
-						//Log.i("get", "apres1 : "+ rep.getJSONObject(0).toString());
-		            	//String user = client.getString("username");
-						
-						//ON CRÉE UN JSON AVEC CHAQUE LIGNE DU TABLEAU
-						for (int i = 0; i<rep.length();i++){
-							JSONObject t = rep.getJSONObject(i);
-							String p = t.getString("Client");
-							JSONObject info = new JSONObject(p);
-							String p2 = info.getString("id");
-							Log.i("get", "ID: "+p2);
-						}
-						//JSONObject t = ja.getJSONObject(0);
-						
-						//ON A LES INFO	
-						//int p = t.getInt("id");
-						//String p2 = t.getString("username");
-						//Log.i("get", "Username : "+user);
-						//Log.i("get", "ID : "+p+" / Username : "+p2);
-						
-						
-						//String s = ja.getString(0);
-						//String tab[] = s.split("\"");
-						//Log.i("twit",tab[5] );
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						Log.i("get", "excep");
-						e.printStackTrace();
-					}
-			*/
+	
 		 
 	
 
