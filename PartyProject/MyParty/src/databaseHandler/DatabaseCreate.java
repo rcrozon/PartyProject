@@ -37,7 +37,13 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 	private static final String CREATE_BDD_RES ="CREATE TABLE IF NOT EXISTS " + Tables.RES_TABLE 
 			+ " (" + Tables.RES_NAME_ID+ " INTEGER PRIMARY KEY, " 
 			+ Tables.RES_NAME_ID_CONCERT + " INTEGER, "
-			+ Tables.RES_NAME_ID_CLIENT + " INTEGER);";
+			+ Tables.RES_NAME_ID_CLIENT + " INTEGER, "
+			+ Tables.RES_NAME_ID_TARIF + " INTEGER, "
+			+ Tables.RES_NAME_SCAN + " INTEGER, "
+			+ "FOREIGN KEY ("+Tables.RES_NAME_ID_CONCERT+") REFERENCES "
+			+Tables.CONCERT_TABLE+" ("+Tables.CONCERT_NAME_ID+"), "
+			+ "FOREIGN KEY ("+Tables.RES_NAME_ID_CLIENT+") REFERENCES "
+			+Tables.CLIENT_TABLE+" ("+Tables.CLIENT_NAME_ID+"));";
  
 	public DatabaseCreate(Context context, String name, CursorFactory factory, int version) {
 		super(context, name, factory, version);

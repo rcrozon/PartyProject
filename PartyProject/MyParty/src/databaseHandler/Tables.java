@@ -64,6 +64,10 @@ public final class Tables {
 	public static final int RES_NUM_ID_CONCERT = 1;
 	public static final String RES_NAME_ID_CLIENT = "id_client";
 	public static final int RES_NUM_ID_CLIENT = 2;
+	public static final String RES_NAME_ID_TARIF = "id_tarif";
+	public static final int RES_NUM_ID_TARIF = 3;
+	public static final String RES_NAME_SCAN = "scan";
+	public static final int RES_NUM_ID_SCAN = 4;
 	
 /*******************              ****************************/
 	
