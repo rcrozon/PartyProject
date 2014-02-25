@@ -71,6 +71,7 @@
                         <li><a href="#">Last Add</a></li>
                       </ul>
                     </li>
+                    <li class="divider" style="height: 1px;width:100%; margin: 9px 0;overflow: hidden;background-color: #e5e5e5;"></li>
                     <li><a href="#"><i class="fa fa-font"></i> Typography</a></li>
                     <li><a href="#"><i class="fa fa-desktop"></i> Bootstrap Elements</a></li>
                     <li><a href="#"><i class="fa fa-wrench"></i> Bootstrap Grid</a></li>
