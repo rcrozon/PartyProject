@@ -53,7 +53,7 @@
                         <li>
                             <?php echo $this->Html->link("Concert Table",array('action'=>'table_concert','controller'=>'concerts'));?>
                         </li>
-                        <li><a href="#">Tarif Table</a></li>
+                        <li><a href="#">Artists Table</a></li>
                         <li><a href="#">Reservation Table</a></li>
                       </ul>
                     </li>
@@ -64,11 +64,11 @@
                       <ul class="dropdown-menu">
                         <li>
                             <?php 
-                                echo $this->Html->link("Add concert and tariff",array('action'=>'addConcert','controller'=>'concerts'));
+                                echo $this->Html->link("Add party",array('action'=>'addConcert','controller'=>'concerts'));
                             ?>
                         </li>
-                        <li><a href="#">Other Add</a></li>
-                        <li><a href="#">Last Add</a></li>
+                        <li><a href="#">Add reservation</a></li>
+                        <li><a href="#">Others Add</a></li>
                       </ul>
                     </li>
                     <li class="divider" style="height: 1px;width:100%; margin: 9px 0;overflow: hidden;background-color: #e5e5e5;"></li>
