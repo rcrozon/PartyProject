@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseCreate extends SQLiteOpenHelper {
-	private SQLiteDatabase bdd;
 	
 	private static final String CREATE_BDD = "CREATE TABLE IF NOT EXISTS " + Tables.CLIENT_TABLE 
 			+ " ("+ Tables.CLIENT_NAME_ID + " INTEGER PRIMARY KEY, " 
@@ -95,6 +94,12 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 		db.execSQL(CREATE_BDD);
 		db.execSQL(CREATE_BDD_CONCERT);
 		db.execSQL(CREATE_BDD_RES);
+		db.execSQL(CREATE_BDD_ARTIST);
+		db.execSQL(CREATE_BDD_ASSOC_ARTISTS);
+		db.execSQL(CREATE_BDD_ASSOC_STYLES);
+		db.execSQL(CREATE_BDD_ASSOC_TARIFFS);
+		db.execSQL(CREATE_BDD_STYLES);
+		db.execSQL(CREATE_BDD_TARIFFS);
 	}
  
 	@Override
@@ -102,6 +107,12 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE " + Tables.CLIENT_TABLE + ";");
 		db.execSQL("DROP TABLE " + Tables.CONCERT_TABLE + ";");
 		db.execSQL("DROP TABLE " + Tables.RES_TABLE + ";");
+//		db.execSQL("DROP TABLE " + Tables.ARTISTS_TABLE + ";");
+//		db.execSQL("DROP TABLE " + Tables.ASSOC_STYLES_TABLE + ";");
+//		db.execSQL("DROP TABLE " + Tables.ASSOC_TARIFFS_TABLE + ";");
+//		db.execSQL("DROP TABLE " + Tables.ASSOC_ARTISTS_TABLE + ";");
+//		db.execSQL("DROP TABLE " + Tables.STYLES_TABLE + ";");
+//		db.execSQL("DROP TABLE " + Tables.TARIFFS_TABLE + ";");
 		onCreate(db);
 		
 	}

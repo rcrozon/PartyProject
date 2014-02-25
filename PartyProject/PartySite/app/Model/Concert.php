@@ -4,7 +4,7 @@ class Concert extends AppModel{
     public $validate = array(
         'name_concert' => array(
             array(
-                'rule' => array('custom','/([\w.-]+ )+[\w+.-]/'),
+                'rule' => array('custom','/([\w.-]+)+[\w+.-]/'),
                 'required' => true,
                 'allowEmpty' => false, 
                 'message' => "The format of your party name is not valid"
@@ -12,10 +12,10 @@ class Concert extends AppModel{
         ),
         'location' => array(
             array(
-                'rule' => array('custom','/([\w.-]+ )+[\w+.-]/'),
+                'rule' => array('custom','/([\w.-]+)+[\w+.-]/'),
                 'required' => true,
                 'allowEmpty' => false, 
-                'message' => "The format is not valid"
+                'message' => "The format of the location is not valid"
             )
         ),
         'nb_seats' => array(
@@ -26,15 +26,13 @@ class Concert extends AppModel{
                 'message' => "Please enter the number of seats"
             )
         ),
-        /*'image' => array(
+        'artists' => array(
             array(
-                'rule' => array('extension', array('gif', 'jpeg', 'png', 'jpg')),
-                'message' => "The extension of your background image is not valid."
+                'rule' => array('custom','/([\w.-]+)+[\w+.-]/'),
+                'required' => true,
+                'allowEmpty' => false, 
+                'message' => "Please choose artists"
             )
-        ),*/
-        'start_datetime' => array(
-        ),
-        'end_datetime' => array(
         )
     );
 }

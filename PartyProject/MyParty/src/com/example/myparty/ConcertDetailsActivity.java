@@ -1,6 +1,5 @@
 package com.example.myparty;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lists.ClientList;
@@ -8,12 +7,10 @@ import lists.ListLayout;
 import lists.ReservationsList;
 import lists.StatsList;
 import lists.TicketsList;
-import lists.TicketsList;
 import scan.IntentIntegrator;
 import scan.IntentResult;
 import scan.ScanLayout;
 import android.app.Activity;
-import android.content.Entity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,12 +19,8 @@ import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 import databaseHandler.DatabaseHandler;
@@ -85,7 +78,10 @@ public class ConcertDetailsActivity extends Activity implements
 			concert = dataBase.getConcertWithId(b.getInt("id"));
 			clientForConcert = dataBase.getClientsForOneConcert(concert.getId());
 		}
-		
+		for (int i =0; i < clientForConcert.size();i++){
+			Log.i("NOMBRE", "Client : "+clientForConcert.get(i).getId()+clientForConcert.get(i).getFirstName()+ " Possede : "+dataBase.getNumberResClientForOneConcert(concert, clientForConcert.get(i))+" Tickets"
+					+ " Pour "+ concert.getId()+concert.getTitle());
+		}
 
 		
 

@@ -1,25 +1,14 @@
 package com.example.myparty;
 
-import java.util.List;
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 import databaseHandler.DatabaseHandler;
-import databaseHandler.DatabaseServer;
-import databaseHandler.MyJsonParser;
-import entities.Client;
-import entities.Concert;
 
 
 public class ConnectionActivity extends Activity implements OnClickListener {
@@ -40,34 +29,37 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 
 /****************** OUVERTURE BDD ***********************************/
 		
-//		dataBase = new DatabaseHandler(this);
-//		dataBase.open();
+		dataBase = new DatabaseHandler(this);
+		dataBase.open();
 		
 /******************  BDD EXTERNE  ***********************************/
-//		/*ON ENVOI LA REQUET*/
-//		DatabaseServer dbbs = new DatabaseServer(); 
-//		MyJsonParser parser = new MyJsonParser();
-//		
-//		String tmp =dbbs.getRequest("getAllClients");
-//		String concertString = dbbs.getRequest("getAllConcerts");
-//		
-//		List<Client> clientlist = parser.getClientFromJson(tmp);
-//		List<Concert> concertlist = parser.getConcertFromJson(concertString);
-//		
-//		/*On insere les concerts dans bdd*/
-//		for (int i=0 ; i< concertlist.size() ; i++){
-//			Concert c = concertlist.get(i);
-//			Log.i("Concert",c.testToString());
-//			//dataBase.insertConcert(c);
-//		}
-//		
-//		/*On insere les clients dans bdd*/
-//		for (int i=0 ; i< clientlist.size() ; i++){
-//			Client c = clientlist.get(i);
-//			Log.i("Client",c.testToString());
-//			//dataBase.insertClient(c);
-//		}
-//		
+		
+		/*/*ON ENVOI LA REQUET*/
+		/*DatabaseServer dbbs = new DatabaseServer(); 
+		MyJsonParser parser = new MyJsonParser();
+		
+		String tmp =dbbs.getRequest("getAllClients");
+		String concertString = dbbs.getRequest("getAllConcerts");
+		
+		List<Client> clientlist = parser.getClientFromJson(tmp);
+		List<Concert> concertlist = parser.getConcertFromJson(concertString);
+		*/
+		/*On insere les concerts dans bdd*/
+	/*	for (int i=0 ; i< concertlist.size() ; i++){
+			Concert c = concertlist.get(i);
+			Log.i("Concert",c.testToString());
+			//dataBase.insertConcert(c);
+		}
+		
+		/*On insere les clients dans bdd*/
+		/*for (int i=0 ; i< clientlist.size() ; i++){
+			Client c = clientlist.get(i);
+			Log.i("Client",c.testToString());
+			//dataBase.insertClient(c);
+		}
+		
+		//dataBase.in*/
+		
 	}
 
 	@Override
@@ -106,7 +98,7 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		Button b = (Button)v;
-		if (v == buttonConnexion){
+		if (b == buttonConnexion){
 			
 			/* TODO A DECOMMENTER SI ON NE VEUT PAS UTILISER AUTHENTIFICATION*/
 			Intent intent = new Intent(this, ConcertActivity.class);

@@ -1,42 +1,22 @@
 package databaseHandler;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
- 
 
-
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import entities.Client;
 import entities.Concert;
  
-
-
-
-import android.util.Log;
- 
 public class MyJsonParser {
+	
+	private Context context;
 
-
-    public MyJsonParser() {
+    public MyJsonParser(Context context) {
+    	this.context = context;
     }
  
     public List<Client> getClientFromJson(String json) {
@@ -114,5 +94,34 @@ public class MyJsonParser {
 			e.printStackTrace();
 		}
     	return cl;
+    }   
+    
+    public void getReservationAndInsert(String json) {
+    	DatabaseHandler dataBase = new DatabaseHandler(context);
+		dataBase.open();
+    	
+    	JSONArray rep;
+		try {
+			rep = new JSONArray(json);
+			for (int i = 0 ; i<rep.length() ; i++){
+	    		
+				JSONObject reservation = rep.getJSONObject(i);
+				String infoStr = reservation.getString("Reservation");
+				JSONObject infoReservation = new JSONObject(infoStr);
+				int id = Integer.parseInt(infoReservation.getString(Tables.RES_NAME_ID));
+				int id_concert = Integer.parseInt(infoReservation.getString(Tables.RES_NAME_ID_CONCERT));
+				int id_client = Integer.parseInt(infoReservation.getString(Tables.RES_NAME_ID_CLIENT));
+				int id_tarif = Integer.parseInt(infoReservation.getString(Tables.RES_NAME_ID_TARIF));
+				int scan = Integer.parseInt(infoReservation.getString(Tables.RES_NAME_SCAN));
+				dataBase.insertRes(id, id_concert, id_client, id_tarif, scan);
+				
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }    	
+    
+    
+    
 }

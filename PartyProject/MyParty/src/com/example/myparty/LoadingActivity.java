@@ -34,20 +34,22 @@ public class LoadingActivity extends Activity {
 /******************  BDD EXTERNE  ***********************************/
 		/*ON ENVOI LA REQUETE*/
 		DatabaseServer dbbs = new DatabaseServer(); 
-		MyJsonParser parser = new MyJsonParser();
+		MyJsonParser parser = new MyJsonParser(this);
 		
 		String tmp =dbbs.getRequest("getAllClients");
 		String concertString = dbbs.getRequest("getAllConcerts");
+		String reservationString = dbbs.getRequest("getAllReservations");
 		
 		List<Client> clientlist = parser.getClientFromJson(tmp);
 		List<Concert> concertlist = parser.getConcertFromJson(concertString);
 		progressBar.setMax(clientlist.size() + concertlist.size());
+		
 		/*On insere les concerts dans bdd*/
 		for (int i=0 ; i< concertlist.size() ; i++){
 			Concert c = concertlist.get(i);
 			progressBar.setProgress(progressBar.getProgress() + 1);
 			Log.i("Concert",c.testToString());
-			//dataBase.insertConcert(c);
+			dataBase.insertConcert(c);
 		}
 		
 		/*On insere les clients dans bdd*/
@@ -55,8 +57,12 @@ public class LoadingActivity extends Activity {
 			Client c = clientlist.get(i);
 			Log.i("Client",c.testToString());
 			progressBar.setProgress(progressBar.getProgress() + 1);
-			//dataBase.insertClient(c);
+			dataBase.insertClient(c);
 		}
+		/*On insere les reservations*/
+		parser.getReservationAndInsert(reservationString);
+		
+		
 		Intent intent = new Intent(this, ConnectionActivity.class);
     	this.startActivity(intent);
 	

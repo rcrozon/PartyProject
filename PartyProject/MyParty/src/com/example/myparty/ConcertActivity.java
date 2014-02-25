@@ -1,48 +1,17 @@
 package com.example.myparty;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import lists.ConcertList;
 import lists.ListLayout;
 import lists.ReservationsList;
-import android.R.bool;
-import databaseHandler.DatabaseHandler;
-import databaseHandler.DatabaseServer;
-import databaseHandler.MyJsonParser;
-import entities.Client;
-import entities.Concert;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Paint.Join;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 public class ConcertActivity extends Activity implements OnClickListener, OnMenuItemClickListener{
@@ -57,7 +26,6 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	private int index = 0;
 	private int nextIndex = 0;
 	private boolean isClient = false;
-	private DatabaseHandler dataBase;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +57,6 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		buttonAllConcerts.setOnClickListener(this);
 		buttonNews.setOnClickListener(this);
 		buttonNextConcerts.setOnClickListener(this);
-			
 	} 
 	
 

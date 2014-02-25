@@ -1,24 +1,20 @@
 package databaseHandler;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import entities.Client;
-import entities.Concert;
-import android.app.ActionBar.Tab;
-import android.app.TabActivity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.text.format.DateFormat;
 import android.util.Log;
+import entities.Client;
+import entities.Concert;
 
 public class DatabaseHandler {
 	
-	private static final int VERSION_BDD = 43;
+	private static final int VERSION_BDD = 45;
 	private static final String BDD_NAME = "myparty.db";
 	private SQLiteDatabase bdd;
 	private DatabaseCreate SQLiteBase ;
@@ -90,12 +86,12 @@ public class DatabaseHandler {
 
 /***************** INSERER UNE RESERVATION DANS LA BDD ***************************/
 	
-	public long insertRes(int id_res,Concert concert,Client client,int scan){
+	public long insertRes(int id_res,int  id_concert,int id_client ,int id_tarif,int scan){
 		ContentValues values = new ContentValues();
 		values.put(Tables.RES_NAME_ID,id_res);
-		values.put(Tables.RES_NAME_ID_CONCERT,concert.getId());
-		values.put(Tables.RES_NAME_ID_CLIENT, client.getId());
-		values.put(Tables.RES_NAME_ID_TARIF,concert.getIdTarif());
+		values.put(Tables.RES_NAME_ID_CONCERT,id_concert);
+		values.put(Tables.RES_NAME_ID_CLIENT, id_client);
+		values.put(Tables.RES_NAME_ID_TARIF,id_tarif);
 		values.put(Tables.RES_NAME_SCAN, scan);
 		return bdd.insert(Tables.RES_TABLE, null, values);
 	}
@@ -332,13 +328,15 @@ public class DatabaseHandler {
 	public List<Client> getClientsForOneConcert(int id_concert){
 		List<Client> cl = new ArrayList<Client>();
 	
-		Cursor c = bdd.query(Tables.RES_TABLE, 
+		Cursor c = bdd.query(true, Tables.RES_TABLE,
 				new String[] {Tables.RES_NAME_ID, 
 				Tables.RES_NAME_ID_CONCERT, 
 				Tables.RES_NAME_ID_CLIENT,
 				Tables.RES_NAME_ID_TARIF,
 				Tables.RES_NAME_SCAN}, 
-				Tables.RES_NAME_ID_CONCERT + " LIKE \"" + id_concert +"\"", null, null, null, null);
+				Tables.RES_NAME_ID_CONCERT + " LIKE \"" + id_concert +"\"", 
+				null, Tables.RES_NAME_ID_CLIENT, null, null, null);
+
 		if (c.getCount() ==0 ){
 			return null;
 		}
@@ -379,9 +377,9 @@ public class DatabaseHandler {
 		}
 		c.moveToFirst();
 		for (int i =0; i< c.getCount(); i++){
-		if (i!=0){
-			c.move(1);
-		}
+			if (i!=0){
+				c.move(1);
+			}
 		Concert concert = new Concert(c.getInt(Tables.CONCERT_NUM_ID), 
 				c.getString(Tables.CONCERT_NUM_IMAGE), 
 				c.getString(Tables.CONCERT_NUM_TITLE_CONCERT), 
@@ -401,4 +399,21 @@ public class DatabaseHandler {
 		return cl;
 		
 	}
+/***************** TROUVER LE NOMBRE DE RESERVATION POUR UN CLIENT POUR UN CONCERT  ***************************/
+	
+	public int getNumberResClientForOneConcert(Concert concert, Client client){
+	
+		Cursor c = bdd.query(Tables.RES_TABLE, 
+				new String[] {Tables.RES_NAME_ID, 
+				Tables.RES_NAME_ID_CONCERT, 
+				Tables.RES_NAME_ID_CLIENT,
+				Tables.RES_NAME_ID_TARIF,
+				Tables.RES_NAME_SCAN}, 
+				Tables.RES_NAME_ID_CONCERT + " LIKE \"" + concert.getId() +"\""
+				+ " AND "+Tables.RES_NAME_ID_CLIENT + " LIKE \"" + client.getId() +"\"", null, null, null, null);
+
+
+		return c.getCount();
+	}
+	
 }
