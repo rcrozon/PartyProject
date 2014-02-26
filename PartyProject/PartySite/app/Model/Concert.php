@@ -25,7 +25,7 @@ class Concert extends AppModel{
                 'allowEmpty' => false, 
                 'message' => "Please enter the number of seats"
             )
-        ),
+        )/*,
         'artists' => array(
             array(
                 'rule' => array('custom','/([\w.-]+)+[\w+.-]/'),
@@ -33,6 +33,6 @@ class Concert extends AppModel{
                 'allowEmpty' => false, 
                 'message' => "Please choose artists"
             )
-        )
+        )*/
     );
 }

@@ -24,6 +24,9 @@
 		<?php endforeach; ?>
 	</table>
 	<div style="padding-top:30px;">
+		<?php echo $this->Html->link('Add Tariff', array('action' => 'add_tariff', $idConcert), array('class' => 'btn btn-primary')); ?>
+	</div>
+	<div style="padding-top:30px;">
 		<?php echo $this->Html->link('Back To Party List', array('action' => 'table_concert'), array('class' => 'btn btn-primary')); ?>
 	</div>
 	<!--<div class="pagination"><?php echo $this->Paginator->numbers(); ?></div>-->

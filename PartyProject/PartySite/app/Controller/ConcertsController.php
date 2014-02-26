@@ -22,9 +22,9 @@ class ConcertsController extends AppController{
 	function admin_addConcert() {
         if($this->request->is('post')) {
             $d = $this->request->data; 
-            # # # # # # # # # # # # # # # # # # # # # # # # #
-            # On récupère et concatène les noms des artistes 
-            # # # # # # # # # # # # # # # # # # # # # # # # #
+            # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+            # On récupère les ID des artistes pour mettre à jour la table AssocArtists 
+            # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
             $artists = $d['Concert']['name'];
             if(!empty($artists)) {
                 $artists = explode("|", $artists);
@@ -33,14 +33,9 @@ class ConcertsController extends AppController{
                     $name_artists = $this->Artist->find('all', array(
                         'conditions' => array('Artist.id' => $v)
                     ));
-                    $tab[] = $name_artists[0]['Artist']['name'];
+                    $tabName[] = $name_artists[0]['Artist']['name'];
+                    $tabID[] = $name_artists[0]['Artist']['id'];
                 }
-                $concat_art = "";
-                foreach ($tab as $k => $v) {
-                    $concat_art = $concat_art . $v . ", ";
-                }
-                $concat_art = substr($concat_art, 0, -2);
-                $d['Concert']['artists'] = $concat_art;
             }
             # # # # # # # # # # # # #
             # On récupère le créateur 
@@ -67,14 +62,90 @@ class ConcertsController extends AppController{
             # # # # # # # # # # # # # # # # # # # # # # # # #
             # Sauvegarde des données dans la base de donnée
             # # # # # # # # # # # # # # # # # # # # # # # # #
-            if($this->Concert->save($d,true,array('name_concert','location','nb_seats','image','start_datetime','end_datetime','id_creator','artists'))) {
+            if($this->Concert->save($d,true,array('name_concert','location','nb_seats','image','start_datetime','end_datetime','id_creator'/*,'artists'*/))) {
                 $this->Session->setFlash("Your party has been well created", "notif", array('type'=>'success'));
                 $this->request->data = array();
+
+                $idConcert = $this->Concert->getLastInsertId();
+                foreach ($tabID as $k => $v) {
+                    $data = array('id_artist' => $v, 'id_concert' => $idConcert);
+                    $this->AssocArtist->create();
+                    $this->AssocArtist->save($data);
+                }
+                
                 $this->redirect(array('controller' => 'Tarifs', 'action' => 'addTarif', $this->Concert->getLastInsertId()));
             } else{
                 $this->Session->setFlash("Thanks to correct your mistakes","notif",array('type'=>'error'));
             } 
         }
+    }
+
+    function admin_add_artist($id) {
+        if($this->request->is('post')) {
+            $d = $this->request->data; 
+            //debug($d);
+            $artists = $d['AssocArtist']['name'];
+            if(!empty($artists)) {
+                $artists = explode("|", $artists);
+                $tab = array();
+                foreach ($artists as $k => $v) {
+                    $name_artists = $this->Artist->find('all', array(
+                        'conditions' => array('Artist.id' => $v)
+                    ));
+                    $tabName[] = $name_artists[0]['Artist']['name'];
+                    $tabID[] = $name_artists[0]['Artist']['id'];
+                }
+                foreach ($tabID as $k => $v) {
+                    $data = array('id_artist' => $v, 'id_concert' => $id);
+                    $this->AssocArtist->create();
+                    $this->AssocArtist->save($data);
+                }
+                $this->Session->setFlash("Artists has been well added", "notif", array('type'=>'success'));
+                $this->redirect(array('controller' => 'Concerts', 'action' => 'artist', $id));
+            }
+        }
+        $d = $this->Concert->find('first', array(
+            'conditions' => array('Concert.id' => $id)
+        ));
+        $d['partyName'] = $d['Concert']['name_concert'];
+        $this->set($d);
+    }
+
+    function admin_add_table_artist() {
+        if($this->request->is('post')) {
+            $d = $this->request->data; 
+
+            if($this->Artist->save($d,true,array('name'))) {
+                $this->Session->setFlash("Artist has been well added", "notif", array('type'=>'success'));
+                $this->redirect(array('controller' => 'Concerts', 'action' => 'table_artist'));
+            } else {
+                $this->Session->setFlash("Thanks to correct your mistakes","notif",array('type'=>'error'));
+            }
+        }
+    }
+
+    function admin_add_tariff($id) {
+        if($this->request->is('post')) {
+            $d = $this->request->data;
+
+            if($this->Tarif->save($d,true,array('label','price'))) {
+                $this->Session->setFlash('The tariff has been successfully added', 'notif', array('type'=>'success'));
+
+                $idTarif = $this->Tarif->getLastInsertId();
+                $data = array('id_tarif' => $idTarif, 'id_concert' => $id);
+                $this->AssocTarif->create();
+                $this->AssocTarif->save($data);
+
+                $this->redirect(array('action' => 'tariff', $id));
+            } else{
+                $this->Session->setFlash("Thanks to correct your mistakes","notif",array('type'=>'error'));
+            }
+        }
+        $d = $this->Concert->find('first', array(
+            'conditions' => array('Concert.id' => $id)
+        ));
+        $d['partyName'] = $d['Concert']['name_concert'];
+        $this->set($d);
     }
 
     function admin_index() {
@@ -127,7 +198,32 @@ class ConcertsController extends AppController{
 
         $d['tariffs'] = $result;
         $this->set($d);
-        
+    }
+
+    function admin_artist($id) {
+        $d = $this->Concert->find('first', array(
+            'conditions' => array('Concert.id' => $id)
+        ));
+
+        $d['idConcert'] = $d['Concert']['id'];
+        $this->set($d);
+
+        $d['partyName'] = $d['Concert']['name_concert'];
+        $this->set($d);
+
+        $d = $this->AssocArtist->find('all', array(
+            'conditions' => array('AssocArtist.id_concert' => $id)
+        ));
+
+        for ($i = 0; $i <= sizeof($d)-1; $i++) {
+            $id_artist = $d[$i]['AssocArtist']['id_artist'];
+            $result[$i] = $this->Artist->find('all',array('conditions' => array('Artist.id' => $id_artist)));
+        }
+
+        if(!empty($result)) {
+            $d['artists'] = $result;
+            $this->set($d);
+        }
     }
 
     function admin_delete($id) {
@@ -148,7 +244,17 @@ class ConcertsController extends AppController{
         $this->redirect($this->referer());
     }
 
-    function admin_artist_delete($id) {
+    function admin_artist_delete($id, $idConcert) {
+        $this->Session->setFlash('The artist has been successfully deleted', 'notif',array('type'=>'success'));
+        $d = $this->AssocArtist->find('all', array(
+            'conditions' => array('AssocArtist.id_artist' => $id, 'AssocArtist.id_concert' => $idConcert)
+        ));
+        $id_assoc_artist = $d[0]['AssocArtist']['id'];
+        $this->AssocArtist->delete($id_assoc_artist);
+        $this->redirect($this->referer());
+    }
+
+    function admin_artist_table_delete($id) {
         $this->Session->setFlash('The artist has been successfully deleted', 'notif',array('type'=>'success'));
         $this->Artist->delete($id);
         $this->redirect($this->referer());
@@ -168,14 +274,9 @@ class ConcertsController extends AppController{
                     $name_artists = $this->Artist->find('all', array(
                         'conditions' => array('Artist.id' => $v)
                     ));
-                    $tab[] = $name_artists[0]['Artist']['name'];
+                    $tabName[] = $name_artists[0]['Artist']['name'];
+                    $tabID[] = $name_artists[0]['Artist']['id'];
                 }
-                $concat_art = "";
-                foreach ($tab as $k => $v) {
-                    $concat_art = $concat_art . $v . ", ";
-                }
-                $concat_art = substr($concat_art, 0, -2);
-                $d['Concert']['artists'] = $concat_art;
             }
             # # # # # # # # # # # 
             # Partie load image
@@ -200,6 +301,19 @@ class ConcertsController extends AppController{
             if($this->Concert->save($d,true,
                 array('name_concert','location','nb_seats','image','start_datetime','end_datetime','full','online', 'artists'))) {
                     $this->Session->setFlash('The party has been successfully updated', 'notif', array('type'=>'success'));
+
+                    $d = $this->AssocArtist->find('all', array(
+                        'conditions' => array('AssocArtist.id_concert' => $id)
+                    ));
+                    for ($i = 0; $i <= sizeof($d)-1; $i++) {
+                        $this->AssocArtist->delete($d[$i]['AssocArtist']['id']);
+                    }
+                    $idConcert = $id;
+                    foreach ($tabID as $k => $v) {
+                        $data = array('id_artist' => $v, 'id_concert' => $idConcert);
+                        $this->AssocArtist->create();
+                        $this->AssocArtist->save($data);
+                    }
                     $this->redirect(array('action' => 'table_concert'));
             } else{
                 $this->Session->setFlash("Thanks to correct your mistakes","notif",array('type'=>'error'));
@@ -215,21 +329,17 @@ class ConcertsController extends AppController{
         # # # # # # # # # # # # # # # # # # # # # # # # #
         # Envoi les artistes pré-sélectionné à la vue
         # # # # # # # # # # # # # # # # # # # # # # # # #
-        $tmp = $this->Concert->data['Concert']['artists'];
-        if(!empty($tmp)) {
-            $tmp = explode(", ", $tmp);
-
-            $tab = array();
-            foreach ($tmp as $k => $v) {
-                $id_artists = $this->Artist->find('all', array(
-                    'conditions' => array('Artist.name' => $v)
-                ));
-                $tab[] = $id_artists[0]['Artist']['id'];
-            }
-
+        $d = $this->AssocArtist->find('all', array(
+            'conditions' => array('AssocArtist.id_concert' => $id)
+        ));
+        for ($i = 0; $i <= sizeof($d)-1; $i++) {
+            $id_artist = $d[$i]['AssocArtist']['id_artist'];
+            $result[$i] = $this->Artist->find('all',array('conditions' => array('Artist.id' => $id_artist)));
+        }
+        if(!empty($result)) {
             $prepoulated = "";
-            for ($i = 0; $i <= sizeof($tab)-1; $i++) {
-                $prepoulated = $prepoulated . "{id: ".$tab[$i].", name: ".'"'.$tmp[$i].'"'."},\n";
+            for ($i = 0; $i <= sizeof($result)-1; $i++) {
+                $prepoulated = $prepoulated . "{id: ".$result[$i][0]['Artist']['id'].", name: ".'"'.$result[$i][0]['Artist']['name'].'"'."},\n";
             }
             $prepoulated = substr($prepoulated, 0, -2);
             $d['artistsName'] = $prepoulated;
@@ -271,7 +381,25 @@ class ConcertsController extends AppController{
         $this->request->data = $this->Reservation->read();
     }
 
-    function admin_artist_edit($id) {
+    function admin_artist_edit($id, $partyName, $idConcert) {
+        if($this->request->is('put')) {
+            $d = $this->request->data;
+
+            if($this->Artist->save($d,true,array('name'))) {
+                    $this->Session->setFlash('The artist has been successfully updated', 'notif', array('type'=>'success'));
+                    $this->redirect(array('action' => 'artist', $idConcert));
+            } else{
+                $this->Session->setFlash("Thanks to correct your mistakes","notif",array('type'=>'error'));
+            }
+        }
+
+        $this->Artist->id = $id;
+        $this->request->data = $this->Artist->read();
+        $d['partyName'] = $partyName;
+        $this->set($d);
+    }
+
+    function admin_artist_table_edit($id) {
         if($this->request->is('put')) {
             $d = $this->request->data;
 
@@ -282,11 +410,9 @@ class ConcertsController extends AppController{
                 $this->Session->setFlash("Thanks to correct your mistakes","notif",array('type'=>'error'));
             }
         }
-
         $this->Artist->id = $id;
         $this->request->data = $this->Artist->read();
     }
-
 
     function showLastConcerts (){
           $d = $this->Concert->find('all', array('order' => array('Concert.id DESC')));

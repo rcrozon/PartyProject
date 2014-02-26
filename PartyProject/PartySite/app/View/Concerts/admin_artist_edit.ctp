@@ -1,6 +1,6 @@
 <div id="page-wrapper">        
 	<div class="page-header">
-		<h1>Edit Artist</h1>
+		<h1>Edit Artist of party : '<?php echo $partyName; ?>'</h1>
 	</div>
 
 	<table>
