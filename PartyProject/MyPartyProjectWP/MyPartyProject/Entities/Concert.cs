@@ -34,5 +34,10 @@ namespace MyParty.Entities
             this.online = online;
             this.full = full;
         }
+
+        public Concert()
+        {
+            // TODO: Complete member initialization
+        }
     }
 }
