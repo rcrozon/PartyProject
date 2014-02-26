@@ -18,19 +18,19 @@ class ReservationsController extends AppController{
 
 	$idReservation = $this->params['named']['id'];  
 	$reservation = $this->Reservation->find('first',array(
-		'conditions' => array('reservation.id' => $idReservation)
+		'conditions' => array('Reservation.id' => $idReservation)
 		));	
 	$idTarif = $reservation['Reservation']['id_tarif'];
 	$tarif = $this->Tarif->find('first',array(
-		'conditions' => array('tarif.id' => $idTarif)
+		'conditions' => array('Tarif.id' => $idTarif)
 		));	
 	$idConcert = $reservation['Reservation']['id_concert'];
 	$concert = $this->Concert->find('first',array(
-		'conditions' => array('concert.id' => $idConcert)
+		'conditions' => array('Concert.id' => $idConcert)
 		));	
 	$idClient = $reservation['Reservation']['id_client'];
 	$client = $this->Client->find('first',array(
-		'conditions' => array('client.id' => $idClient)
+		'conditions' => array('Client.id' => $idClient)
 		));	
 
 
