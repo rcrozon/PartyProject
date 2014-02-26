@@ -33,8 +33,8 @@ $style = array(
  $img_file = $this->webroot.'app/webroot/img/Concerts/'.$concert['Concert']['image'];
 $pdf->Image($img_file, 0, 0, 480, 168, '', '', '', false, 300, '', false, false, 0);
 $pdf->writeHTML($html, true, false, true, false, '');
-
-$pdf->write2DBarcode('1;2', 'QRCODE,Q', 400, 70, 130, 80, $style, 'N');
+$codeQR = $reservation['Reservation']['id'].';'.$concert['Concert']['id'].';'.$client['Client']['id'].';'.$tarif['Tarif']['id'];
+$pdf->write2DBarcode($codeQR, 'QRCODE,Q', 400, 70, 130, 80, $style, 'N');
  
 $pdf->lastPage();
 $dir =APP.'webroot\files\\'.$client['Client']['username'];
