@@ -51,11 +51,13 @@
                       </a>
                       <ul class="dropdown-menu">
                         <li>
-                            <?php echo $this->Html->link("Concert Table",array('action'=>'table_concert','controller'=>'concerts'));?>
+                            <?php echo $this->Html->link("Concerts Table",array('action'=>'table_concert','controller'=>'concerts'));?>
                         </li>
-                        <li><a href="#">Artists Table</a></li>
                         <li>
-                            <?php echo $this->Html->link("Reservation Table",array('action'=>'table_reservation','controller'=>'concerts'));?>
+                            <?php echo $this->Html->link("Artists Table",array('action'=>'table_artist','controller'=>'concerts'));?>
+                        </li>
+                        <li>
+                            <?php echo $this->Html->link("Reservations Table",array('action'=>'table_reservation','controller'=>'concerts'));?>
                         </li>
                       </ul>
                     </li>
