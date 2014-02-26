@@ -26,6 +26,12 @@ class MobilesController  extends AppController{
 		return new CakeResponse(array('body' => json_encode($results)));
     }
 
+    function getAllReservations(){
+		$results = $this->Reservation->find('all');
+		return new CakeResponse(array('body' => json_encode($results)));
+
+	}
+
      public function postClient() {
 	$this->autoRender = false;
     $this->response->type('json');

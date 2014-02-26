@@ -1,6 +1,51 @@
 <?php
 class ReservationsController extends AppController{
 
+	function listReservations(){
+		$idClient = $this->params['named']['id'];  		
+		$idConcert = $this->params['named']['idC'];  
+
+		$d = $this->Reservation->find('all',array('conditions' => array(
+			'Reservation.id_concert' => $idConcert,
+			'Reservation.id_client' => $idClient)));		      
+		$this->set('reservations',$d);
+
+		
+	}
+
+	 function create_pdf(){
+ 
+
+	$idReservation = $this->params['named']['id'];  
+	$reservation = $this->Reservation->find('first',array(
+		'conditions' => array('reservation.id' => $idReservation)
+		));	
+	$idTarif = $reservation['Reservation']['id_tarif'];
+	$tarif = $this->Tarif->find('first',array(
+		'conditions' => array('tarif.id' => $idTarif)
+		));	
+	$idConcert = $reservation['Reservation']['id_concert'];
+	$concert = $this->Concert->find('first',array(
+		'conditions' => array('concert.id' => $idConcert)
+		));	
+	$idClient = $reservation['Reservation']['id_client'];
+	$client = $this->Client->find('first',array(
+		'conditions' => array('client.id' => $idClient)
+		));	
+
+
+		$this->set('reservation',$reservation);
+		$this->set('client',$client);
+ 		$this->set('tarif',$tarif);
+ 		$this->set('concert',$concert);
+
+
+ 
+ 
+    $this->render('/Pdf/my_pdf_view');
+ 
+}
+
 	function addReservations (){
 		if($this->request->is('post')) {
 			$resultPost = $this->request->data; 
@@ -34,8 +79,11 @@ class ReservationsController extends AppController{
 				else {
 					
 				}
+
 			}
 		}
+		$this->redirect('listReservations/id:'.$table['id_client'].'/idC:'.$idConcert);
+
 	}
 
 
