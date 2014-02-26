@@ -29,35 +29,18 @@ namespace MyPartyProject
             webClient.DownloadStringCompleted += concert_DownloadStringCompleted;
             webClient.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllConcerts"));
             List<Concert> list = new List<Concert>();
-            Concert c1 = new Concert(1,"Michael Jackson","Images/party2.jpg",
-                            "22/04/2012","23/04/2012",
-                            "Poitiers", 
-                            500, 
-                            0);
-            Concert c2 = new Concert(2,"Queen", "Images/party2.jpg","22/04/2012","23/04/2012",
-                           "Bordeaux",900, 0);
+            Concert c1 = new Concert("1", false, "0", "2", "Michael Jackson", "Images/party2.jpg", "23/04/2012", "23/04/2012", "Bordeaux", "500", false);
+            Concert c2 = new Concert("2", false, "0", "2", "Queen", "Images/party3.jpg", "24/04/2012", "23/04/2012", "paris", "800", false);
             list.Add(c1);
             list.Add(c2);
             string json = JsonConvert.SerializeObject(list);
             concertText.Text = json;
-                /*new Concert{id = 3, 
-                            title = "Lorie", 
-                            imgPath = "Images/party3.jpg",
-                            beginDate = "22/04/2012",
-                            endDate = "23/04/2012",
-                            location = "Poitiers", 
-                            nbSeets = 500, 
-                            full = 0},
-                new Concert{id = 4, 
-                            title = "Police", 
-                            imgPath = "Images/party4.jpg",
-                            beginDate = "22/04/2012",
-                            endDate = "23/04/2012",
-                            location = "Poitiers", 
-                            nbSeets = 500, 
-                            full = 0},
-            };
-            concertsListBox.ItemsSource = list.OrderBy(e => e.id);*/
+            List<Concert> result = JsonConvert.DeserializeObject<List<Concert>>(json);
+            /*for (int i = 0; i < result.Count; ++i)
+            {
+                concertText.Text += " " + result[i].name_concert + " " + result[i].location;
+            }*/
+            concertsListBox.ItemsSource = result.Select(c => c.name_concert);
         }
 
         private void concert_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
@@ -72,24 +55,42 @@ namespace MyPartyProject
                     var myElement = itemProperties.ElementAt(0);
                     var myElementValue = myElement.Value; ////This is a JValue type
                     concertText.Text = myElementValue.ElementAt(0).ToString();
+                }*/
+                /*string json = "{\"Concert\" :[{\"id\":\"1\",\"start_datetime\":\"2014-02-19 17:43:00\",\"end_datetime\":\"2015-02-19 17:43:00\",\"location\":\"Stade de france\",\"image\":\"GUETTA.jpg\",\"id_tarif\":\"0\",\"nb_seats\":\"79\",\"full\":false,\"id_creator\":\"1\",\"name_concert\":\"Guetta Party tour\",\"online\":false},{\"id\":\"2\",\"start_datetime\":\"2014-02-24 12:49:00\",\"end_datetime\":\"2014-02-25 12:49:00\",\"location\":\"Stade de france\",\"image\":\"Affiche Daft Punk.png\",\"id_tarif\":\"0\",\"nb_seats\":\"10000\",\"full\":false,\"id_creator\":\"1\",\"name_concert\":\"Daft Punk Party\",\"online\":false}]}";
+                RootObject result = JsonConvert.DeserializeObject<RootObject>(json);
+                concertText.Text = json;
+                if (result == null)
+                    concertText.Text += "null";
+                else{
+                    concertText.Text += "pas null";
+                    if (result.listResult == null)
+                        concertText.Text += "  null";
+                    else
+                        concertText.Text += "  pas null";
                 }
-                /*RootObject result = JsonConvert.DeserializeObject<RootObject>("{\"result\":" + e.Result + "}");
-                if (result.listResult == null)
-                    concertText.Text = "null";
-                else
-                    concertText.Text = "pas null";*/
+                /*for (int i = 0; i < result.Count; ++i )
+                {
+                    concertText.Text += "\n" + result[i].id + "  " + 
+                                        result[i].beginDate + "  " + 
+                                        result[i].endDate + "  " +
+                                        result[i].location + "  " +
+                                        result[i].imgPath + "  " +
+                                        result[i].id_creator + "  " + result[i].nbSeets + "  " + result[i].id_tarif
+                                        + "  " + result[i].name_concert + "  " + result[i].online;
+                }*/
+                
                 //concertText.Text = result.listResult[0].Concert.title;
-                //concertsListBox.ItemsSource = result.listResult;//.Select(r => r.Concert.title);
+                //concertsListBox.ItemsSource = result;
             }
         }
         private void concertsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (concertsListBox.SelectedItem == null)
+            /*if (concertsListBox.SelectedItem == null)
             return;
             Concert currentArticle = (Concert)concertsListBox.SelectedItem;
             PhoneApplicationService.Current.State["Concert"] = currentArticle;
             concertsListBox.SelectedItem = null;
-            NavigationService.Navigate(new Uri("/ConcertDetails.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/ConcertDetails.xaml", UriKind.Relative));*/
         }
     }
 }

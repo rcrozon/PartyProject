@@ -9,7 +9,7 @@ namespace MyPartyProject.Entities
 {
     public class RootObject
     {
-        public List<ResultConcert> listResult { get; set; }
+        public List<Concert> listResult { get; set; }
     }
    /* public class Page
     {

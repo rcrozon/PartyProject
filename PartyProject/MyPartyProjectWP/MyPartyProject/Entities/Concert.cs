@@ -8,30 +8,31 @@ namespace MyParty.Entities
 {
     public class Concert : Entity
     {
-        public int id { get; set; }
-        public String imgPath {get; set;}
-        public String title {get; set;}
-        public String beginDate {get; set;}
-        public String endDate {get; set;}
-        public String location {get; set;}
-        public int nbSeets {get; set;}
-        public int full {get; set;}
+        public string id { get; set; }
+        public string start_datetime { get; set; }
+        public string end_datetime { get; set; }
+        public string location { get; set; }
+        public string image { get; set; }
+        public string id_tarif { get; set; }
+        public string nb_seats { get; set; }
+        public bool full { get; set; }
+        public string id_creator { get; set; }
+        public string name_concert { get; set; }
+        public bool online { get; set; }
 
-        public Concert(int id, String imgPath, String title, String begin, String end, String location, int nbSeets, int full)
+        public Concert(string id, bool online, string id_tarif, string id_creator, string name,string imgPath, string begin, string end, string location, string nbSeets, bool full)
         {
             this.id = id;
-            this.imgPath = "Images/party1.jpg";
-            this.title = title;
-            this.beginDate = begin;
-            this.endDate = end;
+            this.id_tarif = id_tarif;
+            this.id_creator = id_creator;
+            this.image = imgPath;
+            this.start_datetime = begin;
+            this.end_datetime = end;
             this.location = location;
-            this.nbSeets = nbSeets;
+            this.name_concert = name;
+            this.nb_seats = nbSeets;
+            this.online = online;
             this.full = full;
-        }
-
-        public Concert()
-        {
-            // TODO: Complete member initialization
         }
     }
 }

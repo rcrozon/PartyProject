@@ -24,7 +24,7 @@ namespace MyPartyProject
 
         public ConcertDetails()
         {
-            InitializeComponent();
+            InitializeComponent();/*
             List<Ticket> list = new List<Ticket>
              {
                 new Ticket {
@@ -58,10 +58,10 @@ namespace MyPartyProject
             textEndDate.Text = concert.endDate;
             textLocation.Text = concert.location;
             textNbSeets.Text = "Number of seets " + concert.nbSeets;
-            textTitle.Text = concert.title;
+            textTitle.Text = concert.name_concert;
             //geoWatcher = new GeoCoordinateWatcher();
             //geoWatcher.StatusChanged += geoWatcher_StatusChanged;
-            //geoWatcher.Start();
+            //geoWatcher.Start();*/
         }
 
         private void geoWatcher_StatusChanged(object sender, GeoPositionStatusChangedEventArgs e)
