@@ -74,14 +74,16 @@ class ReservationsController extends AppController{
 				if($this->Reservation->save($table,false,array('id_client','id_concert','id_tarif','scan')))
 				{
 				$this->Session->setFlash("success","notif",array('type'=>'success'));
-$this->redirect('listReservations/id:'.$table['id_client'].'/idC:'.$idConcert);
 
 				}
 				else {
 					
 				}
+
 			}
 		}
+		$this->redirect('listReservations/id:'.$table['id_client'].'/idC:'.$idConcert);
+
 	}
 
 
