@@ -1,6 +1,6 @@
 <style type="text/css">
 		body{
-background-image:url('<?php echo $this->webroot.'img/Concerts/'.$showConcert['image']; ?>');
+background-image:url("<?php echo $this->webroot.'img/Concerts/'.$showConcert['image']; ?>");
 }
 input[type=number], input[type=password] {
 	margin:0px;
@@ -10,7 +10,41 @@ input[type=number], input[type=password] {
 .row {
 margin-left: 0px;
 margin-right: 0px;
+margin-bottom: 8px;
+
 }
+
+
+input[type=submit]:hover  {
+color: #fff;
+background-color: #3276b1;
+border-color: #285e8e;
+}
+input[type=submit] {
+color: #fff;
+background-color: #428bca;
+border-color: #357ebd;
+}
+input[type=submit] {
+display: inline-block;
+margin-bottom: 0;
+font-weight: 400;
+text-align: center;
+vertical-align: middle;
+cursor: pointer;
+background-image: none;
+border: 1px solid transparent;
+white-space: nowrap;
+padding: 6px 12px;
+font-size: 14px;
+line-height: 1.42857143;
+border-radius: 4px;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+
 	.box{
 		width:50%;
 		margin:auto;
@@ -31,7 +65,6 @@ font-size: 12px;
 border: 1px solid #eee;
 padding: 10px;
 height:120px;
-margin-bottom: 20px;
 }
 .multi_header img {
 width: 100px;
@@ -44,6 +77,30 @@ margin: 0;
 color: #333;
 text-transform: uppercase;
 }
+
+
+.instruction{
+	background-color:#303433;
+	height:75px;
+	margin-bottom: 20px;
+	padding:5px;
+}
+
+.instruction_number {
+	float:left;
+width: 65px;
+height: 65px;
+line-height: 65px;
+font-size: 25px;
+font-weight: bold;
+color: white;
+background: #696E6D;
+border-radius: 45px;
+text-align: center;
+margin-right: 10px;
+}
+
+
 form {
 color: #131212;
 }
@@ -51,10 +108,11 @@ color: #131212;
 <div class="box">
 
 
-<div class="multi_header"><img src=<?php echo $this->webroot.'img/Concerts/'.$showConcert['image']; ?>><div <div class="event_fiche">
+<div class="multi_header"><img src="<?php echo $this->webroot.'img/Concerts/'.$showConcert['image']; ?>"><div <div class="event_fiche">
                 <div class="event_titre"><h1><?php echo $showConcert['name_concert']?></h1></div>
                 <div class="event_date"><?php echo $showConcert['start_datetime']?> au <?php echo $showConcert['end_datetime']?></div>
                 <div class="event_info"><?php echo $showConcert['location']?><br></div></div></div>
+
 
 
 
