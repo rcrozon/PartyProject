@@ -42,6 +42,8 @@
                             <Image Grid.Column="0" Grid.Row="0" Source="{Binding image}"/>
                             <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,30,0,10">
                                 <TextBlock Text="{Binding name_concert}" />
+                                <TextBlock Text="{Binding start_datetime}" />
+                                <TextBlock Text="{Binding end_datetime}" />
                                 <TextBlock Text="{Binding location}" />
                                 <TextBlock Text="{Binding nb_seats}" />
                             </StackPanel>
