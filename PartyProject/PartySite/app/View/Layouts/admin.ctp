@@ -59,6 +59,9 @@
                         <li>
                             <?php echo $this->Html->link("Reservations Table",array('action'=>'table_reservation','controller'=>'concerts'));?>
                         </li>
+                        <li>
+                            <?php echo $this->Html->link("Clients Table",array('action'=>'table_client','controller'=>'concerts'));?>
+                        </li>
                       </ul>
                     </li>
                     <li class="dropdown">
