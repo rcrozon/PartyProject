@@ -94,6 +94,7 @@
                         <li><a href="#">Last Item</a></li>
                       </ul>
                     </li>
+                    <li class="divider" style="height: 1px;width:100%; margin: 9px 0;overflow: hidden;background-color: #e5e5e5;"></li>
                   </ul>
 
                   <ul class="nav navbar-nav navbar-right navbar-user">
@@ -174,13 +175,13 @@
                 <?php echo $content_for_layout; ?>
             </div>
         </div>
+        <!-- JavaScript -->
+        <?php echo $this->Html->script('bootstrap'); ?>
+        <!-- Page Specific Plugins -->
+        <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+        <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
+        <script src="js/morris/chart-data-morris.js"></script>
+        <script src="js/tablesorter/jquery.tablesorter.js"></script>
+        <script src="js/tablesorter/tables.js"></script>-->
     </body>
-    <!-- JavaScript -->
-    <?php echo $this->Html->script('bootstrap'); ?>
-    <!-- Page Specific Plugins -->
-    <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
-    <script src="js/morris/chart-data-morris.js"></script>
-    <script src="js/tablesorter/jquery.tablesorter.js"></script>
-    <script src="js/tablesorter/tables.js"></script>-->
 </html>

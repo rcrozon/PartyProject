@@ -21,8 +21,12 @@
     <link rel="stylesheet" href="<?php echo $this->Html->url('/css/sb-admin.css');?>">
     <link rel="stylesheet" href="<?php echo $this->Html->url('/font-awesome/css/font-awesome.min.css');?>">
 
-    <?php echo $this->Html->script('jquery-1.11.0.min.js');?>
+    <!--<?php echo $this->Html->script('jquery-1.11.0.min.js');?>
     <?php echo $this->Html->script('mosaic.1.0.1.js');?>
+    <?php echo $this->Html->script('less'); ?>-->
+
+    <?php echo $this->Html->script('jquery-1.10.2'); ?>
+    <?php echo $this->Html->script('mosaic.1.0.1');?>
     <?php echo $this->Html->script('less'); ?>
     <?php echo $scripts_for_layout; ?>
 
@@ -61,30 +65,32 @@
             </div>
         </div>
 
-        <ul class="nav navbar-nav navbar-right navbar-user">
-          <?php if(AuthComponent::user('id')): ?>
-            <li class="dropdown user-dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
-                <?php echo ucfirst(AuthComponent::user('username')); ?> <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                  <li><?php echo $this->Html->link('<i class="fa fa-user"></i> Profile',
-                    array('action'=>'edit','controller'=>'clients'), array('escape' => false)); ?></li>
-                  <?php if(AuthComponent::user('admin')=='1'): ?>
-                    <li><?php echo $this->Html->link('<i class="fa fa-gear"></i> Administration',
-                      array('action'=>'index','controller'=>'admin/concerts'), array('escape' => false)); ?></li>
-                  <?php endif; ?>
-                  <li class="divider"></li>
-                  <li><?php echo $this->Html->link('<i class="fa fa-power-off"></i> Log Out',
-                    array('action'=>'logout','controller'=>'clients'), array('escape' => false)); ?></li>
-              </ul>
-            </li>
-          <?php else: ?>
-            <li><?php echo $this->Html->link('<i class="fa fa-user"></i> Register',
-              array('action'=>'signup','controller'=>'clients'), array('escape' => false)); ?></li>
-            <li><?php echo $this->Html->link('<i class="fa fa-power-off"></i> Log In',
-              array('action'=>'login','controller'=>'clients'), array('escape' => false)); ?></li>
-          <?php endif; ?>
-        </ul>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <ul class="nav navbar-nav navbar-right navbar-user">
+            <?php if(AuthComponent::user('id')): ?>
+              <li class="dropdown user-dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
+                  <?php echo ucfirst(AuthComponent::user('username')); ?> <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><?php echo $this->Html->link('<i class="fa fa-user"></i> Profile',
+                      array('action'=>'edit','controller'=>'clients'), array('escape' => false)); ?></li>
+                    <?php if(AuthComponent::user('admin')=='1'): ?>
+                      <li><?php echo $this->Html->link('<i class="fa fa-gear"></i> Administration',
+                        array('action'=>'index','controller'=>'admin/concerts'), array('escape' => false)); ?></li>
+                    <?php endif; ?>
+                    <li class="divider"></li>
+                    <li><?php echo $this->Html->link('<i class="fa fa-power-off"></i> Log Out',
+                      array('action'=>'logout','controller'=>'clients'), array('escape' => false)); ?></li>
+                </ul>
+              </li>
+            <?php else: ?>
+                <li><?php echo $this->Html->link('<i class="fa fa-user"></i> Register',
+                  array('action'=>'signup','controller'=>'clients'), array('escape' => false)); ?></li>
+                <li><?php echo $this->Html->link('<i class="fa fa-power-off"></i> Log In',
+                  array('action'=>'login','controller'=>'clients'), array('escape' => false)); ?></li>
+            <?php endif; ?>
+          </ul>
+        </div><!-- /.navbar-collapse -->
       </nav>
 
       <div class="container">
@@ -97,8 +103,8 @@
         </div>
       </div>
     </div>
+    <!-- JavaScript -->
+    <!--<?php echo $this->Html->script('jquery-1.10.2'); ?>-->
+    <?php echo $this->Html->script('bootstrap'); ?>
   </body>
-  <!-- JavaScript -->
-  <?php echo $this->Html->script('jquery-1.10.2'); ?>
-  <?php echo $this->Html->script('bootstrap'); ?>
 </html>
