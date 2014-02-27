@@ -13,6 +13,17 @@ class ReservationsController extends AppController{
 		
 	}
 
+	function listMyAllReservations(){
+		$idClient = $this->params['named']['id'];  		
+		
+
+		$d = $this->Reservation->find('all',array('conditions' => array(
+			'Reservation.id_client' => $idClient)));		      
+		$this->set('reservations',$d);
+
+		
+	}
+
 	 function create_pdf(){
  
 

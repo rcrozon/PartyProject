@@ -1,13 +1,8 @@
 <?php
 class MobilesController  extends AppController{
 
+
 	function getAllConcerts(){
-		$results = $this->Concert->find('all');
-		return new CakeResponse(array('body' => json_encode($results)));
-
-	}
-
-	function getAllConcertsWindows(){
 		$results = $this->Concert->find('all');
 
 		for($i=0;$i<sizeof($results)-1;$i++){
@@ -17,30 +12,90 @@ class MobilesController  extends AppController{
 		return new CakeResponse(array('body' => json_encode($table)));
 
 	}
-	public function getConcertByID() {
-		$id = $this->params['named']['id'];
+
+	 function getAllReservations(){
+	 	$results = $this->Reservation->find('all');
+
+		for($i=0;$i<sizeof($results)-1;$i++){
+			$d = $results[$i]['Reservation'];
+			$table[$i] = $d;
+		}
+		return new CakeResponse(array('body' => json_encode($table)));
+
+	}
+
+	function getTariffByID(){
+	 	$login = $this->params['named']['id'];
 		
-        $results = $this->Concert->findById($id);
-        return new CakeResponse(array('body' => json_encode($results)));
+        $results = $this->Tarif->find('first',array(
+            'conditions' => array('Tarif.id' => $login)));
+		
+			$d = $results['Tarif'];
+			$table = $d;
+	
+		return new CakeResponse(array('body' => json_encode($table)));
+
+	}
+
+		function getAllTariffs(){
+	 $results = $this->Tarif->find('all');
+
+		for($i=0;$i<sizeof($results)-1;$i++){
+			$d = $results[$i]['Tarif'];
+			$table[$i] = $d;
+		}
+		return new CakeResponse(array('body' => json_encode($table)));
+
+	}
+
+
+	public function getConcertByID() {
+		$login = $this->params['named']['id'];
+		
+        $results = $this->Concert->find('first',array(
+            'conditions' => array('Concert.id' => $login)));
+		
+			$d = $results['Concert'];
+			$table = $d;
+	
+		return new CakeResponse(array('body' => json_encode($table)));
+
     }
 
     public function getClientByName() {
-		$login = $this->params['named']['login'];
 		
-        $results = $this->Client->find('first',array(
+
+
+		$login = $this->params['named']['login'];
+
+        $results = $this->Concert->find('first',array(
             'conditions' => array('Client.username' => $login)));
-        return new CakeResponse(array('body' => json_encode($results)));
+		
+			$d = $results['Concert'];
+			$table = $d;
+	
+		return new CakeResponse(array('body' => json_encode($table)));
+
+
+
+
+
+
     }
     public function getAllClients() {
-		$results = $this->Client->find('all');
-		return new CakeResponse(array('body' => json_encode($results)));
+    	 $results = $this->Client->find('all');
+
+		for($i=0;$i<sizeof($results)-1;$i++){
+			$d = $results[$i]['Client'];
+			$table[$i] = $d;
+		}
+		return new CakeResponse(array('body' => json_encode($table)));
+
+
+
+
+		
     }
-
-    function getAllReservations(){
-		$results = $this->Reservation->find('all');
-		return new CakeResponse(array('body' => json_encode($results)));
-
-	}
 
      public function postClient() {
 	$this->autoRender = false;
