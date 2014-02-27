@@ -176,6 +176,14 @@ class ConcertsController extends AppController{
         $this->set($d);
     }
 
+    function admin_table_client() {
+        $this->paginate = array('Client' => array(
+            'limit' => 5
+        ));
+        $d['client'] = $this->Paginate('Client');
+        $this->set($d);
+    }
+
     function admin_tariff($id) {
         $d = $this->Concert->find('first', array(
             'conditions' => array('Concert.id' => $id)
@@ -257,6 +265,12 @@ class ConcertsController extends AppController{
     function admin_artist_table_delete($id) {
         $this->Session->setFlash('The artist has been successfully deleted', 'notif',array('type'=>'success'));
         $this->Artist->delete($id);
+        $this->redirect($this->referer());
+    }
+
+    function admin_client_table_delete($id) {
+        $this->Session->setFlash('The cleint has been successfully deleted', 'notif',array('type'=>'success'));
+        $this->Client->delete($id);
         $this->redirect($this->referer());
     }
 
@@ -412,6 +426,21 @@ class ConcertsController extends AppController{
         }
         $this->Artist->id = $id;
         $this->request->data = $this->Artist->read();
+    }
+
+    function admin_client_table_edit($id) {
+        if($this->request->is('put')) {
+            $d = $this->request->data;
+
+            if($this->Client->save($d,true,array('username','mail','first_name','last_name','admin'))) {
+                    $this->Session->setFlash('The client has been successfully updated', 'notif', array('type'=>'success'));
+                    $this->redirect(array('action' => 'table_client'));
+            } else{
+                $this->Session->setFlash("Thanks to correct your mistakes","notif",array('type'=>'error'));
+            }
+        }
+        $this->Client->id = $id;
+        $this->request->data = $this->Client->read();
     }
 
     function showLastConcerts (){

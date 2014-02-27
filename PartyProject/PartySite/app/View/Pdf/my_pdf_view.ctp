@@ -1,3 +1,4 @@
+
 <?php
  
 App::import('Vendor','xtcpdf');
@@ -19,7 +20,6 @@ $html = '<h1>'.$concert['Concert']['name_concert'].'</h1>'
 
 ;
  $pdf->SetAutoPageBreak(false, 0);
-
 $style = array(
     'border' => 2,
     'vpadding' => 'auto',
@@ -35,7 +35,7 @@ $pdf->Image($img_file, 0, 0, 480, 168, '', '', '', false, 300, '', false, false,
 $pdf->writeHTML($html, true, false, true, false, '');
 $codeQR = $reservation['Reservation']['id'].';'.$concert['Concert']['id'].';'.$client['Client']['id'].';'.$tarif['Tarif']['id'];
 $pdf->write2DBarcode($codeQR, 'QRCODE,Q', 400, 70, 130, 80, $style, 'N');
- 
+
 $pdf->lastPage();
 $dir =APP.'webroot/files/'.$client['Client']['username'];
 
@@ -51,6 +51,7 @@ echo $pdf->Output(APP.'webroot/files/'.$client['Client']['username']."/".$fileNa
 ?>
 
 
+
 <object height="300" width="100%" data=" <?php echo $this->webroot.'app/webroot/files/'.$client['Client']['username'].'/'.$fileName.'.pdf' ?>" type="application/pdf">
 
             <p>It appears you don't have a PDF plugin for this browser.
@@ -59,3 +60,4 @@ echo $pdf->Output(APP.'webroot/files/'.$client['Client']['username']."/".$fileNa
             </p>
 
         </object>
+
