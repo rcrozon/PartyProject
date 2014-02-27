@@ -46,9 +46,9 @@ class ConcertsController extends AppController{
             # On récupère l'image chargée et on la met sur le seveur
             # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
             $extension = strtolower(pathinfo($d['Concert']['image_file']['name'], PATHINFO_EXTENSION));
-            $uploadFolder = "img\Concerts";
+            $uploadFolder = "img/Concerts";
             $uploadPath = WWW_ROOT . $uploadFolder; 
-            $full_image_path = $uploadPath . '\\' . $d['Concert']['image_file']['name'];
+            $full_image_path = $uploadPath . '/' . $d['Concert']['image_file']['name'];
             if(!empty($d['Concert']['image_file']['tmp_name']) && 
                 in_array($extension, array('jpg', 'jpeg', 'png', 'gif'))) {
 

@@ -37,7 +37,7 @@ $codeQR = $reservation['Reservation']['id'].';'.$concert['Concert']['id'].';'.$c
 $pdf->write2DBarcode($codeQR, 'QRCODE,Q', 400, 70, 130, 80, $style, 'N');
  
 $pdf->lastPage();
-$dir =APP.'webroot\files\\'.$client['Client']['username'];
+$dir =APP.'webroot/files/'.$client['Client']['username'];
 
 if (!is_dir($dir)) {
 mkdir($dir, 0700);

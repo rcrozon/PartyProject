@@ -7,6 +7,16 @@ class MobilesController  extends AppController{
 
 	}
 
+	function getAllConcertsWindows(){
+		$results = $this->Concert->find('all');
+
+		for($i=0;$i<sizeof($results)-1;$i++){
+			$d = $results[$i]['Concert'];
+			$table[$i] = $d;
+		}
+		return new CakeResponse(array('body' => json_encode($table)));
+
+	}
 	public function getConcertByID() {
 		$id = $this->params['named']['id'];
 		
