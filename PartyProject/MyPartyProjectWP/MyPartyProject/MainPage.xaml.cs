@@ -18,6 +18,7 @@ namespace MyPartyProject
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        private int loaded = 0; 
         // Constructor
         public MainPage()
         {
@@ -35,8 +36,9 @@ namespace MyPartyProject
                 }
             }
             catch (System.Collections.Generic.KeyNotFoundException e) { }
+            updateDatabase();
             
-            DatabaseHandler handler = new DatabaseHandler();
+            //DatabaseHandler handler = new DatabaseHandler();
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
         }
@@ -45,17 +47,19 @@ namespace MyPartyProject
         {
             WebClient webClientConcert = new WebClient();
             webClientConcert.DownloadStringCompleted += concert_DownloadStringCompleted;
-            webClientConcert.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllConcertsWindows"));
+            webClientConcert.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllConcerts"));
             WebClient webClientTicket = new WebClient();
             webClientTicket.DownloadStringCompleted += ticket_DownloadStringCompleted;
-            webClientTicket.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllReservationsWindows"));
+            webClientTicket.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllReservations"));
+            WebClient webClientTariff = new WebClient();
+            webClientTariff.DownloadStringCompleted += tariff_DownloadStringCompleted;
+            webClientTariff.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllTariffs"));
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
 
             //var thread = new System.Threading.Thread(updateDatabase);
             //thread.Start();
-            updateDatabase();
             IsolatedStorageSettings.ApplicationSettings["login"] = login.Text;
             if (rememberCheckBox.IsChecked == true)
                 IsolatedStorageSettings.ApplicationSettings["pwd"] = pwd.Password;
@@ -73,11 +77,11 @@ namespace MyPartyProject
                 invalidLogin.Visibility = Visibility.Collapsed;    
             }*/
             PhoneApplicationService.Current.State["idClient"] = "3";
-            if (PhoneApplicationService.Current.State["connected"].Equals(1))
-            {
+            //while(loaded < 3);
+            //if (PhoneApplicationService.Current.State["connected"].Equals(1))
+            //{
                  NavigationService.Navigate(new Uri("/Concerts.xaml", UriKind.Relative));
-
-            }
+            //}
         }
 
 
@@ -108,9 +112,36 @@ namespace MyPartyProject
             {
                 IsolatedStorageSettings.ApplicationSettings["tickets"] = new List<Reservation>();
             }
+            loaded += 1;
             progressBarLogin.Value = 50;
         }
-
+        private void tariff_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            
+            if (e.Error == null)
+            {
+                List<Tariff> result = JsonConvert.DeserializeObject<List<Tariff>>(e.Result);
+                List<Tariff> tariffs = new List<Tariff>();
+                for (int i = 0; i < result.Count; ++i)
+                {
+                    tariffs.Add(new Tariff
+                    {
+                        id = result[i].id,
+                        label = result[i].label,
+                        price = result[i].price,
+                    });
+                }
+                IsolatedStorageSettings.ApplicationSettings["tariffs"] = tariffs;
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            }
+            else
+            {
+                MessageBox.Show("This is a Message Box", "null", MessageBoxButton.OK); 
+                IsolatedStorageSettings.ApplicationSettings["tickets"] = new List<Reservation>();
+            }
+            loaded += 1;
+            progressBarLogin.Value = 50;
+        }
         private void concert_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             if (e.Error == null)
@@ -121,10 +152,13 @@ namespace MyPartyProject
                 {
                     concerts.Add(new Concert
                     {
+                        id = result[i].id,
+                        id_creator = result[i].id_creator,
+                        id_tarif = result[i].id_tarif,
                         start_datetime = "Begin date : " + result[i].start_datetime,
                         end_datetime = "End date :" + result[i].end_datetime,
                         location = result[i].location,
-                        image = "/Images/party3.jpg",
+                        image = "http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/img/Concerts/" + result[i].image,
                         nb_seats = result[i].nb_seats,
                         name_concert = result[i].name_concert,
                     });
@@ -144,6 +178,7 @@ namespace MyPartyProject
                 imgConnected.Source = imageBitmap;
                 IsolatedStorageSettings.ApplicationSettings["concerts"] = new List<Concert>();
             }
+            loaded += 1;
             progressBarLogin.Value = 100;
         }
         // Sample code for building a localized ApplicationBar

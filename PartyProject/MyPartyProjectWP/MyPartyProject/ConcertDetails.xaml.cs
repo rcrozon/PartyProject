@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Maps;
+using Microsoft.Phone.Maps.Controls;
 using Microsoft.Phone.Shell;
 using MyParty.Entities;
 using System.Windows.Media.Imaging;
@@ -21,6 +22,7 @@ namespace MyPartyProject
 {
     public partial class ConcertDetails : PhoneApplicationPage
     {
+        public string tariffLabel = "Tariff";
 
         public ConcertDetails()
         {
@@ -29,6 +31,7 @@ namespace MyPartyProject
             geoWatcher.StatusChanged += geoWatcher_StatusChanged; 
             geoWatcher.PositionChanged += geoWatcher_PositionChanged;
             geoWatcher.Start();
+            map.ZoomLevel = 15;
             if (PhoneApplicationService.Current.State["connected"].Equals(1))
             {
                 Uri imageUriConnected = new Uri("/Images/ic_connected.png", UriKind.Relative);
@@ -42,7 +45,7 @@ namespace MyPartyProject
                 imgConnected.Source = imageBitmapNotConnected;
             }
             Concert concert = (Concert)PhoneApplicationService.Current.State["Concert"];
-            Uri imageUri = new Uri(concert.image, UriKind.Relative);
+            Uri imageUri = new Uri(concert.image, UriKind.Absolute);
             BitmapImage imageBitmap = new BitmapImage(imageUri);
             imgConcert.Source = imageBitmap;
             textBeginDate.Text = concert.start_datetime;
@@ -52,7 +55,16 @@ namespace MyPartyProject
             textTitle.Text = concert.name_concert;
             try
             {
-                ticketsListBox.ItemsSource = (List<Reservation>)IsolatedStorageSettings.ApplicationSettings["tickets"];
+                List<Reservation> tickets = (List<Reservation>)IsolatedStorageSettings.ApplicationSettings["tickets"];
+                List<Concert> concerts = (List<Concert>)IsolatedStorageSettings.ApplicationSettings["concerts"];
+                for(int i = 0; i < tickets.Count; ++i)
+                {
+                    Concert c = Concert.getConcertFromId(concerts, tickets[i].id_concert);
+                    tickets[i].image = c.image;
+                    tickets[i].concertLabel = c.name_concert;
+                    tickets[i].tariffLabel = Tariff.getLabelTariffFromId((List<Tariff>)IsolatedStorageSettings.ApplicationSettings["tariffs"], tickets[i].id_tarif);
+                }
+                ticketsListBox.ItemsSource = tickets;
             }
             catch (System.Collections.Generic.KeyNotFoundException e) { }
             /********************** Affichage des tickets *******************************/
@@ -75,6 +87,7 @@ namespace MyPartyProject
         private void geoWatcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
             map.Center = e.Position.Location;
+            
             /*Dispatcher.BeginInvoke(() =>
             {
             

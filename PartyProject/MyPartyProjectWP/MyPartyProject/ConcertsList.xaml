@@ -28,6 +28,10 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="562*"/>
+                <RowDefinition Height="45*"/>
+            </Grid.RowDefinitions>
             <ListBox x:Name="concertsListBox" SelectionChanged="concertsListBox_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -50,6 +54,8 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            <TextBox x:Name="research"  Margin="-10,552,44,-10" TextWrapping="Wrap" Grid.RowSpan="2" TextChanged="research_TextChanged"/>
+            <Image Source="/Images/ic_action_search.png" HorizontalAlignment="Left" Height="45" Margin="412,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="44"/>
         </Grid>
         <Image x:Name="imgConnected" Source="/Images/ic_not_connected.png" Height="30" Margin="450,0,0,0" VerticalAlignment="Top"/>
     </Grid>

@@ -39,5 +39,17 @@ namespace MyParty.Entities
         {
             // TODO: Complete member initialization
         }
+
+        public static Concert getConcertFromId(List<Concert> concerts, string id)
+        {
+            foreach (Concert concert in concerts)
+            {
+                if (concert.id == id)
+                {
+                    return concert;
+                }
+            }
+            return null;
+        }
     }
 }

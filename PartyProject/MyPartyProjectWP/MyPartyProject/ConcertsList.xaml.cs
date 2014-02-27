@@ -8,7 +8,6 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using MyParty.Entities;
-using MyPartyProject.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO.IsolatedStorage;
@@ -55,6 +54,19 @@ namespace MyPartyProject
             PhoneApplicationService.Current.State["Concert"] = currentConcert;
             concertsListBox.SelectedItem = null;
             NavigationService.Navigate(new Uri("/ConcertDetails.xaml", UriKind.Relative));
+        }
+
+        private void research_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            List<Concert> list = (List<Concert>)IsolatedStorageSettings.ApplicationSettings["concerts"];
+            for(int i = 0; i < list.Count; ++i)
+            {
+                if (!list[i].name_concert.Contains(research.Text))
+                {
+                    list.RemoveAt(i);
+                }    
+            }
+            concertsListBox.ItemsSource = list;
         }
     }
 }

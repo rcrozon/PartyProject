@@ -8,6 +8,8 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Windows.Media.Imaging;
+using MyPartyProject.QRCode;
+using System.IO;
 
 namespace MyPartyProject
 {
@@ -28,6 +30,19 @@ namespace MyPartyProject
                 BitmapImage imageBitmapNotConnected = new BitmapImage(imageUriNotConnected);
                 imgConnected.Source = imageBitmapNotConnected;
             }
+            QRCodeGenerator generator = new QRCodeGenerator();
+            WriteableBitmap code = generator.Generate("63;2;4;4");
+            using (MemoryStream ms = new MemoryStream())
+            {
+                code.SaveJpeg(ms, (int)imgTicket.Width, (int)imgTicket.Height, 0, 100);
+                BitmapImage bmp = new BitmapImage();
+                bmp.SetSource(ms);
+                imgTicket.Source = bmp;
+            }
+            
+            
+
+
         }
     }
 }
