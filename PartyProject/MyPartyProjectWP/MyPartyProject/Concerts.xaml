@@ -28,7 +28,7 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28" Grid.ColumnSpan="2">
-            <TextBlock Text="MyParty" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Text="MyParty" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0,50,0"/>
             <TextBlock Text="Concerts" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
@@ -37,6 +37,7 @@
         <Button x:Name="allConcertButton" Content="All concerts" Grid.Row="1" Grid.ColumnSpan="2" Click="Button_Click_1" BorderThickness="0" OpacityMask="Black" BorderBrush="White" Background="#FFBB0000" Margin="1,0,0,0" Padding="0,-131,212,0"/>
         <Button x:Name="nextConcertButton" Content="Next concerts" Grid.Row="2" Grid.ColumnSpan="1" Click="Button_Click_2" BorderThickness="0" Background="#FFBB0000" Padding="10,114,10,6" />
         <Button x:Name="newsConcertButton" Content="News" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Click="Button_Click_3" Background="#FFBB0000" BorderThickness="0" Padding="10,119,-117,6" />
+        <Image x:Name="imgConnected" Source="/Images/ic_not_connected.png" Grid.Column="1" Height="30" Margin="210,0,0,0" VerticalAlignment="Top"/>
     </Grid>
 
 </phone:PhoneApplicationPage>

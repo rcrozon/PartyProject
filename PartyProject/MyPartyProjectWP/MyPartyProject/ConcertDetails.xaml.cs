@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Maps;
 using Microsoft.Phone.Shell;
 using MyParty.Entities;
 using System.Windows.Media.Imaging;
@@ -13,55 +14,81 @@ using System.Windows.Media;
 using System.ComponentModel;
 using System.Data;
 using System.Device.Location;
-//using System.Device.Location.GeoCoordinateWatcher;
+using Newtonsoft.Json;
+using System.IO.IsolatedStorage;
 
 namespace MyPartyProject
 {
-    //private GeoCoordinateWatcher geoWatcher;
-
     public partial class ConcertDetails : PhoneApplicationPage
     {
 
         public ConcertDetails()
         {
-            InitializeComponent();/*
-            List<Ticket> list = new List<Ticket>
-             {
-                new Ticket {
-                    id = 1,
-                    nbSeets = 3,
-                    concert = new Concert(1, "/Images/party2.jpg", "Lorie", "22/05/2014", "23/08/2011", "Poitiers", 500, 1 ),
-                },
-                new Ticket {
-                    id = 2,
-                    concert = new Concert(2, "/Images/party2.jpg", "Queen", "22/05/2014", "23/08/2011", "Bordeaux", 800, 1 ),
-                    nbSeets = 5,
-                },
-                new Ticket {
-                    id = 3,
-                    concert = new Concert(3, "/Images/party3.jpg", "ACDC", "22/05/2014", "23/08/2011", "Angoulême", 500, 1 ),
-                    nbSeets = 8,
-                },
-                new Ticket {
-                    id = 4,
-                    concert = new Concert(4, "/Images/party4.jpg", "Queen", "22/05/2014", "23/08/2011", "Poitiers", 500, 1 ),
-                    nbSeets = 10,
-                },
-            };
-            ticketsListBox.ItemsSource = list.OrderBy(e => e.id);
+            InitializeComponent();
+            GeoCoordinateWatcher geoWatcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
+            geoWatcher.StatusChanged += geoWatcher_StatusChanged; 
+            geoWatcher.PositionChanged += geoWatcher_PositionChanged;
+            geoWatcher.Start();
+            if (PhoneApplicationService.Current.State["connected"].Equals(1))
+            {
+                Uri imageUriConnected = new Uri("/Images/ic_connected.png", UriKind.Relative);
+                BitmapImage imageBitmapConnected = new BitmapImage(imageUriConnected);
+                imgConnected.Source = imageBitmapConnected;
+            }
+            else
+            {
+                Uri imageUriNotConnected = new Uri("/Images/ic_not_connected.png", UriKind.Relative);
+                BitmapImage imageBitmapNotConnected = new BitmapImage(imageUriNotConnected);
+                imgConnected.Source = imageBitmapNotConnected;
+            }
             Concert concert = (Concert)PhoneApplicationService.Current.State["Concert"];
-            Uri imageUri = new Uri(concert.imgPath, UriKind.Relative);
+            Uri imageUri = new Uri(concert.image, UriKind.Relative);
             BitmapImage imageBitmap = new BitmapImage(imageUri);
-            Image myImage = new Image();
             imgConcert.Source = imageBitmap;
-            textBeginDate.Text = concert.beginDate;
-            textEndDate.Text = concert.endDate;
+            textBeginDate.Text = concert.start_datetime;
+            textEndDate.Text = concert.end_datetime;
             textLocation.Text = concert.location;
-            textNbSeets.Text = "Number of seets " + concert.nbSeets;
+            textNbSeets.Text = "Number of seats " + concert.nb_seats;
             textTitle.Text = concert.name_concert;
+            try
+            {
+                ticketsListBox.ItemsSource = (List<Reservation>)IsolatedStorageSettings.ApplicationSettings["tickets"];
+            }
+            catch (System.Collections.Generic.KeyNotFoundException e) { }
+            /********************** Affichage des tickets *******************************/
+            
             //geoWatcher = new GeoCoordinateWatcher();
             //geoWatcher.StatusChanged += geoWatcher_StatusChanged;
             //geoWatcher.Start();*/
+        }
+        
+        private void ticketsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ticketsListBox.SelectedItem == null)
+                return;
+            Reservation currentTicket = (Reservation)ticketsListBox.SelectedItem;
+            PhoneApplicationService.Current.State["Ticket"] = currentTicket;
+            ticketsListBox.SelectedItem = null;
+            NavigationService.Navigate(new Uri("/TicketPage.xaml", UriKind.Relative));
+        }
+
+        private void geoWatcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
+        {
+            map.Center = e.Position.Location;
+            /*Dispatcher.BeginInvoke(() =>
+            {
+            
+                if (map.Children.OfType<Pushpin>().Any())
+                {
+                    pushPin.Location = e.Position.Location;
+                }
+                else
+                {
+                    pushPin = new Pushpin { Location = e.Position.Location };
+                    map.Children.Add(pushPin);
+                }
+
+            });*/
         }
 
         private void geoWatcher_StatusChanged(object sender, GeoPositionStatusChangedEventArgs e)
@@ -82,5 +109,7 @@ namespace MyPartyProject
                     break;
             }
         }
+
+
     }
 }

@@ -182,14 +182,14 @@
     <Content Include="Images\ic_action_bluetooth.png" />
     <Content Include="Images\ic_action_bluetooth_connected.png" />
     <Content Include="Images\ic_action_bluetooth_searching.png" />
-    <Content Include="Images\ic_action_location_found_green.png" />
-    <Content Include="Images\ic_action_location_found_red.png" />
     <Content Include="Images\ic_action_person.png" />
     <Content Include="Images\ic_action_person_blue.png" />
     <Content Include="Images\ic_action_refresh.png" />
     <Content Include="Images\ic_action_search.png" />
+    <Content Include="Images\ic_connected.png" />
     <Content Include="Images\ic_launcher.png" />
     <Content Include="Images\ic_map.png" />
+    <Content Include="Images\ic_not_connected.png" />
     <Content Include="Images\logout.png" />
     <Content Include="Images\party1.jpg" />
     <Content Include="Images\party2.jpg" />

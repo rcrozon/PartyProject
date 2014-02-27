@@ -9,6 +9,10 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using MyPartyProject.Resources;
 using MyPartyProject.Database;
+using MyParty.Entities;
+using System.IO.IsolatedStorage;
+using Newtonsoft.Json;
+using System.Windows.Media.Imaging;
 
 namespace MyPartyProject
 {
@@ -18,17 +22,130 @@ namespace MyPartyProject
         public MainPage()
         {
             InitializeComponent();
+            PhoneApplicationService.Current.State["connected"] = 0;
+            try
+            {
+                if (IsolatedStorageSettings.ApplicationSettings["login"] != null)
+                {
+                    login.Text = (string)IsolatedStorageSettings.ApplicationSettings["login"];
+                }
+                if (IsolatedStorageSettings.ApplicationSettings["pwd"] != null)
+                {
+                    pwd.Password = (string)IsolatedStorageSettings.ApplicationSettings["pwd"];
+                }
+            }
+            catch (System.Collections.Generic.KeyNotFoundException e) { }
+            
             DatabaseHandler handler = new DatabaseHandler();
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
         }
 
+        private void updateDatabase()
+        {
+            WebClient webClientConcert = new WebClient();
+            webClientConcert.DownloadStringCompleted += concert_DownloadStringCompleted;
+            webClientConcert.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllConcertsWindows"));
+            WebClient webClientTicket = new WebClient();
+            webClientTicket.DownloadStringCompleted += ticket_DownloadStringCompleted;
+            webClientTicket.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllReservationsWindows"));
+        }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Concerts.xaml", UriKind.Relative));
+
+            //var thread = new System.Threading.Thread(updateDatabase);
+            //thread.Start();
+            updateDatabase();
+            IsolatedStorageSettings.ApplicationSettings["login"] = login.Text;
+            if (rememberCheckBox.IsChecked == true)
+                IsolatedStorageSettings.ApplicationSettings["pwd"] = pwd.Password;
+            else
+                IsolatedStorageSettings.ApplicationSettings["pwd"] = null;
+            IsolatedStorageSettings.ApplicationSettings.Save();
+            //TODO verification du login et pwd
+            /*
+            if (notValid)
+            {
+                invalidLogin.Visibility = Visibility.Visible;    
+            }
+            else 
+            {
+                invalidLogin.Visibility = Visibility.Collapsed;    
+            }*/
+            PhoneApplicationService.Current.State["idClient"] = "3";
+            if (PhoneApplicationService.Current.State["connected"].Equals(1))
+            {
+                 NavigationService.Navigate(new Uri("/Concerts.xaml", UriKind.Relative));
+
+            }
         }
 
 
+        private void ticket_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                List<Reservation> result = JsonConvert.DeserializeObject<List<Reservation>>(e.Result);
+                List<Reservation> reservations = new List<Reservation>();
+                for (int i = 0; i < result.Count; ++i)
+                {
+                    if (result[i].id_client.Equals((string)(PhoneApplicationService.Current.State["idClient"])))
+                    {
+                        reservations.Add(new Reservation
+                        {
+                            id = result[i].id,
+                            id_client = result[i].id_client,
+                            id_concert = result[i].id_concert,
+                            id_tarif = result[i].id_tarif,
+                            scan = result[i].scan,
+                        });
+                    }
+                }
+                IsolatedStorageSettings.ApplicationSettings["tickets"] = reservations;
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            }
+            else
+            {
+                IsolatedStorageSettings.ApplicationSettings["tickets"] = new List<Reservation>();
+            }
+            progressBarLogin.Value = 50;
+        }
+
+        private void concert_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                List<Concert> result = JsonConvert.DeserializeObject<List<Concert>>(e.Result);
+                List<Concert> concerts = new List<Concert>();
+                for (int i = 0; i < result.Count; ++i)
+                {
+                    concerts.Add(new Concert
+                    {
+                        start_datetime = "Begin date : " + result[i].start_datetime,
+                        end_datetime = "End date :" + result[i].end_datetime,
+                        location = result[i].location,
+                        image = "/Images/party3.jpg",
+                        nb_seats = result[i].nb_seats,
+                        name_concert = result[i].name_concert,
+                    });
+                }
+                IsolatedStorageSettings.ApplicationSettings["concerts"] = concerts;
+                IsolatedStorageSettings.ApplicationSettings.Save();
+                PhoneApplicationService.Current.State["connected"] = 1;
+                Uri imageUri = new Uri("/Images/ic_connected", UriKind.Relative);
+                BitmapImage imageBitmap = new BitmapImage(imageUri);
+                imgConnected.Source = imageBitmap;
+            }
+            else
+            {
+                PhoneApplicationService.Current.State["connected"] = 0;
+                Uri imageUri = new Uri("/Images/ic_not_connected", UriKind.Relative);
+                BitmapImage imageBitmap = new BitmapImage(imageUri);
+                imgConnected.Source = imageBitmap;
+                IsolatedStorageSettings.ApplicationSettings["concerts"] = new List<Concert>();
+            }
+            progressBarLogin.Value = 100;
+        }
         // Sample code for building a localized ApplicationBar
         //private void BuildLocalizedApplicationBar()
         //{

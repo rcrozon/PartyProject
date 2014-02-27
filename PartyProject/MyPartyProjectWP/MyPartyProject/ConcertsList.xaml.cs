@@ -11,6 +11,8 @@ using MyParty.Entities;
 using MyPartyProject.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.IO.IsolatedStorage;
+using System.Windows.Media.Imaging;
 
 namespace MyPartyProject
 {
@@ -19,54 +21,40 @@ namespace MyPartyProject
         public ConcertsList()
         {
             InitializeComponent();
+            if (PhoneApplicationService.Current.State["connected"].Equals(1))
+            {
+                Uri imageUriConnected = new Uri("/Images/ic_connected.png", UriKind.Relative);
+                BitmapImage imageBitmapConnected = new BitmapImage(imageUriConnected);
+                imgConnected.Source = imageBitmapConnected;
+            }
+            else
+            {
+                Uri imageUriNotConnected = new Uri("/Images/ic_not_connected.png", UriKind.Relative);
+                BitmapImage imageBitmapNotConnected = new BitmapImage(imageUriNotConnected);
+                imgConnected.Source = imageBitmapNotConnected;
+            }
             if (PhoneApplicationService.Current.State["ConcertMode"].Equals(0))
                 pageTitle.Text = "All concerts";
             else if (PhoneApplicationService.Current.State["ConcertMode"].Equals(1))
                 pageTitle.Text = "Next concerts";
             else 
                 pageTitle.Text = "News";
-            WebClient webClient = new WebClient();
-            webClient.DownloadStringCompleted += concert_DownloadStringCompleted;
-            webClient.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllConcertsWindows"));
+            try
+            {
+                concertsListBox.ItemsSource = (List<Concert>)IsolatedStorageSettings.ApplicationSettings["concerts"];
+            }
+            catch (System.Collections.Generic.KeyNotFoundException e) {}
         }
 
-        private void concert_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
-        {
-            if (e.Error == null)
-            {
-                List<Concert> result = JsonConvert.DeserializeObject<List<Concert>>(e.Result);
-                if (result == null)
-                    concertText.Text = "null";
-                else{
-                    concertText.Text = "pas null";
-                }
-                List<Concert> concerts = new List<Concert>();
-                for (int i = 0; i < result.Count; ++i)
-                {
-                    concerts.Add(new Concert
-                    {
-                        start_datetime = result[i].start_datetime,
-                        end_datetime = result[i].end_datetime,
-                        location = result[i].location,
-                        image = result[i].image,
-                        nb_seats = result[i].nb_seats,
-                        name_concert = result[i].name_concert,
-                    });
-                }
-                concertText.Text = result[0].start_datetime + result[0].end_datetime +
-                                    result[0].location + result[0].image + result[0].nb_seats +
-                                    result[0].nb_seats + result[0].name_concert;
-                concertsListBox.ItemsSource = concerts.Select(c => c.name_concert);
-            }
-        }
+        
         private void concertsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            /*if (concertsListBox.SelectedItem == null)
-            return;
-            Concert currentArticle = (Concert)concertsListBox.SelectedItem;
-            PhoneApplicationService.Current.State["Concert"] = currentArticle;
+            if (concertsListBox.SelectedItem == null)
+                return;
+            Concert currentConcert = (Concert)concertsListBox.SelectedItem;
+            PhoneApplicationService.Current.State["Concert"] = currentConcert;
             concertsListBox.SelectedItem = null;
-            NavigationService.Navigate(new Uri("/ConcertDetails.xaml", UriKind.Relative));*/
+            NavigationService.Navigate(new Uri("/ConcertDetails.xaml", UriKind.Relative));
         }
     }
 }

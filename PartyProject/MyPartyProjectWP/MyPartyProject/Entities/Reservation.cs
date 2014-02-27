@@ -8,17 +8,22 @@ namespace MyParty.Entities
 {
     public class Reservation : Entity
     {
-        private int id;
-        private int nbSeets;
-        private String concert;
-        private int id_concert;
+        public string id { get; set; }
+        public string id_client { get; set; }
+        public string id_concert { get; set; }
+        public string id_tarif { get; set; }
+        public string scan { get; set; }
 
-        public Reservation(int id, int nbSeets, String concert, int id_concert)
+        public Reservation(string id, string id_client, string id_concert, string id_tarif, string scan)
         {
             this.id = id;
-            this.nbSeets = nbSeets;
-            this.concert = concert;
+            this.id_client = id_client;
             this.id_concert = id_concert;
+            this.id_tarif = id_tarif;
+            this.scan = scan;
+        }
+        public Reservation()
+        {
         }
     }
 }
