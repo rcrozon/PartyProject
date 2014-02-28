@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
-namespace MyParty.Entities
+namespace MyPartyProject.Entities
 {
     public class Tariff : Entity
     {
-        public int id { get; set; }
+        public string id { get; set; }
         public string label { get; set; }
         public string price { get; set; }
 
-        public Tariff(int id, string label,	string price){
+        public Tariff(string id, string label,	string price){
 		    this.id = id;
 		    this.label = label;
 		    this.price = price;
@@ -28,9 +29,9 @@ namespace MyParty.Entities
             string label = "";
             foreach (Tariff tariff in tariffs)
             {
-                if (tariff.id.Equals(id))
+                if (tariff.id == id)
                 {
-                    label = tariff.label + "  " + tariff.price; 
+                    label = tariff.label + " : " + tariff.price + "€"; 
                 }
             }
             return label;

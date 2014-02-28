@@ -8,8 +8,12 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Windows.Media.Imaging;
-using MyPartyProject.QRCode;
 using System.IO;
+using MyPartyProject.Entities;
+using Huyn.QRCode;
+using ZXing.QrCode;
+using ZXing;
+using Windows.UI;
 
 namespace MyPartyProject
 {
@@ -30,16 +34,16 @@ namespace MyPartyProject
                 BitmapImage imageBitmapNotConnected = new BitmapImage(imageUriNotConnected);
                 imgConnected.Source = imageBitmapNotConnected;
             }
-            QRCodeGenerator generator = new QRCodeGenerator();
-            WriteableBitmap code = generator.Generate("63;2;4;4");
-            using (MemoryStream ms = new MemoryStream())
-            {
-                code.SaveJpeg(ms, (int)imgTicket.Width, (int)imgTicket.Height, 0, 100);
-                BitmapImage bmp = new BitmapImage();
-                bmp.SetSource(ms);
-                imgTicket.Source = bmp;
-            }
-            
+            Reservation ticket = (Reservation)PhoneApplicationService.Current.State["Ticket"];
+
+            BarcodeWriter writer = new BarcodeWriter { Format = BarcodeFormat.QR_CODE };
+            string code = ticket.id + ";" + ticket.id_client + ";" + ticket.id_concert + ";" + ticket.id_tarif;
+            WriteableBitmap writeableBitmap = writer.Write(code);
+            imgQRCode.Source = writeableBitmap;
+
+            Uri backgroundUri = new Uri(ticket.image, UriKind.Absolute);
+            BitmapImage bitmap = new BitmapImage(backgroundUri);
+            imgBackground.Source = bitmap;
             
 
 

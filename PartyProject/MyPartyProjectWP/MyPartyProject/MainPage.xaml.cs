@@ -9,10 +9,11 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using MyPartyProject.Resources;
 using MyPartyProject.Database;
-using MyParty.Entities;
+using MyPartyProject.Entities;
 using System.IO.IsolatedStorage;
 using Newtonsoft.Json;
 using System.Windows.Media.Imaging;
+using System.Diagnostics;
 
 namespace MyPartyProject
 {
@@ -36,7 +37,6 @@ namespace MyPartyProject
                 }
             }
             catch (System.Collections.Generic.KeyNotFoundException e) { }
-            updateDatabase();
             
             //DatabaseHandler handler = new DatabaseHandler();
             // Sample code to localize the ApplicationBar
@@ -57,15 +57,13 @@ namespace MyPartyProject
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-
-            //var thread = new System.Threading.Thread(updateDatabase);
-            //thread.Start();
             IsolatedStorageSettings.ApplicationSettings["login"] = login.Text;
             if (rememberCheckBox.IsChecked == true)
                 IsolatedStorageSettings.ApplicationSettings["pwd"] = pwd.Password;
             else
                 IsolatedStorageSettings.ApplicationSettings["pwd"] = null;
             IsolatedStorageSettings.ApplicationSettings.Save();
+
             //TODO verification du login et pwd
             /*
             if (notValid)
@@ -77,7 +75,7 @@ namespace MyPartyProject
                 invalidLogin.Visibility = Visibility.Collapsed;    
             }*/
             PhoneApplicationService.Current.State["idClient"] = "3";
-            //while(loaded < 3);
+            updateDatabase();
             //if (PhoneApplicationService.Current.State["connected"].Equals(1))
             //{
                  NavigationService.Navigate(new Uri("/Concerts.xaml", UriKind.Relative));
@@ -93,8 +91,8 @@ namespace MyPartyProject
                 List<Reservation> reservations = new List<Reservation>();
                 for (int i = 0; i < result.Count; ++i)
                 {
-                    if (result[i].id_client.Equals((string)(PhoneApplicationService.Current.State["idClient"])))
-                    {
+                    //if (result[i].id_client.Equals((string)(PhoneApplicationService.Current.State["idClient"])))
+                    //{
                         reservations.Add(new Reservation
                         {
                             id = result[i].id,
@@ -103,21 +101,21 @@ namespace MyPartyProject
                             id_tarif = result[i].id_tarif,
                             scan = result[i].scan,
                         });
-                    }
+                    //}
                 }
                 IsolatedStorageSettings.ApplicationSettings["tickets"] = reservations;
-                IsolatedStorageSettings.ApplicationSettings.Save();
             }
             else
             {
                 IsolatedStorageSettings.ApplicationSettings["tickets"] = new List<Reservation>();
             }
+            IsolatedStorageSettings.ApplicationSettings.Save();
             loaded += 1;
             progressBarLogin.Value = 50;
+            MessageBox.Show("Ticket" + loaded, "null", MessageBoxButton.OK);
         }
         private void tariff_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            
             if (e.Error == null)
             {
                 List<Tariff> result = JsonConvert.DeserializeObject<List<Tariff>>(e.Result);
@@ -132,15 +130,15 @@ namespace MyPartyProject
                     });
                 }
                 IsolatedStorageSettings.ApplicationSettings["tariffs"] = tariffs;
-                IsolatedStorageSettings.ApplicationSettings.Save();
             }
             else
             {
-                MessageBox.Show("This is a Message Box", "null", MessageBoxButton.OK); 
-                IsolatedStorageSettings.ApplicationSettings["tickets"] = new List<Reservation>();
+                IsolatedStorageSettings.ApplicationSettings["tariffs"] = new List<Tariff>();
             }
+            IsolatedStorageSettings.ApplicationSettings.Save();
             loaded += 1;
             progressBarLogin.Value = 50;
+            MessageBox.Show("Tariff" + loaded, "null", MessageBoxButton.OK);
         }
         private void concert_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
@@ -164,7 +162,6 @@ namespace MyPartyProject
                     });
                 }
                 IsolatedStorageSettings.ApplicationSettings["concerts"] = concerts;
-                IsolatedStorageSettings.ApplicationSettings.Save();
                 PhoneApplicationService.Current.State["connected"] = 1;
                 Uri imageUri = new Uri("/Images/ic_connected", UriKind.Relative);
                 BitmapImage imageBitmap = new BitmapImage(imageUri);
@@ -178,8 +175,10 @@ namespace MyPartyProject
                 imgConnected.Source = imageBitmap;
                 IsolatedStorageSettings.ApplicationSettings["concerts"] = new List<Concert>();
             }
+            IsolatedStorageSettings.ApplicationSettings.Save();
             loaded += 1;
             progressBarLogin.Value = 100;
+            MessageBox.Show("Concert" + loaded, "null", MessageBoxButton.OK); 
         }
         // Sample code for building a localized ApplicationBar
         //private void BuildLocalizedApplicationBar()

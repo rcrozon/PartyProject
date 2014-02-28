@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using MyParty.Entities;
+using MyPartyProject.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO.IsolatedStorage;

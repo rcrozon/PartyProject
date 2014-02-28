@@ -9,7 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Maps;
 using Microsoft.Phone.Maps.Controls;
 using Microsoft.Phone.Shell;
-using MyParty.Entities;
+using MyPartyProject.Entities;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.ComponentModel;
@@ -22,7 +22,6 @@ namespace MyPartyProject
 {
     public partial class ConcertDetails : PhoneApplicationPage
     {
-        public string tariffLabel = "Tariff";
 
         public ConcertDetails()
         {
@@ -57,12 +56,15 @@ namespace MyPartyProject
             {
                 List<Reservation> tickets = (List<Reservation>)IsolatedStorageSettings.ApplicationSettings["tickets"];
                 List<Concert> concerts = (List<Concert>)IsolatedStorageSettings.ApplicationSettings["concerts"];
-                for(int i = 0; i < tickets.Count; ++i)
+                for (int i = 0; i < tickets.Count; ++i)
                 {
-                    Concert c = Concert.getConcertFromId(concerts, tickets[i].id_concert);
-                    tickets[i].image = c.image;
-                    tickets[i].concertLabel = c.name_concert;
-                    tickets[i].tariffLabel = Tariff.getLabelTariffFromId((List<Tariff>)IsolatedStorageSettings.ApplicationSettings["tariffs"], tickets[i].id_tarif);
+                    if (tickets[i].id_concert.Equals(concert.id))
+                    {
+                        Concert c = Concert.getConcertFromId(concerts, tickets[i].id_concert);
+                        tickets[i].image = c.image;
+                        tickets[i].concertLabel = c.name_concert;
+                        tickets[i].tariffLabel = Tariff.getLabelTariffFromId((List<Tariff>)IsolatedStorageSettings.ApplicationSettings["tariffs"], tickets[i].id_tarif);
+                    }
                 }
                 ticketsListBox.ItemsSource = tickets;
             }

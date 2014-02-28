@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyParty.Entities
+namespace MyPartyProject.Entities
 {
     interface Entity
     {
