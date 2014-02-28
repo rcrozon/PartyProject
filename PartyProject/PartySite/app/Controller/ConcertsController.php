@@ -19,6 +19,69 @@ class ConcertsController extends AppController{
         ));
     }
 
+    function admin_index() {
+        $nbClient = $this->Client->find('count');
+        $d['nbClient'] = $nbClient;
+        $this->set($d);
+        # # # # # # # # # # # # # # # # # # # # # #
+        $nbAdmin = $this->Client->find('count', array(
+            'conditions' => array('Client.admin' => 1)
+        ));
+        $d['nbAdmin'] = $nbAdmin;
+        $this->set($d);
+        # # # # # # # # # # # # # # # # # # # # # #
+        $reserv = $this->Reservation->find('all');
+        $total = 0;
+        foreach ($reserv as $k => $v) {
+            $tarif = $this->Tarif->find('first', array(
+                'conditions' => array('Tarif.id' => $v['Reservation']['id_tarif'])
+            ));
+            $total += $tarif['Tarif']['price'];
+        }
+        $d['sales'] = $total;
+        $this->set($d);
+        # # # # # # # # # # # # # # # # # # # # # #
+        $nbParty = $this->Concert->find('count');
+        $d['nbParty'] = $nbParty;
+        $this->set($d);
+        # # # # # # # # # # # # # # # # # # # # # #
+        $todayDate = date('Y-m-d');
+        $nbTodayNewClient = 0;
+        $allClient = $this->Client->find('all');
+        foreach ($allClient as $k => $v) {
+            $dateClient = $v['Client']['created'];
+            $YMD = date('Y-m-d', strtotime($dateClient));
+            if($YMD == $todayDate)
+                $nbTodayNewClient++;
+        }
+        $d['nbTodayNewClient'] = $nbTodayNewClient;
+        $this->set($d);
+        # # # # # # # # # # # # # # # # # # # # # #
+        $nbTodayNewAdmin = 0;
+        $admin = $this->Client->find('all', array(
+            'conditions' => array('Client.admin' => 1)
+        ));
+        foreach ($admin as $k => $v) {
+            $dateAdmin = $v['Client']['created'];
+            $YMD = date('Y-m-d', strtotime($dateAdmin));
+            if($YMD == $todayDate)
+                $nbTodayNewAdmin++;
+        }
+        $d['nbTodayNewAdmin'] = $nbTodayNewAdmin;
+        $this->set($d);
+        # # # # # # # # # # # # # # # # # # # # # #
+        $nbReserv = $this->Reservation->find('count');
+        $nbScanned = $this->Reservation->find('count', array(
+            'conditions' => array('Reservation.scan' => 1)
+        ));
+        $percentScanned = ($nbScanned * 100) / $nbReserv;
+        $percentNotScanned = (($nbReserv - $nbScanned) * 100) / $nbReserv;
+        $d['percentScanned'] = $percentScanned;
+        $this->set($d);
+        $d['percentNotScanned'] = $percentNotScanned;
+        $this->set($d);
+    }
+
 	function admin_addConcert() {
         if($this->request->is('post')) {
             $d = $this->request->data; 
@@ -146,10 +209,6 @@ class ConcertsController extends AppController{
         ));
         $d['partyName'] = $d['Concert']['name_concert'];
         $this->set($d);
-    }
-
-    function admin_index() {
-        
     }
 
     function admin_table_concert() {
