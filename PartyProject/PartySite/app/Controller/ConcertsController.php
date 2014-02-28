@@ -446,6 +446,7 @@ class ConcertsController extends AppController{
     function showLastConcerts (){
           $d = $this->Concert->find('all', array('order' => array('Concert.id DESC')));
           $this->set('showLastConcerts',$d);
+      
     }
 
     function showConcert (){
