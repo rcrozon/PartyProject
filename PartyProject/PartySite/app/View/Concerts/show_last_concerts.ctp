@@ -57,7 +57,7 @@
 				echo"</div> </a>";
 
 				echo"<div class=\"mosaic-backdrop\">";
-				echo $this->Html->image("Concerts/".$d['image']."");
+				echo $this->Html->image("Concerts/".$d['image']);
 				echo  "</div>
 		</div>		
 	

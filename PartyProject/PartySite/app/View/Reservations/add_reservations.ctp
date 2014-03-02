@@ -182,25 +182,17 @@ for ($i = 0; $i <= sizeof($showTarif)-1; $i++) {  ?>
 
 
 ?>            
-<div class="msg-noplace" id="msg-noplace"><p>rezrez</p></div>
+<span>Total :</span>	<span class="total" id="total">0</span>
+<div class="msg-noplace" id="msg-noplace"></div>
 
-<div class="row">
-	<span>Total :</span>	<span class="total" id="total">0</span>
+<div class="row" id="validateReservation">
+	
 	<?php echo $this->Form->end("Validate"); ?>
 
 </div>
 </div>
 <script>
 
-
-	//alert('Chaîne de caractères');
-    //var theJson = ko.mapping.toJSON(pvm, mapping);
-   /* $.ajax({
-        url: 'http://localhost/cake/programs/edit',
-        dataType: 'json',
-        type: 'POST',
-        data: theJson
-*/
 
 <?php for ($i = 0; $i <= sizeof($showTarif)-1; $i++){ ?>
 
@@ -215,16 +207,16 @@ for ($i = 0; $i <= sizeof($showTarif)-1; $i++) {  ?>
 			   
 		 var nameInput = "quantity_"+i;
    		 totalQuantity =  parseInt(totalQuantity)+	parseInt(document.getElementById(nameInput).value);
-   			//document.write("\""+nameInput.concat((i))+"\""); 
 
 		}
 		if(totalQuantity > <?php echo $this->Concert->getNbDispoSeats($showConcert['id']);?>)
 		{
 
 		document.getElementById("msg-noplace").innerHTML = "<p class=\"notif\" style=\"background-color=#A72020;\">Not enough availability <a href=\"\" class=\"close\" onclick=\"$(this).parent().parent().slideUp()\">x</a></p>";
-		}
+		document.getElementById("validateReservation").innerHTML =" ";
+	}
 		else{
-
+		document.getElementById("validateReservation").innerHTML = '<?php echo $this->Form->end("Validate"); ?>';
 		document.getElementById("msg-noplace").innerHTML =" ";
 		;
 		}
