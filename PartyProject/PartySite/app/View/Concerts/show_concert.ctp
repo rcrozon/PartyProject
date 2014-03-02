@@ -17,7 +17,13 @@ echo $this->Html->url($this->Html->image('Concerts/'.$showConcert['image'],array
 	
 <style type="text/css">
 		body{
-background-image:url('<?php echo $this->webroot.'img/Concerts/'.$showConcert['image']; ?>');
+			background:url('<?php echo $this->webroot.'img/Concerts/'.$showConcert['image']; ?>') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-position-y: 51px
+
 }
 .detailConcert{
 	 background: #fff;

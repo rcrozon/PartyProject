@@ -9,6 +9,7 @@
           <th>Party Name</th>
           <th>Client Name</th>
           <th>Tarif</th>
+          <th>Scan ?</th>
           <th>Link</th>
         </tr>
       </thead>
@@ -28,6 +29,13 @@
         echo '<td>'.$concert['Concert']['name_concert'].'</td>';
         echo '<td>'.$client['Client']['first_name'].' '.$client['Client']['last_name'].'</td>';
         echo '<td>'.$tarif['Tarif']['label'].'</td>';
+        if($reservations[$i]['Reservation']['id_client']==1){
+            echo '<td>'.'<span class="label label-danger">Not scanned</span>'.'</td>';
+        }
+        else{
+            echo '<td>'.'<span class="label label-success">Scanned</span>'.'</td>';
+        }
+
         echo '<td> <a href="';
         echo $this->Html->url(array(
             "controller" => "reservations",

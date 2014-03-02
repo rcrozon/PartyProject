@@ -69,6 +69,10 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav navbar-right navbar-user">
             <?php if(AuthComponent::user('id')): ?>
+            
+            <li><?php echo $this->Html->link('<i class="fa fa-search"></i> Find concerts',
+                  array('action'=>'listMyAllReservations','controller'=>'reservations'), array('escape' => false)); ?></li>
+              <li class="dropdown user-dropdown">
             <li><?php echo $this->Html->link('<i class="fa fa-ticket"></i> My Tickets',
                   array('action'=>'listMyAllReservations','controller'=>'reservations'), array('escape' => false)); ?></li>
               <li class="dropdown user-dropdown">
