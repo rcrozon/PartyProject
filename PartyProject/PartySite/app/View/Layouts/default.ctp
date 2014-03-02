@@ -26,8 +26,9 @@
     <?php echo $this->Html->script('less'); ?>-->
 
     <?php echo $this->Html->script('jquery-1.10.2'); ?>
-    <?php echo $this->Html->script('mosaic.1.0.1');?>
+
     <?php echo $this->Html->script('less'); ?>
+
     <?php echo $scripts_for_layout; ?>
 
     <!-- Custom styles for this template -->
@@ -68,6 +69,8 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav navbar-right navbar-user">
             <?php if(AuthComponent::user('id')): ?>
+            <li><?php echo $this->Html->link('<i class="fa fa-ticket"></i> My Tickets',
+                  array('action'=>'listMyAllReservations','controller'=>'reservations'), array('escape' => false)); ?></li>
               <li class="dropdown user-dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
                   <?php echo ucfirst(AuthComponent::user('username')); ?> <b class="caret"></b></a>

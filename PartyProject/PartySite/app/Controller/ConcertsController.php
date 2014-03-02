@@ -522,6 +522,8 @@ class ConcertsController extends AppController{
 			$idT = $v[$i]['AssocTarif']['id_tarif'];
 			$result[$i] = $this->Tarif->find('all',array('conditions' => array('Tarif.id' => $idT)));
         }
+
+
         $this->set('showConcert',$d);
         $this->set('showTarif',$result);
     }

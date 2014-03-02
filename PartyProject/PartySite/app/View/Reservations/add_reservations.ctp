@@ -14,6 +14,21 @@ margin-bottom: 8px;
 
 }
 
+.label-success, p.notif {
+margin-bottom: 5px;
+padding: 2px 4px;
+font-size: 11.844px;
+font-weight: bold;
+line-height: 14px;
+color: #ffffff;
+text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+white-space: nowrap;
+vertical-align: baseline;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+margin: 0;
+background-color: #A72020;}
 
 input[type=submit]:hover  {
 color: #fff;
@@ -46,6 +61,7 @@ user-select: none;
 }
 
 	.box{
+		padding: 5px;
 		width:50%;
 		margin:auto;
 	 background: #fff;
@@ -151,7 +167,7 @@ for ($i = 0; $i <= sizeof($showTarif)-1; $i++) {  ?>
 	</div>
 	<div class="col-md-3">
 
-		<span class="quantity" ><input type="number" value=0  min=0 max=10 id="<?php echo "quantity_".$i?>" name=<?php echo "\"".$showTarif[$i][0]['Tarif']['id']."\"";?>></span>
+		<span class="quantity" ><input type="number" value=0  min=0 max=15 id="<?php echo "quantity_".$i?>" name=<?php echo "\"".$showTarif[$i][0]['Tarif']['id']."\"";?>></span>
 	</div>
 	<div class="col-md-3">
 
@@ -162,10 +178,14 @@ for ($i = 0; $i <= sizeof($showTarif)-1; $i++) {  ?>
 </div>
 
 
-<?php }  ?>            
+<?php }  
+
+
+?>            
+<div class="msg-noplace" id="msg-noplace"><p>rezrez</p></div>
 
 <div class="row">
-	<span >Total :</span>	<span class="total" id="total">0</span>
+	<span>Total :</span>	<span class="total" id="total">0</span>
 	<?php echo $this->Form->end("Validate"); ?>
 
 </div>
@@ -182,12 +202,37 @@ for ($i = 0; $i <= sizeof($showTarif)-1; $i++) {  ?>
         data: theJson
 */
 
-
 <?php for ($i = 0; $i <= sizeof($showTarif)-1; $i++){ ?>
 
 
 	$( <?php echo "\"#quantity_".$i."\"" ?> )
 	.change(function () {
+		var totalQuantity=0;
+		
+		document.getElementById("msg-noplace").innerHTML = "No seats";
+		for (i = 0; i < <?php echo sizeof($showTarif); ?>; i++) 
+		{ 
+			   
+		 var nameInput = "quantity_"+i;
+   		 totalQuantity =  parseInt(totalQuantity)+	parseInt(document.getElementById(nameInput).value);
+   			//document.write("\""+nameInput.concat((i))+"\""); 
+
+		}
+		if(totalQuantity > <?php echo $this->Concert->getNbDispoSeats($showConcert['id']);?>)
+		{
+
+		document.getElementById("msg-noplace").innerHTML = "<p class=\"notif\" style=\"background-color=#A72020;\">Not enough availability <a href=\"\" class=\"close\" onclick=\"$(this).parent().parent().slideUp()\">x</a></p>";
+		}
+		else{
+
+		document.getElementById("msg-noplace").innerHTML =" ";
+		;
+		}
+
+
+
+
+	
 		var price = document.getElementById(<?php echo "\"price_".$i."\"" ?>).innerHTML;
 		var quantity = document.getElementById(<?php echo "\"quantity_".$i."\"" ?>).value;
 		document.getElementById(<?php echo "\"subtotal_".$i."\"" ?>).innerHTML = price * quantity;

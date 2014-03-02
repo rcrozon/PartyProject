@@ -1,3 +1,5 @@
+   <?php echo $this->Html->script('mosaic.1.0.1');?>
+
 <script type="text/javascript">  
       
       jQuery(function($){

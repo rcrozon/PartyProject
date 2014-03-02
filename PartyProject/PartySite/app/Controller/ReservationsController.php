@@ -14,7 +14,7 @@ class ReservationsController extends AppController{
 	}
 
 	function listMyAllReservations(){
-		$idClient = $this->params['named']['id'];  		
+		$idClient = AuthComponent::user('id');  		
 		
 
 		$d = $this->Reservation->find('all',array('conditions' => array(

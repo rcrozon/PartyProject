@@ -1,7 +1,3 @@
-<div class="panel panel-info">
-  <div class="panel-heading">
-        <h3 class="panel-title">My tickets</h3>
-      </div>
 <table class="table table-hover">
       <thead>
         <tr>
@@ -52,4 +48,4 @@
         
       </tbody>
     </table> 
-    </div>
+    
