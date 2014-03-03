@@ -38,7 +38,11 @@ Router::connect('/page/:idC',array('controller'=>'Reservations','action'=>'addRe
 Router::connect('/page/:id',array('controller'=>'Mobiles','action'=>'getConcertByID'),array('pass'=> array('id'), 'id'=>'[0-9]+'));
 Router::connect('/page/:login',array('controller'=>'Mobiles','action'=>'getClientByName'),array('pass'=> array('login'), 'login' =>'[a-z0-9\-]+'));
 
+Router::connect('/page/:id',array('controller'=>'Reservations','action'=>'create_pdf'),array('pass'=> array('id'), 'id'=>'[0-9]+'));
+Router::connect('/page/:id-:idC',array('controller'=>'Reservations','action'=>'listReservations'),array('pass'=> array('id','idC'), 'id' =>'[0-9]+','idC' =>'[0-9]+'));
+Router::connect('/page/:id',array('controller'=>'Reservations','action'=>'listMyAllReservations'),array('pass'=> array('id'), 'id' =>'[0-9]+'));
 
+Router::connect('/page/:id',array('controller'=>'Mobile','action'=>'getTariffByID'),array('pass'=> array('id'), 'id'=>'[0-9]+'));
 
 
 

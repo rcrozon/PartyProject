@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{92486141-DD81-40E8-A053-CA3EBC052802}</ProjectGuid>
+    <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Huyn.QRCode</RootNamespace>
+    <AssemblyName>Huyn.QRCode</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <TargetFrameworkProfile>WindowsPhone</TargetFrameworkProfile>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QRCodeEncoder.cs" />
+    <Compile Include="WriteableBitmapEx.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="datas\qrv10_0.dat" />
+    <Resource Include="datas\qrv10_1.dat" />
+    <Resource Include="datas\qrv10_2.dat" />
+    <Resource Include="datas\qrv10_3.dat" />
+    <Resource Include="datas\qrv11_0.dat" />
+    <Resource Include="datas\qrv11_1.dat" />
+    <Resource Include="datas\qrv11_2.dat" />
+    <Resource Include="datas\qrv11_3.dat" />
+    <Resource Include="datas\qrv12_0.dat" />
+    <Resource Include="datas\qrv12_1.dat" />
+    <Resource Include="datas\qrv12_2.dat" />
+    <Resource Include="datas\qrv12_3.dat" />
+    <Resource Include="datas\qrv13_0.dat" />
+    <Resource Include="datas\qrv13_1.dat" />
+    <Resource Include="datas\qrv13_2.dat" />
+    <Resource Include="datas\qrv13_3.dat" />
+    <Resource Include="datas\qrv14_0.dat" />
+    <Resource Include="datas\qrv14_1.dat" />
+    <Resource Include="datas\qrv14_2.dat" />
+    <Resource Include="datas\qrv14_3.dat" />
+    <Resource Include="datas\qrv15_0.dat" />
+    <Resource Include="datas\qrv15_1.dat" />
+    <Resource Include="datas\qrv15_2.dat" />
+    <Resource Include="datas\qrv15_3.dat" />
+    <Resource Include="datas\qrv16_0.dat" />
+    <Resource Include="datas\qrv16_1.dat" />
+    <Resource Include="datas\qrv16_2.dat" />
+    <Resource Include="datas\qrv16_3.dat" />
+    <Resource Include="datas\qrv17_0.dat" />
+    <Resource Include="datas\qrv17_1.dat" />
+    <Resource Include="datas\qrv17_2.dat" />
+    <Resource Include="datas\qrv17_3.dat" />
+    <Resource Include="datas\qrv18_0.dat" />
+    <Resource Include="datas\qrv18_1.dat" />
+    <Resource Include="datas\qrv18_2.dat" />
+    <Resource Include="datas\qrv18_3.dat" />
+    <Resource Include="datas\qrv19_0.dat" />
+    <Resource Include="datas\qrv19_1.dat" />
+    <Resource Include="datas\qrv19_2.dat" />
+    <Resource Include="datas\qrv19_3.dat" />
+    <Resource Include="datas\qrv1_0.dat" />
+    <Resource Include="datas\qrv1_1.dat" />
+    <Resource Include="datas\qrv1_2.dat" />
+    <Resource Include="datas\qrv1_3.dat" />
+    <Resource Include="datas\qrv20_0.dat" />
+    <Resource Include="datas\qrv20_1.dat" />
+    <Resource Include="datas\qrv20_2.dat" />
+    <Resource Include="datas\qrv20_3.dat" />
+    <Resource Include="datas\qrv21_0.dat" />
+    <Resource Include="datas\qrv21_1.dat" />
+    <Resource Include="datas\qrv21_2.dat" />
+    <Resource Include="datas\qrv21_3.dat" />
+    <Resource Include="datas\qrv22_0.dat" />
+    <Resource Include="datas\qrv22_1.dat" />
+    <Resource Include="datas\qrv22_2.dat" />
+    <Resource Include="datas\qrv22_3.dat" />
+    <Resource Include="datas\qrv23_0.dat" />
+    <Resource Include="datas\qrv23_1.dat" />
+    <Resource Include="datas\qrv23_2.dat" />
+    <Resource Include="datas\qrv23_3.dat" />
+    <Resource Include="datas\qrv24_0.dat" />
+    <Resource Include="datas\qrv24_1.dat" />
+    <Resource Include="datas\qrv24_2.dat" />
+    <Resource Include="datas\qrv24_3.dat" />
+    <Resource Include="datas\qrv25_0.dat" />
+    <Resource Include="datas\qrv25_1.dat" />
+    <Resource Include="datas\qrv25_2.dat" />
+    <Resource Include="datas\qrv25_3.dat" />
+    <Resource Include="datas\qrv26_0.dat" />
+    <Resource Include="datas\qrv26_1.dat" />
+    <Resource Include="datas\qrv26_2.dat" />
+    <Resource Include="datas\qrv26_3.dat" />
+    <Resource Include="datas\qrv27_0.dat" />
+    <Resource Include="datas\qrv27_1.dat" />
+    <Resource Include="datas\qrv27_2.dat" />
+    <Resource Include="datas\qrv27_3.dat" />
+    <Resource Include="datas\qrv28_0.dat" />
+    <Resource Include="datas\qrv28_1.dat" />
+    <Resource Include="datas\qrv28_2.dat" />
+    <Resource Include="datas\qrv28_3.dat" />
+    <Resource Include="datas\qrv29_0.dat" />
+    <Resource Include="datas\qrv29_1.dat" />
+    <Resource Include="datas\qrv29_2.dat" />
+    <Resource Include="datas\qrv29_3.dat" />
+    <Resource Include="datas\qrv2_0.dat" />
+    <Resource Include="datas\qrv2_1.dat" />
+    <Resource Include="datas\qrv2_2.dat" />
+    <Resource Include="datas\qrv2_3.dat" />
+    <Resource Include="datas\qrv30_0.dat" />
+    <Resource Include="datas\qrv30_1.dat" />
+    <Resource Include="datas\qrv30_2.dat" />
+    <Resource Include="datas\qrv30_3.dat" />
+    <Resource Include="datas\qrv31_0.dat" />
+    <Resource Include="datas\qrv31_1.dat" />
+    <Resource Include="datas\qrv31_2.dat" />
+    <Resource Include="datas\qrv31_3.dat" />
+    <Resource Include="datas\qrv32_0.dat" />
+    <Resource Include="datas\qrv32_1.dat" />
+    <Resource Include="datas\qrv32_2.dat" />
+    <Resource Include="datas\qrv32_3.dat" />
+    <Resource Include="datas\qrv33_0.dat" />
+    <Resource Include="datas\qrv33_1.dat" />
+    <Resource Include="datas\qrv33_2.dat" />
+    <Resource Include="datas\qrv33_3.dat" />
+    <Resource Include="datas\qrv34_0.dat" />
+    <Resource Include="datas\qrv34_1.dat" />
+    <Resource Include="datas\qrv34_2.dat" />
+    <Resource Include="datas\qrv34_3.dat" />
+    <Resource Include="datas\qrv35_0.dat" />
+    <Resource Include="datas\qrv35_1.dat" />
+    <Resource Include="datas\qrv35_2.dat" />
+    <Resource Include="datas\qrv35_3.dat" />
+    <Resource Include="datas\qrv36_0.dat" />
+    <Resource Include="datas\qrv36_1.dat" />
+    <Resource Include="datas\qrv36_2.dat" />
+    <Resource Include="datas\qrv36_3.dat" />
+    <Resource Include="datas\qrv37_0.dat" />
+    <Resource Include="datas\qrv37_1.dat" />
+    <Resource Include="datas\qrv37_2.dat" />
+    <Resource Include="datas\qrv37_3.dat" />
+    <Resource Include="datas\qrv38_0.dat" />
+    <Resource Include="datas\qrv38_1.dat" />
+    <Resource Include="datas\qrv38_2.dat" />
+    <Resource Include="datas\qrv38_3.dat" />
+    <Resource Include="datas\qrv39_0.dat" />
+    <Resource Include="datas\qrv39_1.dat" />
+    <Resource Include="datas\qrv39_2.dat" />
+    <Resource Include="datas\qrv39_3.dat" />
+    <Resource Include="datas\qrv3_0.dat" />
+    <Resource Include="datas\qrv3_1.dat" />
+    <Resource Include="datas\qrv3_2.dat" />
+    <Resource Include="datas\qrv3_3.dat" />
+    <Resource Include="datas\qrv40_0.dat" />
+    <Resource Include="datas\qrv40_1.dat" />
+    <Resource Include="datas\qrv40_2.dat" />
+    <Resource Include="datas\qrv40_3.dat" />
+    <Resource Include="datas\qrv4_0.dat" />
+    <Resource Include="datas\qrv4_1.dat" />
+    <Resource Include="datas\qrv4_2.dat" />
+    <Resource Include="datas\qrv4_3.dat" />
+    <Resource Include="datas\qrv5_0.dat" />
+    <Resource Include="datas\qrv5_1.dat" />
+    <Resource Include="datas\qrv5_2.dat" />
+    <Resource Include="datas\qrv5_3.dat" />
+    <Resource Include="datas\qrv6_0.dat" />
+    <Resource Include="datas\qrv6_1.dat" />
+    <Resource Include="datas\qrv6_2.dat" />
+    <Resource Include="datas\qrv6_3.dat" />
+    <Resource Include="datas\qrv7_0.dat" />
+    <Resource Include="datas\qrv7_1.dat" />
+    <Resource Include="datas\qrv7_2.dat" />
+    <Resource Include="datas\qrv7_3.dat" />
+    <Resource Include="datas\qrv8_0.dat" />
+    <Resource Include="datas\qrv8_1.dat" />
+    <Resource Include="datas\qrv8_2.dat" />
+    <Resource Include="datas\qrv8_3.dat" />
+    <Resource Include="datas\qrv9_0.dat" />
+    <Resource Include="datas\qrv9_1.dat" />
+    <Resource Include="datas\qrv9_2.dat" />
+    <Resource Include="datas\qrv9_3.dat" />
+    <Resource Include="datas\qrvfr1.dat" />
+    <Resource Include="datas\qrvfr10.dat" />
+    <Resource Include="datas\qrvfr11.dat" />
+    <Resource Include="datas\qrvfr12.dat" />
+    <Resource Include="datas\qrvfr13.dat" />
+    <Resource Include="datas\qrvfr14.dat" />
+    <Resource Include="datas\qrvfr15.dat" />
+    <Resource Include="datas\qrvfr16.dat" />
+    <Resource Include="datas\qrvfr17.dat" />
+    <Resource Include="datas\qrvfr18.dat" />
+    <Resource Include="datas\qrvfr19.dat" />
+    <Resource Include="datas\qrvfr2.dat" />
+    <Resource Include="datas\qrvfr20.dat" />
+    <Resource Include="datas\qrvfr21.dat" />
+    <Resource Include="datas\qrvfr22.dat" />
+    <Resource Include="datas\qrvfr23.dat" />
+    <Resource Include="datas\qrvfr24.dat" />
+    <Resource Include="datas\qrvfr25.dat" />
+    <Resource Include="datas\qrvfr26.dat" />
+    <Resource Include="datas\qrvfr27.dat" />
+    <Resource Include="datas\qrvfr28.dat" />
+    <Resource Include="datas\qrvfr29.dat" />
+    <Resource Include="datas\qrvfr3.dat" />
+    <Resource Include="datas\qrvfr30.dat" />
+    <Resource Include="datas\qrvfr31.dat" />
+    <Resource Include="datas\qrvfr32.dat" />
+    <Resource Include="datas\qrvfr33.dat" />
+    <Resource Include="datas\qrvfr34.dat" />
+    <Resource Include="datas\qrvfr35.dat" />
+    <Resource Include="datas\qrvfr36.dat" />
+    <Resource Include="datas\qrvfr37.dat" />
+    <Resource Include="datas\qrvfr38.dat" />
+    <Resource Include="datas\qrvfr39.dat" />
+    <Resource Include="datas\qrvfr4.dat" />
+    <Resource Include="datas\qrvfr40.dat" />
+    <Resource Include="datas\qrvfr5.dat" />
+    <Resource Include="datas\qrvfr6.dat" />
+    <Resource Include="datas\qrvfr7.dat" />
+    <Resource Include="datas\qrvfr8.dat" />
+    <Resource Include="datas\qrvfr9.dat" />
+    <Resource Include="datas\rsc10.dat" />
+    <Resource Include="datas\rsc13.dat" />
+    <Resource Include="datas\rsc15.dat" />
+    <Resource Include="datas\rsc16.dat" />
+    <Resource Include="datas\rsc17.dat" />
+    <Resource Include="datas\rsc18.dat" />
+    <Resource Include="datas\rsc20.dat" />
+    <Resource Include="datas\rsc22.dat" />
+    <Resource Include="datas\rsc24.dat" />
+    <Resource Include="datas\rsc26.dat" />
+    <Resource Include="datas\rsc28.dat" />
+    <Resource Include="datas\rsc30.dat" />
+    <Resource Include="datas\rsc32.dat" />
+    <Resource Include="datas\rsc34.dat" />
+    <Resource Include="datas\rsc36.dat" />
+    <Resource Include="datas\rsc40.dat" />
+    <Resource Include="datas\rsc42.dat" />
+    <Resource Include="datas\rsc44.dat" />
+    <Resource Include="datas\rsc46.dat" />
+    <Resource Include="datas\rsc48.dat" />
+    <Resource Include="datas\rsc50.dat" />
+    <Resource Include="datas\rsc52.dat" />
+    <Resource Include="datas\rsc54.dat" />
+    <Resource Include="datas\rsc56.dat" />
+    <Resource Include="datas\rsc58.dat" />
+    <Resource Include="datas\rsc60.dat" />
+    <Resource Include="datas\rsc62.dat" />
+    <Resource Include="datas\rsc64.dat" />
+    <Resource Include="datas\rsc66.dat" />
+    <Resource Include="datas\rsc68.dat" />
+    <Resource Include="datas\rsc7.dat" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

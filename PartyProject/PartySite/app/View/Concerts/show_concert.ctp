@@ -1,3 +1,5 @@
+
+
 <?php
 
 /*echo $this->Html->image('Concerts/'.$showConcert['image'], array('fullBase' => false));
@@ -15,7 +17,13 @@ echo $this->Html->url($this->Html->image('Concerts/'.$showConcert['image'],array
 	
 <style type="text/css">
 		body{
-background-image:url('<?php echo $this->webroot.'img/Concerts/'.$showConcert['image']; ?>');
+			background:url('<?php echo $this->webroot.'img/Concerts/'.$showConcert['image']; ?>') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-position-y: 51px
+
 }
 .detailConcert{
 	 background: #fff;
@@ -41,14 +49,24 @@ text-align: center;
 		</style>
 
 		<div class="row">  
+
 			
 			<div class="col-md-5" style="float:right;">
 		<div class="detailConcert">
 			<?php
+			$nbSeatsDispo = $this->Concert->getNbDispoSeats($showConcert['id']);
+
 			echo '<h1>'.$showConcert['name_concert'].'</h1>';
 			echo '<p>'.'Begin date: '.$showConcert['start_datetime'].'<p>';
 			echo '<p>'.'End date: '.$showConcert['end_datetime'].'<p>';
 			echo '<p>'.'Location: '.$showConcert['location'].'<p>';
+			if($nbSeatsDispo > 0){
+			echo '<span class="label-success">Tickets available : '.$nbSeatsDispo.'</span>';
+			}
+			else{
+				
+				echo '<span class="label-important">Tickets not available</span>';
+			}
 			echo "<div class='row'>";  
 			
 			echo "<div class=\"col-md-8\">";
@@ -68,6 +86,9 @@ text-align: center;
             echo"</p>";
                         			echo "</div>";
 
+						if($nbSeatsDispo > 0){
+
+
 			?>
 
         <a  href="<?php echo $this->Html->url(array(
@@ -75,6 +96,7 @@ text-align: center;
   					"action" => "addReservations",
   					"idC"=>$showConcert['id']    			
 					));?>" role="button" style="margin-left:15px; margin-top:5px;" class="btn btn-primary">Accéder à la billeterie</a>
+					<?php } ?>
   	
 
 		</div>

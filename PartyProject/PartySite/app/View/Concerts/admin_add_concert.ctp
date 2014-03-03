@@ -23,7 +23,7 @@
 		<?php echo $this->Form->end(); ?>
 		<script type="text/javascript">
 			$(document).ready(function() {
-				$("#demo-input-facebook-theme").tokenInput("http://localhost/depot/PartyProject/PartyProject/script-web/search.php?q=$name",
+				$("#demo-input-facebook-theme").tokenInput("../../app/webroot/script-web/search.php?q=$name",
 				{
 					theme: "facebook",
 					noResultsText: "No result",

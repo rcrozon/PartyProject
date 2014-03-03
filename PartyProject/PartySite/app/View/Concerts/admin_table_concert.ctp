@@ -12,8 +12,7 @@
 			<th>Image</th>
 			<th>Start DateTime</th>
 			<th>End DateTime</th>
-			<th>Artists</th>
-			<th>Full ?</th>
+			<th style="width: 50px;">Full ?</th>
 			<th>Online ?</th>
 			<th>Actions</th>
 		</tr>
@@ -26,11 +25,11 @@
 			<td><?php echo $v['image'];?></td>
 			<td><?php echo $v['start_datetime'];?></td>
 			<td><?php echo $v['end_datetime'];?></td>
-			<td><?php echo $v['artists'];?></td>
-			<td><?php echo $v['full']=='0'?'<span class="label-success">Open</span>':'<span class="label-important">Full</span>';?></td>
+			<td style="width: 50px;"><?php echo $v['full']=='0'?'<span class="label-success">Open</span>':'<span class="label-important">Full</span>';?></td>
 			<td><?php echo $v['online']=='0'?'<span class="label-important">Offline</span>':'<span class="label-success">Online</span>';?></td>
 			<td>
-				<?php echo $this->Html->link("Tariff", array('action' => 'tariff', $v['id'])); ?> -
+				<?php echo $this->Html->link("Tariff(s)", array('action' => 'tariff', $v['id'])); ?> -
+				<?php echo $this->Html->link("Artist(s)", array('action' => 'artist', $v['id'])); ?> -
 				<?php echo $this->Html->link("Edit", array('action' => 'edit', $v['id'])); ?> - 
 				<?php echo $this->Html->link("Delete", array('action' => 'delete', $v['id']), null, "Are you sure you really want delete this party"); ?>
 			</td>

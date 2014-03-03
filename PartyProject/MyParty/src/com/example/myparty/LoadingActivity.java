@@ -91,11 +91,8 @@ public class LoadingActivity extends Activity {
 		}
 		else{
 			Log.i("NET", "On n'est pas connecté !!");
-			
+		
 		}
-		
-		
-		
 		Intent intent = new Intent(this, ConnectionActivity.class);
     	this.startActivity(intent);
 	

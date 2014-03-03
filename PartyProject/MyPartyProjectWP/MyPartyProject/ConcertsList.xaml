@@ -1,0 +1,63 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="MyPartyProject.ConcertsList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="MyParty" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0,54,0"/>
+            <TextBlock x:Name="pageTitle" Text="All concerts" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="562*"/>
+                <RowDefinition Height="45*"/>
+            </Grid.RowDefinitions>
+            <ListBox x:Name="concertsListBox" SelectionChanged="concertsListBox_SelectionChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="200" />
+                            </Grid.RowDefinitions>
+                            <Image Source="{Binding image}" Grid.Column="0" Grid.Row="0"/>
+                            <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,30,0,10">
+                                <TextBlock Text="{Binding name_concert}" />
+                                <TextBlock Text="{Binding location}" />
+                                <TextBlock Text="{Binding start_datetime}" />
+                                <TextBlock Text="{Binding end_datetime}" />
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <TextBox x:Name="research"  Margin="-10,552,44,-10" TextWrapping="Wrap" Grid.RowSpan="2" TextChanged="research_TextChanged"/>
+            <Image Source="/Images/ic_action_search.png" HorizontalAlignment="Left" Height="45" Margin="412,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="44"/>
+        </Grid>
+        <Image x:Name="imgConnected" Source="/Images/ic_not_connected.png" Height="30" Margin="450,0,0,0" VerticalAlignment="Top"/>
+    </Grid>
+
+</phone:PhoneApplicationPage>

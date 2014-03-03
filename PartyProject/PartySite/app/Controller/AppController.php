@@ -22,7 +22,7 @@
 App::uses('Controller', 'Controller');
     
 class AppController extends Controller {
-   	public $uses = array('Client','Concert','Tarif','AssocTarif', 'Artist');
+   	public $uses = array('Client','Concert','Tarif','AssocTarif', 'Artist','Reservation','AssocArtist');
 
     public $components = array('Session','Cookie','Auth');
 

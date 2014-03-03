@@ -10,10 +10,15 @@
 
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap.min.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap.css');?>">
+        <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap-responsive.css');?>">
+        <link rel="stylesheet" href="<?php echo $this->Html->url('/css/opa-icons.css');?>">
+        <link rel="stylesheet" href="<?php echo $this->Html->url('/css/charisma-app.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/sb-admin.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/font-awesome/css/font-awesome.min.css');?>">
-        
+
         <?php echo $this->Html->script('jquery-1.10.2'); ?>
+        <?php echo $this->Html->script('raphael-min'); ?>
+        <?php echo $this->Html->script('morris'); ?>
         <?php echo $this->Html->script('jquery.tokeninput'); ?>
         <?php echo $this->Html->script('less'); ?>
         <?php echo $scripts_for_layout; ?>
@@ -51,10 +56,17 @@
                       </a>
                       <ul class="dropdown-menu">
                         <li>
-                            <?php echo $this->Html->link("Concert Table",array('action'=>'table_concert','controller'=>'concerts'));?>
+                            <?php echo $this->Html->link("Partys Table",array('action'=>'table_concert','controller'=>'concerts'));?>
                         </li>
-                        <li><a href="#">Artists Table</a></li>
-                        <li><a href="#">Reservation Table</a></li>
+                        <li>
+                            <?php echo $this->Html->link("Artists Table",array('action'=>'table_artist','controller'=>'concerts'));?>
+                        </li>
+                        <li>
+                            <?php echo $this->Html->link("Reservations Table",array('action'=>'table_reservation','controller'=>'concerts'));?>
+                        </li>
+                        <li>
+                            <?php echo $this->Html->link("Clients Table",array('action'=>'table_client','controller'=>'concerts'));?>
+                        </li>
                       </ul>
                     </li>
                     <li class="dropdown">
@@ -87,6 +99,7 @@
                         <li><a href="#">Last Item</a></li>
                       </ul>
                     </li>
+                    <li class="divider" style="height: 1px;width:100%; margin: 9px 0;overflow: hidden;background-color: #e5e5e5;"></li>
                   </ul>
 
                   <ul class="nav navbar-nav navbar-right navbar-user">
@@ -167,13 +180,13 @@
                 <?php echo $content_for_layout; ?>
             </div>
         </div>
+        <!-- JavaScript -->
+        <?php echo $this->Html->script('bootstrap'); ?>        
+        <!-- Page Specific Plugins -->
+        <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+        <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
+        <script src="js/morris/chart-data-morris.js"></script>
+        <script src="js/tablesorter/jquery.tablesorter.js"></script>
+        <script src="js/tablesorter/tables.js"></script>-->
     </body>
-    <!-- JavaScript -->
-    <?php echo $this->Html->script('bootstrap'); ?>
-    <!-- Page Specific Plugins -->
-    <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
-    <script src="js/morris/chart-data-morris.js"></script>
-    <script src="js/tablesorter/jquery.tablesorter.js"></script>
-    <script src="js/tablesorter/tables.js"></script>-->
 </html>
