@@ -7,6 +7,7 @@ import com.example.myparty.R;
 
 import entities.Client;
 import entities.ClientItem;
+import entities.Concert;
 import entities.Entity;
 import android.content.Context;
 import android.view.View;
@@ -17,7 +18,7 @@ public class ClientList extends List {
 		
     private Adapter adapter;
     	
-	public ClientList(Context context, java.util.List<Client> list) {
+	public ClientList(Context context, java.util.List<Client> list,Concert concert) {
 		super(context);
 		items = new ArrayList<Items>();
 		
@@ -25,13 +26,13 @@ public class ClientList extends List {
 		
 		if (list!=null){
 			for (int i=0;i<list.size();i++){
-				ClientItem testAff = new ClientItem(context, list.get(i));
+				ClientItem testAff = new ClientItem(context, list.get(i),concert);
 				items.add(testAff);
 			}
 		}
 		else{
 			Client test = new Client(0,"NO CLIENT", "NO CLIENT","NO CLIENT", "NO CLIENT", "NO CLIENT",0,"NO CLIENT");
-			ClientItem testAff = new ClientItem(context, test);
+			ClientItem testAff = new ClientItem(context, test,concert);
 			items.add(testAff);
 		}
 		

@@ -99,11 +99,11 @@ Concert c9 = new Concert(9, "", "The Beatles", "11/12/14", "11/12/14",
 				// Toast.LENGTH_LONG).show();
 				ConcertItem selectedItem = (ConcertItem) view;
 				Concert concert = selectedItem.getConcert();
-
-				Intent intent = new Intent(context,
-						ConcertDetailsActivity.class);
+				if (concert.getId()!=0){
+					Intent intent = new Intent(context,
+							ConcertDetailsActivity.class);
 				
-				intent.putExtra("id", concert.getId());
+					intent.putExtra("id", concert.getId());
 				//intent.putExtra("imgPath", concert.getImagePath());
 				//intent.putExtra("title", concert.getTitle());
 				// intent.putExtra("beginDate", concert.getBeginDate());
@@ -112,7 +112,8 @@ Concert c9 = new Concert(9, "", "The Beatles", "11/12/14", "11/12/14",
 				//intent.putExtra("nbSeets", concert.getNbSeets());
 				// intent.putExtra("full", concert.getFull());
 
-				context.startActivity(intent);
+					context.startActivity(intent);
+				}
 			}
 		});
 		this.setBackgroundColor(getResources().getColor(R.color.black));

@@ -62,13 +62,13 @@ public class ScanLayout extends RelativeLayout implements OnClickListener{
 		llpButtonTariff.addRule(ALIGN_PARENT_BOTTOM);
 		this.buttonTariff = new Button(context);
 		this.buttonTariff.setBackgroundResource(R.color.blue);
-		this.buttonTariff.setText("Student Tariff");
+		this.buttonTariff.setText(" ");
 		this.buttonTariff.setGravity(Gravity.BOTTOM | Gravity.CENTER);
 		this.buttonTariff.setLayoutParams(llpButtonTariff);
 		this.buttonTariff.setMaxHeight(100);
 		llpButtonTariff.addRule(BELOW, linearLayout.getId());
 		llpButtonTariff.setMargins(20, 700, 20, 0); 
-		
+
 		this.linearLayout.addView(this.imgView, llpImg);
 		this.linearLayout.addView(this.text, llpTextView);
 		this.addView(linearLayout);
@@ -78,8 +78,12 @@ public class ScanLayout extends RelativeLayout implements OnClickListener{
 	}
 
 	public void onClick (View view){
-		IntentIntegrator integrator = new IntentIntegrator(activity);
-		integrator.initiateScan();
+	
+			IntentIntegrator integrator = new IntentIntegrator(activity);
+			integrator.initiateScan();
+	
+			
+		
 	}
 	
 	public TextView getTextView(){

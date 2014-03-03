@@ -10,7 +10,7 @@
 		android:id="@+id/imgBackground"
 	    android:layout_width="fill_parent"  
     	android:layout_height="fill_parent"
-    	android:src="@drawable/party3"
+    	android:src="@drawable/party2"
     	android:contentDescription="@string/connexion"
     	/>        
     	

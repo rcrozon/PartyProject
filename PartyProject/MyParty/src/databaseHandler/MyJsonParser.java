@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.util.Log;
 import entities.Client;
 import entities.Concert;
  
@@ -27,9 +28,9 @@ public class MyJsonParser {
 			rep = new JSONArray(json);
 			for (int i = 0 ; i<rep.length() ; i++){
 	    		
-				JSONObject client = rep.getJSONObject(i);
-				String infoStr = client.getString("Client");
-				JSONObject infoClient = new JSONObject(infoStr);
+				JSONObject infoClient = rep.getJSONObject(i);
+				//String infoStr = client.getString("Client");
+				//JSONObject infoClient = new JSONObject(infoStr);
 				int id = Integer.parseInt(infoClient.getString(Tables.CLIENT_NAME_ID));
 				String username = infoClient.getString(Tables.CLIENT_NAME_USERNAME);
 				String mail = infoClient.getString(Tables.CLIENT_NAME_MAIL);
@@ -58,9 +59,9 @@ public class MyJsonParser {
 			rep = new JSONArray(json);
 			for (int i = 0 ; i<rep.length() ; i++){
 	    		
-				JSONObject concert = rep.getJSONObject(i);
-				String infoStr = concert.getString("Concert");
-				JSONObject infoConcert = new JSONObject(infoStr);
+				JSONObject infoConcert = rep.getJSONObject(i);
+				//String infoStr = concert.getString("Concert");
+				//JSONObject infoConcert = new JSONObject(infoStr);
 				int id = Integer.parseInt(infoConcert.getString(Tables.CONCERT_NAME_ID));
 				String begin = infoConcert.getString(Tables.CONCERT_NAME_START_DATE);
 				String end = infoConcert.getString(Tables.CONCERT_NAME_END_DATE);
@@ -105,9 +106,9 @@ public class MyJsonParser {
 			rep = new JSONArray(json);
 			for (int i = 0 ; i<rep.length() ; i++){
 	    		
-				JSONObject reservation = rep.getJSONObject(i);
-				String infoStr = reservation.getString("Reservation");
-				JSONObject infoReservation = new JSONObject(infoStr);
+				JSONObject infoReservation= rep.getJSONObject(i);
+				//String infoStr = reservation.getString("Reservation");
+				//JSONObject infoReservation = new JSONObject(infoStr);
 				int id = Integer.parseInt(infoReservation.getString(Tables.RES_NAME_ID));
 				int id_concert = Integer.parseInt(infoReservation.getString(Tables.RES_NAME_ID_CONCERT));
 				int id_client = Integer.parseInt(infoReservation.getString(Tables.RES_NAME_ID_CLIENT));
@@ -120,6 +121,29 @@ public class MyJsonParser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    }
+		
+	    public void getTariffsAndInsert(String json) {
+	    	DatabaseHandler dataBase = new DatabaseHandler(context);
+			dataBase.open();
+	    	
+	    	JSONArray rep;
+			try {
+				rep = new JSONArray(json);
+				for (int i = 0 ; i<rep.length() ; i++){
+		    		
+					JSONObject infoTarrif = rep.getJSONObject(i);
+					int id = Integer.parseInt(infoTarrif.getString(Tables.TARIFF_NAME_ID));
+					String label = infoTarrif.getString(Tables.TARIFF_NAME_LABEL);
+					Double price = infoTarrif.getDouble(Tables.TARIFF_NAME_PRICE);
+					dataBase.insertTariff(id, label, price);
+					
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    
     }    	
     
     

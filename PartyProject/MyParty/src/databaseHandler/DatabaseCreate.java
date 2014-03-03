@@ -51,7 +51,7 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 	
 	private static final String CREATE_BDD_TARIFFS = "CREATE TABLE IF NOT EXISTS " + Tables.TARIFFS_TABLE 
 			+ " (" + Tables.TARIFF_NAME_ID+ " INTEGER PRIMARY KEY, " 
-			+ Tables.TARIFF_NAME_LABEL + " TEXT NOT NULL UNIQUE, "
+			+ Tables.TARIFF_NAME_LABEL + " TEXT, "
 			+ Tables.TARIFF_NAME_PRICE + " REAL NOT NULL );";
 
 	private static final String CREATE_BDD_ASSOC_TARIFFS ="CREATE TABLE IF NOT EXISTS " + Tables.ASSOC_TARIFFS_TABLE 
@@ -107,12 +107,12 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE " + Tables.CLIENT_TABLE + ";");
 		db.execSQL("DROP TABLE " + Tables.CONCERT_TABLE + ";");
 		db.execSQL("DROP TABLE " + Tables.RES_TABLE + ";");
-//		db.execSQL("DROP TABLE " + Tables.ARTISTS_TABLE + ";");
-//		db.execSQL("DROP TABLE " + Tables.ASSOC_STYLES_TABLE + ";");
-//		db.execSQL("DROP TABLE " + Tables.ASSOC_TARIFFS_TABLE + ";");
-//		db.execSQL("DROP TABLE " + Tables.ASSOC_ARTISTS_TABLE + ";");
-//		db.execSQL("DROP TABLE " + Tables.STYLES_TABLE + ";");
-//		db.execSQL("DROP TABLE " + Tables.TARIFFS_TABLE + ";");
+		db.execSQL("DROP TABLE " + Tables.ARTISTS_TABLE + ";");
+		db.execSQL("DROP TABLE " + Tables.ASSOC_STYLES_TABLE + ";");
+		db.execSQL("DROP TABLE " + Tables.ASSOC_TARIFFS_TABLE + ";");
+		db.execSQL("DROP TABLE " + Tables.ASSOC_ARTISTS_TABLE + ";");
+		db.execSQL("DROP TABLE " + Tables.STYLES_TABLE + ";");
+		db.execSQL("DROP TABLE " + Tables.TARIFFS_TABLE + ";");
 		onCreate(db);
 		
 	}
