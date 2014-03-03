@@ -122,7 +122,7 @@ class ConcertsController extends AppController{
 
         $nbTodaySales = 0;
         $dataDay = "";
-        for($i = 0; $i < 31; $i++) {
+        for($i = 1; $i <= 31; $i++) {
             $result[$i] = 0;
         }
         foreach ($reserv as $k => $v) {
@@ -131,7 +131,7 @@ class ConcertsController extends AppController{
             $Y = date('Y', strtotime($dateReserv));
             $M = date('m', strtotime($dateReserv));
             $D = date('d', strtotime($dateReserv));
-            for($i = 0; $i < 31; $i++) {
+            for($i = 1; $i <= 31; $i++) {
                 if($Y == $year && $D == $month) {
                     if($D == $i) {
                         $tarif = $this->Tarif->find('first', array(
@@ -142,7 +142,7 @@ class ConcertsController extends AppController{
                 }
             }
         }
-        for($i = 0; $i < 31; $i++) {
+        for($i = 1; $i <= 31; $i++) {
             $dataDay = $dataDay.'{"period": "'.$year.'-'.$month.'-0'.$i.'","nbSales": '.$result[$i].'},';
         }
         $dataDay = substr($dataDay, 0, -1);
