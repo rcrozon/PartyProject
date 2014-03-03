@@ -10,10 +10,15 @@
 
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap.min.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap.css');?>">
+        <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap-responsive.css');?>">
+        <link rel="stylesheet" href="<?php echo $this->Html->url('/css/opa-icons.css');?>">
+        <link rel="stylesheet" href="<?php echo $this->Html->url('/css/charisma-app.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/sb-admin.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/font-awesome/css/font-awesome.min.css');?>">
-        
+
         <?php echo $this->Html->script('jquery-1.10.2'); ?>
+        <?php echo $this->Html->script('raphael-min'); ?>
+        <?php echo $this->Html->script('morris'); ?>
         <?php echo $this->Html->script('jquery.tokeninput'); ?>
         <?php echo $this->Html->script('less'); ?>
         <?php echo $scripts_for_layout; ?>
@@ -51,7 +56,7 @@
                       </a>
                       <ul class="dropdown-menu">
                         <li>
-                            <?php echo $this->Html->link("Concerts Table",array('action'=>'table_concert','controller'=>'concerts'));?>
+                            <?php echo $this->Html->link("Partys Table",array('action'=>'table_concert','controller'=>'concerts'));?>
                         </li>
                         <li>
                             <?php echo $this->Html->link("Artists Table",array('action'=>'table_artist','controller'=>'concerts'));?>
@@ -176,7 +181,7 @@
             </div>
         </div>
         <!-- JavaScript -->
-        <?php echo $this->Html->script('bootstrap'); ?>
+        <?php echo $this->Html->script('bootstrap'); ?>        
         <!-- Page Specific Plugins -->
         <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
         <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>

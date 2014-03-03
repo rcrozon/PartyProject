@@ -13,6 +13,8 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.util.Log;
+
 public class ThreadRequestResult extends Thread {
 	
 	    private String result; 

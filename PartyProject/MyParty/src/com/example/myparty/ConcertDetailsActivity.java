@@ -50,6 +50,8 @@ public class ConcertDetailsActivity extends Activity implements
 	private TextView textPrice;
 	private DatabaseHandler dataBase;
 	private boolean isCLient = false;
+	private Concert concert;
+	private int idResScan;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +75,7 @@ public class ConcertDetailsActivity extends Activity implements
 
 		Bundle b = getIntent().getExtras();
 		List<Client> clientForConcert = null;
-		Concert concert = null;
+		concert = null;
 		if (b.getInt("id") != 0){
 			concert = dataBase.getConcertWithId(b.getInt("id"));
 			clientForConcert = dataBase.getClientsForOneConcert(concert.getId());
@@ -84,7 +86,7 @@ public class ConcertDetailsActivity extends Activity implements
 		}
 
 		
-
+/************************** Traitement du bouton validation scan ***********************************/
 		this.scanner = new ScanLayout(this, this);
 		this.scanner.getButtonTariff().setOnClickListener(
 				new OnClickListener() {
@@ -92,8 +94,15 @@ public class ConcertDetailsActivity extends Activity implements
 					public void onClick(View v) {
 						scanner.getImageView().setBackgroundResource(
 								R.drawable.qrcode_blue);
+						if (idResScan !=0 ){
+							dataBase.scanTicket(idResScan);
+						}
+						textButtonValidate(" ");
 					}
 				});
+		
+		
+		/**********************************************************/
 
 		this.view_flipper.addView(new ConcertDetailed(this, concert));
 		this.view_flipper.addView(new ListLayout(this, new TicketsList(this,
@@ -101,7 +110,7 @@ public class ConcertDetailsActivity extends Activity implements
 		this.view_flipper.addView(new ListLayout(this, new ReservationsList(
 				this, null)));
 		this.view_flipper.addView(new ListLayout(this, new ClientList(this,
-				clientForConcert)));
+				clientForConcert,concert)));
 		this.view_flipper.addView(scanner);
 		this.view_flipper.addView(new StatsList(this));
 
@@ -179,22 +188,39 @@ public class ConcertDetailsActivity extends Activity implements
 		}
 	}
 
+/**********************   Récupération des infos du billet      ************************************/
+	/*******id_res;id_concert;id_client;id_tarif********/
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		IntentResult scanResult = IntentIntegrator.parseActivityResult(
 				requestCode, resultCode, intent);
 		if (scanResult != null) {
 			String barcode;
-			String typ;
+			//String typ;
 			barcode = scanResult.getContents();
-			typ = scanResult.getFormatName();
-			scanner.getTextView().setText(barcode + "   " + typ);
+			//typ = scanResult.getFormatName();
+			String infoRes[] = barcode.split(";");
+			Log.i("SPLIT", infoRes[0]+"/"+infoRes[1]+"/"+
+					infoRes[2]+"/"+ infoRes[3]);
+			Boolean ok = dataBase.isValidTicket(Integer.parseInt(infoRes[0]), Integer.parseInt(infoRes[1])
+				, Integer.parseInt(infoRes[2]), Integer.parseInt(infoRes[3]),concert.getId());
+			
+			scanner.getTextView().setText(barcode + "   ");
 			scanner.getTextView().setFreezesText(true);
-			if (codeDatabaseHandler())
+			
+			if (ok){
 				scanner.getImageView().setBackgroundResource(
 						R.drawable.qrcode_green);
-			else
+				idResScan = Integer.parseInt(infoRes[0]);
+				String labelTarrif = dataBase.getLabelById(Integer.parseInt(infoRes[3]));
+				textButtonValidate("Tarif : "+labelTarrif);
+			}
+			else{
 				scanner.getImageView().setBackgroundResource(
 						R.drawable.qrcode_red);
+				idResScan = 0;
+				textButtonValidate("Error Ticket");
+				
+			}
 
 		}
 	}
@@ -217,9 +243,8 @@ public class ConcertDetailsActivity extends Activity implements
 	 * 
 	 * @return
 	 */
-	public boolean codeDatabaseHandler() {
+	public void textButtonValidate(String message) {
 		// TODO when the database is done
-		scanner.getButtonTariff().setText("Carte Etudiante n���cessaire");
-		return true;
+		scanner.getButtonTariff().setText(message);
 	}
 }

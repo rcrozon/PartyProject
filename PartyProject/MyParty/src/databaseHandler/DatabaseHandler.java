@@ -14,7 +14,7 @@ import entities.Concert;
 
 public class DatabaseHandler {
 	
-	private static final int VERSION_BDD = 45;
+	private static final int VERSION_BDD = 55;
 	private static final String BDD_NAME = "myparty.db";
 	private SQLiteDatabase bdd;
 	private DatabaseCreate SQLiteBase ;
@@ -416,4 +416,86 @@ public class DatabaseHandler {
 		return c.getCount();
 	}
 	
+
+
+/*********************** TESTER SI LA RESERVATION EST VALIDE ET SCANNER LE BILLET ******************************************/
+public Boolean isValidTicket(int id_res,int id_concert,int id_client, int id_tarif, int rightConcert){
+	
+	Cursor c = bdd.query(Tables.RES_TABLE, 
+			new String[] {Tables.RES_NAME_ID, 
+			Tables.RES_NAME_ID_CONCERT, 
+			Tables.RES_NAME_ID_CLIENT,
+			Tables.RES_NAME_ID_TARIF,
+			Tables.RES_NAME_SCAN}, 
+			Tables.RES_NAME_ID + " LIKE \"" + id_res +"\"", null, null, null, null);
+
+
+	if (c.getCount() != 1 ){
+		return false;
+	}
+	c.moveToFirst();
+	Log.i("SCAN", "avant : "+c.getInt(Tables.RES_NUM_ID_SCAN) );
+	if (c.getInt(Tables.RES_NUM_ID_CONCERT) != id_concert
+			|| c.getInt(Tables.RES_NUM_ID_CLIENT) != id_client
+			|| c.getInt(Tables.RES_NUM_ID_TARIF) != id_tarif
+			|| c.getInt(Tables.RES_NUM_ID_SCAN) == 1
+			|| c.getInt(Tables.RES_NUM_ID_CONCERT) != rightConcert){
+		return false;
+		
+	}
+	ContentValues newValues = new ContentValues();
+	newValues.put(Tables.RES_NAME_SCAN, 1);
+	
+	bdd.update(Tables.RES_TABLE, newValues,Tables.RES_NAME_ID+"="+id_res, null);
+	
+	c.close();
+	
+	return true;
+	
+	
+}
+
+/*********************** Mise a jour du SCAN avec ID **************************************/
+
+public void scanTicket(int id_res){
+	
+	Cursor c = bdd.query(Tables.RES_TABLE, 
+			new String[] {Tables.RES_NAME_ID, 
+			Tables.RES_NAME_ID_CONCERT, 
+			Tables.RES_NAME_ID_CLIENT,
+			Tables.RES_NAME_ID_TARIF,
+			Tables.RES_NAME_SCAN}, 
+			Tables.RES_NAME_ID + " LIKE \"" + id_res +"\"", null, null, null, null);
+
+	c.moveToFirst();
+	Log.i("SCAN", "avant : "+c.getInt(Tables.RES_NUM_ID_SCAN) );
+	ContentValues newValues = new ContentValues();
+	newValues.put(Tables.RES_NAME_SCAN, 1);
+	
+	bdd.update(Tables.RES_TABLE, newValues,Tables.RES_NAME_ID+"="+id_res, null);
+	
+	c.close();
+	
+	
+}
+
+/***************************  Trouver le lablel du prix par ID*******************************************/
+	public String getLabelById(int id_tarrif){
+		
+		Cursor c = bdd.query(Tables.TARIFFS_TABLE,
+				new String[] {Tables.TARIFF_NAME_ID, 
+				Tables.TARIFF_NAME_LABEL,
+				Tables.TARIFF_NAME_PRICE}, 
+				Tables.TARIFF_NAME_ID + " LIKE \"" + id_tarrif +"\"", null, null, null, null);
+		if (c.getCount() != 1)
+			return null;
+		c.moveToFirst();
+		Log.i("TT", "TT : "+c.getInt(0) +"/"+ c.getString(1) +"/"+ c.getDouble(2));
+		String label =c.getString(1);
+		c.close();
+		return label;
+		
+	}
+
+
 }

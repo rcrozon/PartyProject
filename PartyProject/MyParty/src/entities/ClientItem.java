@@ -2,6 +2,7 @@ package entities;
 
 import lists.Items;
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -9,11 +10,16 @@ import android.widget.TextView;
 
 import com.example.myparty.R;
 
+import databaseHandler.DatabaseHandler;
+
 public class ClientItem extends LinearLayout implements Items{ 
 	
+	
 	private Client client ;
-	public ClientItem(Context context, Client client){
+	public ClientItem(Context context, Client client,Concert concert){
 		super(context);
+		DatabaseHandler database = new DatabaseHandler(context);
+		database.open();
 		this.client = client;
 		this.setBackgroundResource(R.drawable.list_border);
 		this.setOrientation(HORIZONTAL);
@@ -35,6 +41,7 @@ public class ClientItem extends LinearLayout implements Items{
 		TextView lastName = new TextView(context);
 		TextView birth = new TextView(context);
 		TextView email = new TextView(context);
+		TextView nbTicket = new TextView(context);
 		TextView login = new TextView(context);
 		TextView pwd = new TextView(context);
 		
@@ -42,6 +49,10 @@ public class ClientItem extends LinearLayout implements Items{
 		lastName.setText(client.getLastName());
 //		birth.setText(client.getBirth());
 		email.setText(client.getEmail());
+		if (concert.getId()!=0 && client.getId()!=0){
+			int nb = database.getNumberResClientForOneConcert(concert, client);
+			nbTicket.setText(""+nb+ " Tickets");
+		}
 		login.setText(client.getLogin());
 		pwd.setText(client.getPassword());
 		
@@ -49,6 +60,7 @@ public class ClientItem extends LinearLayout implements Items{
 		lastName.setTextColor(getResources().getColor(R.color.white));
 		birth.setTextColor(getResources().getColor(R.color.white));
 		email.setTextColor(getResources().getColor(R.color.white));
+		nbTicket.setTextColor(getResources().getColor(R.color.white));
 		login.setTextColor(getResources().getColor(R.color.white));
 		pwd.setTextColor(getResources().getColor(R.color.white));
 
@@ -56,6 +68,7 @@ public class ClientItem extends LinearLayout implements Items{
 		layoutClientData.addView(lastName);
 		layoutClientData.addView(birth);
 		layoutClientData.addView(email);
+		layoutClientData.addView(nbTicket);
 //		layoutClientData.addView(login);
 //		layoutClientData.addView(pwd);
 		

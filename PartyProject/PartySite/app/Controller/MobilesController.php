@@ -5,7 +5,7 @@ class MobilesController  extends AppController{
 	function getAllConcerts(){
 		$results = $this->Concert->find('all');
 
-		for($i=0;$i<sizeof($results)-1;$i++){
+		for($i=0;$i<sizeof($results);$i++){
 			$d = $results[$i]['Concert'];
 			$table[$i] = $d;
 		}
@@ -16,7 +16,7 @@ class MobilesController  extends AppController{
 	 function getAllReservations(){
 	 	$results = $this->Reservation->find('all');
 
-		for($i=0;$i<sizeof($results)-1;$i++){
+		for($i=0;$i<sizeof($results);$i++){
 			$d = $results[$i]['Reservation'];
 			$table[$i] = $d;
 		}
@@ -40,7 +40,7 @@ class MobilesController  extends AppController{
 		function getAllTariffs(){
 	 $results = $this->Tarif->find('all');
 
-		for($i=0;$i<sizeof($results)-1;$i++){
+		for($i=0;$i<sizeof($results);$i++){
 			$d = $results[$i]['Tarif'];
 			$table[$i] = $d;
 		}
@@ -83,18 +83,14 @@ class MobilesController  extends AppController{
 
     }
     public function getAllClients() {
-    	 $results = $this->Client->find('all');
-
-		for($i=0;$i<sizeof($results)-1;$i++){
+    	$results = $this->Client->find('all');
+    	
+		for($i=0;$i<sizeof($results);$i++){
 			$d = $results[$i]['Client'];
 			$table[$i] = $d;
 		}
 		return new CakeResponse(array('body' => json_encode($table)));
 
-
-
-
-		
     }
 
      public function postClient() {

@@ -1,3 +1,5 @@
+   <?php echo $this->Html->script('mosaic.1.0.1');?>
+
 <script type="text/javascript">  
       
       jQuery(function($){
@@ -55,7 +57,7 @@
 				echo"</div> </a>";
 
 				echo"<div class=\"mosaic-backdrop\">";
-				echo $this->Html->image("Concerts/".$d['image']."");
+				echo $this->Html->image("Concerts/".$d['image']);
 				echo  "</div>
 		</div>		
 	
