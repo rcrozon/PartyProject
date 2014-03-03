@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/charisma-app.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/sb-admin.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/font-awesome/css/font-awesome.min.css');?>">
+        <link rel="stylesheet" href="<?php echo $this->Html->url('/css/morris.css');?>">
 
         <?php echo $this->Html->script('jquery-1.10.2'); ?>
         <?php echo $this->Html->script('raphael-min'); ?>
