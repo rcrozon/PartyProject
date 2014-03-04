@@ -150,6 +150,7 @@ class ConcertsController extends AppController{
         $dataDay = substr($dataDay, 0, -1);
         $d['dataDay'] = $dataDay;
         $this->set($d);
+        # # # # # # # # # # # # # # # # # # # # # #
     }
 
 	function admin_addConcert() {
@@ -180,7 +181,10 @@ class ConcertsController extends AppController{
             # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
             $extension = strtolower(pathinfo($d['Concert']['image_file']['name'], PATHINFO_EXTENSION));
             $uploadFolder = "img/Concerts";
-            $uploadPath = WWW_ROOT . $uploadFolder; 
+            $uploadPath = WWW_ROOT . $uploadFolder;
+            $image = $d['Concert']['image_file']['name'];
+            $image = str_replace(" ", "-", $image);
+            $d['Concert']['image_file']['name'] = $image;
             $full_image_path = $uploadPath . '/' . $d['Concert']['image_file']['name'];
             if(!empty($d['Concert']['image_file']['tmp_name']) && 
                 in_array($extension, array('jpg', 'jpeg', 'png', 'gif'))) {
@@ -425,8 +429,11 @@ class ConcertsController extends AppController{
             # Partie load image
             # # # # # # # # # # # 
             $extension = strtolower(pathinfo($d['Concert']['image_file']['name'], PATHINFO_EXTENSION));
-            $uploadFolder = "img\Concerts";
-            $uploadPath = WWW_ROOT . $uploadFolder; 
+            $uploadFolder = "img/Concerts";
+            $uploadPath = WWW_ROOT . $uploadFolder;
+            $image = $d['Concert']['image_file']['name'];
+            $image = str_replace(" ", "-", $image);
+            $d['Concert']['image_file']['name'] = $image;
             $full_image_path = $uploadPath . '\\' . $d['Concert']['image_file']['name'];
             if(!empty($d['Concert']['image_file']['tmp_name']) && 
                 in_array($extension, array('jpg', 'jpeg', 'png', 'gif'))) {
