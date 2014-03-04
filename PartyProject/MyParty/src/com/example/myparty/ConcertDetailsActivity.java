@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 import databaseHandler.DatabaseHandler;
+import databaseHandler.DatabaseServer;
 import entities.Client;
 import entities.Concert;
 import entities.ConcertDetailed;
@@ -70,6 +71,18 @@ public class ConcertDetailsActivity extends Activity implements
 
 		this.dataBase = new DatabaseHandler(this);
 		this.dataBase.open();
+		
+		
+		/************************ MISE A JOUR SERVEUR POUR LES SCAN ************************************/
+		
+		//int tmp = dataBase.deleteResMAJ();
+		String jsonScan;
+		jsonScan = dataBase.getJsonScanMAJ();
+		Log.i("ScanJson", "Json: "+jsonScan);
+		DatabaseServer ser = new DatabaseServer();
+		ser.postRequest("majReservation", jsonScan);
+		
+		
 
 		/****************** RECUPERATION DE L'ID DU CONCERT *****************/
 

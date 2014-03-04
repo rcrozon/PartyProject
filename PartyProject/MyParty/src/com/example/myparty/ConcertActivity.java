@@ -1,11 +1,19 @@
 package com.example.myparty;
 
+import java.util.List;
+
+import databaseHandler.DatabaseHandler;
+import databaseHandler.DatabaseServer;
+import databaseHandler.MyJsonParser;
+import entities.Client;
+import entities.Concert;
 import lists.ConcertList;
 import lists.ListLayout;
 import lists.ReservationsList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
@@ -23,13 +31,19 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	private ViewFlipper view_flipper ;
 	private MenuItem decoItem;
 	private MenuItem bluetoothItem;
+	private MenuItem updateItem;
 	private int index = 0;
 	private int nextIndex = 0;
 	private boolean isClient = false;
+	DatabaseHandler dataBase;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		dataBase = new DatabaseHandler(this);
+		dataBase.open();
+		
 		setContentView(R.layout.activity_concerts);
 		buttonReservations = (Button)findViewById(R.id.buttonReservations);
 		buttonAllConcerts = (Button)findViewById(R.id.buttonAllConcerts);
@@ -65,9 +79,11 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		getMenuInflater().inflate(R.menu.connected, menu);
 		decoItem = menu.findItem(R.id.menu_deconect);
 		bluetoothItem = menu.findItem(R.id.bluetooth);
+		updateItem = menu.findItem(R.id.update);
 		//decoItem.setIcon(R.drawable.logout);
 		decoItem.setOnMenuItemClickListener(this);
 		bluetoothItem.setOnMenuItemClickListener(this);
+		updateItem.setOnMenuItemClickListener(this);
 		return true;
 	}
 
@@ -110,10 +126,59 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		Intent intent;
 		if (item == decoItem){
 			intent = new Intent(this, ConnectionActivity.class);
-		}else{
-			intent = new Intent(this, BluetoothActivity.class);
+			this.startActivity(intent);
 		}
-		this.startActivity(intent);	
+		else if(item == updateItem){
+			//if(isNetworkConnected(this) /*&& t.getResult() != null*/){
+				
+				/*ON ENVOI LA REQUETE*/
+				dataBase.deleteAllTable();
+				
+				DatabaseServer dbbs = new DatabaseServer(); 
+				MyJsonParser parser = new MyJsonParser(this);
+				
+				String tmp =dbbs.getRequest("getAllClients");
+				String concertString = dbbs.getRequest("getAllConcerts");
+				String reservationString = dbbs.getRequest("getAllReservations");
+				String tarrifString = dbbs.getRequest("getAllTariffs");
+
+				List<Client> clientlist = parser.getClientFromJson(tmp);
+				List<Concert> concertlist = parser.getConcertFromJson(concertString);
+				
+				/*On insere les concerts dans bdd*/
+				for (int i=0 ; i< concertlist.size() ; i++){
+					Concert c = concertlist.get(i);
+					Log.i("Concert",c.testToString());
+					dataBase.insertConcert(c);
+				}
+				
+				/*On insere les clients dans bdd*/
+				for (int i=0 ; i< clientlist.size() ; i++){
+					Client c = clientlist.get(i);
+					Log.i("Client",c.testToString());
+					dataBase.insertClient(c);
+				}
+				/*On insere les reservations*/
+				parser.getReservationAndInsert(reservationString);
+				
+				/*On insere les Tarrifs*/
+				parser.getTariffsAndInsert(tarrifString);
+				
+				Log.i("SCAN", "TARIF ADULTE ?? ::"+ dataBase.getLabelById(7));
+				Log.i("NET", "On est connecté !!");
+				intent = new Intent(this, ConcertActivity.class);
+				this.startActivity(intent);
+			
+		//	}
+		//	else{
+		//		Log.i("NET", "On n'est pas connecté !!");
+			
+		//	}
+		}
+		else{
+			intent = new Intent(this, BluetoothActivity.class);
+			this.startActivity(intent);
+		}
 		return false;
 	}
 	

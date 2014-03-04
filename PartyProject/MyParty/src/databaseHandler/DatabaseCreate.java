@@ -41,6 +41,13 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 			+ "FOREIGN KEY ("+Tables.RES_NAME_ID_CLIENT+") REFERENCES "
 			+Tables.CLIENT_TABLE+" ("+Tables.CLIENT_NAME_ID+"));";
 	
+	private static final String CREATE_BDD_RES_MAJ ="CREATE TABLE IF NOT EXISTS " + Tables.RESMAJ_TABLE 
+			+ " (" + Tables.RESMAJ_NAME_ID+ " INTEGER PRIMARY KEY, " 
+			+ Tables.RESMAJ_NAME_ID_CONCERT + " INTEGER, "
+			+ Tables.RESMAJ_NAME_ID_CLIENT + " INTEGER, "
+			+ Tables.RESMAJ_NAME_ID_TARIF + " INTEGER, "
+			+ Tables.RESMAJ_NAME_SCAN + " INTEGER);";
+	
 	private static final String CREATE_BDD_ARTIST = "CREATE TABLE IF NOT EXISTS " + Tables.ARTISTS_TABLE 
 			+ " (" + Tables.ARTIST_NAME_ID+ " INTEGER PRIMARY KEY, " 
 			+ Tables.ARTIST_NAME_ARTIST_NAME + " TEXT NOT NULL UNIQUE);";
@@ -94,6 +101,7 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 		db.execSQL(CREATE_BDD);
 		db.execSQL(CREATE_BDD_CONCERT);
 		db.execSQL(CREATE_BDD_RES);
+		db.execSQL(CREATE_BDD_RES_MAJ);
 		db.execSQL(CREATE_BDD_ARTIST);
 		db.execSQL(CREATE_BDD_ASSOC_ARTISTS);
 		db.execSQL(CREATE_BDD_ASSOC_STYLES);
@@ -107,6 +115,7 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE " + Tables.CLIENT_TABLE + ";");
 		db.execSQL("DROP TABLE " + Tables.CONCERT_TABLE + ";");
 		db.execSQL("DROP TABLE " + Tables.RES_TABLE + ";");
+		db.execSQL("DROP TABLE " + Tables.RESMAJ_TABLE + ";");
 		db.execSQL("DROP TABLE " + Tables.ARTISTS_TABLE + ";");
 		db.execSQL("DROP TABLE " + Tables.ASSOC_STYLES_TABLE + ";");
 		db.execSQL("DROP TABLE " + Tables.ASSOC_TARIFFS_TABLE + ";");

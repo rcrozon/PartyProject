@@ -21,7 +21,7 @@
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentBottom="true"
 	    android:layout_alignParentLeft="true"
-	    android:indeterminate="false"
+	    android:indeterminate="true"
 	    android:max="100"
 	    android:minHeight="50dp"
 	    android:minWidth="200dp"

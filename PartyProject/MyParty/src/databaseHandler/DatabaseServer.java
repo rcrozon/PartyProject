@@ -29,10 +29,10 @@ public class DatabaseServer {
 	public String getRequest(final String urlAdd){
 		
 		ThreadRequestResult reqThread2 = new ThreadRequestResult(urlBase,urlAdd);
-		Log.i("ADDRESS", reqThread2.getResult());
 		try {
 			reqThread2.start();
 			reqThread2.join();
+			Log.i("ADDRESS", reqThread2.getResult());
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -40,24 +40,26 @@ public class DatabaseServer {
 		
 	}
 	
-	public void postRequest(final String urlAdd,String json){
+	public void postRequest(final String urlAdd,final String json){
 	
 		new Thread(new Runnable() {
 		
 		@Override
 		public void run() {
 		            
-		            	String j = new String();
+		            	//String j = new String();
 		      
-		            	j= "{\"Client\":{\"id\":\"1\",\"username\":\"antho\",\"mail\":\"anthony.gueguenou@laposte.net\",\"password\""+
+		            	/*j= "{\"Client\":{\"id\":\"1\",\"username\":\"antho\",\"mail\":\"anthony.gueguenou@laposte.net\",\"password\""+
 		            	":\"f636ba068d303281a78662a4059229817c06a125\",\"first_name\":\"anthony\",\"last_name\":\"gueguenou\""+
 		            			",\"admin\":\"0\",\"created\":\"2014-02-19 17:43:17\"}}";
-		            	
+		            	*/
 		            	DefaultHttpClient httpClient = new DefaultHttpClient();
 		                HttpPost httpPost = new HttpPost(urlBase+urlAdd);
 		                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-		                nameValuePairs.add(new BasicNameValuePair("json", j));
+		                nameValuePairs.add(new BasicNameValuePair("json", json));
+		                Log.i("factor", "passe0");
 		                try {
+		                	Log.i("factor", "passe1");
 							httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 						} catch (UnsupportedEncodingException e) {
 							// TODO Auto-generated catch block

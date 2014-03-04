@@ -14,7 +14,7 @@ import entities.Concert;
 
 public class DatabaseHandler {
 	
-	private static final int VERSION_BDD = 55;
+	private static final int VERSION_BDD = 66;
 	private static final String BDD_NAME = "myparty.db";
 	private SQLiteDatabase bdd;
 	private DatabaseCreate SQLiteBase ;
@@ -37,14 +37,7 @@ public class DatabaseHandler {
 		return bdd;
 	}
 	
-	public void deleteAll()
-	{
-	    bdd = SQLiteBase.getWritableDatabase();
-	    bdd.delete(Tables.CONCERT_TABLE,null,null);
-	    bdd.execSQL("delete from "+ Tables.CONCERT_TABLE);
-	    bdd.execSQL("TRUNCATE table " + Tables.CONCERT_TABLE);
-	    bdd.close();
-	}
+
 	
 /***************** INITIALISATION DE LA BDD ***************************/	
 
@@ -94,6 +87,18 @@ public class DatabaseHandler {
 		values.put(Tables.RES_NAME_ID_TARIF,id_tarif);
 		values.put(Tables.RES_NAME_SCAN, scan);
 		return bdd.insert(Tables.RES_TABLE, null, values);
+	}
+	
+/***************** INSERER UNE RESERVATION MISE A JOUR DANS LA BDD ***************************/
+	
+	public long insertResMAJ(int id_res,int  id_concert,int id_client ,int id_tarif,int scan){
+		ContentValues values = new ContentValues();
+		values.put(Tables.RESMAJ_NAME_ID,id_res);
+		values.put(Tables.RESMAJ_NAME_ID_CONCERT,id_concert);
+		values.put(Tables.RESMAJ_NAME_ID_CLIENT, id_client);
+		values.put(Tables.RESMAJ_NAME_ID_TARIF,id_tarif);
+		values.put(Tables.RESMAJ_NAME_SCAN, scan);
+		return bdd.insert(Tables.RESMAJ_TABLE, null, values);
 	}
 
 /***************** INSERER UN ARTISTE DANS LA BDD ***************************/
@@ -434,7 +439,7 @@ public Boolean isValidTicket(int id_res,int id_concert,int id_client, int id_tar
 		return false;
 	}
 	c.moveToFirst();
-	Log.i("SCAN", "avant : "+c.getInt(Tables.RES_NUM_ID_SCAN) );
+	Log.i("SCAN", "avant : "+c.getInt(Tables.RES_NUM_ID_SCAN) );//0
 	if (c.getInt(Tables.RES_NUM_ID_CONCERT) != id_concert
 			|| c.getInt(Tables.RES_NUM_ID_CLIENT) != id_client
 			|| c.getInt(Tables.RES_NUM_ID_TARIF) != id_tarif
@@ -443,10 +448,10 @@ public Boolean isValidTicket(int id_res,int id_concert,int id_client, int id_tar
 		return false;
 		
 	}
-	ContentValues newValues = new ContentValues();
-	newValues.put(Tables.RES_NAME_SCAN, 1);
+	//ContentValues newValues = new ContentValues();
+	//newValues.put(Tables.RES_NAME_SCAN, 1);
 	
-	bdd.update(Tables.RES_TABLE, newValues,Tables.RES_NAME_ID+"="+id_res, null);
+	//bdd.update(Tables.RES_TABLE, newValues,Tables.RES_NAME_ID+"="+id_res, null);
 	
 	c.close();
 	
@@ -468,11 +473,15 @@ public void scanTicket(int id_res){
 			Tables.RES_NAME_ID + " LIKE \"" + id_res +"\"", null, null, null, null);
 
 	c.moveToFirst();
-	Log.i("SCAN", "avant : "+c.getInt(Tables.RES_NUM_ID_SCAN) );
+	Log.i("SCAN", "apres : "+c.getInt(Tables.RES_NUM_ID_SCAN) );//0
 	ContentValues newValues = new ContentValues();
 	newValues.put(Tables.RES_NAME_SCAN, 1);
 	
 	bdd.update(Tables.RES_TABLE, newValues,Tables.RES_NAME_ID+"="+id_res, null);
+	Log.i("SCAN", "apres 2: "+c.getInt(Tables.RES_NUM_ID_SCAN) );//1
+	/*Insertion dans la 2eme table pour mise a jour serveur*/
+	insertResMAJ(c.getInt(Tables.RES_NUM_ID), c.getInt(Tables.RES_NUM_ID_CONCERT),
+			c.getInt(Tables.RES_NUM_ID_CLIENT), c.getInt(Tables.RES_NUM_ID_TARIF), 1);
 	
 	c.close();
 	
@@ -498,4 +507,68 @@ public void scanTicket(int id_res){
 	}
 
 
+
+
+/*************************** Envoi du json pour mise a jour du scan*******************************************/
+
+	public String getJsonScanMAJ(){
+		Cursor c = bdd.query(Tables.RESMAJ_TABLE, 
+				new String[] {Tables.RESMAJ_NAME_ID, 
+				Tables.RESMAJ_NAME_ID_CONCERT, 
+				Tables.RESMAJ_NAME_ID_CLIENT,
+				Tables.RESMAJ_NAME_ID_TARIF,
+				Tables.RESMAJ_NAME_SCAN}, 
+				null, null, null, null, null);
+		if(c.getCount()==0){
+			return null;
+		}
+		c.moveToFirst();
+		String json = "[";
+		for (int i=0; i<c.getCount(); i++){
+			if (i!=0)
+				c.move(1);
+			
+				json+="{\"id\":\""+c.getInt(0)+"\",\"id_client\":\""+c.getInt(2)+"\",\"id_concert\":\""+
+				c.getInt(1)+"\",\"id_tarif\":\""+c.getInt(3)+"\",\"scan\":\""+c.getInt(4)+"\"}";
+			
+			if (i!= c.getCount()-1)
+				json+=",";
+		}
+		
+		json+="]";
+		return json;
+	}
+	
+	/************************ SUPPRESSION D'UNE LIGNE DANS LA TBLE RESMAJ *****************************/
+	
+	public int deleteInResMAJById(int id){
+		return bdd.delete(Tables.RESMAJ_TABLE, Tables.RESMAJ_NAME_ID+"="+id, null);
+	}
+	
+	/************************ VIDER LA TABLE RESMAJ *****************************/
+	
+	public int deleteResMAJ(){
+		return bdd.delete(Tables.RESMAJ_TABLE, null, null);
+	}
+	
+	
+	/************************ VIDER TOUTES LES TABLES *****************************/
+	public void deleteAllTable(){
+		
+		bdd.delete(Tables.CLIENT_TABLE,null,null);
+		bdd.delete(Tables.CONCERT_TABLE,null,null);
+		bdd.delete(Tables.RES_TABLE,null,null);
+		bdd.delete(Tables.RESMAJ_TABLE,null,null);
+		bdd.delete(Tables.ARTISTS_TABLE,null,null);
+		bdd.delete(Tables.ASSOC_STYLES_TABLE,null,null);
+		bdd.delete(Tables.ASSOC_TARIFFS_TABLE,null,null);
+		bdd.delete(Tables.ASSOC_ARTISTS_TABLE,null,null);
+		bdd.delete(Tables.STYLES_TABLE,null,null);
+		bdd.delete(Tables.TARIFFS_TABLE,null,null);
+	}
+	
 }
+
+
+//[{"id":"1","id_client":"1","id_concert":"1","id_tarif":"1","scan":"0"},
+//{"id":"2","id_client":"1","id_concert":"1","id_tarif":"1","scan":"0"}]
