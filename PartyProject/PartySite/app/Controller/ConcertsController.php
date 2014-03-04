@@ -70,16 +70,87 @@ class ConcertsController extends AppController{
         $d['nbTodayNewAdmin'] = $nbTodayNewAdmin;
         $this->set($d);
         # # # # # # # # # # # # # # # # # # # # # #
+        $nbTodaySales = 0;
+        $total = 0;
+        foreach ($reserv as $k => $v) {
+            $dateReserv = $v['Reservation']['created'];
+            $YMD = date('Y-m-d', strtotime($dateReserv));
+            if($YMD == $todayDate) {
+                $tarif = $this->Tarif->find('first', array(
+                    'conditions' => array('Tarif.id' => $v['Reservation']['id_tarif'])
+                ));
+                $total += $tarif['Tarif']['price'];
+            }
+        }
+        $d['nbTodaySales'] = $total;
+        $this->set($d);
+        # # # # # # # # # # # # # # # # # # # # # #
+        $nbTodayNewParty = 0;
+        $party = $this->Concert->find('all');
+        foreach ($party as $k => $v) {
+            $dateParty = $v['Concert']['created'];
+            $YMD = date('Y-m-d', strtotime($dateParty));
+            if($YMD == $todayDate)
+                $nbTodayNewParty++;
+        }
+        $d['nbTodayNewParty'] = $nbTodayNewParty;
+        $this->set($d);
+        # # # # # # # # # # # # # # # # # # # # # #
         $nbReserv = $this->Reservation->find('count');
         $nbScanned = $this->Reservation->find('count', array(
             'conditions' => array('Reservation.scan' => 1)
         ));
-        $percentScanned = ($nbScanned * 100) / $nbReserv;
-        $percentNotScanned = (($nbReserv - $nbScanned) * 100) / $nbReserv;
+        if($nbReserv != 0) {
+            $percentScanned = ($nbScanned * 100) / $nbReserv;
+            $percentNotScanned = (($nbReserv - $nbScanned) * 100) / $nbReserv;
+        }
+        else {
+            $percentScanned = 0;
+            $percentNotScanned = 0;        
+        }
         $d['percentScanned'] = $percentScanned;
         $this->set($d);
         $d['percentNotScanned'] = $percentNotScanned;
         $this->set($d);
+        # # # # # # # # # # # # # # # # # # # # # #
+        $reserv = $this->Reservation->find('all');
+        $year = date('Y');
+        $month = date('m');
+        $d['year'] = $year;
+        $this->set($d);
+        $d['month'] = $month;
+        $this->set($d);
+
+        $nbTodaySales = 0;
+        $dataDay = "";
+        for($i = 1; $i <= 31; $i++) {
+            $result[$i] = 0;
+        }
+        foreach ($reserv as $k => $v) {
+            $dateReserv = $v['Reservation']['created'];
+            $YMD = date('Y-m-d', strtotime($dateReserv));
+            $Y = date('Y', strtotime($dateReserv));
+            $M = date('m', strtotime($dateReserv));
+            $D = date('d', strtotime($dateReserv));
+            
+            for($i = 1; $i <= 31; $i++) {
+                if($Y == $year && $M == $month) {
+                    if($D == $i) {
+                        $tarif = $this->Tarif->find('first', array(
+                            'conditions' => array('Tarif.id' => $v['Reservation']['id_tarif'])
+                        ));
+                        $result[$i] += $tarif['Tarif']['price'];
+                    }
+                }
+            }
+        }
+        for($i = 1; $i <= 31; $i++) {
+            $dataDay = $dataDay.'{"period": "'.$year.'-'.$month.'-0'.$i.'","nbSales": '.$result[$i].'},';
+        }
+        $dataDay = substr($dataDay, 0, -1);
+        $d['dataDay'] = $dataDay;
+        $this->set($d);
+        # # # # # # # # # # # # # # # # # # # # # #
     }
 
 	function admin_addConcert() {
@@ -110,7 +181,10 @@ class ConcertsController extends AppController{
             # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
             $extension = strtolower(pathinfo($d['Concert']['image_file']['name'], PATHINFO_EXTENSION));
             $uploadFolder = "img/Concerts";
-            $uploadPath = WWW_ROOT . $uploadFolder; 
+            $uploadPath = WWW_ROOT . $uploadFolder;
+            $image = $d['Concert']['image_file']['name'];
+            $image = str_replace(" ", "-", $image);
+            $d['Concert']['image_file']['name'] = $image;
             $full_image_path = $uploadPath . '/' . $d['Concert']['image_file']['name'];
             if(!empty($d['Concert']['image_file']['tmp_name']) && 
                 in_array($extension, array('jpg', 'jpeg', 'png', 'gif'))) {
@@ -355,8 +429,11 @@ class ConcertsController extends AppController{
             # Partie load image
             # # # # # # # # # # # 
             $extension = strtolower(pathinfo($d['Concert']['image_file']['name'], PATHINFO_EXTENSION));
-            $uploadFolder = "img\Concerts";
-            $uploadPath = WWW_ROOT . $uploadFolder; 
+            $uploadFolder = "img/Concerts";
+            $uploadPath = WWW_ROOT . $uploadFolder;
+            $image = $d['Concert']['image_file']['name'];
+            $image = str_replace(" ", "-", $image);
+            $d['Concert']['image_file']['name'] = $image;
             $full_image_path = $uploadPath . '\\' . $d['Concert']['image_file']['name'];
             if(!empty($d['Concert']['image_file']['tmp_name']) && 
                 in_array($extension, array('jpg', 'jpeg', 'png', 'gif'))) {
