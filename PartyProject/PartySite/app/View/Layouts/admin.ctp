@@ -18,6 +18,7 @@
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/morris.css');?>">
 
         <?php echo $this->Html->script('jquery-1.10.2'); ?>
+        <?php echo $this->Html->script('flot/jquery.flot'); ?>
         <?php echo $this->Html->script('raphael-min'); ?>
         <?php echo $this->Html->script('morris'); ?>
         <?php echo $this->Html->script('jquery.tokeninput'); ?>
