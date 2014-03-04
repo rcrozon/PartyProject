@@ -14,6 +14,7 @@ import databaseHandler.DatabaseHandler;
 import databaseHandler.DatabaseServer;
 import databaseHandler.MyJsonParser;
 import databaseHandler.ThreadRequestResult;
+import databaseHandler.ThreadTestServer;
 import entities.Client;
 import entities.Concert;
 
@@ -40,18 +41,18 @@ public class LoadingActivity extends Activity {
 				dataBase.open();
 				
 				/******************  BDD EXTERNE  ***********************************/
-				ThreadRequestResult t = new ThreadRequestResult("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/", "getAllConcerts");
-				t.start();
+				
+				ThreadTestServer tPing = new ThreadTestServer(context);
+				tPing.start();
+				
 				try {
-					t.join();
+					tPing.join();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				Log.i("NET", ""+t.getResult());
 				
 				/********************* Test du serveur et de la connexion internet ******************************/
-				if(isNetworkConnected(context) /*&& t.getResult() != null*/){
+				if(isNetworkConnected(context) && tPing.getResult()){
 					
 					/*ON ENVOI LA REQUETE*/
 					DatabaseServer dbbs = new DatabaseServer(); 
@@ -92,7 +93,7 @@ public class LoadingActivity extends Activity {
 				}
 				else{
 					Log.i("NET", "On n'est pas connecte !!");
-				
+					changeActivity();
 				}
 				
 			}
