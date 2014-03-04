@@ -113,6 +113,7 @@ class ConcertsController extends AppController{
         $d['percentNotScanned'] = $percentNotScanned;
         $this->set($d);
         # # # # # # # # # # # # # # # # # # # # # #
+        $reserv = $this->Reservation->find('all');
         $year = date('Y');
         $month = date('m');
         $d['year'] = $year;
@@ -131,8 +132,9 @@ class ConcertsController extends AppController{
             $Y = date('Y', strtotime($dateReserv));
             $M = date('m', strtotime($dateReserv));
             $D = date('d', strtotime($dateReserv));
+            
             for($i = 1; $i <= 31; $i++) {
-                if($Y == $year && $D == $month) {
+                if($Y == $year && $M == $month) {
                     if($D == $i) {
                         $tarif = $this->Tarif->find('first', array(
                             'conditions' => array('Tarif.id' => $v['Reservation']['id_tarif'])
