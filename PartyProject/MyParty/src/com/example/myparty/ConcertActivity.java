@@ -32,6 +32,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	private MenuItem decoItem;
 	private MenuItem bluetoothItem;
 	private MenuItem updateItem;
+	private MenuItem scanPushItem;
 	private int index = 0;
 	private int nextIndex = 0;
 	private boolean isClient = false;
@@ -80,10 +81,12 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		decoItem = menu.findItem(R.id.menu_deconect);
 		bluetoothItem = menu.findItem(R.id.bluetooth);
 		updateItem = menu.findItem(R.id.update);
+		scanPushItem = menu.findItem(R.id.scanpush);
 		//decoItem.setIcon(R.drawable.logout);
 		decoItem.setOnMenuItemClickListener(this);
 		bluetoothItem.setOnMenuItemClickListener(this);
 		updateItem.setOnMenuItemClickListener(this);
+		scanPushItem.setOnMenuItemClickListener(this);
 		return true;
 	}
 
@@ -174,6 +177,18 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		//		Log.i("NET", "On n'est pas connecté !!");
 			
 		//	}
+		}
+		else if (item == scanPushItem){
+			String jsonScan;
+			jsonScan = dataBase.getJsonScanMAJ();
+			Log.i("ScanJson", "Json: "+jsonScan);
+			DatabaseServer ser = new DatabaseServer();
+			ser.postRequest("majReservation", jsonScan);
+			/*TODO Supprimer en fonction de la reponse*/
+			dataBase.deleteResMAJ();
+			String jsonScan2;
+			jsonScan2 = dataBase.getJsonScanMAJ();
+			Log.i("ScanJson", "Json2: "+jsonScan2);
 		}
 		else{
 			intent = new Intent(this, BluetoothActivity.class);

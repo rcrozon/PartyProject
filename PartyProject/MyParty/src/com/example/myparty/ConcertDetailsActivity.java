@@ -75,14 +75,9 @@ public class ConcertDetailsActivity extends Activity implements
 		
 		/************************ MISE A JOUR SERVEUR POUR LES SCAN ************************************/
 		
-		//int tmp = dataBase.deleteResMAJ();
 		String jsonScan;
 		jsonScan = dataBase.getJsonScanMAJ();
-		Log.i("ScanJson", "Json: "+jsonScan);
-		DatabaseServer ser = new DatabaseServer();
-		ser.postRequest("majReservation", jsonScan);
-		
-		
+		Log.i("ScanJson", "Json:"+jsonScan);
 
 		/****************** RECUPERATION DE L'ID DU CONCERT *****************/
 
