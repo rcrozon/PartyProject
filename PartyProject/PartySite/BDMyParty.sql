@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS concerts (
   id_creator int(11) NOT NULL,
   name_concert varchar(255) NOT NULL,
   online tinyint(1) NOT NULL,
+  created datetime NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -39,8 +40,6 @@ CREATE TABLE IF NOT EXISTS styles (
   name varchar(30) NOT NULL,
   PRIMARY KEY (id)
 ); 
-
-
 
 CREATE TABLE IF NOT EXISTS tarifs (
   id int(11) NOT NULL AUTO_INCREMENT,
@@ -58,9 +57,7 @@ CREATE TABLE IF NOT EXISTS assoc_tarifs (
 	REFERENCES tarifs(id),
 	FOREIGN KEY (id_concert)
 		REFERENCES concerts (id) ON DELETE CASCADE
-		
 ); 
-
 
 CREATE TABLE IF NOT EXISTS assoc_styles (
   id int(11) NOT NULL AUTO_INCREMENT,
@@ -84,13 +81,13 @@ CREATE TABLE IF NOT EXISTS assoc_artists (
 		REFERENCES concerts (id) ON DELETE CASCADE
 );
 
-
 CREATE TABLE IF NOT EXISTS reservations (
   id int(11) NOT NULL AUTO_INCREMENT,
   id_client int(11) NOT NULL,
   id_concert int(11) NOT NULL,
   id_tarif int (11)  NOT NULL,
   scan int(1) NOT NULL,
+  created datetime NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (id_client)
 	REFERENCES clients(id),

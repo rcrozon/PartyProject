@@ -36,18 +36,18 @@
       <span class="notification green"><?php echo $nbTodayNewAdmin; ?></span>
     </a>
 
-    <a data-rel="tooltip" title="$34 new sales." class="well span3 top-block" href="#">
+    <a data-rel="tooltip" title="<?php echo $nbTodaySales; ?> € new sales today." class="well span3 top-block" href="#">
       <span class="icon32 icon-color icon-cart"></span>
       <div>Sales</div>
       <div><?php echo $sales; ?> €</div>
-      <span class="notification yellow">34 €</span>
+      <span class="notification yellow"><?php echo $nbTodaySales; ?> €</span>
     </a>
 
-    <a data-rel="tooltip" title="12 new messages." class="well span3 top-block" href="#">
+    <a data-rel="tooltip" title="<?php echo $nbTodayNewParty; ?> new party today." class="well span3 top-block" href="#">
       <span class="icon32 icon-blue icon-audio"></span>
       <div>Total Party</div>
       <div><?php echo $nbParty; ?></div>
-      <span class="notification red">12</span>
+      <span class="notification red"><?php echo $nbTodayNewParty; ?></span>
     </a>
   </div>
 
@@ -58,7 +58,21 @@
           <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i><center>- Donut Chart -<br/><i>Percentage of scanned reservations</i></center></h3>
         </div>
         <div class="panel-body">
-          <div id="myfirstchart" style="height: 250px;"></div>
+          <div id="donutchart" style="height: 250px;"></div>
+          <div class="text-right">
+            <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i><center>- Area Line Graph -<br/><i>Evolution of sales during this month</i></center></h3>
+        </div>
+        <div class="panel-body">
+          <div id="areachart" style="height: 250px;"></div>
           <div class="text-right">
             <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
           </div>
@@ -70,10 +84,10 @@
 
 <script type="text/javascript">
   new Morris.Donut({
-  element: 'myfirstchart',
+  element: 'donutchart',
   data: [
     {value: <?php echo $percentScanned; ?>, label: 'Scanned'},
-    {value: <?php echo $percentNotScanned; ?>, label: 'Not Scanned'},
+    {value: <?php echo $percentNotScanned; ?>, label: 'Not Scanned'}
     /*{value: 10, label: 'baz'},
     {value: 5, label: 'A really really long label'}*/
   ],
@@ -81,4 +95,46 @@
 }).on('click', function(i, row){
   console.log(i, row);
 });
+</script>
+
+<!--<script type="text/javascript">
+  new Morris.Area({
+  element: 'areachart',
+  data: [
+    { y: '2006', a: 100, b: 90 },
+    { y: '2007', a: 75,  b: 65 },
+    { y: '2008', a: 50,  b: 40 },
+    { y: '2009', a: 75,  b: 65 },
+    { y: '2010', a: 50,  b: 40 },
+    { y: '2011', a: 75,  b: 65 },
+    { y: '2012', a: 100, b: 90 }
+  ],
+  xkey: 'y',
+  ykeys: ['a', 'b'],
+  labels: ['Series A', 'Series B']
+});
+</script>-->
+
+<script type="text/javascript">
+  /* data stolen from http://howmanyleft.co.uk/vehicle/jaguar_'e'_type */
+  /*var day_data = [
+    {"period": "<?php echo $year;?>-<?php echo $month;?>-01", "nbSales": 100},
+    {"period": "<?php echo $year;?>-<?php echo $month;?>-05", "nbSales": 75},
+    {"period": "<?php echo $year;?>-<?php echo $month;?>-10", "nbSales": 50},
+    {"period": "<?php echo $year;?>-<?php echo $month;?>-15", "nbSales": 75},
+    {"period": "<?php echo $year;?>-<?php echo $month;?>-20", "nbSales": 50},
+    {"period": "<?php echo $year;?>-<?php echo $month;?>-25", "nbSales": 75},
+    {"period": "<?php echo $year;?>-<?php echo $month;?>-31", "nbSales": 100}
+  ];*/
+
+  var day_data = [<?php echo $dataDay; ?>];
+
+  new Morris.Area({
+    element: 'areachart',
+    data: day_data,
+    xkey: 'period',
+    ykeys: ['nbSales'],
+    labels: ['Sales :'],
+    xLabelAngle: 60
+  });
 </script>
