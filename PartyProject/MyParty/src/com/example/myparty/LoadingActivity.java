@@ -13,7 +13,6 @@ import android.widget.ProgressBar;
 import databaseHandler.DatabaseHandler;
 import databaseHandler.DatabaseServer;
 import databaseHandler.MyJsonParser;
-import databaseHandler.Tables;
 import databaseHandler.ThreadRequestResult;
 import entities.Client;
 import entities.Concert;
