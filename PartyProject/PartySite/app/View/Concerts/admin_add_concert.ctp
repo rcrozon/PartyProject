@@ -8,7 +8,9 @@
 		  	<?php echo $this->Form->input('name_concert',array('label'=>"Party name* : ",
 		  		'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false)); ?>
 		  	<?php echo $this->Form->input('name',array('label'=>"Artists* : ",
-		  		'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false, 'id' => 'demo-input-facebook-theme'/*, 'class' => 'form-error', 'required' => 'required'*/)); ?>
+		  		'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false, 'id' => 'demo-input-facebook-theme')); ?>
+		  	<?php echo $this->Form->input('style',array('label'=>"Styles* : ",
+		  		'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false, 'id' => 'style-input')); ?>
 			<?php echo $this->Form->input('location',array('label'=>"Scene* : ", 
 				'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false)); ?>
 			<?php echo $this->Form->input('nb_seats',array('label'=>"Numbrer of seats* : ",
@@ -24,6 +26,17 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 				$("#demo-input-facebook-theme").tokenInput("../../app/webroot/script-web/search.php?q=$name",
+				{
+					theme: "facebook",
+					noResultsText: "No result",
+					preventDuplicates: true,
+					tokenDelimiter: "|"
+				});
+			});
+		</script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$("#style-input").tokenInput("../../app/webroot/script-web/search_style.php?q=$name",
 				{
 					theme: "facebook",
 					noResultsText: "No result",

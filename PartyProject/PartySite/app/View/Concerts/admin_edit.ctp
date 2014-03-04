@@ -35,6 +35,24 @@
 					});
 				});
 			</script>
+  			<?php echo $this->Form->input('style', array('label'=>"Styles : ", 
+  				'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false, 'id' => 'style-input'));?>
+  			<script type="text/javascript">
+				$(document).ready(function() {
+					$("#style-input").tokenInput("../../../app/webroot/script-web/search_style.php?q=$name",
+					{
+						theme: "facebook",
+						noResultsText: "No result",
+						preventDuplicates: true,
+						tokenDelimiter: "|",
+						<?php if(!empty($stylesName)): ?>
+							prePopulate: [
+								<?php echo $stylesName; ?>
+							]
+						<?php endif; ?>
+					});
+				});
+			</script>
   			<tr>
   				<td><label>Is Full ?</label></td>
 	  			<?php echo $this->Form->input('full', array( 
