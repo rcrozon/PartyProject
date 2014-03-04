@@ -1,8 +1,16 @@
 package com.example.myparty;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -110,6 +118,44 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		if (b == buttonConnexion){
 			
 			/* TODO A DECOMMENTER SI ON NE VEUT PAS UTILISER AUTHENTIFICATION*/
+			
+			  //private String sha1(String s, String keyString) throws 
+		      //  UnsupportedEncodingException, NoSuchAlgorithmException, 
+		       //     InvalidKeyException {
+
+		        SecretKeySpec key;
+		        Mac mac=null;
+				try {
+					key = new SecretKeySpec(("DYhG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9miVoUubWwvni").getBytes("UTF-8"), "HmacSHA1");
+					 mac = Mac.getInstance("HmacSHA1");
+				     mac.init(key);
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchAlgorithmException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvalidKeyException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		       
+
+		        byte[] bytes=null;
+				try {
+					bytes = mac.doFinal("test".getBytes("UTF-8"));
+				} catch (IllegalStateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+		       String code = new String( Base64.encode(bytes, 0));
+		    
+		       Log.i("HSA", code);
+		       
 			Intent intent = new Intent(this, ConcertActivity.class);
 	    	this.startActivity(intent);
 			
