@@ -21,5 +21,10 @@
 	    android:icon="@drawable/update"
 	    android:showAsAction="ifRoom"
 	    android:title="@string/update"/>
+	
+	<item android:id="@+id/scanpush" 
+	    android:icon="@drawable/scanpush"
+	    android:showAsAction="ifRoom"
+	    android:title="@string/scanpush"/>
 
 </menu>

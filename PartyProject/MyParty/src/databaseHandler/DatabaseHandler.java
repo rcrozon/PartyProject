@@ -558,7 +558,6 @@ public void scanTicket(int id_res){
 		bdd.delete(Tables.CLIENT_TABLE,null,null);
 		bdd.delete(Tables.CONCERT_TABLE,null,null);
 		bdd.delete(Tables.RES_TABLE,null,null);
-		bdd.delete(Tables.RESMAJ_TABLE,null,null);
 		bdd.delete(Tables.ARTISTS_TABLE,null,null);
 		bdd.delete(Tables.ASSOC_STYLES_TABLE,null,null);
 		bdd.delete(Tables.ASSOC_TARIFFS_TABLE,null,null);
