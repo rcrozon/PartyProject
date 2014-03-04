@@ -3,6 +3,7 @@ package com.example.myparty;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,14 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		
 		dataBase = new DatabaseHandler(this);
 		dataBase.open();
+		
+	
+/******************  TEST ***********************************/
+		
+		
+		String jsonScan;
+		jsonScan = dataBase.getJsonScanMAJ();
+		Log.i("ScanJson", "Json:"+jsonScan);
 		
 /******************  BDD EXTERNE  ***********************************/
 		

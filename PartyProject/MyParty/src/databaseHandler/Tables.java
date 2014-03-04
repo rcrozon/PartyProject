@@ -68,6 +68,21 @@ public final class Tables {
 	public static final int RES_NUM_ID_TARIF = 3;
 	public static final String RES_NAME_SCAN = "scan";
 	public static final int RES_NUM_ID_SCAN = 4;
+	
+/************* TABLE RESERVATION MISE A JOUR *************************/
+	
+	public static final String RESMAJ_TABLE = "reservations_MAJ";
+	
+	public static final String RESMAJ_NAME_ID = "id";
+	public static final int RESMAJ_NUM_ID = 0;
+	public static final String RESMAJ_NAME_ID_CONCERT = "id_concert";
+	public static final int RESMAJ_NUM_ID_CONCERT = 1;
+	public static final String RESMAJ_NAME_ID_CLIENT = "id_client";
+	public static final int RESMAJ_NUM_ID_CLIENT = 2;
+	public static final String RESMAJ_NAME_ID_TARIF = "id_tarif";
+	public static final int RESMAJ_NUM_ID_TARIF = 3;
+	public static final String RESMAJ_NAME_SCAN = "scan";
+	public static final int RESMAJ_NUM_ID_SCAN = 4;
 
 /*************    TABLE ARTISTS  *************************/
 	

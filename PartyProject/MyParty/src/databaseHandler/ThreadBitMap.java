@@ -29,13 +29,19 @@ public class ThreadBitMap extends Thread {
 		    public void run(){
 		    	
 				try {
+					BitmapFactory.Options options = new BitmapFactory.Options();
+					options.inPreferredConfig = Bitmap.Config.RGB_565;
 					URL url2 = new URL(url);
 					HttpURLConnection connection = (HttpURLConnection) url2.openConnection();
 					connection.setDoInput(true);
 					connection.connect();
 					InputStream input = connection.getInputStream();
-					Bitmap myBitMap = BitmapFactory.decodeStream(input);
-					setResult(myBitMap);
+					//Bitmap myBitMap = BitmapFactory.decodeStream(input);
+					Bitmap myBitMap = BitmapFactory.decodeStream(input, null, options);
+					Bitmap test = Bitmap.createScaledBitmap(myBitMap, 200, 200, true);
+					setResult(test);
+					myBitMap.recycle();
+					//test.recycle();
 				} catch (Exception e) {
 					// TODO: handle exception
 					setResult(null);

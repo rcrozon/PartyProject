@@ -38,7 +38,7 @@ public class LoadingActivity extends Activity {
 		
 /******************  BDD EXTERNE  ***********************************/
 		
-		ThreadRequestResult t = new ThreadRequestResult("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/", "getAllConcerts");
+		/*ThreadRequestResult t = new ThreadRequestResult("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/", "getAllConcerts");
 		t.start();
 		try {
 			t.join();
@@ -46,7 +46,7 @@ public class LoadingActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Log.i("NET", ""+t.getResult());
+		Log.i("NET", ""+t.getResult());*/
 		
 		/********************* Test du serveur et de la connexion internet ******************************/
 		if(isNetworkConnected(this) /*&& t.getResult() != null*/){
