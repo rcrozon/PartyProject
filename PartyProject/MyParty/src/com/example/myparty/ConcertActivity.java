@@ -1,17 +1,28 @@
 package com.example.myparty;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import databaseHandler.DatabaseHandler;
 import databaseHandler.DatabaseServer;
 import databaseHandler.MyJsonParser;
+import databaseHandler.Tables;
+import databaseHandler.ThreadTestServer;
 import entities.Client;
 import entities.Concert;
 import lists.ConcertList;
 import lists.ListLayout;
 import lists.ReservationsList;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -52,6 +63,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		buttonNextConcerts = (Button)findViewById(R.id.buttonNextConcerts);
 		view_flipper = (ViewFlipper)findViewById(R.id.view_flipper);
 		ListLayout listReservations = new ListLayout(this, new ReservationsList(this, null));
+		
 		ListLayout listAll = new ListLayout(this, new ConcertList(this, null));
 		ListLayout listNext = new ListLayout(this, new ConcertList(this, null));
 		ListLayout listNews = new ListLayout(this, new ConcertList(this, null));
@@ -72,7 +84,25 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		buttonAllConcerts.setOnClickListener(this);
 		buttonNews.setOnClickListener(this);
 		buttonNextConcerts.setOnClickListener(this);
-	} 
+		
+	/*********** TEST PING **********/
+		
+		ThreadTestServer tPing = new ThreadTestServer(this);
+		tPing.start();
+		
+		try {
+			tPing.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	        
+	        
+	        
+/*********************************************************/
+}
+		
+		
+
 	
 
 	@Override

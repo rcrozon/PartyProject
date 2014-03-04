@@ -5,6 +5,7 @@ import java.util.Date;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
