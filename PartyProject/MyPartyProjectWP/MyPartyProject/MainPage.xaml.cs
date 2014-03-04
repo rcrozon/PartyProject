@@ -148,6 +148,8 @@ namespace MyPartyProject
                 List<Concert> concerts = new List<Concert>();
                 for (int i = 0; i < result.Count; ++i)
                 {
+
+                    MessageBox.Show("Concert" + loaded, "pas null", MessageBoxButton.OK); 
                     concerts.Add(new Concert
                     {
                         id = result[i].id,

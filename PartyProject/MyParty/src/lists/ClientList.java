@@ -23,7 +23,7 @@ public class ClientList extends List {
 		items = new ArrayList<Items>();
 		
 /****************** UTILISATION DE LA BONNE LISTE DE CLIENTS ***********************************/
-		
+		 
 		if (list!=null){
 			for (int i=0;i<list.size();i++){
 				ClientItem testAff = new ClientItem(context, list.get(i),concert);

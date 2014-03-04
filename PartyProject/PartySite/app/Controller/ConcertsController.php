@@ -171,6 +171,21 @@ class ConcertsController extends AppController{
                     $tabID[] = $name_artists[0]['Artist']['id'];
                 }
             }
+            # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+            # On récupère les ID des styles pour mettre à jour la table AssocStyles
+            # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+            $styles = $d['Concert']['style'];
+            if(!empty($styles)) {
+                $styles = explode("|", $styles);
+                $tab = array();
+                foreach ($styles as $k => $v) {
+                    $name_styles = $this->Style->find('all', array(
+                        'conditions' => array('Style.id' => $v)
+                    ));
+                    $tabNameStyle[] = $name_styles[0]['Style']['name'];
+                    $tabIDStyle[] = $name_styles[0]['Style']['id'];
+                }
+            }
             # # # # # # # # # # # # #
             # On récupère le créateur 
             # # # # # # # # # # # # #
@@ -199,7 +214,7 @@ class ConcertsController extends AppController{
             # # # # # # # # # # # # # # # # # # # # # # # # #
             # Sauvegarde des données dans la base de donnée
             # # # # # # # # # # # # # # # # # # # # # # # # #
-            if($this->Concert->save($d,true,array('name_concert','location','nb_seats','image','start_datetime','end_datetime','id_creator'/*,'artists'*/))) {
+            if($this->Concert->save($d,true,array('name_concert','location','nb_seats','image','start_datetime','end_datetime','id_creator'))) {
                 $this->Session->setFlash("Your party has been well created", "notif", array('type'=>'success'));
                 $this->request->data = array();
 
@@ -208,6 +223,12 @@ class ConcertsController extends AppController{
                     $data = array('id_artist' => $v, 'id_concert' => $idConcert);
                     $this->AssocArtist->create();
                     $this->AssocArtist->save($data);
+                }
+
+                foreach ($tabIDStyle as $k => $v) {
+                    $data = array('id_style' => $v, 'id_concert' => $idConcert);
+                    $this->AssocStyle->create();
+                    $this->AssocStyle->save($data);
                 }
                 
                 $this->redirect(array('controller' => 'Tarifs', 'action' => 'addTarif', $this->Concert->getLastInsertId()));
@@ -425,6 +446,21 @@ class ConcertsController extends AppController{
                     $tabID[] = $name_artists[0]['Artist']['id'];
                 }
             }
+            # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+            # On récupère les ID des styles pour mettre à jour la table AssocStyles
+            # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+            $styles = $d['Concert']['style'];
+            if(!empty($styles)) {
+                $styles = explode("|", $styles);
+                $tab = array();
+                foreach ($styles as $k => $v) {
+                    $name_styles = $this->Style->find('all', array(
+                        'conditions' => array('Style.id' => $v)
+                    ));
+                    $tabNameStyle[] = $name_styles[0]['Style']['name'];
+                    $tabIDStyle[] = $name_styles[0]['Style']['id'];
+                }
+            }
             # # # # # # # # # # # 
             # Partie load image
             # # # # # # # # # # # 
@@ -451,7 +487,9 @@ class ConcertsController extends AppController{
             if($this->Concert->save($d,true,
                 array('name_concert','location','nb_seats','image','start_datetime','end_datetime','full','online', 'artists'))) {
                     $this->Session->setFlash('The party has been successfully updated', 'notif', array('type'=>'success'));
-
+                    # # # # # # # # # # # # # # # # 
+                    # Sauvegarde dans AssocArtist #
+                    # # # # # # # # # # # # # # # # 
                     $d = $this->AssocArtist->find('all', array(
                         'conditions' => array('AssocArtist.id_concert' => $id)
                     ));
@@ -464,6 +502,22 @@ class ConcertsController extends AppController{
                         $this->AssocArtist->create();
                         $this->AssocArtist->save($data);
                     }
+                    # # # # # # # # # # # # # # # # 
+                    # Sauvegarde dans AssocStyle  #
+                    # # # # # # # # # # # # # # # # 
+                    $d = $this->AssocStyle->find('all', array(
+                        'conditions' => array('AssocStyle.id_concert' => $id)
+                    ));
+                    for ($i = 0; $i <= sizeof($d)-1; $i++) {
+                        $this->AssocStyle->delete($d[$i]['AssocStyle']['id']);
+                    }
+                    $idConcert = $id;
+                    foreach ($tabIDStyle as $k => $v) {
+                        $data = array('id_style' => $v, 'id_concert' => $idConcert);
+                        $this->AssocStyle->create();
+                        $this->AssocStyle->save($data);
+                    }
+
                     $this->redirect(array('action' => 'table_concert'));
             } else{
                 $this->Session->setFlash("Thanks to correct your mistakes","notif",array('type'=>'error'));
@@ -493,6 +547,26 @@ class ConcertsController extends AppController{
             }
             $prepoulated = substr($prepoulated, 0, -2);
             $d['artistsName'] = $prepoulated;
+            $this->set($d);
+        }
+        # # # # # # # # # # # # # # # # # # # # # # # # #
+        # Envoi les styles pré-sélectionné à la vue
+        # # # # # # # # # # # # # # # # # # # # # # # # #
+        $result = "";
+        $d = $this->AssocStyle->find('all', array(
+            'conditions' => array('AssocStyle.id_concert' => $id)
+        ));
+        for ($i = 0; $i <= sizeof($d)-1; $i++) {
+            $id_style = $d[$i]['AssocStyle']['id_style'];
+            $result[$i] = $this->Style->find('all',array('conditions' => array('Style.id' => $id_style)));
+        }
+        if(!empty($result)) {
+            $prepoulatedStyle = "";
+            for ($i = 0; $i <= sizeof($result)-1; $i++) {
+                $prepoulatedStyle = $prepoulatedStyle . "{id: ".$result[$i][0]['Style']['id'].", name: ".'"'.$result[$i][0]['Style']['name'].'"'."},\n";
+            }
+            $prepoulatedStyle = substr($prepoulatedStyle, 0, -2);
+            $d['stylesName'] = $prepoulatedStyle;
             $this->set($d);
         }
     } 
