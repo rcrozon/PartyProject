@@ -28,6 +28,7 @@ class AppController extends Controller {
 
     function beforeFilter(){
     	//debug($this->request);
+        
 		$this->Auth->authenticate = array(
 		    AuthComponent::ALL => array('userModel' => 'Client'),
 		    'Basic',
