@@ -13,7 +13,6 @@ import android.widget.ProgressBar;
 import databaseHandler.DatabaseHandler;
 import databaseHandler.DatabaseServer;
 import databaseHandler.MyJsonParser;
-import databaseHandler.Tables;
 import databaseHandler.ThreadRequestResult;
 import entities.Client;
 import entities.Concert;
@@ -30,16 +29,6 @@ public class LoadingActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_loading);
 		context = this;
-		try {  
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		context = this;
-		//progressBar = (ProgressBar)findViewById(R.id.progressBarLoading);
-		//progressBar.setProgress(0);
-
 		Thread t = new Thread(new Runnable() {
 			
 			@Override
@@ -99,11 +88,11 @@ public class LoadingActivity extends Activity {
 					parser.getTariffsAndInsert(tarrifString);
 					
 					Log.i("SCAN", "TARIF ADULTE ?? ::"+ dataBase.getLabelById(7));
-					Log.i("NET", "On est connecté !!");
+					Log.i("NET", "On est connecte !!");
 					changeActivity();
 				}
 				else{
-					Log.i("NET", "On n'est pas connecté !!");
+					Log.i("NET", "On n'est pas connecte !!");
 				
 				}
 				

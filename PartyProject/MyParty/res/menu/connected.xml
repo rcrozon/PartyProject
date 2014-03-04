@@ -17,7 +17,7 @@
 		android:showAsAction="ifRoom"
 	    android:title="@string/bluetooth"  />
 	
-	<item android:id="@+id/update" 
+	<item android:id="@+id/update"  
 	    android:icon="@drawable/update"
 	    android:showAsAction="ifRoom"
 	    android:title="@string/update"/>

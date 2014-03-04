@@ -80,6 +80,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		getMenuInflater().inflate(R.menu.connected, menu);
 		decoItem = menu.findItem(R.id.menu_deconect);
 		bluetoothItem = menu.findItem(R.id.bluetooth);
+
 		updateItem = menu.findItem(R.id.update);
 		scanPushItem = menu.findItem(R.id.scanpush);
 		//decoItem.setIcon(R.drawable.logout);
