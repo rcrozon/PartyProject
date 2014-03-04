@@ -21,6 +21,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import databaseHandler.DatabaseHandler;
+import databaseHandler.DatabaseServer;
+import databaseHandler.MCrypt;
 
 
 public class ConnectionActivity extends Activity implements OnClickListener {
@@ -122,26 +124,41 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 			
 			/* TODO A DECOMMENTER SI ON NE VEUT PAS UTILISER AUTHENTIFICATION*/
 			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
+			EditText login = (EditText)findViewById(R.id.loginTextEdit);
+			String myLogin = login.getText().toString();
 			String password = pwd.getText().toString();
+			
 			Log.i("HSA", "entré "+ password);
+		
+			MCrypt mcrypt = new MCrypt();
+			
+			/* Encrypt */
+			String encrypted=null;
+			try {
+				encrypted = MCrypt.bytesToHex( mcrypt.encrypt(password) );
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String json = "[{\"username\":\""+myLogin+"\",\"password\":\""+password+"\"}]";
 			
 			
-			 
-			 String crypte="";
-			 for (int i=0; i<password.length();i++)  {
-			            int c=password.charAt(i)^60;  
-			            crypte=crypte+(char)c; 
-			        }
-			  
-			 Log.i("HSA", "crypyé "+ crypte);
-			 
-			 String aCrypter="";
-			 for (int i=0; i<crypte.length();i++)  {
-	            int c=crypte.charAt(i)^60; 
-	            aCrypter=aCrypter+(char)c; 
-				}
-			 Log.i("HSA", "decrypyé "+ aCrypter);
+			Log.i("HSA", json);
 			
+			DatabaseServer dbbs = new DatabaseServer();
+			String reponse = dbbs.postRequest("login", json);
+			Log.i("HSA", "REP: "+reponse);
+			
+			
+			/* Decrypt */
+			/*String decrypted=null;
+			try {
+				decrypted = new String( mcrypt.decrypt( encrypted ) );
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Log.i("HSA", "decrypté "+ decrypted);*/
 		       
 			Intent intent = new Intent(this, ConcertActivity.class);
 	    	this.startActivity(intent);

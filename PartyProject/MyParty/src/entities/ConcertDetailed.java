@@ -51,7 +51,7 @@ public class ConcertDetailed extends RelativeLayout {
 				e.printStackTrace();
 			}
 			if (isNetworkConnected(context) && tPing.getResult()){
-				ThreadBitMap t = new ThreadBitMap(Tables.IMG_PATH_SERVER + concert.getImagePath());
+				ThreadBitMap t = new ThreadBitMap(Tables.IMG_PATH_SERVER + concert.getImagePath(),1);
 				t.start();
 				try {
 					t.join();

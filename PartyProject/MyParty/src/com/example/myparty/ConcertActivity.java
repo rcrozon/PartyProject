@@ -164,7 +164,18 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		}
 		else if(item == updateItem){
 			//if(isNetworkConnected(this) /*&& t.getResult() != null*/){
-				
+
+			ThreadTestServer tPing = new ThreadTestServer(this);
+			tPing.start();
+			
+			try {
+				tPing.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			/********************* Test du serveur et de la connexion internet ******************************/
+			if(isNetworkConnected(this) && tPing.getResult()){
 				/*ON ENVOI LA REQUETE*/
 				dataBase.deleteAllTable();
 				
@@ -202,20 +213,22 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 				Log.i("NET", "On est connecté !!");
 				intent = new Intent(this, ConcertActivity.class);
 				this.startActivity(intent);
+			}
 			
-		//	}
-		//	else{
-		//		Log.i("NET", "On n'est pas connecté !!");
+		
+		else{
+				Log.i("NET", "On n'est pas connecté !!");
 			
-		//	}
+			}
 		}
 		else if (item == scanPushItem){
 			String jsonScan;
 			jsonScan = dataBase.getJsonScanMAJ();
 			Log.i("ScanJson", "Json: "+jsonScan);
 			DatabaseServer ser = new DatabaseServer();
-			ser.postRequest("majReservation", jsonScan);
+			String reponse = ser.postRequest("majReservation", jsonScan);
 			/*TODO Supprimer en fonction de la reponse*/
+			Log.i("ScanJson", "REP : "+reponse);
 			dataBase.deleteResMAJ();
 			String jsonScan2;
 			jsonScan2 = dataBase.getJsonScanMAJ();
@@ -237,5 +250,12 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	public void onBackPressed(){
 		//No implementation
 	}
+	
+	public static boolean isNetworkConnected(Context context) {
+		ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		return (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected());
+		
+	}
+	
 	
 }

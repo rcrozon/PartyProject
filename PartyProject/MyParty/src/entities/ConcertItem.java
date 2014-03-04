@@ -63,7 +63,7 @@ public class ConcertItem extends LinearLayout implements Items{
 			e.printStackTrace();
 		}
 		if (isNetworkConnected(context) && tPing.getResult()){
-			ThreadBitMap t = new ThreadBitMap(Tables.IMG_PATH_SERVER + concert.getImagePath());
+			ThreadBitMap t = new ThreadBitMap(Tables.IMG_PATH_SERVER + concert.getImagePath(),0);
 			t.start();
 			try {
 				t.join();
