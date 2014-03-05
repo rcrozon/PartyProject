@@ -6,19 +6,6 @@
     android:background="@color/black"
     tools:context=".ConnectionActivity" >
     
-    <TextView
-        android:id="@+id/unknownUser"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/loginText"
-        android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:text="@string/unknown_user"
-        android:textAlignment="center"
-        android:textColor="@color/red"
-        android:visibility="visible"
-        android:textSize="@dimen/itemDimension" />
-    
 	<Button
 	    android:id="@+id/buttonConnexion"
 	    android:layout_width="fill_parent"

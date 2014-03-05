@@ -11,6 +11,7 @@ public class Concert implements Entity {
 	private String    	imgPath ;
 	private String    	title ;
 	private String 		beginDate ;
+	private String 		creationDate ;
 	private String		endDate ;
 	private String		location;
 	private int 		nbSeets;
@@ -22,12 +23,13 @@ public class Concert implements Entity {
 	/*"full":false,
 	"online":false}}]*/
 
-	public Concert(int id, String imgPath, String title, String begin, String end, 
+	public Concert(int id, String imgPath, String title, String begin, String end, String creationDate,
 			String location, int nbSeets, int full,int idTarif,int idCreator, int online){
 		this.id = id;
 		this.imgPath = imgPath;		
 		this.title = title;
 		this.beginDate = begin;
+		this.creationDate = creationDate;
 		this.endDate = end;
 		this.location = location;
 		this.nbSeets = nbSeets;
@@ -42,6 +44,7 @@ public class Concert implements Entity {
 	public String getTitle(){return this.title;}
 	public String getBeginDate(){return this.beginDate;}
 	public String getEndDate(){return this.endDate;}
+	public String getCreationDate(){return this.creationDate;}
 	public String getLocation(){return this.location;}
 	public int getNbSeets(){return this.nbSeets;}
 	public int isFull(){return this.full;}

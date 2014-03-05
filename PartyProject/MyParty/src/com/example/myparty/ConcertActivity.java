@@ -62,9 +62,9 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		buttonNextConcerts = (Button)findViewById(R.id.buttonNextConcerts);
 		view_flipper = (ViewFlipper)findViewById(R.id.view_flipper);
 
-		ListLayout listAll = new ListLayout(this, new ConcertList(this, null));
-		ListLayout listNext = new ListLayout(this, new ConcertList(this, null));
-		ListLayout listNews = new ListLayout(this, new ConcertList(this, null));
+		ListLayout listAll = new ListLayout(this, new ConcertList(this, null, 0));
+		ListLayout listNext = new ListLayout(this, new ConcertList(this, null, 1));
+		ListLayout listNews = new ListLayout(this, new ConcertList(this, null, 2));
 		this.view_flipper.addView(listAll);
 		this.view_flipper.addView(listNext);
 		this.view_flipper.addView(listNews);
