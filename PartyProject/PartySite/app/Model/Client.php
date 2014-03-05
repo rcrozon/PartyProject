@@ -24,7 +24,7 @@ public function beforeSave($options = array()) {
             ),
             array(
                 'rule' => 'isUnique',
-                'message' => 'Ce pseudo est déja pris'
+                'message' => 'This username is already taken'
             )
         ),
         'mail' => array(
@@ -32,26 +32,26 @@ public function beforeSave($options = array()) {
                 'rule' => 'email',
                 'required' => true,
                 'allowEmpty' => false, 
-                'message' => "Votre email n'est pas valide"
+                'message' => "mail not valid"
             ),
             array(
                 'rule' => 'isUnique',
-                'message' => 'Cet email est déjà pris'
+                'message' => 'This mail is already taken'
             )
         ),
         'password' => array(
             'rule' => 'notEmpty',
-            'message' => "Vous devez entrer un mot de passe",
+            'message' => "You have to enter a password",
             'allowEmpty' => false
         ),
-            'first_name' => array(
+        'first_name' => array(
             'rule' => 'notEmpty',
-            'message' => "Vous devez entrer un prénom",
+            'message' => "You have to enter a firstname",
             'allowEmpty' => false
         ),
-                'last_name' => array(
+        'last_name' => array(
             'rule' => 'notEmpty',
-            'message' => "Vous devez entrer un nom",
+            'message' => "You have to enter a lastname",
             'allowEmpty' => false
         )
     );

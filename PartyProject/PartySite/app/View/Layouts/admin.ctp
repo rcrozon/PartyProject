@@ -64,6 +64,9 @@
                             <?php echo $this->Html->link("Artists Table",array('action'=>'table_artist','controller'=>'concerts'));?>
                         </li>
                         <li>
+                            <?php echo $this->Html->link("Styles Table",array('action'=>'table_style','controller'=>'concerts'));?>
+                        </li>
+                        <li>
                             <?php echo $this->Html->link("Reservations Table",array('action'=>'table_reservation','controller'=>'concerts'));?>
                         </li>
                         <li>
@@ -81,8 +84,6 @@
                                 echo $this->Html->link("Add party",array('action'=>'addConcert','controller'=>'concerts'));
                             ?>
                         </li>
-                        <li><a href="#">Add reservation</a></li>
-                        <li><a href="#">Others Add</a></li>
                       </ul>
                     </li>
                     <li class="divider" style="height: 1px;width:100%; margin: 9px 0;overflow: hidden;background-color: #e5e5e5;"></li>

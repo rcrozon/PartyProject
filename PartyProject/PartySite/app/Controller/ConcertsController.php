@@ -174,13 +174,15 @@ class ConcertsController extends AppController{
                     }
                 }
             }
-            $nameConcert = $this->Concert->find('first', array(
-                'conditions' => array('Concert.id' => $tab_idConcert[$indice])
-            ));
-            $result = $result."<tr><td>".$rank."</td><td>".$nameConcert['Concert']['name_concert']."</td><td style=".'"'."padding-left:25px;".'"'.">".$tab_reserv[$indice]."</td></tr>";
-            $tab_reserv[$indice] = -1;
+            if($indice != -1) {
+                $nameConcert = $this->Concert->find('first', array(
+                    'conditions' => array('Concert.id' => $tab_idConcert[$indice])
+                ));
+                $result = $result."<tr><td>".$rank."</td><td>".$nameConcert['Concert']['name_concert']."</td><td style=".'"'."padding-left:25px;".'"'.">".$tab_reserv[$indice]."</td></tr>";
+                $tab_reserv[$indice] = -1;
+                $rank++;
+            }
             $top--;
-            $rank++;
         }
         $result = "<table><th>Rank</th><th>Name</th><th>Nb Sales</th>".$result."</table>";
         $d['top5'] = $result;
@@ -316,6 +318,19 @@ class ConcertsController extends AppController{
         }
     }
 
+    function admin_add_table_style() {
+        if($this->request->is('post')) {
+            $d = $this->request->data; 
+
+            if($this->Style->save($d,true,array('name'))) {
+                $this->Session->setFlash("Style has been well added", "notif", array('type'=>'success'));
+                $this->redirect(array('controller' => 'Concerts', 'action' => 'table_style'));
+            } else {
+                $this->Session->setFlash("Thanks to correct your mistakes","notif",array('type'=>'error'));
+            }
+        }
+    }
+
     function admin_add_tariff($id) {
         if($this->request->is('post')) {
             $d = $this->request->data;
@@ -361,6 +376,14 @@ class ConcertsController extends AppController{
             'limit' => 5
         ));
         $d['artist'] = $this->Paginate('Artist');
+        $this->set($d);
+    }
+
+    function admin_table_style() {
+        $this->paginate = array('Style' => array(
+            'limit' => 5
+        ));
+        $d['style'] = $this->Paginate('Style');
         $this->set($d);
     }
 
@@ -453,6 +476,12 @@ class ConcertsController extends AppController{
     function admin_artist_table_delete($id) {
         $this->Session->setFlash('The artist has been successfully deleted', 'notif',array('type'=>'success'));
         $this->Artist->delete($id);
+        $this->redirect($this->referer());
+    }
+
+    function admin_style_table_delete($id) {
+        $this->Session->setFlash('The style has been successfully deleted', 'notif',array('type'=>'success'));
+        $this->Style->delete($id);
         $this->redirect($this->referer());
     }
 
@@ -670,6 +699,21 @@ class ConcertsController extends AppController{
         }
         $this->Artist->id = $id;
         $this->request->data = $this->Artist->read();
+    }
+
+    function admin_style_table_edit($id) {
+        if($this->request->is('put')) {
+            $d = $this->request->data;
+
+            if($this->Style->save($d,true,array('name'))) {
+                    $this->Session->setFlash('The style has been successfully updated', 'notif', array('type'=>'success'));
+                    $this->redirect(array('action' => 'table_style'));
+            } else{
+                $this->Session->setFlash("Thanks to correct your mistakes","notif",array('type'=>'error'));
+            }
+        }
+        $this->Style->id = $id;
+        $this->request->data = $this->Style->read();
     }
 
     function admin_client_table_edit($id) {
