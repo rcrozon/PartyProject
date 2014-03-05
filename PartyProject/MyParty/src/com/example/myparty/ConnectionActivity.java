@@ -2,6 +2,8 @@ package com.example.myparty;
 
 import java.util.List;
 
+import com.google.android.gms.internal.ed;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,9 +29,11 @@ import databaseHandler.ThreadTestServer;
 import entities.Client;
 
 
-public class ConnectionActivity extends Activity implements OnClickListener {
+public class ConnectionActivity extends Activity implements OnClickListener, OnFocusChangeListener {
 
 	private Button buttonConnexion ;
+	private EditText editTextLogin ;
+	private EditText editTextPassword ;
 	private MenuItem item;
 
 	private boolean running = true;
@@ -39,7 +44,11 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		buttonConnexion = (Button)findViewById(R.id.buttonConnexion);
+		editTextLogin = (EditText)findViewById(R.id.loginTextEdit);
+		editTextPassword = (EditText)findViewById(R.id.pwdTextEdit);
 		buttonConnexion.setOnClickListener(this);
+		editTextLogin.setOnFocusChangeListener(this);
+		editTextPassword.setOnFocusChangeListener(this);
 		lightHandler();
 
 		/****************** OUVERTURE BDD ***********************************/
@@ -50,10 +59,21 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 
 		/******************  TEST ***********************************/
 
-
-		String jsonScan;
+		String jsonScan; 
 		jsonScan = dataBase.getJsonScanMAJ();
 		Log.i("ScanJson", "Json:"+jsonScan);
+	}
+	
+	@Override
+	public void onFocusChange(View v, boolean hasFocus) {
+		EditText edit = (EditText)v;
+		if (edit == editTextLogin){
+			editTextLogin.setBackground(getResources().getDrawable(R.drawable.edit_text_design_focus));
+			editTextPassword.setBackground(getResources().getDrawable(R.drawable.edit_text_design));
+		}else{
+			editTextPassword.setBackground(getResources().getDrawable(R.drawable.edit_text_design_focus));
+			editTextLogin.setBackground(getResources().getDrawable(R.drawable.edit_text_design));
+		}
 	}
 
 	@Override
@@ -125,7 +145,6 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 					e.printStackTrace();
 				}
 				String json = "[{\"username\":\""+myLogin+"\",\"password\":\""+encrypted+"\"}]";
-
 
 				Log.i("HSA", " "+json);
 				Log.i("HSA", " "+encrypted);

@@ -34,13 +34,14 @@
 
 	<EditText
 	    android:id="@+id/loginTextEdit"
-	    style="@style/AppBaseTheme"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_above="@+id/pwdText"
 	    android:layout_alignLeft="@+id/pwdText"
 	    android:layout_alignRight="@+id/pwdText"
+	    android:inputType="text"
 	    android:layout_marginBottom="16dp"
+	    android:background="@drawable/edit_text_design_focus"
 	    android:ems="10"
 	    android:gravity="center"
 	    android:textColor="@color/white"
@@ -69,6 +70,7 @@
 	    android:layout_height="wrap_content"
 	    android:layout_above="@+id/buttonConnexion"
 	    android:layout_alignLeft="@+id/pwdText"
+	    android:background="@drawable/edit_text_design"
 	    android:layout_alignRight="@+id/pwdText"
 	    android:layout_marginBottom="150dp"
 	    android:ems="10"
