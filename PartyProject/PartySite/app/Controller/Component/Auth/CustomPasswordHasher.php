@@ -6,7 +6,6 @@ App::uses('AbstractPasswordHasher', 'Controller/Component/Auth');
 class CustomPasswordHasher extends AbstractPasswordHasher {
     public function hash($password) {
     	$mcrypt = new MCrypt();
-        $password = 'evreux';
     	$encrypted = $mcrypt->encrypt($password);
 
         	 	return  $encrypted;
