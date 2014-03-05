@@ -15,7 +15,7 @@
 			<td><?php echo $v['name'];?></td>
 			<td>
 				<?php echo $this->Html->link("Edit", array('action' => 'artist_table_edit', $v['id'])); ?> - 
-				<?php echo $this->Html->link("Delete", array('action' => 'artist_table_delete', $v['id']), null, "Are you sure you really want delete this party"); ?>
+				<?php echo $this->Html->link("Delete", array('action' => 'artist_table_delete', $v['id']), null, "Are you sure you really want delete this artist"); ?>
 			</td>
 		</tr>
 		<?php endforeach; ?>
