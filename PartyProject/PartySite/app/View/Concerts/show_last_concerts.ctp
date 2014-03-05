@@ -27,7 +27,8 @@
 				}
 		
 		</style>
-		<div class="row">  
+		<div class="row"> 
+			<h1 style="border-bottom:1px solid cornflowerblue;color:#003d4c;font-size:36px;padding-bottom:15px;">Newest Party</h1>
 		<?php 
 
 

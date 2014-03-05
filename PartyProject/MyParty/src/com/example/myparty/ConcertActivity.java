@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 import java.util.List;
 
 import databaseHandler.DatabaseHandler;
@@ -156,9 +157,21 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 			
 			/********************* Test du serveur et de la connexion internet ******************************/
 			if(isNetworkConnected(this) && tPing.getResult()){
-				/*ON ENVOI LA REQUETE*/
-				dataBase.deleteAllTable();
+				/*On garde les mdp des admin */
+			/*	HashMap<Integer, String> idMdpAdmin = new HashMap<Integer,String>(); 
+				List<Client> allClient = dataBase.getClients();
+				if (allClient != null){
+					for (int i=0 ; i< allClient.size(); i++){
+						if (allClient.get(i).getAdmin() == 1){
+							idMdpAdmin.put(allClient.get(i).getId(), allClient.get(i).getPassword());
+						}
+					}
+				}*/
 				
+				
+				/*Vide la table*/
+				dataBase.deleteAllTable();
+				/*ON ENVOI LA REQUETE*/
 				DatabaseServer dbbs = new DatabaseServer(); 
 				MyJsonParser parser = new MyJsonParser(this);
 				
@@ -213,6 +226,12 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 			String jsonScan2;
 			jsonScan2 = dataBase.getJsonScanMAJ();
 			Log.i("ScanJson", "Json2: "+jsonScan2);
+			if (reponse.equals("success")){
+				Log.i("ScanJson", "ON A REUSSI");
+			}
+			else{
+				Log.i("ScanJson", "ON A PAAAAASSSSSS REUSSI");
+			}
 		}
 		else{
 			intent = new Intent(this, BluetoothActivity.class);

@@ -181,10 +181,100 @@ public class DatabaseHandler {
 				Tables.CLIENT_NAME_PASSWORD}, 
 				Tables.CLIENT_NAME_USERNAME + " LIKE \"" + login +"\"", null, null, null, null);
 		Log.i("ini", "ON TROUVE  "+ c.getCount());
+		
+		/*On vérifie que l'on obtient qu'un résultat a partir du login*/
 		if (c.getCount() == 1){
 			c.moveToFirst();
+			Log.i("LOGIN", "Base  "+ c.getString(2));
+			
+			
+			/* Decrypt */
+			/*On decrypt le mot de passe contenu dans la table*/
+			MCrypt mcrypt = new MCrypt();
+			String decrypted=null;
+			try {
+			decrypted = new String( mcrypt.decrypt( c.getString(2) ) );
+			} catch (Exception e) {
+			// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			/*On enlève les caractères spéciaux du mdp décrypté*/
+			byte bytes[] = decrypted.getBytes();
+			if( bytes.length > 0)
+			{
+			    int trim = 0;
+			    for( int i = bytes.length - 1; i >= 0; i-- ) 
+			    	if( bytes[i] == 0 ) 
+			    		trim++;
+			    if( trim > 0 )
+			    {
+			        byte[] newArray = new byte[bytes.length - trim];
+			        System.arraycopy(bytes, 0, newArray, 0, bytes.length - trim);
+			        bytes = newArray;
+			    }
+			}
+			decrypted = new String(bytes);
+			
+			Log.i("LOGIN", "Base Decr  "+ decrypted);
 			Log.i("ini", "log  "+ c.getString(1) + "    MDP   "+ c.getString(2) + "  attendu "+ pwd);
-			if (pwd.equals(c.getString(2))){
+			/*On compare le mdp rentré et celui de la table*/
+			if (pwd.equals(decrypted)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/***************** AUTHENTIFICATION  Admin***************************/	
+
+	public Boolean authentificationAdmin(String login, String pwd){ 
+		Cursor c = bdd.query(Tables.CLIENT_TABLE, 
+				new String[] {Tables.CLIENT_NAME_ID, 
+				Tables.CLIENT_NAME_USERNAME,
+				Tables.CLIENT_NAME_PASSWORD,
+				Tables.CLIENT_NAME_ADMIN}, 
+				Tables.CLIENT_NAME_USERNAME + " LIKE \"" + login +"\"", null, null, null, null);
+		Log.i("ini", "ON TROUVE  "+ c.getCount());
+		
+		/*On vérifie que l'on obtient qu'un résultat a partir du login*/
+		if (c.getCount() == 1){
+			c.moveToFirst();
+			Log.i("LOGIN", "Base  "+ c.getString(2));
+			
+			
+			/* Decrypt */
+			/*On decrypt le mot de passe contenu dans la table*/
+			MCrypt mcrypt = new MCrypt();
+			String decrypted=null;
+			try {
+			decrypted = new String( mcrypt.decrypt( c.getString(2) ) );
+			} catch (Exception e) {
+			// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			/*On enlève les caractères spéciaux du mdp décrypté*/
+			byte bytes[] = decrypted.getBytes();
+			if( bytes.length > 0)
+			{
+			    int trim = 0;
+			    for( int i = bytes.length - 1; i >= 0; i-- ) 
+			    	if( bytes[i] == 0 ) 
+			    		trim++;
+			    if( trim > 0 )
+			    {
+			        byte[] newArray = new byte[bytes.length - trim];
+			        System.arraycopy(bytes, 0, newArray, 0, bytes.length - trim);
+			        bytes = newArray;
+			    }
+			}
+			decrypted = new String(bytes);
+			
+			Log.i("LOGIN", "Base Decr  "+ decrypted);
+			Log.i("ini", "log  "+ c.getString(1) + "    MDP   "+ c.getString(2) + "  attendu "+ pwd);
+			/*On compare le mdp rentré et celui de la table*/
+			if (pwd.equals(decrypted) && c.getInt(3)==1){
 				return true;
 			}
 		}
@@ -328,6 +418,44 @@ public class DatabaseHandler {
 		
 	}
 	
+	
+/***************** TROUVER LA LISTE DES CLIENTS ***************************/
+	
+	public List<Client>  getClients(){ 
+		List<Client> cl = new ArrayList<Client>();
+		Cursor c = bdd.query(Tables.CLIENT_TABLE,
+				new String[] {Tables.CLIENT_NAME_ID, 
+				Tables.CLIENT_NAME_USERNAME, 
+				Tables.CLIENT_NAME_MAIL,
+				Tables.CLIENT_NAME_PASSWORD,
+				Tables.CLIENT_NAME_FIRSTNAME,
+				Tables.CLIENT_NAME_LASTNAME,
+				Tables.CLIENT_NAME_ADMIN,
+				Tables.CLIENT_NAME_DATE_CREATE}, 
+				null, null, null, null, null);
+		if (c.getCount() == 0){
+			return null;
+		}
+		c.moveToFirst();
+		for (int i=0; i< c.getCount();i++){
+			if (i!=0)
+				c.move(1);
+			Client client = new Client(c.getInt(Tables.CLIENT_NUM_ID), 
+					c.getString(Tables.CLIENT_NUM_FIRSTNAME),
+					c.getString(Tables.CLIENT_NUM_LASTNAME), 
+					c.getString(Tables.CLIENT_NUM_MAIL), 
+					c.getString(Tables.CLIENT_NUM_USERNAME),
+					c.getString(Tables.CLIENT_NUM_PASSWORD), 
+					c.getInt(Tables.CLIENT_NUM_ADMIN), 
+					c.getString(Tables.CLIENT_NUM_DATE_CREATE));
+			cl.add(client);
+		}
+		
+		c.close();
+		return cl;
+		
+	}
+	
 /***************** TROUVER LA LISTE DES CLIENTS POUR UN CONCERT DANS LA BDD ***************************/
 	
 	public ArrayList<Client> getClientsForOneConcert(int id_concert){
@@ -416,6 +544,24 @@ public class DatabaseHandler {
 				Tables.RES_NAME_SCAN}, 
 				Tables.RES_NAME_ID_CONCERT + " LIKE \"" + concert.getId() +"\""
 				+ " AND "+Tables.RES_NAME_ID_CLIENT + " LIKE \"" + client.getId() +"\"", null, null, null, null);
+
+
+		return c.getCount();
+	}
+	
+/***************** TROUVER LE NOMBRE DE RESERVATION POUR UN CLIENT POUR UN CONCERT QUI SONT SCANNÉS ***************************/
+	
+	public int getNumberResClientForOneConcertScanned(Concert concert, Client client){
+	
+		Cursor c = bdd.query(Tables.RES_TABLE, 
+				new String[] {Tables.RES_NAME_ID, 
+				Tables.RES_NAME_ID_CONCERT, 
+				Tables.RES_NAME_ID_CLIENT,
+				Tables.RES_NAME_ID_TARIF,
+				Tables.RES_NAME_SCAN}, 
+				Tables.RES_NAME_ID_CONCERT + " LIKE \"" + concert.getId() +"\""
+				+ " AND "+Tables.RES_NAME_ID_CLIENT + " LIKE \"" + client.getId() +"\""
+				+ " AND "+Tables.RES_NAME_SCAN + " LIKE \"" + 1 +"\"", null, null, null, null);
 
 
 		return c.getCount();

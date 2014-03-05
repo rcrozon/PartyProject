@@ -95,7 +95,7 @@ text-align: center;
     				"controller" => "reservations",
   					"action" => "addReservations",
   					"idC"=>$showConcert['id']    			
-					));?>" role="button" style="margin-left:15px; margin-top:5px;" class="btn btn-primary">Accéder à la billeterie</a>
+					));?>" role="button" style="margin-left:15px; margin-top:5px;" class="btn btn-primary">Go to Ticket Office</a>
 					<?php } ?>
   	
 

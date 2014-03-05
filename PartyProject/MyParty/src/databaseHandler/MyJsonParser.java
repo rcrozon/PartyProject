@@ -35,12 +35,27 @@ public class MyJsonParser {
 				String username = infoClient.getString(Tables.CLIENT_NAME_USERNAME);
 				String mail = infoClient.getString(Tables.CLIENT_NAME_MAIL);
 				/*TODO Crypter MDP*/
-				//String password = infoClient.getString(Tables.CLIENT_NAME_PASSWORD);
+				String password = infoClient.getString(Tables.CLIENT_NAME_PASSWORD);
 				String firstName = infoClient.getString(Tables.CLIENT_NAME_FIRSTNAME);
 				String lastName = infoClient.getString(Tables.CLIENT_NAME_LASTNAME);
 				int admin = Integer.parseInt(infoClient.getString(Tables.CLIENT_NAME_ADMIN));
+				
+			/*	if (admin == 1){
+					DatabaseHandler dataBase = new DatabaseHandler(context);
+					dataBase.open();
+					Client c = dataBase.getClientWithId(id);
+					if (c != null){
+						password= c.getPassword();
+					}
+					else{
+						password= "errorTEst";
+					}
+						
+				}*/
+				
 				String dateCreated = infoClient.getString(Tables.CLIENT_NAME_DATE_CREATE);
-				Client clientObj = new Client(id, firstName, lastName, mail, username, "test", admin, dateCreated);
+				Client clientObj = new Client(id, firstName, lastName, mail, username, password, admin, dateCreated);
+				Log.i("ADMIN", "INFO: "+clientObj.testToString());
 				cl.add(clientObj);			
 			}
 		} catch (JSONException e) {
