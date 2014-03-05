@@ -176,6 +176,30 @@ public class MyJsonParser {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public void getAssocStylesAndInsert(String json) {
+		DatabaseHandler dataBase = new DatabaseHandler(context);
+		dataBase.open();
+
+		JSONArray rep;
+		try {
+			rep = new JSONArray(json);
+			for (int i = 0 ; i<rep.length() ; i++){
+
+				JSONObject infoAssocStyles = rep.getJSONObject(i);
+				int id = Integer.parseInt(infoAssocStyles.getString(Tables.ASSOC_STYLES_NAME_ID));
+				int id_style = Integer.parseInt(infoAssocStyles.getString(Tables.ASSOC_STYLES_NAME_ID_STYLES));
+				int id_concert = Integer.parseInt(infoAssocStyles.getString(Tables.ASSOC_STYLES_NAME_ID_CONCERT));
+				Log.i("ASSOC", "id :" +id+"idstyle :"+id_style+"id_concert :"+id_concert);
+				dataBase.insertAssocStyle(id, id_style, id_concert);
+
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	} 
 
 	public void getTariffsAndInsert(String json){
