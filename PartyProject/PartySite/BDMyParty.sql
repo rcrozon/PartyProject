@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS artists (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(30) NOT NULL,
   PRIMARY KEY (id),
-  UNIQUE KEY name (name)
+  UNIQUE KEY name (name) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS clients (
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS clients (
   last_name varchar(255) NOT NULL,
   admin int(11) NOT NULL DEFAULT '0',
   created datetime NOT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id) 
 );
 
 CREATE TABLE IF NOT EXISTS concerts (
@@ -38,14 +38,14 @@ CREATE TABLE IF NOT EXISTS concerts (
 CREATE TABLE IF NOT EXISTS styles (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(30) NOT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id) ON DELETE CASCADE
 ); 
 
 CREATE TABLE IF NOT EXISTS tarifs (
   id int(11) NOT NULL AUTO_INCREMENT,
   label varchar(30) NOT NULL,
   price double NOT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS assoc_tarifs (
