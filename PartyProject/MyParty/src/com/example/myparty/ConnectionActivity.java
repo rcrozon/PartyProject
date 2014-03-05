@@ -1,23 +1,13 @@
 package com.example.myparty;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
-import com.example.myparty.R.color;
-
-import android.R.string;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -31,7 +21,9 @@ import android.widget.Toast;
 import databaseHandler.DatabaseHandler;
 import databaseHandler.DatabaseServer;
 import databaseHandler.MCrypt;
+import databaseHandler.MyJsonParser;
 import databaseHandler.ThreadTestServer;
+import entities.Client;
 
 
 public class ConnectionActivity extends Activity implements OnClickListener {
@@ -62,35 +54,6 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		String jsonScan;
 		jsonScan = dataBase.getJsonScanMAJ();
 		Log.i("ScanJson", "Json:"+jsonScan);
-
-		/******************  BDD EXTERNE  ***********************************/
-
-		/*/*ON ENVOI LA REQUET*/
-		/*DatabaseServer dbbs = new DatabaseServer(); 
-		MyJsonParser parser = new MyJsonParser();
-
-		String tmp =dbbs.getRequest("getAllClients");
-		String concertString = dbbs.getRequest("getAllConcerts");
-
-		List<Client> clientlist = parser.getClientFromJson(tmp);
-		List<Concert> concertlist = parser.getConcertFromJson(concertString);
-		 */
-		/*On insere les concerts dans bdd*/
-		/*	for (int i=0 ; i< concertlist.size() ; i++){
-			Concert c = concertlist.get(i);
-			Log.i("Concert",c.testToString());
-			//dataBase.insertConcert(c);
-		}
-
-		/*On insere les clients dans bdd*/
-		/*for (int i=0 ; i< clientlist.size() ; i++){
-			Client c = clientlist.get(i);
-			Log.i("Client",c.testToString());
-			//dataBase.insertClient(c);
-		}
-
-		//dataBase.in*/
-
 	}
 
 	@Override
@@ -171,9 +134,53 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 				String reponse = dbbs.postRequest("login"," "+ json);
 				Log.i("HSA", "REP: "+reponse);
 				/*Vérifier la réponse et vérifier si on a un admin puis insérer l'admin*/
+				/*
+				 * Décommenter quand il ya ura bonne reponse
+				 */
+				MyJsonParser parser = new MyJsonParser(this);
+				if(parser.reponseIsClient(reponse)){
+					List<Client> logClient =parser.getClientFromJson(reponse);
+					if (logClient.get(0).getAdmin() == 1){
+						Client tmp =dataBase.getClientWithId(logClient.get(0).getId());
+						if (tmp == null){
+							DatabaseHandler.insertClient(logClient.get(0));
+							Log.i("SERVER", "ON INSERE LE CLIENT");
+							Intent intent = new Intent(this, ConcertActivity.class);
+							this.startActivity(intent);
+						}
+						else{
+							/*Comparrer les mot de passe*/
+							String paswUse;
+							String paswBase;
+							paswUse = logClient.get(0).getPassword();
+							paswBase = dataBase.getClientWithId(logClient.get(0).getId()).getPassword();
+							if (!paswUse.equals(paswBase)){
+								Log.i("SERVER", "ON MODIFIE LE MOT DE PASSE ");
+								dataBase.updatePassword(logClient.get(0),paswUse);
+							}
+							Intent intent = new Intent(this, ConcertActivity.class);
+							this.startActivity(intent);
+						}
+					}
+					else{
+						Context myContext = getApplicationContext();
+						CharSequence text = "ERROR LOGIN OR PASSWORD !";
+						int duration = Toast.LENGTH_SHORT;
 
-				Intent intent = new Intent(this, ConcertActivity.class);
-				this.startActivity(intent);
+						Toast toast = Toast.makeText(myContext, text, duration);
+						toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
+						toast.show();
+					}
+
+				}else{
+					Context myContext = getApplicationContext();
+					CharSequence text = "ERROR LOGIN OR PASSWORD !";
+					int duration = Toast.LENGTH_SHORT;
+
+					Toast toast = Toast.makeText(myContext, text, duration);
+					toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
+					toast.show();
+				}
 			}
 			else{
 

@@ -154,7 +154,31 @@ public class MyJsonParser {
 		}
 	}
 
-	public void getTariffsAndInsert(String json) {
+	public void getAssocTariffsAndInsert(String json) {
+		DatabaseHandler dataBase = new DatabaseHandler(context);
+		dataBase.open();
+
+		JSONArray rep;
+		try {
+			rep = new JSONArray(json);
+			for (int i = 0 ; i<rep.length() ; i++){
+
+				JSONObject infoAssocTarrif = rep.getJSONObject(i);
+				int id = Integer.parseInt(infoAssocTarrif.getString(Tables.ASSOC_TARIFF_NAME_ID));
+				int id_concert = Integer.parseInt(infoAssocTarrif.getString(Tables.ASSOC_TARIFF_NAME_ID_CONCERT));
+				int id_tariff = Integer.parseInt(infoAssocTarrif.getString(Tables.ASSOC_TARIFF_NAME_ID_TARIFF));
+				Log.i("ASSOC", "id :" +id+"idtarrif :"+id_tariff+"id_concert :"+id_concert);
+				dataBase.insertAssocTariff(id, id_tariff, id_concert);
+
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	} 
+
+	public void getTariffsAndInsert(String json){
 		DatabaseHandler dataBase = new DatabaseHandler(context);
 		dataBase.open();
 
@@ -175,7 +199,7 @@ public class MyJsonParser {
 			e.printStackTrace();
 		}
 
-	}    	
+	}
 
 
 

@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
 import android.util.Log;
 import entities.Client;
 import entities.Concert;
@@ -16,7 +17,7 @@ public class DatabaseHandler {
 	
 	private static final int VERSION_BDD = 102;
 	private static final String BDD_NAME = "myparty.db";
-	private SQLiteDatabase bdd;
+	private static SQLiteDatabase bdd;
 	private DatabaseCreate SQLiteBase ;
 	
 	public DatabaseHandler(Context context){
@@ -46,7 +47,7 @@ public class DatabaseHandler {
 	
 /***************** INSERER UN CLIENT DANS LA BDD ***************************/
 	
-	public long insertClient(Client client){
+	public static long insertClient(Client client){
 		ContentValues values = new ContentValues();
 		values.put(Tables.CLIENT_NAME_ID, client.getId());
 		values.put(Tables.CLIENT_NAME_USERNAME, client.getLogin());
@@ -61,7 +62,7 @@ public class DatabaseHandler {
 	
 /***************** INSERER UN CONCERT DANS LA BDD ***************************/
 	
-	public long insertConcert(Concert concert){
+	public static long insertConcert(Concert concert){
 		ContentValues values = new ContentValues();
 		values.put(Tables.CONCERT_NAME_ID,concert.getId());
 		values.put(Tables.CONCERT_NAME_START_DATE, concert.getBeginDate());
@@ -284,7 +285,7 @@ public class DatabaseHandler {
 	
 	
 	/***************** TROUVER LES TARIFS PAR ID DE CONCERT DANS LA BDD ***************************/
-	public HashMap<String, Double> getTariffsFromConcert(int id_concert){
+	public static HashMap<String, Double> getTariffsFromConcert(int id_concert){
 		Log.i("TARIFF", "passe");
 		HashMap<String, Double> mapTariffs = new HashMap<String, Double>();
 		Cursor c1 = bdd.query(Tables.ASSOC_TARIFFS_TABLE, 
@@ -675,7 +676,7 @@ public void scanTicket(int id_res){
 }
 
 /***************************  Trouver le lablel du prix par ID*******************************************/
-	public String getLabelById(int id_tarrif){
+	public static String getLabelById(int id_tarrif){
 		
 		Cursor c = bdd.query(Tables.TARIFFS_TABLE,
 				new String[] {Tables.TARIFF_NAME_ID, 
@@ -739,7 +740,7 @@ public void scanTicket(int id_res){
 	
 	
 	/************************ VIDER TOUTES LES TABLES *****************************/
-	public void deleteAllTable(){
+	public static void deleteAllTable(){
 		
 		bdd.delete(Tables.CLIENT_TABLE,null,null);
 		bdd.delete(Tables.CONCERT_TABLE,null,null);
@@ -751,6 +752,108 @@ public void scanTicket(int id_res){
 		bdd.delete(Tables.STYLES_TABLE,null,null);
 		bdd.delete(Tables.TARIFFS_TABLE,null,null);
 	}
+	
+	/************************ METTRE A JOUR LE MOT DE PASSE *****************************/
+	
+	public void updatePassword(Client client,String pwd){
+		
+		Cursor c = bdd.query(Tables.CLIENT_TABLE, 
+				new String[] {Tables.CLIENT_NAME_ID, 
+				Tables.CLIENT_NAME_PASSWORD}, 
+				Tables.CLIENT_NAME_ID + " LIKE \"" + client.getId() +"\"", null, null, null, null);
+
+		c.moveToFirst();
+		ContentValues newValues = new ContentValues();
+		newValues.put(Tables.CLIENT_NAME_PASSWORD, pwd);
+		
+		bdd.update(Tables.CLIENT_TABLE, newValues,Tables.CLIENT_NAME_ID+"="+client.getId(), null);
+	
+		c.close();
+		
+		
+	}
+	
+	
+	/******************************** BDD EXTERNE ************************************************/
+	
+	public static Boolean isAvailableServer(Context context){
+
+		ThreadTestServer tPing = new ThreadTestServer(context);
+		tPing.start();
+		try {
+			tPing.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return tPing.getResult();
+	}
+
+	public static Boolean updateAllTable(Context context){
+		/********************* Test du serveur et de la connexion internet ******************************/
+		if(isNetworkConnected(context) && isAvailableServer(context)){
+			/*Vide la table*/
+			deleteAllTable();
+			/*ON ENVOI LA REQUETE*/
+			DatabaseServer dbbs = new DatabaseServer(); 
+			MyJsonParser parser = new MyJsonParser(context);
+
+			String tmp =dbbs.getRequest("getAllClients");
+			String concertString = dbbs.getRequest("getAllConcerts");
+			String reservationString = dbbs.getRequest("getAllReservations");
+			String tarrifString = dbbs.getRequest("getAllTariffs");
+			String tarrifAssocString = dbbs.getRequest("getAllAssocTarifs");
+			/*Artistes Styles AssocArtiste AssocStyle*/
+
+
+			List<Client> clientlist = parser.getClientFromJson(tmp);
+			List<Concert> concertlist = parser.getConcertFromJson(concertString);
+
+			/*On insere les concerts dans bdd*/
+			for (int i=0 ; i< concertlist.size() ; i++){
+				Concert c = concertlist.get(i);
+				Log.i("Concert",c.testToString());
+				insertConcert(c);
+			}
+
+			/*On insere les clients dans bdd*/
+			for (int i=0 ; i< clientlist.size() ; i++){
+				Client c = clientlist.get(i);
+				Log.i("Client",c.testToString());
+				insertClient(c);
+			}
+			/*On insere les reservations*/
+			parser.getReservationAndInsert(reservationString);
+
+			/*On insere les Tarrifs*/
+			parser.getTariffsAndInsert(tarrifString);
+			
+			/*On insere les AssocTarrifs*/
+			parser.getAssocTariffsAndInsert(tarrifAssocString);
+
+			Log.i("SCAN", "TARIF ADULTE ?? ::"+getLabelById(4));
+			Log.i("NET", "On est connecté !!");
+			HashMap<String, Double> test = getTariffsFromConcert(1);
+			Log.i("ASSOC","SIZE : "+test.size());
+			for (String s : test.keySet()){
+				Log.i("ASSOC","Clé : "+ s + "Valeur :"+test.get(s));
+			}
+			return true;
+		}
+
+
+		else{
+			Log.i("NET", "On n'est pas connecté !!");
+			return false;
+
+		}
+	}
+	
+	public static boolean isNetworkConnected(Context context) {
+		ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		return (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected());
+
+	}
+	
 	
 }
 
