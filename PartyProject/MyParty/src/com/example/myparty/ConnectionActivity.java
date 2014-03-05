@@ -124,7 +124,7 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				String json = "[{\"username\":\""+myLogin+"\",\"password\":\""+password+"\"}]";
+				String json = "[{\"username\":\""+myLogin+"\",\"password\":\""+encrypted+"\"}]";
 
 
 				Log.i("HSA", " "+json);

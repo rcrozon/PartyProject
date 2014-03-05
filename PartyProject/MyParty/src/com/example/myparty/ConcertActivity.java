@@ -56,7 +56,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		this.view_flipper.addView(listNext);
 		this.view_flipper.addView(listNews);
 		this.buttonAllConcerts.setBackgroundResource(R.drawable.button_selected);
-		this.view_flipper.setDisplayedChild(1);
+		this.view_flipper.setDisplayedChild(0);
 		buttonAllConcerts.setOnClickListener(this);
 		buttonNews.setOnClickListener(this);
 		buttonNextConcerts.setOnClickListener(this);
