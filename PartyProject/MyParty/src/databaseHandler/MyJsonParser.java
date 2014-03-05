@@ -11,23 +11,38 @@ import android.content.Context;
 import android.util.Log;
 import entities.Client;
 import entities.Concert;
- 
+
 public class MyJsonParser {
-	
+
 	private Context context;
 
-    public MyJsonParser(Context context) {
-    	this.context = context;
-    }
- 
-    public List<Client> getClientFromJson(String json) {
-    	List<Client> cl = new ArrayList<Client>();
-    	
-    	JSONArray rep;
+	public MyJsonParser(Context context) {
+		this.context = context;
+	}
+
+
+	public Boolean reponseIsClient(String reponse){
+
+		JSONArray rep;
+		try {
+			rep = new JSONArray(reponse);
+		}
+		catch (JSONException e) {
+			Log.i("SERVER", "FAUX");
+			return false;
+		}
+		Log.i("SERVER", "VRAI");
+		return true;
+	}
+
+	public List<Client> getClientFromJson(String json) {
+		List<Client> cl = new ArrayList<Client>();
+
+		JSONArray rep;
 		try {
 			rep = new JSONArray(json);
 			for (int i = 0 ; i<rep.length() ; i++){
-	    		
+
 				JSONObject infoClient = rep.getJSONObject(i);
 				//String infoStr = client.getString("Client");
 				//JSONObject infoClient = new JSONObject(infoStr);
@@ -39,8 +54,8 @@ public class MyJsonParser {
 				String firstName = infoClient.getString(Tables.CLIENT_NAME_FIRSTNAME);
 				String lastName = infoClient.getString(Tables.CLIENT_NAME_LASTNAME);
 				int admin = Integer.parseInt(infoClient.getString(Tables.CLIENT_NAME_ADMIN));
-				
-			/*	if (admin == 1){
+
+				/*	if (admin == 1){
 					DatabaseHandler dataBase = new DatabaseHandler(context);
 					dataBase.open();
 					Client c = dataBase.getClientWithId(id);
@@ -50,9 +65,9 @@ public class MyJsonParser {
 					else{
 						password= "errorTEst";
 					}
-						
+
 				}*/
-				
+
 				String dateCreated = infoClient.getString(Tables.CLIENT_NAME_DATE_CREATE);
 				Client clientObj = new Client(id, firstName, lastName, mail, username, password, admin, dateCreated);
 				Log.i("ADMIN", "INFO: "+clientObj.testToString());
@@ -62,18 +77,18 @@ public class MyJsonParser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	return cl;
-    }    	
-    
-    
-    public List<Concert> getConcertFromJson(String json) {
-    	List<Concert> cl = new ArrayList<Concert>();
-    	
-    	JSONArray rep;
+		return cl;
+	}    	
+
+
+	public List<Concert> getConcertFromJson(String json) {
+		List<Concert> cl = new ArrayList<Concert>();
+
+		JSONArray rep;
 		try {
 			rep = new JSONArray(json);
 			for (int i = 0 ; i<rep.length() ; i++){
-	    		
+
 				JSONObject infoConcert = rep.getJSONObject(i);
 				//String infoStr = concert.getString("Concert");
 				//JSONObject infoConcert = new JSONObject(infoStr);
@@ -109,18 +124,18 @@ public class MyJsonParser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	return cl;
-    }   
-    
-    public void getReservationAndInsert(String json) {
-    	DatabaseHandler dataBase = new DatabaseHandler(context);
+		return cl;
+	}   
+
+	public void getReservationAndInsert(String json) {
+		DatabaseHandler dataBase = new DatabaseHandler(context);
 		dataBase.open();
-    	
-    	JSONArray rep;
+
+		JSONArray rep;
 		try {
 			rep = new JSONArray(json);
 			for (int i = 0 ; i<rep.length() ; i++){
-	    		
+
 				JSONObject infoReservation= rep.getJSONObject(i);
 				//String infoStr = reservation.getString("Reservation");
 				//JSONObject infoReservation = new JSONObject(infoStr);
@@ -130,37 +145,37 @@ public class MyJsonParser {
 				int id_tarif = Integer.parseInt(infoReservation.getString(Tables.RES_NAME_ID_TARIF));
 				int scan = Integer.parseInt(infoReservation.getString(Tables.RES_NAME_SCAN));
 				dataBase.insertRes(id, id_concert, id_client, id_tarif, scan);
-				
+
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
-		
-	    public void getTariffsAndInsert(String json) {
-	    	DatabaseHandler dataBase = new DatabaseHandler(context);
-			dataBase.open();
-	    	
-	    	JSONArray rep;
-			try {
-				rep = new JSONArray(json);
-				for (int i = 0 ; i<rep.length() ; i++){
-		    		
-					JSONObject infoTarrif = rep.getJSONObject(i);
-					int id = Integer.parseInt(infoTarrif.getString(Tables.TARIFF_NAME_ID));
-					String label = infoTarrif.getString(Tables.TARIFF_NAME_LABEL);
-					Double price = infoTarrif.getDouble(Tables.TARIFF_NAME_PRICE);
-					dataBase.insertTariff(id, label, price);
-					
-				}
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+	}
+
+	public void getTariffsAndInsert(String json) {
+		DatabaseHandler dataBase = new DatabaseHandler(context);
+		dataBase.open();
+
+		JSONArray rep;
+		try {
+			rep = new JSONArray(json);
+			for (int i = 0 ; i<rep.length() ; i++){
+
+				JSONObject infoTarrif = rep.getJSONObject(i);
+				int id = Integer.parseInt(infoTarrif.getString(Tables.TARIFF_NAME_ID));
+				String label = infoTarrif.getString(Tables.TARIFF_NAME_LABEL);
+				Double price = infoTarrif.getDouble(Tables.TARIFF_NAME_PRICE);
+				dataBase.insertTariff(id, label, price);
+
 			}
-	    
-    }    	
-    
-    
-    
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}    	
+
+
+
 }
