@@ -186,6 +186,14 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 						}
 						else{
 							/*Comparrer les mot de passe*/
+							String paswUse;
+							String paswBase;
+							paswUse = logClient.get(0).getPassword();
+							paswBase = dataBase.getClientWithId(logClient.get(0).getId()).getPassword();
+							if (!paswUse.equals(paswBase)){
+								Log.i("SERVER", "ON MODIFIE LE MOT DE PASSE ");
+								dataBase.updatePassword(logClient.get(0),paswUse);
+							}
 							Intent intent = new Intent(this, ConcertActivity.class);
 							this.startActivity(intent);
 						}

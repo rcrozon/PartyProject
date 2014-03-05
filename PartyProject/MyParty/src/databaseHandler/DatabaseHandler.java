@@ -745,6 +745,27 @@ public void scanTicket(int id_res){
 		bdd.delete(Tables.TARIFFS_TABLE,null,null);
 	}
 	
+	/************************ METTRE A JOUR LE MOT DE PASSE *****************************/
+	
+	public void updatePassword(Client client,String pwd){
+		
+		Cursor c = bdd.query(Tables.CLIENT_TABLE, 
+				new String[] {Tables.CLIENT_NAME_ID, 
+				Tables.CLIENT_NAME_PASSWORD}, 
+				Tables.CLIENT_NAME_ID + " LIKE \"" + client.getId() +"\"", null, null, null, null);
+
+		c.moveToFirst();
+		ContentValues newValues = new ContentValues();
+		newValues.put(Tables.CLIENT_NAME_PASSWORD, pwd);
+		
+		bdd.update(Tables.CLIENT_TABLE, newValues,Tables.CLIENT_NAME_ID+"="+client.getId(), null);
+	
+		c.close();
+		
+		
+	}
+	
+	
 }
 
 
