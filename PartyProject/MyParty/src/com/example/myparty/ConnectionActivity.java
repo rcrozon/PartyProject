@@ -118,7 +118,7 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		item = menu.findItem(R.id.menu_refresh);
-		return true;
+		return true; 
 	}
 
 
