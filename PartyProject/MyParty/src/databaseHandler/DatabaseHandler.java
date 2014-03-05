@@ -309,7 +309,7 @@ public class DatabaseHandler {
 	}
 
 	/***************** TROUVER LES STYLES PAR ID DE CONCERT DANS LA BDD ***************************/
-	public ArrayList<String> getStylesFromConcert(int id_concert){
+	public static ArrayList<String> getStylesFromConcert(int id_concert){
 		ArrayList<String> listStyles = new ArrayList<String>();
 		Cursor c1 = bdd.query(Tables.ASSOC_STYLES_TABLE, 
 				new String[] {Tables.ASSOC_STYLES_NAME_ID_STYLES}, 
@@ -797,7 +797,8 @@ public void scanTicket(int id_res){
 			String reservationString = dbbs.getRequest("getAllReservations");
 			String tarrifString = dbbs.getRequest("getAllTariffs");
 			String tarrifAssocString = dbbs.getRequest("getAllAssocTarifs");
-			/*Artistes Styles AssocArtiste AssocStyle*/
+			//String stylesAssocString = dbbs.getRequest("getAllAssocStyles");
+			/*Artistes Styles AssocArtiste */
 
 
 			List<Client> clientlist = parser.getClientFromJson(tmp);
@@ -824,13 +825,17 @@ public void scanTicket(int id_res){
 			
 			/*On insere les AssocTarrifs*/
 			parser.getAssocTariffsAndInsert(tarrifAssocString);
+			
+			/*On insere les AssocTStyle*/
+			//parser.getAssocStylesAndInsert(stylesAssocString);
+
 
 			Log.i("SCAN", "TARIF ADULTE ?? ::"+getLabelById(4));
 			Log.i("NET", "On est connecté !!");
-			HashMap<String, Double> test = getTariffsFromConcert(1);
+			ArrayList<String> test = getStylesFromConcert(2);
 			Log.i("ASSOC","SIZE : "+test.size());
-			for (String s : test.keySet()){
-				Log.i("ASSOC","Clé : "+ s + "Valeur :"+test.get(s));
+			for (String s : test){
+				Log.i("ASSOC","Style "+ s);
 			}
 			return true;
 		}
