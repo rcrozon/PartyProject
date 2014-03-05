@@ -4,7 +4,7 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="19" />
+    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="19" />
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true"/>
@@ -43,10 +43,6 @@
         <activity
             android:name="com.example.myparty.ConcertActivity"
             android:label="Concerts" >
-        </activity>
-        <activity
-            android:name="com.example.myparty.RegisterActivity"
-            android:label="Sign in" >
         </activity>
         <activity
             android:name="com.example.myparty.ConcertDetailsActivity"

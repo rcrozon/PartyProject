@@ -569,6 +569,39 @@ public class DatabaseHandler {
 		return c.getCount();
 	}
 	
+/***************** TROUVER LE NOMBRE DE RESERVATION POUR UN CONCERT ***************************/
+	
+	public int getNumberResForOneConcert(int id_concert){
+	
+		Cursor c = bdd.query(Tables.RES_TABLE, 
+				new String[] {Tables.RES_NAME_ID, 
+				Tables.RES_NAME_ID_CONCERT, 
+				Tables.RES_NAME_ID_CLIENT,
+				Tables.RES_NAME_ID_TARIF,
+				Tables.RES_NAME_SCAN}, 
+				Tables.RES_NAME_ID_CONCERT + " LIKE \"" + id_concert +"\"", null, null, null, null);
+
+
+		return c.getCount();
+	}	
+	
+/***************** TROUVER LE NOMBRE DE RESERVATION SCANN2 POUR UN CONCERT ***************************/
+	
+	public int getNumberResForOneConcertScanned(int id_concert){
+	
+		Cursor c = bdd.query(Tables.RES_TABLE, 
+				new String[] {Tables.RES_NAME_ID, 
+				Tables.RES_NAME_ID_CONCERT, 
+				Tables.RES_NAME_ID_CLIENT,
+				Tables.RES_NAME_ID_TARIF,
+				Tables.RES_NAME_SCAN}, 
+				Tables.RES_NAME_ID_CONCERT + " LIKE \"" + id_concert +"\""
+				+ " AND "+Tables.RES_NAME_SCAN + " LIKE \"" + 1 +"\"", null, null, null, null);
+
+
+		return c.getCount();
+	}	
+	
 
 
 /*********************** TESTER SI LA RESERVATION EST VALIDE ET SCANNER LE BILLET ******************************************/
