@@ -20,11 +20,11 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.ViewFlipper;
 
 public class ConcertActivity extends Activity implements OnClickListener, OnMenuItemClickListener{
 
-	private Button buttonReservations ;
 	private Button buttonAllConcerts ;
 	private Button buttonNextConcerts ;
 	private Button buttonNews ;
@@ -32,10 +32,8 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	private MenuItem decoItem;
 	private MenuItem bluetoothItem;
 	private MenuItem updateItem;
-	private MenuItem scanPushItem;
 	private int index = 0;
 	private int nextIndex = 0;
-	private boolean isClient = false;
 	DatabaseHandler dataBase;
 	
 	@Override
@@ -46,32 +44,22 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		dataBase.open();
 		
 		setContentView(R.layout.activity_concerts);
-		buttonReservations = (Button)findViewById(R.id.buttonReservations);
 		buttonAllConcerts = (Button)findViewById(R.id.buttonAllConcerts);
 		buttonNews = (Button)findViewById(R.id.buttonNews);
 		buttonNextConcerts = (Button)findViewById(R.id.buttonNextConcerts);
 		view_flipper = (ViewFlipper)findViewById(R.id.view_flipper);
-		ListLayout listReservations = new ListLayout(this, new ReservationsList(this, null));
 		ListLayout listAll = new ListLayout(this, new ConcertList(this, null));
 		ListLayout listNext = new ListLayout(this, new ConcertList(this, null));
 		ListLayout listNews = new ListLayout(this, new ConcertList(this, null));
-		this.view_flipper.addView(listReservations);	
 		this.view_flipper.addView(listAll);
 		this.view_flipper.addView(listNext);
 		this.view_flipper.addView(listNews);
-		if (isClient){
-			this.buttonReservations.setVisibility(View.VISIBLE);
-			this.buttonReservations.setBackgroundResource(R.drawable.button_selected);
-			this.view_flipper.setDisplayedChild(0);
-		}else{
-			this.buttonReservations.setVisibility(View.GONE);
-			this.buttonAllConcerts.setBackgroundResource(R.drawable.button_selected);
-			this.view_flipper.setDisplayedChild(1);
-		}
-		buttonReservations.setOnClickListener(this);
+		this.buttonAllConcerts.setBackgroundResource(R.drawable.button_selected);
+		this.view_flipper.setDisplayedChild(1);
 		buttonAllConcerts.setOnClickListener(this);
 		buttonNews.setOnClickListener(this);
 		buttonNextConcerts.setOnClickListener(this);
+
 	} 
 	
 
@@ -80,14 +68,11 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		getMenuInflater().inflate(R.menu.connected, menu);
 		decoItem = menu.findItem(R.id.menu_deconect);
 		bluetoothItem = menu.findItem(R.id.bluetooth);
-
-		updateItem = menu.findItem(R.id.update);
-		scanPushItem = menu.findItem(R.id.scanpush);
+		updateItem = menu.findItem(R.id.update); 
 		//decoItem.setIcon(R.drawable.logout);
 		decoItem.setOnMenuItemClickListener(this);
 		bluetoothItem.setOnMenuItemClickListener(this);
 		updateItem.setOnMenuItemClickListener(this);
-		scanPushItem.setOnMenuItemClickListener(this);
 		return true;
 	}
 
@@ -95,21 +80,17 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	public void onClick(View v) {
 		Button b = (Button)v;
 		index = view_flipper.getDisplayedChild();
-		buttonReservations.setBackgroundResource(R.drawable.button_unselected);
 		buttonAllConcerts.setBackgroundResource(R.drawable.button_unselected);
 		buttonNews.setBackgroundResource(R.drawable.button_unselected);
 		buttonNextConcerts.setBackgroundResource(R.drawable.button_unselected);
-		if (b == buttonReservations){
+		if (b == buttonAllConcerts){
 			nextIndex = 0;
-			buttonReservations.setBackgroundResource(R.drawable.button_selected);
-		}else if (b == buttonAllConcerts){
-			nextIndex = 1;
 			buttonAllConcerts.setBackgroundResource(R.drawable.button_selected);
 		}else if (b == buttonNextConcerts){
-			nextIndex = 2; 
+			nextIndex = 1; 
 			buttonNextConcerts.setBackgroundResource(R.drawable.button_selected);
 		}else{ 
-			nextIndex = 3;
+			nextIndex = 2;
 			buttonNews.setBackgroundResource(R.drawable.button_selected);
 		}
 		if (nextIndex != index){
@@ -178,18 +159,6 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		//		Log.i("NET", "On n'est pas connecté !!");
 			
 		//	}
-		}
-		else if (item == scanPushItem){
-			String jsonScan;
-			jsonScan = dataBase.getJsonScanMAJ();
-			Log.i("ScanJson", "Json: "+jsonScan);
-			DatabaseServer ser = new DatabaseServer();
-			ser.postRequest("majReservation", jsonScan);
-			/*TODO Supprimer en fonction de la reponse*/
-			dataBase.deleteResMAJ();
-			String jsonScan2;
-			jsonScan2 = dataBase.getJsonScanMAJ();
-			Log.i("ScanJson", "Json2: "+jsonScan2);
 		}
 		else{
 			intent = new Intent(this, BluetoothActivity.class);

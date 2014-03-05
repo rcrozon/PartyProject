@@ -112,16 +112,16 @@ public class DatabaseCreate extends SQLiteOpenHelper {
  
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DROP TABLE " + Tables.CLIENT_TABLE + ";");
-		db.execSQL("DROP TABLE " + Tables.CONCERT_TABLE + ";");
-		db.execSQL("DROP TABLE " + Tables.RES_TABLE + ";");
-		db.execSQL("DROP TABLE " + Tables.RESMAJ_TABLE + ";");
-		db.execSQL("DROP TABLE " + Tables.ARTISTS_TABLE + ";");
-		db.execSQL("DROP TABLE " + Tables.ASSOC_STYLES_TABLE + ";");
-		db.execSQL("DROP TABLE " + Tables.ASSOC_TARIFFS_TABLE + ";");
-		db.execSQL("DROP TABLE " + Tables.ASSOC_ARTISTS_TABLE + ";");
-		db.execSQL("DROP TABLE " + Tables.STYLES_TABLE + ";");
-		db.execSQL("DROP TABLE " + Tables.TARIFFS_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.CLIENT_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.CONCERT_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.RES_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.RESMAJ_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.ARTISTS_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.ASSOC_STYLES_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.ASSOC_TARIFFS_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.ASSOC_ARTISTS_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.STYLES_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.TARIFFS_TABLE + ";");
 		onCreate(db);
 		
 	}

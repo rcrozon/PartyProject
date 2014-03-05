@@ -1,15 +1,34 @@
 package com.example.myparty;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+import android.R.string;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import databaseHandler.DatabaseHandler;
+import databaseHandler.DatabaseServer;
+import databaseHandler.MyJsonParser;
+import databaseHandler.ThreadRequestResult;
+import entities.Client;
+import entities.Concert;
 
 
 public class ConnectionActivity extends Activity implements OnClickListener {
@@ -19,6 +38,7 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 	
 	private boolean running = true;
 	private DatabaseHandler dataBase;
+	private Context context;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,13 +123,99 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		return true;
 	}
 	
+	public static boolean isNetworkConnected(Context context) {
+		ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		return (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected());
+		
+	}
+	public void loadDatabase(){
+		/****************** OUVERTURE BDD ***********************************/
 
+		dataBase = new DatabaseHandler(context);
+		dataBase.open();
+		
+		/******************  BDD EXTERNE  ***********************************/
+		ThreadRequestResult t = new ThreadRequestResult("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/", "getAllConcerts");
+		t.start();
+		try {
+			t.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Log.i("NET", ""+t.getResult());
+		
+		/********************* Test du serveur et de la connexion internet ******************************/
+		if(isNetworkConnected(context) /*&& t.getResult() != null*/){
+			
+			/*ON ENVOI LA REQUETE*/
+			DatabaseServer dbbs = new DatabaseServer(); 
+			MyJsonParser parser = new MyJsonParser(context);
+			
+			String tmp =dbbs.getRequest("getAllClients");
+			String concertString = dbbs.getRequest("getAllConcerts");
+			String reservationString = dbbs.getRequest("getAllReservations");
+			String tarrifString = dbbs.getRequest("getAllTariffs");
+
+			List<Client> clientlist = parser.getClientFromJson(tmp);
+			List<Concert> concertlist = parser.getConcertFromJson(concertString);
+			
+			/*On insere les concerts dans bdd*/
+			for (int i=0 ; i< concertlist.size() ; i++){
+				Concert c = concertlist.get(i);
+				Log.i("Concert",c.testToString());
+				dataBase.insertConcert(c);
+			}
+			
+			/*On insere les clients dans bdd*/
+			for (int i=0 ; i< clientlist.size() ; i++){
+				Client c = clientlist.get(i);
+				Log.i("Client",c.testToString());
+				dataBase.insertClient(c);
+			}
+			/*On insere les reservations*/
+			parser.getReservationAndInsert(reservationString);
+			
+			/*On insere les Tarrifs*/
+			parser.getTariffsAndInsert(tarrifString);
+			
+			Log.i("SCAN", "TARIF ADULTE ?? ::"+ dataBase.getLabelById(7));
+			Log.i("NET", "On est connectÃ© !!");
+		}
+		else{
+			Log.i("NET", "On n'est pas connectÃ© !!");
+		
+		}
+	}
+	
 	@Override
 	public void onClick(View v) {
 		Button b = (Button)v;
 		if (b == buttonConnexion){
 			
 			/* TODO A DECOMMENTER SI ON NE VEUT PAS UTILISER AUTHENTIFICATION*/
+			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
+			String password = pwd.getText().toString();
+			Log.i("HSA", "entré "+ password);
+			
+			
+			 
+			 String crypte="";
+			 for (int i=0; i<password.length();i++)  {
+			            int c=password.charAt(i)^60;  
+			            crypte=crypte+(char)c; 
+			        }
+			  
+			 Log.i("HSA", "crypyé "+ crypte);
+			 
+			 String aCrypter="";
+			 for (int i=0; i<crypte.length();i++)  {
+	            int c=crypte.charAt(i)^60; 
+	            aCrypter=aCrypter+(char)c; 
+				}
+			 Log.i("HSA", "decrypyé "+ aCrypter);
+			
+		       
 			Intent intent = new Intent(this, ConcertActivity.class);
 	    	this.startActivity(intent);
 			

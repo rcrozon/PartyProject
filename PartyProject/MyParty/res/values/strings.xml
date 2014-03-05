@@ -25,6 +25,7 @@
     <string name="tickets">Tickets</string>
     <string name="map">Map</string>
     
+    <string name="unknown_user">Invalid username or password</string>
     <string name="bluetooth">Bluetooth</string>
     <string name="update">Update</string>
      <string name="scanpush">ScanPush</string>
@@ -36,6 +37,7 @@
     
     <integer name="google_play_services_version">4242000</integer>
     
+    <color name="red">#FF0000</color>
     <color name="blue">#1E7FCB</color>
     <color name="trueblue">#0000FF</color>
     <color name="black">#000000</color>

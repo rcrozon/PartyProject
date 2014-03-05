@@ -12,9 +12,9 @@ import android.util.Log;
 import entities.Client;
 import entities.Concert;
 
-public class DatabaseHandler {   
+public class DatabaseHandler {     
 	
-	private static final int VERSION_BDD = 69;
+	private static final int VERSION_BDD = 74;
 	private static final String BDD_NAME = "myparty.db";
 	private SQLiteDatabase bdd;
 	private DatabaseCreate SQLiteBase ;
