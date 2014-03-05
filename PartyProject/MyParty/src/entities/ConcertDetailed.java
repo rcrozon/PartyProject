@@ -2,6 +2,7 @@ package entities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import com.google.android.gms.internal.bu;
 
 import databaseHandler.Tables;
 import databaseHandler.ThreadBitMap;
+import databaseHandler.ThreadTestServer;
 
 public class ConcertDetailed extends RelativeLayout {
 
@@ -40,19 +42,32 @@ public class ConcertDetailed extends RelativeLayout {
 
 
 			/*********** Si le serveur est dispo **********************/
+			ThreadTestServer tPing = new ThreadTestServer(context);
+			tPing.start();
 
-			ThreadBitMap t = new ThreadBitMap(Tables.IMG_PATH_SERVER + concert.getImagePath());
-			t.start();
 			try {
-				t.join();
+				tPing.join();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			imgView.setImageBitmap(t.getResult());
-			imgView.setLayoutParams(layoutParams);
+			if (isNetworkConnected(context) && tPing.getResult()){
+				ThreadBitMap t = new ThreadBitMap(Tables.IMG_PATH_SERVER + concert.getImagePath(),1);
+				t.start();
+				try {
+					t.join();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				imgView.setImageBitmap(t.getResult());
+				imgView.setLayoutParams(layoutParams);
 
-			Log.i("ConcertPath", Tables.IMG_PATH_SERVER + concert.getImagePath());
+				Log.i("ConcertPath", Tables.IMG_PATH_SERVER + concert.getImagePath());
+			}
+			else{
+				imgView.setBackgroundResource(R.drawable.party2);
+				imgView.setLayoutParams(layoutParams);
+			}
 
 			/***********************************************************/
 
@@ -104,5 +119,11 @@ public class ConcertDetailed extends RelativeLayout {
 			this.addView(imgView);
 			this.addView(layoutConcertData);
 		}
-	}
+		}
+		
+		public static boolean isNetworkConnected(Context context) {
+			ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+			return (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected());
+			
+		}
 }

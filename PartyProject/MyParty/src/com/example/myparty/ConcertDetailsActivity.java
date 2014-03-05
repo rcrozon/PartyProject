@@ -88,11 +88,12 @@ public class ConcertDetailsActivity extends Activity implements
 			concert = dataBase.getConcertWithId(b.getInt("id"));
 			clientForConcert = dataBase.getClientsForOneConcert(concert.getId());
 		}
-		for (int i =0; i < clientForConcert.size();i++){
+		if (clientForConcert!=null)
+		{for (int i =0; i < clientForConcert.size();i++){
 			Log.i("NOMBRE", "Client : "+clientForConcert.get(i).getId()+clientForConcert.get(i).getFirstName()+ " Possede : "+dataBase.getNumberResClientForOneConcert(concert, clientForConcert.get(i))+" Tickets"
 					+ " Pour "+ concert.getId()+concert.getTitle());
 		}
-
+		}
 		
 /************************** Traitement du bouton validation scan ***********************************/
 		this.scanner = new ScanLayout(this, this);
@@ -120,7 +121,7 @@ public class ConcertDetailsActivity extends Activity implements
 		this.view_flipper.addView(new ListLayout(this, new ClientList(this,
 				clientForConcert,concert)));
 		this.view_flipper.addView(scanner);
-		this.view_flipper.addView(new StatsList(this));
+		this.view_flipper.addView(new StatsList(this, concert.getId()));
 
 		if (isCLient) {
 			this.buttonTickets.setVisibility(View.VISIBLE);

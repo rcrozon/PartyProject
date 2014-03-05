@@ -29,7 +29,7 @@ public class ChartTicketsSold extends Charts{
     }
 
 	@Override
-	public PieDataset createDataset(HashMap<String, Integer> values) {
+	public PieDataset createDataset(HashMap<String, Double> values) {
 		// TODO Auto-generated method stub
 		return null;
 	}

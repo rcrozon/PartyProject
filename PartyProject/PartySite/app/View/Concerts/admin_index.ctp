@@ -66,7 +66,38 @@
       </div>
     </div>
 
-    <div class="col-lg-8">
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i><center>- Stats -<br/><i>Top 5 Best Sellers</i></center></h3>
+        </div>
+        <div class="panel-body">
+          <div style="height: 250px;"><?php echo $top5; ?></div>
+          <div class="text-right">
+            <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i><center>- Moving Line Chart -<br/><i>RealTime</i></center></h3>
+        </div>
+        <div class="panel-body">
+          <div id="placeholder" style="height: 250px;"></div>
+          <div class="text-right" style="font-style:italic;font-size:smaller;">
+            Time between updates: <input id="updateInterval" type="text" value="" 
+              style="text-align:right;width:5em;margin:0;padding:0;height:20px;"> milliseconds
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:30px;">
+    <div class="col-lg-12">
       <div class="panel panel-primary">
         <div class="panel-heading">
           <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i><center>- Area Line Graph -<br/><i>Evolution of sales during this month</i></center></h3>
@@ -80,7 +111,6 @@
       </div>
     </div>
   </div>
-</div>
 
 <script type="text/javascript">
   new Morris.Donut({
@@ -88,8 +118,6 @@
   data: [
     {value: <?php echo $percentScanned; ?>, label: 'Scanned'},
     {value: <?php echo $percentNotScanned; ?>, label: 'Not Scanned'}
-    /*{value: 10, label: 'baz'},
-    {value: 5, label: 'A really really long label'}*/
   ],
   formatter: function (x) { return x + "%"}
 }).on('click', function(i, row){
@@ -97,36 +125,7 @@
 });
 </script>
 
-<!--<script type="text/javascript">
-  new Morris.Area({
-  element: 'areachart',
-  data: [
-    { y: '2006', a: 100, b: 90 },
-    { y: '2007', a: 75,  b: 65 },
-    { y: '2008', a: 50,  b: 40 },
-    { y: '2009', a: 75,  b: 65 },
-    { y: '2010', a: 50,  b: 40 },
-    { y: '2011', a: 75,  b: 65 },
-    { y: '2012', a: 100, b: 90 }
-  ],
-  xkey: 'y',
-  ykeys: ['a', 'b'],
-  labels: ['Series A', 'Series B']
-});
-</script>-->
-
 <script type="text/javascript">
-  /* data stolen from http://howmanyleft.co.uk/vehicle/jaguar_'e'_type */
-  /*var day_data = [
-    {"period": "<?php echo $year;?>-<?php echo $month;?>-01", "nbSales": 100},
-    {"period": "<?php echo $year;?>-<?php echo $month;?>-05", "nbSales": 75},
-    {"period": "<?php echo $year;?>-<?php echo $month;?>-10", "nbSales": 50},
-    {"period": "<?php echo $year;?>-<?php echo $month;?>-15", "nbSales": 75},
-    {"period": "<?php echo $year;?>-<?php echo $month;?>-20", "nbSales": 50},
-    {"period": "<?php echo $year;?>-<?php echo $month;?>-25", "nbSales": 75},
-    {"period": "<?php echo $year;?>-<?php echo $month;?>-31", "nbSales": 100}
-  ];*/
-
   var day_data = [<?php echo $dataDay; ?>];
 
   new Morris.Area({
@@ -138,3 +137,71 @@
     xLabelAngle: 60
   });
 </script>
+
+<script type="text/javascript">
+    $(function() {
+      // We use an inline data source in the example, usually data would
+      // be fetched from a server
+      var data = [], totalPoints = 300;
+
+      function getRandomData() {
+        if (data.length > 0)
+          data = data.slice(1);
+        // Do a random walk
+        while (data.length < totalPoints) {
+          var prev = data.length > 0 ? data[data.length - 1] : 50,
+            y = prev + Math.random() * 10 - 5;
+          if (y < 0) {
+            y = 0;
+          } else if (y > 100) {
+            y = 100;
+          }
+          data.push(y);
+        }
+        // Zip the generated y values with the x values
+        var res = [];
+        for (var i = 0; i < data.length; ++i) {
+          res.push([i, data[i]])
+        }
+        return res;
+      }
+      // Set up the control widget
+      var updateInterval = 30;
+      $("#updateInterval").val(updateInterval).change(function () {
+        var v = $(this).val();
+        if (v && !isNaN(+v)) {
+          updateInterval = +v;
+          if (updateInterval < 1) {
+            updateInterval = 1;
+          } else if (updateInterval > 2000) {
+            updateInterval = 2000;
+          }
+          $(this).val("" + updateInterval);
+        }
+      });
+      var plot = $.plot("#placeholder", [ getRandomData() ], {
+        series: {
+          shadowSize: 0 // Drawing is faster without shadows
+        },
+        lines: {
+          fill: true
+        },
+        yaxis: {
+          min: 0,
+          max: 100
+        },
+        xaxis: {
+          show: false
+        }
+      });
+      function update() {
+        plot.setData([getRandomData()]);
+        // Since the axes don't change, we don't need to call plot.setupGrid()
+        plot.draw();
+        setTimeout(update, updateInterval);
+      }
+      update();
+      // Add the Flot version string to the footer
+      $("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
+    });
+  </script>

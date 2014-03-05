@@ -55,6 +55,15 @@ public abstract class Charts extends DemoView implements Items {
         this.setChart(chart);
 
     }
+    
+    public void updateDataset(PieDataset dataset){
+    	AFreeChart chart = ChartFactory.createPieChart("", // chart title
+                dataset, // data
+                false, // include legend
+                false,
+                false);
+    	this.setChart(chart);
+    }
 
 	@Override
 	public void setVisible(boolean visible) {
@@ -64,6 +73,6 @@ public abstract class Charts extends DemoView implements Items {
 			this.setVisibility(INVISIBLE);
 	}
     public abstract PieDataset createDataset(int[] values);
-    public abstract PieDataset createDataset(HashMap<String, Integer> values);
+    public abstract PieDataset createDataset(HashMap<String, Double> values);
 
 }

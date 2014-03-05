@@ -22,10 +22,10 @@ public class ChartTariff extends Charts {
     public PieDataset createDataset(int[] values) {return null;}
     
 	@Override
-	public PieDataset createDataset(HashMap<String, Integer> values) {
+	public PieDataset createDataset(HashMap<String, Double> values) {
 		DefaultPieDataset dataset = new DefaultPieDataset();
 		for(String tariff : values.keySet()){
-	        dataset.setValue(tariff, Double.valueOf(values.get(tariff)));
+	        dataset.setValue(tariff, values.get(tariff));
 		}
 		return dataset;
 	}

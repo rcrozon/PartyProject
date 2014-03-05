@@ -17,18 +17,20 @@ import charts.Charts;
 
 import com.example.myparty.R;
 
+import databaseHandler.DatabaseHandler;
 import entities.Client;
 
 public class StatsList extends LinearLayout {
 
-	Charts chartTicketSold ; 
-	Charts chartTariff ;
-	Charts chartPersonsIn ; 
-	LinearLayout layout ;
-	Adapter adapter ;
-	ScrollView scrollStats;
+	private Charts chartTicketSold ; 
+	private Charts chartTariff ;
+	private Charts chartPersonsIn ; 
+	private LinearLayout layout ;
+	private Adapter adapter ;
+	private ScrollView scrollStats;
+	private DatabaseHandler database;
 	
-	public StatsList(Context context) {
+	public StatsList(Context context, int idConcert) {
 		super(context);
 		ScrollView scrollStats = new ScrollView(context);
 		
@@ -36,13 +38,15 @@ public class StatsList extends LinearLayout {
 		layout.setOrientation(LinearLayout.VERTICAL);
 		layout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,500, Gravity.CENTER_HORIZONTAL));
 		
+		database = new DatabaseHandler(context);
+		database.open();
+		
 		chartTicketSold = new ChartTicketsSold(context);
 		chartTariff = new ChartTariff(context); 
 		chartPersonsIn = new ChartPersonsIn(context);
-		HashMap<String, Integer> tariffs = new HashMap<String, Integer>();
-		tariffs.put("Etudiants", 43);
-		tariffs.put("Senior", 20);
-		tariffs.put("Normal", 12);
+		HashMap<String, Double> tariffs = database.getTariffsFromConcert(idConcert);
+		//ArrayList<Client> clients = database.getClientsForOneConcert(idConcert);
+		int cptIn = 0, cptOut = 0;
 		int tickets[] = {8, 12};
 		int persons[] = {52, 12};
 		chartTicketSold.createChart(chartTicketSold.createDataset(tickets));

@@ -151,6 +151,40 @@ class ConcertsController extends AppController{
         $d['dataDay'] = $dataDay;
         $this->set($d);
         # # # # # # # # # # # # # # # # # # # # # #
+        $party = $this->Concert->find('all');
+        foreach ($party as $k => $v) {
+            $id_concert = $v['Concert']['id'];
+            $nb_reserv = $this->Reservation->find('count', array(
+                'conditions' => array('Reservation.id_concert' => $id_concert)
+            ));
+            $tab_reserv[] = $nb_reserv;
+            $tab_idConcert[] = $id_concert;
+        }
+        $top = 5;
+        $rank = 1;
+        $result = "";
+        while($top != 0) {
+            $max = -1;
+            $indice = -1;
+            for($i = 0; $i <= sizeof($tab_reserv)-1; $i++) {
+                if($tab_reserv[$i] != -1) {
+                    if($tab_reserv[$i] > $max) {
+                        $max = $tab_reserv[$i];
+                        $indice = $i;
+                    }
+                }
+            }
+            $nameConcert = $this->Concert->find('first', array(
+                'conditions' => array('Concert.id' => $tab_idConcert[$indice])
+            ));
+            $result = $result."<tr><td>".$rank."</td><td>".$nameConcert['Concert']['name_concert']."</td><td style=".'"'."padding-left:25px;".'"'.">".$tab_reserv[$indice]."</td></tr>";
+            $tab_reserv[$indice] = -1;
+            $top--;
+            $rank++;
+        }
+        $result = "<table><th>Rank</th><th>Name</th><th>Nb Sales</th>".$result."</table>";
+        $d['top5'] = $result;
+        $this->set($d);
     }
 
 	function admin_addConcert() {

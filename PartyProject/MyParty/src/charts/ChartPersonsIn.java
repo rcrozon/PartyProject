@@ -24,6 +24,6 @@ public class ChartPersonsIn extends Charts{
         return dataset;
     }
 	@Override
-	public PieDataset createDataset(HashMap<String, Integer> values) {return null;}
+	public PieDataset createDataset(HashMap<String, Double> values) {return null;}
 	
 }

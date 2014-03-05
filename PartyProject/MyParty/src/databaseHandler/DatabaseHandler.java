@@ -330,8 +330,8 @@ public class DatabaseHandler {
 	
 /***************** TROUVER LA LISTE DES CLIENTS POUR UN CONCERT DANS LA BDD ***************************/
 	
-	public List<Client> getClientsForOneConcert(int id_concert){
-		List<Client> cl = new ArrayList<Client>();
+	public ArrayList<Client> getClientsForOneConcert(int id_concert){
+		ArrayList<Client> cl = new ArrayList<Client>();
 	
 		Cursor c = bdd.query(true, Tables.RES_TABLE,
 				new String[] {Tables.RES_NAME_ID, 
