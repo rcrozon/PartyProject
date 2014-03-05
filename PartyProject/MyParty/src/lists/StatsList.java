@@ -16,6 +16,7 @@ import charts.ChartTicketsSold;
 import charts.Charts;
 
 import com.example.myparty.R;
+import com.google.android.gms.internal.da;
 
 import databaseHandler.DatabaseHandler;
 import entities.Client;
@@ -45,6 +46,7 @@ public class StatsList extends LinearLayout {
 		chartTariff = new ChartTariff(context); 
 		chartPersonsIn = new ChartPersonsIn(context);
 		HashMap<String, Double> tariffs = database.getTariffsFromConcert(idConcert);
+		
 		int cptIn = 0, cptOut = 0;
 		int tickets[] = {8, 12};
 		int persons[] = {cptIn, cptOut};

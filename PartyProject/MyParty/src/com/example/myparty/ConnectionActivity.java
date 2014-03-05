@@ -111,7 +111,7 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-		running = false;
+		running = false; 
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

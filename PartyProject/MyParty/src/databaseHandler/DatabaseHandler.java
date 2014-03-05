@@ -284,6 +284,7 @@ public class DatabaseHandler {
 	
 	/***************** TROUVER LES TARIFS PAR ID DE CONCERT DANS LA BDD ***************************/
 	public HashMap<String, Double> getTariffsFromConcert(int id_concert){
+		Log.i("TARIFF", "passe");
 		HashMap<String, Double> mapTariffs = new HashMap<String, Double>();
 		Cursor c1 = bdd.query(Tables.ASSOC_TARIFFS_TABLE, 
 				new String[] {Tables.ASSOC_TARIFF_NAME_ID_TARIFF}, 
@@ -301,7 +302,8 @@ public class DatabaseHandler {
 				Tables.TARIFF_NAME_ID + " LIKE \"" + id_tariff + "\"", null, null, null, null);
 			c.moveToFirst();
 			mapTariffs.put(c.getString(0), c.getDouble(1));
-		}
+			
+		} 
 		return mapTariffs;
 	}
 
