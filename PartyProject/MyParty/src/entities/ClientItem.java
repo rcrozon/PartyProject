@@ -51,7 +51,8 @@ public class ClientItem extends LinearLayout implements Items{
 		email.setText(client.getEmail());
 		if (concert.getId()!=0 && client.getId()!=0){
 			int nb = database.getNumberResClientForOneConcert(concert, client);
-			nbTicket.setText(""+nb+ " Tickets");
+			int nbScan = database.getNumberResClientForOneConcertScanned(concert, client);
+			nbTicket.setText(""+nbScan+" Scanned / "+nb+ " Tickets");
 		}
 		login.setText(client.getLogin());
 		pwd.setText(client.getPassword());

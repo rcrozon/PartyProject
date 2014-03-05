@@ -160,23 +160,13 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 				String json = "[{\"username\":\""+myLogin+"\",\"password\":\""+password+"\"}]";
 
 
-				Log.i("HSA", json);
-				Log.i("HSA", encrypted);
+				Log.i("HSA", " "+json);
+				Log.i("HSA", " "+encrypted);
 
 				DatabaseServer dbbs = new DatabaseServer();
-				String reponse = dbbs.postRequest("login", json);
+				String reponse = dbbs.postRequest("login"," "+ json);
 				Log.i("HSA", "REP: "+reponse);
-
-
-				/* Decrypt */
-				/*String decrypted=null;
-			try {
-				decrypted = new String( mcrypt.decrypt( encrypted ) );
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Log.i("HSA", "decrypté "+ decrypted);*/
+				/*Vérifier la réponse et vérifier si on a un admin puis insérer l'admin*/
 
 				Intent intent = new Intent(this, ConcertActivity.class);
 				this.startActivity(intent);
@@ -188,7 +178,16 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 				EditText login = (EditText)findViewById(R.id.loginTextEdit);
 				EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
 				Log.i("LOGIN", login.getText().toString() + "  " + pwd.getText().toString());
-				if (dataBase.authentification(login.getText().toString(), pwd.getText().toString())){
+				//MCrypt mcryptVerif = new MCrypt();
+				/*String encryptedVerif=null;
+				try {
+					encryptedVerif = MCrypt.bytesToHex( mcryptVerif.encrypt(pwd.getText().toString()) );
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}*/
+				//Log.i("LOGIN", "Encr  "+encryptedVerif);
+				if (dataBase.authentificationAdmin(login.getText().toString(),pwd.getText().toString() )){
 					Intent intent = new Intent(this, ConcertActivity.class);
 					this.startActivity(intent);
 				}
