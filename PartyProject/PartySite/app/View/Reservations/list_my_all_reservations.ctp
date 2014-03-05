@@ -16,8 +16,8 @@
       <tbody>
 
       <?php 
+      for ($i = 0; $i < sizeof($reservations); $i++) {
 
-      for ($i = 0; $i <= sizeof($reservations)-1; $i++) {
 
 
         echo '<tr>';
@@ -29,7 +29,7 @@
         echo '<td>'.$concert['Concert']['name_concert'].'</td>';
         echo '<td>'.$client['Client']['first_name'].' '.$client['Client']['last_name'].'</td>';
         echo '<td>'.$tarif['Tarif']['label'].'</td>';
-        if($reservations[$i]['Reservation']['id_client']==1){
+        if($reservations[$i]['Reservation']['scan']=='0'){
             echo '<td>'.'<span class="label label-danger">Not scanned</span>'.'</td>';
         }
         else{

@@ -1,4 +1,5 @@
 <?php
+require('../webroot/encrypt/encrypt.php');
 class MobilesController  extends AppController{
 
 
@@ -106,6 +107,9 @@ class MobilesController  extends AppController{
    return new CakeResponse(array('body' => json_encode($data)));    
 
     }
+
+
+
      public function decodejs() {
 //	    $message=$this->request->data['json'];
 
@@ -123,5 +127,53 @@ class MobilesController  extends AppController{
 	}	
 
     }
+   
+   public function majReservation() {
+
+	$data = $this->request->data['json'];	
+	$message = json_decode($data);
+	$log =  array();
+    for ($i = 0; $i < sizeof($message); $i++) {
+    	
+		if($this->Reservation->save($message[$i],false)){
+			$log[$i] = $i;
+			
+		} 	
+		else{
+
+		return new CakeResponse(array('body' => json_encode($log))); 
+		}
+	
+	}
+		return new CakeResponse(array('body' => json_encode('success'))); 
+
+}
+	public function login(){
+
+	$data = $this->request->data['json'];
+
+	$message = json_decode($data,true);
+	$username =	$message[0]['username'];
+	$password = $message[0]['password'];
+	$mcrypt = new MCrypt();
+
+	$decrypted = $mcrypt->decrypt($message[0]['password']);
+
+	$results = $this->Client->find('first',array(
+            'conditions' => array('Client.username' => $username)));
+	if ($results == null){
+		return new CakeResponse(array('body' => json_encode('Invalid Login'))); 
+	}
+
+	$test =	Security::hash($decrypted,NULL,true);
+	if ($results['Client']['password']== $test){
+
+		return new CakeResponse(array('body' => json_encode($results))); 
+	}
+	else{
+		return new CakeResponse(array('body' => json_encode('Invalid password'))); 
+
+	}
+  }    
 
 }

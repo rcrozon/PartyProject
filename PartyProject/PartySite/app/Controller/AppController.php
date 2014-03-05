@@ -28,10 +28,14 @@ class AppController extends Controller {
 
     function beforeFilter(){
     	//debug($this->request);
+
 		$this->Auth->authenticate = array(
 		    AuthComponent::ALL => array('userModel' => 'Client'),
 		    'Basic',
-		    'Form'
+		     'Form' => array(
+                'passwordHasher' => array(
+                    'className' => 'Custom'
+                ))
 		);
 		//$this->Auth->allow();
         $this->Auth->authorize = 'Controller';
