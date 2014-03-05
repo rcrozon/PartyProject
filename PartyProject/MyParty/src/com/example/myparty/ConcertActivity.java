@@ -1,29 +1,9 @@
 package com.example.myparty;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.List;
-
-import databaseHandler.DatabaseHandler;
-import databaseHandler.DatabaseServer;
-import databaseHandler.MyJsonParser;
-import databaseHandler.Tables;
-import databaseHandler.ThreadTestServer;
-import entities.Client;
-import entities.Concert;
 import lists.ConcertList;
 import lists.ListLayout;
-import lists.ReservationsList;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -32,8 +12,9 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.ViewFlipper;
+import databaseHandler.DatabaseHandler;
+import databaseHandler.DatabaseServer;
 
 public class ConcertActivity extends Activity implements OnClickListener, OnMenuItemClickListener{
 
@@ -52,11 +33,15 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
+/******* OUVERTURE SQLITE ******************************************************************************************/
+		
 		dataBase = new DatabaseHandler(this);
 		dataBase.open();
-		/*********  Mise a jour des tables*************/
-		updateAllTable();
+		
+/******* MISE A JOUR SQLITE DEPUIS LE SERVEUR ******************************************************************************************/
+		
+		DatabaseHandler.updateAllTable(this);
 
 		setContentView(R.layout.activity_concerts);
 		buttonAllConcerts = (Button)findViewById(R.id.buttonAllConcerts);
@@ -131,7 +116,9 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 			this.startActivity(intent);
 		}
 		else if(item == updateItem){
-			if(updateAllTable()){
+			
+			if(DatabaseHandler.updateAllTable(this)){
+				
 				intent = new Intent(this, ConcertActivity.class);
 				this.startActivity(intent);
 			}
@@ -162,81 +149,8 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		return false;
 	}
 
-	/**
-	 * 
-	 * No return
-	 * 
-	 */
-
 	public void onBackPressed(){
 		//No implementation
 	}
-
-	public static boolean isNetworkConnected(Context context) {
-		ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		return (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected());
-
-	}
-
-	public Boolean isAvailableServer(){
-		ThreadTestServer tPing = new ThreadTestServer(this);
-		tPing.start();
-		try {
-			tPing.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		return tPing.getResult();
-	}
-
-	public Boolean updateAllTable(){
-		/********************* Test du serveur et de la connexion internet ******************************/
-		if(isNetworkConnected(this) && isAvailableServer()){
-			/*Vide la table*/
-			dataBase.deleteAllTable();
-			/*ON ENVOI LA REQUETE*/
-			DatabaseServer dbbs = new DatabaseServer(); 
-			MyJsonParser parser = new MyJsonParser(this);
-
-			String tmp =dbbs.getRequest("getAllClients");
-			String concertString = dbbs.getRequest("getAllConcerts");
-			String reservationString = dbbs.getRequest("getAllReservations");
-			String tarrifString = dbbs.getRequest("getAllTariffs");
-
-			List<Client> clientlist = parser.getClientFromJson(tmp);
-			List<Concert> concertlist = parser.getConcertFromJson(concertString);
-
-			/*On insere les concerts dans bdd*/
-			for (int i=0 ; i< concertlist.size() ; i++){
-				Concert c = concertlist.get(i);
-				Log.i("Concert",c.testToString());
-				dataBase.insertConcert(c);
-			}
-
-			/*On insere les clients dans bdd*/
-			for (int i=0 ; i< clientlist.size() ; i++){
-				Client c = clientlist.get(i);
-				Log.i("Client",c.testToString());
-				dataBase.insertClient(c);
-			}
-			/*On insere les reservations*/
-			parser.getReservationAndInsert(reservationString);
-
-			/*On insere les Tarrifs*/
-			parser.getTariffsAndInsert(tarrifString);
-
-			Log.i("SCAN", "TARIF ADULTE ?? ::"+ dataBase.getLabelById(7));
-			Log.i("NET", "On est connecté !!");
-			return true;
-		}
-
-
-		else{
-			Log.i("NET", "On n'est pas connecté !!");
-			return false;
-
-		}
-	}
-
 
 }
