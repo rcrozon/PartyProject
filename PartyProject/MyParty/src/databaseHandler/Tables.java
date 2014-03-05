@@ -53,6 +53,8 @@ public final class Tables {
 	public static final int CONCERT_NUM_ONLINE = 9;
 	public static final String CONCERT_NAME_ID_TARIF = "id_tarif";
 	public static final int CONCERT_NUM_ID_TARIF = 10;
+	public static final String CONCERT_NAME_CREATED = "created";
+	public static final int CONCERT_NUM_CREATED = 11;
 
 /************* TABLE RESERVATION *************************/
 	

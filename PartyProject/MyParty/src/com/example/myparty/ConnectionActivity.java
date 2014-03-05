@@ -5,6 +5,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import databaseHandler.DatabaseHandler;
 import databaseHandler.DatabaseServer;
@@ -52,7 +54,6 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		String jsonScan;
 		jsonScan = dataBase.getJsonScanMAJ();
 		Log.i("ScanJson", "Json:"+jsonScan);
-
 	}
 
 	@Override
@@ -77,14 +78,14 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-		running = false; 
+		running = false;
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		item = menu.findItem(R.id.menu_refresh);
-		return true; 
+		return true;
 	}
 
 
@@ -123,7 +124,7 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				String json = "[{\"username\":\""+myLogin+"\",\"password\":\""+encrypted+"\"}]";
+				String json = "[{\"username\":\""+myLogin+"\",\"password\":\""+password+"\"}]";
 
 
 				Log.i("HSA", " "+json);
@@ -132,7 +133,7 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 				DatabaseServer dbbs = new DatabaseServer();
 				String reponse = dbbs.postRequest("login"," "+ json);
 				Log.i("HSA", "REP: "+reponse);
-
+				/*Vérifier la réponse et vérifier si on a un admin puis insérer l'admin*/
 				/*
 				 * Décommenter quand il ya ura bonne reponse
 				 */
@@ -142,7 +143,7 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 					if (logClient.get(0).getAdmin() == 1){
 						Client tmp =dataBase.getClientWithId(logClient.get(0).getId());
 						if (tmp == null){
-							dataBase.insertClient(logClient.get(0));
+							DatabaseHandler.insertClient(logClient.get(0));
 							Log.i("SERVER", "ON INSERE LE CLIENT");
 							Intent intent = new Intent(this, ConcertActivity.class);
 							this.startActivity(intent);
@@ -180,9 +181,6 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 					toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
 					toast.show();
 				}
-
-				
-
 			}
 			else{
 
@@ -210,9 +208,9 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 					/*** ERREUR *************/
 					Context myContext = getApplicationContext();
 					CharSequence text = "ERROR LOGIN OR PASSWORD !";
-					int duration = Toast.LENGTH_SHORT;
-
-					Toast toast = Toast.makeText(myContext, text, duration);
+					Toast toast = Toast.makeText(myContext, text, Toast.LENGTH_LONG);
+					TextView toastText = (TextView) toast.getView().findViewById(android.R.id.message);
+					toastText.setTextColor(Color.RED);
 					toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
 					toast.show();
 				}
@@ -221,67 +219,67 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	/**
-	 * Handler the icon showing the connection state
-	 */
-	private void lightHandler(){
-		new Thread(new Runnable() {
-			public void run() {
-				while(running){
-					//if (userFunctions.isUserLoggedIn())
-					//			connectedToServer(0);
-					//	else
-					connectedToServer(1);
-					try {
-						Thread.sleep(500);
-						connectedToServer(2);
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+		/**
+		 * Handler the icon showing the connection state
+		 */
+		private void lightHandler(){
+			new Thread(new Runnable() {
+				public void run() {
+					while(running){
+						//if (userFunctions.isUserLoggedIn())
+						//			connectedToServer(0);
+						//	else
+						connectedToServer(1);
+						try {
+							Thread.sleep(500);
+							connectedToServer(2);
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}
-			}
-		}).start();
-	}
-	/**
-	 * Change the icon
-	 * @param lighted : 0 if connected, 1 if not, 2 if refreshing
-	 */
-	private void connectedToServer(final int lighted){
-		this.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				if (item != null){
-					if (lighted == 0){
-						item.setIcon(R.drawable.ic_action_location_found_green);
-					}else if (lighted == 1){
-						item.setIcon(R.drawable.ic_action_location_found_red);
-					}else{
-						item.setIcon(R.drawable.ic_action_refresh);
+			}).start();
+		}
+		/**
+		 * Change the icon
+		 * @param lighted : 0 if connected, 1 if not, 2 if refreshing
+		 */
+		private void connectedToServer(final int lighted){
+			this.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					if (item != null){
+						if (lighted == 0){
+							item.setIcon(R.drawable.ic_action_location_found_green);
+						}else if (lighted == 1){
+							item.setIcon(R.drawable.ic_action_location_found_red);
+						}else{
+							item.setIcon(R.drawable.ic_action_refresh);
+						}
 					}
 				}
-			}
-		});
+			});
+		}
+
+
+		/**
+		 * Quit application
+		 * 
+		 */
+		public void onBackPressed(){
+			Intent intent = new Intent();
+			intent.setAction(Intent.ACTION_MAIN);
+			intent.addCategory(Intent.CATEGORY_HOME);
+			this.startActivity(intent);
+
+
+		}
+		public static boolean isNetworkConnected(Context context) {
+			ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+			return (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected());
+
+		}
+
 	}
-
-
-	/**
-	 * Quit application
-	 * 
-	 */
-	public void onBackPressed(){
-		Intent intent = new Intent();
-		intent.setAction(Intent.ACTION_MAIN);
-		intent.addCategory(Intent.CATEGORY_HOME);
-		this.startActivity(intent);
-
-
-	}
-	public static boolean isNetworkConnected(Context context) {
-		ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		return (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected());
-
-	}
-
-}

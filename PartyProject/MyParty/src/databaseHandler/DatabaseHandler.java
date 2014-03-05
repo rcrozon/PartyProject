@@ -1,7 +1,7 @@
 package databaseHandler;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashMap; 
 import java.util.List;
 
 import android.content.ContentValues;
@@ -15,7 +15,7 @@ import entities.Concert;
 
 public class DatabaseHandler {     
 	
-	private static final int VERSION_BDD = 101;
+	private static final int VERSION_BDD = 102;
 	private static final String BDD_NAME = "myparty.db";
 	private static SQLiteDatabase bdd;
 	private DatabaseCreate SQLiteBase ;
@@ -67,6 +67,7 @@ public class DatabaseHandler {
 		values.put(Tables.CONCERT_NAME_ID,concert.getId());
 		values.put(Tables.CONCERT_NAME_START_DATE, concert.getBeginDate());
 		values.put(Tables.CONCERT_NAME_END_DATE, concert.getEndDate());
+		values.put(Tables.CONCERT_NAME_CREATED, concert.getCreationDate());
 		values.put(Tables.CONCERT_NAME_LOCATION, concert.getLocation());
 		values.put(Tables.CONCERT_NAME_IMAGE, concert.getImagePath());
 		values.put(Tables.CONCERT_NAME_NB_SEAT, concert.getNbSeets());
@@ -366,7 +367,8 @@ public class DatabaseHandler {
 				Tables.CONCERT_NAME_ID_CREATOR,
 				Tables.CONCERT_NAME_TITLE_CONCERT,
 				Tables.CONCERT_NAME_ONLINE,
-				Tables.CONCERT_NAME_ID_TARIF}, 
+				Tables.CONCERT_NAME_ID_TARIF,
+				Tables.CONCERT_NAME_CREATED}, 
 				Tables.CONCERT_NAME_ID + " LIKE \"" + id +"\"", null, null, null, null);
 		if (c.getCount() != 1){
 			return null;
@@ -377,6 +379,7 @@ public class DatabaseHandler {
 				c.getString(Tables.CONCERT_NUM_TITLE_CONCERT), 
 				c.getString(Tables.CONCERT_NUM_START_DATE), 
 				c.getString(Tables.CONCERT_NUM_END_DATE),
+				c.getString(Tables.CONCERT_NUM_CREATED),
 				c.getString(Tables.CONCERT_NUM_LOCATION),
 				c.getInt(Tables.CONCERT_NUM_NB_SEAT), 
 				c.getInt(Tables.CONCERT_NUM_FULL),
@@ -506,7 +509,8 @@ public class DatabaseHandler {
 				Tables.CONCERT_NAME_ID_CREATOR,
 				Tables.CONCERT_NAME_TITLE_CONCERT,
 				Tables.CONCERT_NAME_ONLINE,
-				Tables.CONCERT_NAME_ID_TARIF}, 
+				Tables.CONCERT_NAME_ID_TARIF,
+				Tables.CONCERT_NAME_CREATED}, 
 				null, null, null, null, null);
 		if (c.getCount() == 0){
 			return null;
@@ -520,7 +524,8 @@ public class DatabaseHandler {
 				c.getString(Tables.CONCERT_NUM_IMAGE), 
 				c.getString(Tables.CONCERT_NUM_TITLE_CONCERT), 
 				c.getString(Tables.CONCERT_NUM_START_DATE), 
-				c.getString(Tables.CONCERT_NUM_END_DATE),
+				c.getString(Tables.CONCERT_NUM_END_DATE), 
+				c.getString(Tables.CONCERT_NUM_CREATED),
 				c.getString(Tables.CONCERT_NUM_LOCATION),
 				c.getInt(Tables.CONCERT_NUM_NB_SEAT), 
 				c.getInt(Tables.CONCERT_NUM_FULL),

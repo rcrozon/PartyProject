@@ -108,6 +108,7 @@ public class MyJsonParser {
 				}
 				int idCreator = Integer.parseInt(infoConcert.getString(Tables.CONCERT_NAME_ID_CREATOR));
 				int idTarif = Integer.parseInt(infoConcert.getString(Tables.CONCERT_NAME_ID_TARIF));
+				String creationDate = infoConcert.getString(Tables.CONCERT_NAME_CREATED);
 				String title = infoConcert.getString(Tables.CONCERT_NAME_TITLE_CONCERT);
 				String onlineBool = infoConcert.getString(Tables.CONCERT_NAME_ONLINE);
 				int online;
@@ -117,7 +118,7 @@ public class MyJsonParser {
 				else{
 					online = 1;
 				}
-				Concert concertObj = new Concert(id, imgPath, title, begin, end, location, nbSeets, full,idTarif, idCreator, online);
+				Concert concertObj = new Concert(id, imgPath, title, begin, end, creationDate, location, nbSeets, full,idTarif, idCreator, online);
 				cl.add(concertObj);			
 			}
 		} catch (JSONException e) {
