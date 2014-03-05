@@ -332,7 +332,7 @@ public class DatabaseHandler {
 	}
 
 	/***************** TROUVER LES ARTISTES PAR ID DE CONCERT DANS LA BDD ***************************/
-	public ArrayList<String> getArtistsFromConcert(int id_concert){
+	public static ArrayList<String> getArtistsFromConcert(int id_concert){
 		ArrayList<String> listArtists = new ArrayList<String>();
 		Cursor c1 = bdd.query(Tables.ASSOC_ARTISTS_TABLE, 
 				new String[] {Tables.ASSOC_ARTIST_NAME_ID_ARTISTS}, 
@@ -344,10 +344,12 @@ public class DatabaseHandler {
 			if (i != 0)
 				c1.move(1);
 			id_artist = c1.getInt(0);
+			
 			c = bdd.query(Tables.ARTISTS_TABLE, 
 				new String[] {Tables.ARTIST_NAME_ARTIST_NAME}, 
 				Tables.ARTIST_NAME_ID + " LIKE \"" + id_artist + "\"", null, null, null, null);
 			c.moveToFirst();
+			
 			listArtists.add(c.getString(0));
 		}
 		return listArtists;
@@ -802,8 +804,11 @@ public void scanTicket(int id_res){
 			String reservationString = dbbs.getRequest("getAllReservations");
 			String tarrifString = dbbs.getRequest("getAllTariffs");
 			String tarrifAssocString = dbbs.getRequest("getAllAssocTarifs");
-			//String stylesAssocString = dbbs.getRequest("getAllAssocStyles");
-			/*Artistes Styles AssocArtiste */
+			String stylesAssocString = dbbs.getRequest("getAllAssocStyles");
+			String stylesString = dbbs.getRequest("getAllStyles");
+			String artistsString = dbbs.getRequest("getAllArtists");
+			String artistsAssocString = dbbs.getRequest("getAllAssocArtists");
+			
 
 
 			List<Client> clientlist = parser.getClientFromJson(tmp);
@@ -832,12 +837,21 @@ public void scanTicket(int id_res){
 			parser.getAssocTariffsAndInsert(tarrifAssocString);
 			
 			/*On insere les AssocTStyle*/
-			//parser.getAssocStylesAndInsert(stylesAssocString);
+			parser.getAssocStylesAndInsert(stylesAssocString);
+			
+			/*On insere les AssocTStyle*/
+			parser.getStylesAndInsert(stylesString);
+			
+			/*On insere les Artistes*/
+			parser.getArtistsAndInsert(artistsString);
+			
+			/*On insere les Assoc Artistes*/
+			parser.getAssocArtistsAndInsert(artistsAssocString);
 
 
 			Log.i("SCAN", "TARIF ADULTE ?? ::"+getLabelById(4));
 			Log.i("NET", "On est connecté !!");
-			ArrayList<String> test = getStylesFromConcert(2);
+			ArrayList<String> test = getArtistsFromConcert(2);
 			Log.i("ASSOC","SIZE : "+test.size());
 			for (String s : test){
 				Log.i("ASSOC","Style "+ s);

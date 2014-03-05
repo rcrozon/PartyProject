@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ActionBar.Tab;
 import android.content.Context;
 import android.util.Log;
 import entities.Client;
@@ -178,6 +179,30 @@ public class MyJsonParser {
 
 	}
 	
+	public void getAssocArtistsAndInsert(String json) {
+		DatabaseHandler dataBase = new DatabaseHandler(context);
+		dataBase.open();
+
+		JSONArray rep;
+		try {
+			rep = new JSONArray(json);
+			for (int i = 0 ; i<rep.length() ; i++){
+
+				JSONObject infoAssocArtist = rep.getJSONObject(i);
+				int id = Integer.parseInt(infoAssocArtist.getString(Tables.ASSOC_ARTIST_NAME_ID));
+				int id_concert = Integer.parseInt(infoAssocArtist.getString(Tables.ASSOC_ARTIST_NAME_ID_CONCERT));
+				int id_artist = Integer.parseInt(infoAssocArtist.getString(Tables.ASSOC_ARTIST_NAME_ID_ARTISTS));
+				Log.i("ASSOC", "id :" +id+"idartist:"+id_artist+"id_concert :"+id_concert);
+				dataBase.insertAssocArtist(id, id_artist, id_concert);
+
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
 	public void getAssocStylesAndInsert(String json) {
 		DatabaseHandler dataBase = new DatabaseHandler(context);
 		dataBase.open();
@@ -193,6 +218,52 @@ public class MyJsonParser {
 				int id_concert = Integer.parseInt(infoAssocStyles.getString(Tables.ASSOC_STYLES_NAME_ID_CONCERT));
 				Log.i("ASSOC", "id :" +id+"idstyle :"+id_style+"id_concert :"+id_concert);
 				dataBase.insertAssocStyle(id, id_style, id_concert);
+
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	} 
+	
+	public void getStylesAndInsert(String json) {
+		DatabaseHandler dataBase = new DatabaseHandler(context);
+		dataBase.open();
+
+		JSONArray rep;
+		try {
+			rep = new JSONArray(json);
+			for (int i = 0 ; i<rep.length() ; i++){
+
+				JSONObject infoStyles = rep.getJSONObject(i);
+				int id = Integer.parseInt(infoStyles.getString(Tables.STYLE_NAME_ID));
+				String name = infoStyles.getString(Tables.STYLE_NAME_STYLE_NAME);
+				Log.i("ASSOC", "idStyle :" +id+"Name :"+name);
+				dataBase.insertStyle(id, name);
+
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	} 
+	
+	public void getArtistsAndInsert(String json) {
+		DatabaseHandler dataBase = new DatabaseHandler(context);
+		dataBase.open();
+
+		JSONArray rep;
+		try {
+			rep = new JSONArray(json);
+			for (int i = 0 ; i<rep.length() ; i++){
+
+				JSONObject infoArtists = rep.getJSONObject(i);
+				int id = Integer.parseInt(infoArtists.getString(Tables.ARTIST_NAME_ID));
+				String name = infoArtists.getString(Tables.ARTIST_NAME_ARTIST_NAME);
+				Log.i("ASSOC", "idArtist :" +id+"Name :"+name);
+				dataBase.insertArtist(id, name);
 
 			}
 		} catch (JSONException e) {

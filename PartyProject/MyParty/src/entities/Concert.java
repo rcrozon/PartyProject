@@ -60,7 +60,7 @@ public class Concert implements Entity {
 		return "ID : "+id+ " Image : " + imgPath + " Titre : " + title
 				+" Begin : "+ beginDate + " End : " + endDate
 				+ " Location : "+location+ " NbSeats : " + nbSeets+ " Full : "+full
-				+ " IdTarif : "+idTarif+ " IdCreator : " + idCreator+ " Online : "+online;
+				+ " IdTarif : "+idTarif+ " IdCreator : " + idCreator+ " Online : "+online+ " Creation : "+creationDate;
 	}
 	
 	
