@@ -12,9 +12,9 @@ class ClientsController extends AppController{
             $d = $this->request->data; 
             $d['Client']['id'] = null;
             $d['Client']['lastlogin'] = '2009-08-08 12:17:00'; 
-            if(!empty($d['Client']['password'])){
+           /* if(!empty($d['Client']['password'])){
                 $d['Client']['password'] = Security::hash($d['Client']['password'],NULL,true);
-            }
+            }*/
             
             if($this->Client->save($d,true,array('username','password','mail','first_name','last_name'))){
             /*    $link = array('controller'=>'users','action

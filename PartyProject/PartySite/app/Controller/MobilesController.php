@@ -155,22 +155,23 @@ class MobilesController  extends AppController{
 	$message = json_decode($data,true);
 	$username =	$message[0]['username'];
 	$password = $message[0]['password'];
-	/*$mcrypt = new MCrypt();
-	#Encrypt
-	$encrypted = $mcrypt->encrypt('test');
-	#Decrypt
-	$decrypted = $mcrypt->decrypt($encrypted);
-		echo $decrypted;*/
+	$mcrypt = new MCrypt();
+
+	$decrypted = $mcrypt->decrypt($message[0]['password']);
 
 	$results = $this->Client->find('first',array(
             'conditions' => array('Client.username' => $username)));
-	$test =	Security::hash($message[0]['password'],NULL,true);
+	if ($results == null){
+		return new CakeResponse(array('body' => json_encode('Invalid Login'))); 
+	}
+
+	$test =	Security::hash($decrypted,NULL,true);
 	if ($results['Client']['password']== $test){
 
 		return new CakeResponse(array('body' => json_encode($results))); 
 	}
 	else{
-		return new CakeResponse(array('body' => json_encode('not match'))); 
+		return new CakeResponse(array('body' => json_encode('Invalid password'))); 
 
 	}
   }    
