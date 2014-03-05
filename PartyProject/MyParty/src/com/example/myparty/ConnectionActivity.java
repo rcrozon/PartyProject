@@ -1,21 +1,12 @@
 package com.example.myparty;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
-import android.R.string;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -61,34 +52,6 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		String jsonScan;
 		jsonScan = dataBase.getJsonScanMAJ();
 		Log.i("ScanJson", "Json:"+jsonScan);
-
-		/******************  BDD EXTERNE  ***********************************/
-
-		/*/*ON ENVOI LA REQUET*/
-		/*DatabaseServer dbbs = new DatabaseServer(); 
-		MyJsonParser parser = new MyJsonParser();
-
-		String tmp =dbbs.getRequest("getAllClients");
-		String concertString = dbbs.getRequest("getAllConcerts");
-
-		List<Client> clientlist = parser.getClientFromJson(tmp);
-		List<Concert> concertlist = parser.getConcertFromJson(concertString);
-		 */
-		/*On insere les concerts dans bdd*/
-		/*	for (int i=0 ; i< concertlist.size() ; i++){
-			Concert c = concertlist.get(i);
-			Log.i("Concert",c.testToString());
-			//dataBase.insertConcert(c);
-		}
-
-		/*On insere les clients dans bdd*/
-		/*for (int i=0 ; i< clientlist.size() ; i++){
-			Client c = clientlist.get(i);
-			Log.i("Client",c.testToString());
-			//dataBase.insertClient(c);
-		}
-
-		//dataBase.in*/
 
 	}
 

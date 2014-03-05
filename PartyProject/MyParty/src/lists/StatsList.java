@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.SurfaceView;
 import android.widget.LinearLayout;
@@ -46,10 +47,11 @@ public class StatsList extends LinearLayout {
 		chartTariff = new ChartTariff(context); 
 		chartPersonsIn = new ChartPersonsIn(context);
 		HashMap<String, Double> tariffs = database.getTariffsFromConcert(idConcert);
-		
-		int cptIn = 0, cptOut = 0;
-		int tickets[] = {8, 12};
+		int cptIn = database.getNumberResForOneConcertScanned(idConcert);
+		int cptOut = database.getNumberResForOneConcert(idConcert) - cptIn;
 		int persons[] = {cptIn, cptOut};
+		int tickets[] = {cptIn + cptOut, database.getConcertWithId(idConcert).getNbSeets()};
+		Log.i("STATS", "in "+ cptIn + " out " + cptOut + " data " + database.getConcertWithId(idConcert).getNbSeets());
 		chartTicketSold.createChart(chartTicketSold.createDataset(tickets));
 		chartTariff.createChart(chartTariff.createDataset(tariffs));
 		chartPersonsIn.createChart(chartPersonsIn.createDataset(persons));

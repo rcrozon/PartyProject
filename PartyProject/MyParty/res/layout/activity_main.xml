@@ -16,8 +16,8 @@
         android:text="@string/unknown_user"
         android:textAlignment="center"
         android:textColor="@color/red"
-        android:visibility="invisible"
-        android:textSize="@dimen/textDimension" />
+        android:visibility="visible"
+        android:textSize="@dimen/itemDimension" />
     
 	<Button
 	    android:id="@+id/buttonConnexion"
@@ -82,7 +82,8 @@
 	    android:layout_height="wrap_content"
 	    android:layout_above="@+id/buttonConnexion"
 	    android:layout_alignLeft="@+id/pwdText"
-	    android:layout_marginBottom="109dp"
+	    android:layout_alignRight="@+id/pwdText"
+	    android:layout_marginBottom="150dp"
 	    android:ems="10"
 	    android:gravity="center"
 	    android:inputType="textPassword"
