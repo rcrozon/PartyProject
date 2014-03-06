@@ -133,6 +133,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 //			}
 		}
 		else if (item == scanPushItem){
+			/*tester la connexion*/
 			String jsonScan;
 			jsonScan = dataBase.getJsonScanMAJ();
 			Log.i("ScanJson", "Json: "+jsonScan);
@@ -171,8 +172,10 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 							connectedToServer(0);  
 							progressBar.setVisibility(View.GONE);
 							layoutMain.setVisibility(View.VISIBLE);
+							/*Il faut recharger la concert activity mias pas ici sinon boucle !!*/
 						}
 					});
+					
 				}else{
 					runOnUiThread(new Runnable() {
 						@Override

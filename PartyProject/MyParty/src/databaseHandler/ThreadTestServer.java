@@ -55,6 +55,9 @@ public class ThreadTestServer extends Thread {
 		    	
 		    	
 		    }
+			    else{
+			    setResult(false);
+			    }
 		  
 	}
 }
