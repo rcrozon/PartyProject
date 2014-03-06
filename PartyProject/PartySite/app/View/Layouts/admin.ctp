@@ -11,6 +11,8 @@
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap.min.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap-responsive.css');?>">
+        <link rel="stylesheet" href="<?php echo $this->Html->url('/css/datepicker.css');?>">
+        <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap-timepicker.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/opa-icons.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/charisma-app.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/sb-admin.css');?>">
@@ -23,6 +25,8 @@
         <?php echo $this->Html->script('morris'); ?>
         <?php echo $this->Html->script('jquery.tokeninput'); ?>
         <?php echo $this->Html->script('less'); ?>
+        <?php echo $this->Html->script('bootstrap-datepicker.min'); ?>
+        <?php echo $this->Html->script('bootstrap-timepicker.min'); ?>
         <?php echo $scripts_for_layout; ?>
     </head>
     <body>  

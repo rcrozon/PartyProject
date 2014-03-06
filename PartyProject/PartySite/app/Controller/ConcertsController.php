@@ -152,6 +152,8 @@ class ConcertsController extends AppController{
         $this->set($d);
         # # # # # # # # # # # # # # # # # # # # # #
         $party = $this->Concert->find('all');
+        $tab_reserv = array();
+        $tab_idConcert = array();
         foreach ($party as $k => $v) {
             $id_concert = $v['Concert']['id'];
             $nb_reserv = $this->Reservation->find('count', array(
@@ -247,6 +249,19 @@ class ConcertsController extends AppController{
                     echo'Sorry we can\'t load this image';
                 }
             }
+            # # # # # # # # # # # # # # # # # #
+            # On récupère les dates et heures
+            # # # # # # # # # # # # # # # # # #
+            $start_date = $d['start_date'];
+            $end_date = $d['end_date'];
+            $start_hour = $d['start_hour'];
+            $end_hour = $d['end_hour'];
+
+            $start_datetime = new DateTime($start_date." ".$start_hour);
+            $end_datetime = new DateTime($end_date." ".$end_hour);
+
+            $d['Concert']['start_datetime'] = $start_datetime->format('Y-m-d H:i:s');
+            $d['Concert']['end_datetime'] = $end_datetime->format('Y-m-d H:i:s');
             # # # # # # # # # # # # # # # # # # # # # # # # #
             # Sauvegarde des données dans la base de donnée
             # # # # # # # # # # # # # # # # # # # # # # # # #
