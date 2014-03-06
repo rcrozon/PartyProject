@@ -43,8 +43,13 @@ class ReservationsController extends AppController{
 	$client = $this->Client->find('first',array(
 		'conditions' => array('Client.id' => $idClient)
 		));	
-
-
+	$assocTicket = $this->AssocTicket->find('first',array(
+		'conditions' => array('AssocTicket.id_concert' => $idConcert)
+		));	
+	$ticketInfo = $this->TicketInfo->find('first',array(
+		'conditions' => array('TicketInfo.id' => $assocTicket['AssocTicket']['id_ticketInfo'])
+		));	
+		$this->set('ticketInfo',$ticketInfo);
 		$this->set('reservation',$reservation);
 		$this->set('client',$client);
  		$this->set('tarif',$tarif);

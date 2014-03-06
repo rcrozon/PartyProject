@@ -4,6 +4,7 @@ class TarifsController extends AppController{
     function admin_addTarif() {
         $idConcert = $this->request['pass'];
         //debug($idConcert);
+        $this->set('idC',$idConcert);
 
         if($this->request->is('post')) {
             $d = $this->request->data;

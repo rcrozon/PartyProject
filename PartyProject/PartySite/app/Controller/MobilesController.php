@@ -5,6 +5,7 @@ class MobilesController  extends AppController{
 
 	function getAllConcerts(){
 		$results = $this->Concert->find('all');
+			 	$table=array();
 
 		for($i=0;$i<sizeof($results);$i++){
 			$d = $results[$i]['Concert'];
@@ -16,7 +17,7 @@ class MobilesController  extends AppController{
 
 	 function getAllReservations(){
 	 	$results = $this->Reservation->find('all');
-
+	 	$table=array();
 		for($i=0;$i<sizeof($results);$i++){
 			$d = $results[$i]['Reservation'];
 			$table[$i] = $d;
@@ -25,6 +26,72 @@ class MobilesController  extends AppController{
 
 	}
 
+	function getReservationsByCLient(){
+		$idClient = $this->params['named']['id'];
+		$table=array();
+		$results = $this->Reservation->find('all',array(
+            'conditions' => array('Reservation.id_client' => $idClient)));
+		for($i=0;$i<sizeof($results);$i++){
+			$d = $results[$i]['Reservation'];
+			$table[$i] = $d;
+		}
+		return new CakeResponse(array('body' => json_encode($table)));
+
+	}
+
+	function getAllAssocTarifs(){
+	 	$results = $this->AssocTarif->find('all');
+	 	$table=array();
+		for($i=0;$i<sizeof($results);$i++){
+			$d = $results[$i]['AssocTarif'];
+			$table[$i] = $d;
+		}
+		return new CakeResponse(array('body' => json_encode($table)));
+
+	}
+	function getAllArtists(){
+	 	$results = $this->Artist->find('all');
+	 	$table=array();
+		for($i=0;$i<sizeof($results);$i++){
+			$d = $results[$i]['Artist'];
+			$table[$i] = $d;
+		}
+		return new CakeResponse(array('body' => json_encode($table)));
+
+	}
+
+	function getAllStyles(){
+	 	$results = $this->Style->find('all');
+	 	$table=array();
+		for($i=0;$i<sizeof($results);$i++){
+			$d = $results[$i]['Style'];
+			$table[$i] = $d;
+		}
+		return new CakeResponse(array('body' => json_encode($table)));
+
+	}
+
+	function getAllAssocStyles(){
+	 	$results = $this->AssocStyle->find('all');
+	 	$table=array();
+		for($i=0;$i<sizeof($results);$i++){
+			$d = $results[$i]['AssocStyle'];
+			$table[$i] = $d;
+		}
+		return new CakeResponse(array('body' => json_encode($table)));
+
+	}
+
+	function getAllAssocArtists(){
+	 	$results = $this->AssocArtist->find('all');
+	 	$table=array();
+		for($i=0;$i<sizeof($results);$i++){
+			$d = $results[$i]['AssocArtist'];
+			$table[$i] = $d;
+		}
+		return new CakeResponse(array('body' => json_encode($table)));
+
+	}
 	function getTariffByID(){
 	 	$login = $this->params['named']['id'];
 		
@@ -40,6 +107,7 @@ class MobilesController  extends AppController{
 
 		function getAllTariffs(){
 	 $results = $this->Tarif->find('all');
+	 	$table=array();
 
 		for($i=0;$i<sizeof($results);$i++){
 			$d = $results[$i]['Tarif'];
@@ -85,7 +153,8 @@ class MobilesController  extends AppController{
     }
     public function getAllClients() {
     	$results = $this->Client->find('all');
-    	
+    		 	$table=array();
+
 		for($i=0;$i<sizeof($results);$i++){
 			$d = $results[$i]['Client'];
 			$table[$i] = $d;
@@ -156,7 +225,6 @@ class MobilesController  extends AppController{
 	$username =	$message[0]['username'];
 	$password = $message[0]['password'];
 	$mcrypt = new MCrypt();
-
 	$decrypted = $mcrypt->decrypt($message[0]['password']);
 
 	$results = $this->Client->find('first',array(
@@ -164,11 +232,13 @@ class MobilesController  extends AppController{
 	if ($results == null){
 		return new CakeResponse(array('body' => json_encode('Invalid Login'))); 
 	}
-
-	$test =	Security::hash($decrypted,NULL,true);
-	if ($results['Client']['password']== $test){
-
-		return new CakeResponse(array('body' => json_encode($results))); 
+	$decryptedPassword = $mcrypt->decrypt($results['Client']['password']);
+	
+	if ($decryptedPassword == $decrypted){
+		$d = $results['Client'];
+		$table = json_encode($d);
+		$table = '['.$table.']';
+		return new CakeResponse(array('body' =>$table)); 
 	}
 	else{
 		return new CakeResponse(array('body' => json_encode('Invalid password'))); 

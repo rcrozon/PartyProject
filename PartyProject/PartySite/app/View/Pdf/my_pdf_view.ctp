@@ -1,18 +1,31 @@
 
+
 <?php
  
 App::import('Vendor','xtcpdf');
- $width = 168;
- $height = 480;
-$pageLayout = array($width, $height); //  or array($height, $width) 
+ $width = 490;
+ $height = 168;
+ $unitXText = $width/3;
+ $unitX = ($width/8);
+ $unitY = $height/3;
+$pageLayout = array($height, $width); //  or array($height, $width) 
 $pdf = new TCPDF('l', 'px', $pageLayout, true, 'UTF-8', false); 
+$pdf->SetMargins(0,0,0);
 $pdf->AddPage();
-$pdf->SetFont('helvetica', '', 9);
+$pdf->SetFont('helvetica', '', 10);
     $pdf->SetTextColor(255,255,255);
     $pdf->Text(50, 66, 'Scale');
 
- 
-$html = '<h1>'.$concert['Concert']['name_concert'].'</h1>'
+$html = '<style>
+h1{
+     color:'.$ticketInfo['TicketInfo']['colorFont'].';
+}
+p{
+    color:'.$ticketInfo['TicketInfo']['colorFont'].';
+    font-weight:bolder;
+}
+ </style><h1>'.$concert['Concert']['name_concert'].'</h1>'
+
 .'<p>Location: '.$concert['Concert']['location'].'</p>'
 .'<p>'.$concert['Concert']['start_datetime'].'</p>'
 .'<p>'.$client['Client']['first_name']." ".$client['Client']['last_name'].'</p>'
@@ -21,6 +34,7 @@ $html = '<h1>'.$concert['Concert']['name_concert'].'</h1>'
 ;
  $pdf->SetAutoPageBreak(false, 0);
 $style = array(
+
     'border' => 2,
     'vpadding' => 'auto',
     'hpadding' => 'auto',
@@ -30,11 +44,24 @@ $style = array(
     'module_height' => 1 // height of a single module in points
 );
 
- $img_file = $this->webroot.'app/webroot/img/Concerts/'.$concert['Concert']['image'];
-$pdf->Image($img_file, 0, 0, 480, 168, '', '', '', false, 300, '', false, false, 0);
-$pdf->writeHTML($html, true, false, true, false, '');
+ $img_file = $this->webroot.'app/webroot/img/Tickets/'.$ticketInfo['TicketInfo']['image'];
+$pdf->Image($img_file, 0, 0, 490, 168, '', '', '', false, 300, '', false, false, 0);
+//$pdf->writeHTML($html, true, false, true, false, '');
+$pdf->writeHTMLCell( $unitXText, 168,($ticketInfo['TicketInfo']['coordTextX']-1)*$unitXText, '10', $html, 'LRTB', 1, 0, true, 'L', true);
+
+
+
+
 $codeQR = $reservation['Reservation']['id'].';'.$concert['Concert']['id'].';'.$client['Client']['id'].';'.$tarif['Tarif']['id'];
-$pdf->write2DBarcode($codeQR, 'QRCODE,Q', 400, 70, 130, 80, $style, 'N');
+$pdf->write2DBarcode($codeQR, 'QRCODE,Q',($ticketInfo['TicketInfo']['coordQrX']-1)*$unitX, ($ticketInfo['TicketInfo']['coordQrY']-1)*$unitY, 60, 56, $style, 'N');
+/*$pdf->write2DBarcode($codeQR, 'QRCODE,Q',($ticketInfo['TicketInfo']['coordQrX']-2)*$unitX, ($ticketInfo['TicketInfo']['coordQrY']-1)*$unitY, 60, 56, $style, 'N');
+$pdf->write2DBarcode($codeQR, 'QRCODE,Q',($ticketInfo['TicketInfo']['coordQrX']-3)*$unitX, ($ticketInfo['TicketInfo']['coordQrY']-1)*$unitY, 60, 56, $style, 'N');
+$pdf->write2DBarcode($codeQR, 'QRCODE,Q',($ticketInfo['TicketInfo']['coordQrX']-4)*$unitX, ($ticketInfo['TicketInfo']['coordQrY']-1)*$unitY, 60, 56, $style, 'N');
+$pdf->write2DBarcode($codeQR, 'QRCODE,Q',($ticketInfo['TicketInfo']['coordQrX']-5)*$unitX, ($ticketInfo['TicketInfo']['coordQrY']-1)*$unitY, 60, 56, $style, 'N');
+$pdf->write2DBarcode($codeQR, 'QRCODE,Q',($ticketInfo['TicketInfo']['coordQrX']-6)*$unitX, ($ticketInfo['TicketInfo']['coordQrY']-1)*$unitY, 60, 56, $style, 'N');
+$pdf->write2DBarcode($codeQR, 'QRCODE,Q',($ticketInfo['TicketInfo']['coordQrX']-7)*$unitX, ($ticketInfo['TicketInfo']['coordQrY']-1)*$unitY, 60, 56, $style, 'N');
+$pdf->write2DBarcode($codeQR, 'QRCODE,Q',($ticketInfo['TicketInfo']['coordQrX']-0)*$unitX, ($ticketInfo['TicketInfo']['coordQrY']-0)*$unitY, 60, 56, $style, 'N');*/
+
 
 $pdf->lastPage();
 $dir =APP.'webroot/files/'.$client['Client']['username'];
@@ -52,7 +79,7 @@ echo $pdf->Output(APP.'webroot/files/'.$client['Client']['username']."/".$fileNa
 
 
 
-<object height="300" width="100%" data=" <?php echo $this->webroot.'app/webroot/files/'.$client['Client']['username'].'/'.$fileName.'.pdf' ?>" type="application/pdf">
+<object height="400" width="100%" data=" <?php echo $this->webroot.'app/webroot/files/'.$client['Client']['username'].'/'.$fileName.'.pdf' ?>" type="application/pdf">
 
             <p>It appears you don't have a PDF plugin for this browser.
                 No biggie... you can <a href= "<?php echo $dir . DS . $fileName.'.pdf' ?>" >click here to
