@@ -36,6 +36,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	private Context context;
 	private ProgressBar progressBar;
 	private LinearLayout layoutMain;
+	private MenuItem connectedItem;
  
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		bluetoothItem = menu.findItem(R.id.bluetooth);
 		updateItem = menu.findItem(R.id.update); 
 		scanPushItem = menu.findItem(R.id.scanpush);
+		connectedItem = menu.findItem(R.id.menu_refresh);
 		//decoItem.setIcon(R.drawable.logout);
 		decoItem.setOnMenuItemClickListener(this);
 		bluetoothItem.setOnMenuItemClickListener(this);
@@ -166,6 +168,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
+							connectedToServer(0);  
 							progressBar.setVisibility(View.GONE);
 							layoutMain.setVisibility(View.VISIBLE);
 						}
@@ -174,7 +177,9 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							Toast.makeText(context, "Databse update impossible", Toast.LENGTH_SHORT).show();
+							connectedToServer(1);
+							progressBar.setVisibility(View.GONE);
+							layoutMain.setVisibility(View.VISIBLE);
 						}
 					});
 				}
@@ -182,6 +187,20 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		}).start();
 	}
 
+	/**
+	 * Change the icon
+	 * @param lighted : 0 if connected, 1 if not, 2 if refreshing
+	 */
+	private void connectedToServer(final int lighted){
+		if (connectedItem != null){
+			switch (lighted){
+				case 0: connectedItem.setIcon(R.drawable.ic_action_location_found_green);break;
+				case 1: connectedItem.setIcon(R.drawable.ic_action_location_found_red);break;
+				default: connectedItem.setIcon(R.drawable.ic_action_refresh);break;
+			}
+		}
+	}
+	
 	public void onBackPressed(){
 		//No implementation
 	}

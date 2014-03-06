@@ -109,7 +109,7 @@ OnClickListener, OnMenuItemClickListener {
 						if (idResScan !=0 ){
 							dataBase.scanTicket(idResScan);
 						}
-						textButtonValidate(" ");
+						textButtonValidate("");
 					}
 				});
 
@@ -298,6 +298,12 @@ OnClickListener, OnMenuItemClickListener {
 	 */
 	public void textButtonValidate(String message) {
 		// TODO when the database is done
-		scanner.getButtonTariff().setText(message);
+		if (!message.equals("")){
+			scanner.getButtonTariff().setText(message);
+			scanner.getButtonTariff().setVisibility(View.VISIBLE);	
+		}else{
+			scanner.getButtonTariff().setText(message);
+			scanner.getButtonTariff().setVisibility(View.INVISIBLE);	
+		}
 	}
 }

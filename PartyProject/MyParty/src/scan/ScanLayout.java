@@ -48,7 +48,7 @@ public class ScanLayout extends RelativeLayout implements OnClickListener{
 		llpImg.gravity = Gravity.CENTER;
 		this.text = new TextView(context);
 		this.text.setId(1001);
-		this.text.setText("Bonjour!");
+		this.text.setText("Click on the flashcode to scan a ticket");
 		this.text.setTextColor(getResources().getColor(R.color.white));
 		LayoutParams llpTextView = new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -62,7 +62,7 @@ public class ScanLayout extends RelativeLayout implements OnClickListener{
 		llpButtonTariff.addRule(ALIGN_PARENT_BOTTOM);
 		this.buttonTariff = new Button(context);
 		this.buttonTariff.setBackgroundResource(R.color.blue);
-		this.buttonTariff.setText(" ");
+		this.buttonTariff.setText("");
 		this.buttonTariff.setGravity(Gravity.BOTTOM | Gravity.CENTER);
 		this.buttonTariff.setLayoutParams(llpButtonTariff);
 		this.buttonTariff.setMaxHeight(100);
@@ -78,12 +78,8 @@ public class ScanLayout extends RelativeLayout implements OnClickListener{
 	}
 
 	public void onClick (View view){
-	
-			IntentIntegrator integrator = new IntentIntegrator(activity);
-			integrator.initiateScan();
-	
-			
-		
+		IntentIntegrator integrator = new IntentIntegrator(activity);
+		integrator.initiateScan();
 	}
 	
 	public TextView getTextView(){

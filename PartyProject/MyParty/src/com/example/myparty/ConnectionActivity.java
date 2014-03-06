@@ -233,7 +233,7 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 
 		}
 
-	}
+	} 
 	@Override
 	public void onClick(View v) {
 		Button b = (Button)v;
@@ -246,16 +246,17 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 		 * Handler the icon showing the connection state
 		 */
 		private void lightHandler(){
-			new Thread(new Runnable() {
+			new Thread(new Runnable() { 
 				public void run() {
 					while(running){
-						if (DatabaseHandler.isAvailableServer(context))
-							connectedToServer(0);
-						else
-							connectedToServer(1);
 						try {
-							Thread.sleep(10 * 60 * 1000);
+							if (DatabaseHandler.isAvailableServer(ConnectionActivity.this))
+								connectedToServer(0);
+							else
+								connectedToServer(1);
+							Thread.sleep(1000);
 						} catch (InterruptedException e) {}
+						 catch (NullPointerException e) {}
 					}
 				}
 			}).start();
