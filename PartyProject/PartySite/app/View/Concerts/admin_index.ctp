@@ -36,11 +36,11 @@
       <span class="notification green"><?php echo $nbTodayNewAdmin; ?></span>
     </a>
 
-    <a data-rel="tooltip" title="<?php echo $nbTodaySales; ?> € new sales today." class="well span3 top-block" href="#">
+    <a data-rel="tooltip" title="<?php echo $nbTodaySales; ?> $ new sales today." class="well span3 top-block" href="#">
       <span class="icon32 icon-color icon-cart"></span>
       <div>Sales</div>
-      <div><?php echo $sales; ?> €</div>
-      <span class="notification yellow"><?php echo $nbTodaySales; ?> €</span>
+      <div><?php echo $sales; ?> $</div>
+      <span class="notification yellow"><?php echo $nbTodaySales; ?> $</span>
     </a>
 
     <a data-rel="tooltip" title="<?php echo $nbTodayNewParty; ?> new party today." class="well span3 top-block" href="#">

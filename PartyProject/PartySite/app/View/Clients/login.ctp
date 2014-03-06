@@ -7,9 +7,10 @@
 	<?php echo $this->Form->create('Client'); ?> 
 	<table>
 		<?php echo $this->Form->input('username',array('label'=>"Login : ",
-		    'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false)); ?>
-		<?php echo $this->Form->input('password',array('label'=>"Mot de passe :",
-		    'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false)); ?>
-		<tr><td><?php echo $this->Form->end(" Login "); ?></td></tr>
+		    'before' => '<tr><td style="padding-right:15px;">', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false)); ?>
+		<?php echo $this->Form->input('password',array('label'=>"Password : ",
+		    'before' => '<tr><td style="padding-right:15px;">', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false)); ?>
+		<tr><td style="padding-top: 30px;padding-left:18px;"><?php echo $this->Form->button(" Login ", array('class' => 'btn btn-primary')); ?></td></tr>
+		<?php echo $this->Form->end(); ?>
 	</table>
 </div>
