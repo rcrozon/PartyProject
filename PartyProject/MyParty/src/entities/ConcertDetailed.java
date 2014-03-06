@@ -1,8 +1,12 @@
 package entities;
 
+import java.io.File;
+
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -42,32 +46,20 @@ public class ConcertDetailed extends RelativeLayout {
 
 
 			/*********** Si le serveur est dispo **********************/
-			ThreadTestServer tPing = new ThreadTestServer(context);
-			tPing.start();
-
-			try {
-				tPing.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			if (isNetworkConnected(context) && tPing.getResult()){
-				ThreadBitMap t = new ThreadBitMap(Tables.IMG_PATH_SERVER + concert.getImagePath(),1);
-				t.start();
-				try {
-					t.join();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				imgView.setImageBitmap(t.getResult());
+			File ftest = new File(Environment.getExternalStorageDirectory() +
+					File.separator + "appli_img/detail"+concert.getId()+".png");
+			if (ftest.exists()){
+			
+				BitmapDrawable bm = new BitmapDrawable(getResources(), Environment.getExternalStorageDirectory() +
+						File.separator + "appli_img/detail"+concert.getId()+".png");
+				imgView.setBackground(bm);
 				imgView.setLayoutParams(layoutParams);
-
-				Log.i("ConcertPath", Tables.IMG_PATH_SERVER + concert.getImagePath());
 			}
 			else{
 				imgView.setBackgroundResource(R.drawable.party2);
 				imgView.setLayoutParams(layoutParams);
 			}
+		
 
 			/***********************************************************/
 

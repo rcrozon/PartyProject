@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap; 
 import java.util.List;
@@ -14,6 +15,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.Path;
 import android.net.ConnectivityManager;
 import android.os.Environment;
 import android.util.Log;
@@ -792,6 +794,8 @@ public class DatabaseHandler {
 							File.separator + "appli_img/icon"+imgConcert.get(i).getId()+".png");
 					/*Pour supprimer les images*/
 					//ftest.delete();
+					
+					
 					/*Si l'image n'existe pas on la crée*/
 					if (!ftest.exists()){
 						Log.i("IMAGE", "ON LA CRÉE"+"icon"+imgConcert.get(i).getId()+".png" );
@@ -809,7 +813,9 @@ public class DatabaseHandler {
 						/*On écrit dans le disque dur du téléphone*/
 						File myFile = new File(Environment.getExternalStorageDirectory() +
 								File.separator + "appli_img","icon"+imgConcert.get(i).getId()+".png"); //on déclare notre futur fichier
-
+						
+						
+					
 						File myDir = new File(Environment.getExternalStorageDirectory() +
 								File.separator + "appli_img"); //pour créer le repertoire dans lequel on va mettre notre fichier
 						Boolean success=true;
@@ -819,11 +825,13 @@ public class DatabaseHandler {
 						if (success){
 
 							OutputStream out = null;
+							
 							try {
 								out = new FileOutputStream(myFile);
 								myBm.compress(Bitmap.CompressFormat.PNG,80,out);
 								out.flush();
 								out.close();
+								
 							} catch (FileNotFoundException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
