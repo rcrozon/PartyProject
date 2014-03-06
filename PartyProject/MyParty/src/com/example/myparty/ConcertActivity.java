@@ -131,6 +131,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 //			}
 		}
 		else if (item == scanPushItem){
+			/*tester la connexion*/
 			String jsonScan;
 			jsonScan = dataBase.getJsonScanMAJ();
 			Log.i("ScanJson", "Json: "+jsonScan);
@@ -168,13 +169,18 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 						public void run() {
 							progressBar.setVisibility(View.GONE);
 							layoutMain.setVisibility(View.VISIBLE);
+							/*Il faut recharger la concert activity mias pas ici sinon boucle !!*/
 						}
 					});
+					
 				}else{
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
 							Toast.makeText(context, "Databse update impossible", Toast.LENGTH_SHORT).show();
+							/*Ajout*/
+							progressBar.setVisibility(View.GONE);
+							layoutMain.setVisibility(View.VISIBLE);
 						}
 					});
 				}
