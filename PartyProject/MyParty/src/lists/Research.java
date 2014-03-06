@@ -3,10 +3,7 @@ package lists;
 import android.content.Context;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 
@@ -16,13 +13,9 @@ public class Research extends LinearLayout {
 
 	private Adapter adapter ;
 	private Adapter adapter2 ;
-	private Button researchButton ;
-	private EditText researchText ;
-	private ListView list;
 	
 	public Research(final Context context, final List list){
 		super(context);
-		this.list = list;
 		LayoutParams paramsSearchView = new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 
 											   LinearLayout.LayoutParams.WRAP_CONTENT);
 		this.adapter = (Adapter) list.getAdapter();

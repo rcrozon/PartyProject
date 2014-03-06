@@ -1,17 +1,16 @@
 package lists;
 
 import java.util.ArrayList;
-import java.util.Date;
+
+import android.content.Context;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.example.myparty.R;
 
 import entities.Client;
 import entities.ClientItem;
 import entities.Concert;
-import entities.Entity;
-import android.content.Context;
-import android.view.View;
-import android.widget.AdapterView;
 
 
 public class ClientList extends List {

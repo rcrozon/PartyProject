@@ -3,6 +3,7 @@ package com.example.myparty;
 import lists.ConcertList;
 import lists.ListLayout;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,9 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 import databaseHandler.DatabaseHandler;
 import databaseHandler.DatabaseServer;
@@ -29,25 +33,29 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	private int index = 0;
 	private int nextIndex = 0;
 	DatabaseHandler dataBase;
-
+	private Context context;
+	private ProgressBar progressBar;
+	private LinearLayout layoutMain;
+ 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-/******* OUVERTURE SQLITE ******************************************************************************************/
-		
-		dataBase = new DatabaseHandler(this);
-		dataBase.open();
-		
-/******* MISE A JOUR SQLITE DEPUIS LE SERVEUR ******************************************************************************************/
-		
-		DatabaseHandler.updateAllTable(this);
-
+		context = this;
 		setContentView(R.layout.activity_concerts);
+		layoutMain = (LinearLayout)findViewById(R.id.layoutMain);
+		progressBar = (ProgressBar)findViewById(R.id.progressBar);
 		buttonAllConcerts = (Button)findViewById(R.id.buttonAllConcerts);
 		buttonNews = (Button)findViewById(R.id.buttonNews);
 		buttonNextConcerts = (Button)findViewById(R.id.buttonNextConcerts);
 		view_flipper = (ViewFlipper)findViewById(R.id.view_flipper);
+
+/******* OUVERTURE SQLITE ******************************************************************************************/
+
+		loadDatabase();
+		dataBase = new DatabaseHandler(this);
+		dataBase.open();
+		
+/******* MISE A JOUR SQLITE DEPUIS LE SERVEUR ******************************************************************************************/
 
 		ListLayout listAll = new ListLayout(this, new ConcertList(this, null, 0));
 		ListLayout listNext = new ListLayout(this, new ConcertList(this, null, 1));
@@ -116,12 +124,11 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 			this.startActivity(intent);
 		}
 		else if(item == updateItem){
-			
-			if(DatabaseHandler.updateAllTable(this)){
-				
-				intent = new Intent(this, ConcertActivity.class);
-				this.startActivity(intent);
-			}
+			loadDatabase();
+//			if(DatabaseHandler.updateAllTables(this)){
+//				intent = new Intent(this, ConcertActivity.class);
+//				this.startActivity(intent);
+//			}
 		}
 		else if (item == scanPushItem){
 			String jsonScan;
@@ -147,6 +154,32 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 			this.startActivity(intent);
 		}
 		return false;
+	}
+	
+	private void loadDatabase(){
+		progressBar.setVisibility(View.VISIBLE);
+		layoutMain.setVisibility(View.GONE);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				if (DatabaseHandler.updateAllTables(context)){
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							progressBar.setVisibility(View.GONE);
+							layoutMain.setVisibility(View.VISIBLE);
+						}
+					});
+				}else{
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							Toast.makeText(context, "Databse update impossible", Toast.LENGTH_SHORT).show();
+						}
+					});
+				}
+			}
+		}).start();
 	}
 
 	public void onBackPressed(){

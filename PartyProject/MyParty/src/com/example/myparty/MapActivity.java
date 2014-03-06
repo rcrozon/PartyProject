@@ -25,7 +25,7 @@ public class MapActivity extends Activity implements LocationListener {
     private GoogleMap gMap;
     private Marker markerLocation;
     private Marker markerAddress;
-    private long minTime = 2000;
+    private long minTime = 100;
     
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -34,6 +34,10 @@ public class MapActivity extends Activity implements LocationListener {
         Bundle b = getIntent().getExtras();
 		String address = b.getString("address");
 		double coord[] = getCoordonates(address);
+		locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+        	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 10, this);
+        }
         gMap =  ((MapFragment)getFragmentManager().findFragmentById(R.id.map)).getMap();
         markerLocation = gMap.addMarker(new MarkerOptions().title("You are here").position(new LatLng(0, 0)));
         gMap.addMarker(new MarkerOptions().title(address).position(new LatLng(coord[0], coord[1])));
@@ -58,7 +62,7 @@ public class MapActivity extends Activity implements LocationListener {
         super.onResume();
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-        	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, this);
+        	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 10, this);
         }
     }
  
