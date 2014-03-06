@@ -1,26 +1,16 @@
 package lists;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.SurfaceView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import charts.ChartPersonsIn;
 import charts.ChartTariff;
 import charts.ChartTicketsSold;
 import charts.Charts;
-
-import com.example.myparty.R;
-import com.google.android.gms.internal.da;
-
 import databaseHandler.DatabaseHandler;
-import entities.Client;
 
 public class StatsList extends LinearLayout {
 
@@ -28,8 +18,6 @@ public class StatsList extends LinearLayout {
 	private Charts chartTariff ;
 	private Charts chartPersonsIn ; 
 	private LinearLayout layout ;
-	private Adapter adapter ;
-	private ScrollView scrollStats;
 	private DatabaseHandler database;
 	
 	public StatsList(Context context, int idConcert) {
@@ -46,12 +34,11 @@ public class StatsList extends LinearLayout {
 		chartTicketSold = new ChartTicketsSold(context);
 		chartTariff = new ChartTariff(context); 
 		chartPersonsIn = new ChartPersonsIn(context);
-		HashMap<String, Double> tariffs = database.getTariffsFromConcert(idConcert);
+		HashMap<String, Double> tariffs = DatabaseHandler.getTariffsFromConcert(idConcert);
 		int cptIn = database.getNumberResForOneConcertScanned(idConcert);
 		int cptOut = database.getNumberResForOneConcert(idConcert) - cptIn;
 		int persons[] = {cptIn, cptOut};
 		int tickets[] = {cptIn + cptOut, database.getConcertWithId(idConcert).getNbSeets()};
-		Log.i("STATS", "in "+ cptIn + " out " + cptOut + " data " + database.getConcertWithId(idConcert).getNbSeets());
 		chartTicketSold.createChart(chartTicketSold.createDataset(tickets));
 		chartTariff.createChart(chartTariff.createDataset(tariffs));
 		chartPersonsIn.createChart(chartPersonsIn.createDataset(persons));

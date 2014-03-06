@@ -34,15 +34,16 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 	private Button buttonConnexion ;
 	private EditText editTextLogin ;
 	private EditText editTextPassword ;
-	private MenuItem item;
-
-	private boolean running = true;
+	public static MenuItem item;
+	private Context context;
+	public static boolean running = true;
 	private DatabaseHandler dataBase;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		context = this;
 		buttonConnexion = (Button)findViewById(R.id.buttonConnexion);
 		editTextLogin = (EditText)findViewById(R.id.loginTextEdit);
 		editTextPassword = (EditText)findViewById(R.id.pwdTextEdit);
@@ -109,89 +110,75 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 	}
 
 
-	@Override
-	public void onClick(View v) {
-		Button b = (Button)v;
-		if (b == buttonConnexion){
+	private void connect(){
+		ThreadTestServer tPing = new ThreadTestServer(this);
+		tPing.start();
 
-			ThreadTestServer tPing = new ThreadTestServer(this);
-			tPing.start();
+		try {
+			tPing.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
+		/********************* Test du serveur et de la connexion internet ******************************/
+		if(isNetworkConnected(this) && tPing.getResult()){
+
+			/* TODO A DECOMMENTER SI ON NE VEUT PAS UTILISER AUTHENTIFICATION*/
+			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
+			EditText login = (EditText)findViewById(R.id.loginTextEdit);
+			String myLogin = login.getText().toString();
+			String password = pwd.getText().toString();
+
+			Log.i("HSA", "entré "+ password);
+
+			MCrypt mcrypt = new MCrypt();
+
+			/* Encrypt */
+			String encrypted=null;
 			try {
-				tPing.join();
-			} catch (InterruptedException e) {
+				encrypted = MCrypt.bytesToHex( mcrypt.encrypt(password) );
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			String json = "[{\"username\":\""+myLogin+"\",\"password\":\""+encrypted+"\"}]";
 
-			/********************* Test du serveur et de la connexion internet ******************************/
-			if(isNetworkConnected(this) && tPing.getResult()){
+			Log.i("HSA", " "+json);
+			Log.i("HSA", " "+encrypted);
 
-				/* TODO A DECOMMENTER SI ON NE VEUT PAS UTILISER AUTHENTIFICATION*/
-				EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
-				EditText login = (EditText)findViewById(R.id.loginTextEdit);
-				String myLogin = login.getText().toString();
-				String password = pwd.getText().toString();
-
-				Log.i("HSA", "entré "+ password);
-
-				MCrypt mcrypt = new MCrypt();
-
-				/* Encrypt */
-				String encrypted=null;
-				try {
-					encrypted = MCrypt.bytesToHex( mcrypt.encrypt(password) );
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				String json = "[{\"username\":\""+myLogin+"\",\"password\":\""+encrypted+"\"}]";
-
-				Log.i("HSA", " "+json);
-				Log.i("HSA", " "+encrypted);
-
-				DatabaseServer dbbs = new DatabaseServer();
-				String reponse = dbbs.postRequest("login"," "+ json);
-				Log.i("HSA", "REP: "+reponse);
-				/*Vérifier la réponse et vérifier si on a un admin puis insérer l'admin*/
-				/*
-				 * Décommenter quand il ya ura bonne reponse
-				 */
-				MyJsonParser parser = new MyJsonParser(this);
-				if(parser.reponseIsClient(reponse)){
-					List<Client> logClient =parser.getClientFromJson(reponse);
-					if (logClient.get(0).getAdmin() == 1){
-						Client tmp =dataBase.getClientWithId(logClient.get(0).getId());
-						if (tmp == null){
-							DatabaseHandler.insertClient(logClient.get(0));
-							Log.i("SERVER", "ON INSERE LE CLIENT");
-							Intent intent = new Intent(this, ConcertActivity.class);
-							this.startActivity(intent);
-						}
-						else{
-							/*Comparrer les mot de passe*/
-							String paswUse;
-							String paswBase;
-							paswUse = logClient.get(0).getPassword();
-							paswBase = dataBase.getClientWithId(logClient.get(0).getId()).getPassword();
-							if (!paswUse.equals(paswBase)){
-								Log.i("SERVER", "ON MODIFIE LE MOT DE PASSE ");
-								dataBase.updatePassword(logClient.get(0),paswUse);
-							}
-							Intent intent = new Intent(this, ConcertActivity.class);
-							this.startActivity(intent);
-						}
+			DatabaseServer dbbs = new DatabaseServer();
+			String reponse = dbbs.postRequest("login"," "+ json);
+			Log.i("HSA", "REP: "+reponse);
+			/*Vérifier la réponse et vérifier si on a un admin puis insérer l'admin*/
+			/*
+			 * Décommenter quand il ya ura bonne reponse
+			 */
+			MyJsonParser parser = new MyJsonParser(this);
+			if(parser.reponseIsClient(reponse)){
+				List<Client> logClient =parser.getClientFromJson(reponse);
+				if (logClient.get(0).getAdmin() == 1){
+					Client tmp =dataBase.getClientWithId(logClient.get(0).getId());
+					if (tmp == null){
+						DatabaseHandler.insertClient(logClient.get(0));
+						Log.i("SERVER", "ON INSERE LE CLIENT");
+						Intent intent = new Intent(this, ConcertActivity.class);
+						this.startActivity(intent);
 					}
 					else{
-						Context myContext = getApplicationContext();
-						CharSequence text = "ERROR LOGIN OR PASSWORD !";
-						int duration = Toast.LENGTH_SHORT;
-
-						Toast toast = Toast.makeText(myContext, text, duration);
-						toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
-						toast.show();
+						/*Comparrer les mot de passe*/
+						String paswUse;
+						String paswBase;
+						paswUse = logClient.get(0).getPassword();
+						paswBase = dataBase.getClientWithId(logClient.get(0).getId()).getPassword();
+						if (!paswUse.equals(paswBase)){
+							Log.i("SERVER", "ON MODIFIE LE MOT DE PASSE ");
+							dataBase.updatePassword(logClient.get(0),paswUse);
+						}
+						Intent intent = new Intent(this, ConcertActivity.class);
+						this.startActivity(intent);
 					}
-
-				}else{
+				}
+				else{
 					Context myContext = getApplicationContext();
 					CharSequence text = "ERROR LOGIN OR PASSWORD !";
 					int duration = Toast.LENGTH_SHORT;
@@ -200,41 +187,58 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 					toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
 					toast.show();
 				}
+
+			}else{
+				Context myContext = getApplicationContext();
+				CharSequence text = "ERROR LOGIN OR PASSWORD !";
+				int duration = Toast.LENGTH_SHORT;
+
+				Toast toast = Toast.makeText(myContext, text, duration);
+				toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
+				toast.show();
 			}
+		}
+		else{
+
+			/****************** AUTHENTIFICATION ***********************************/			
+
+			EditText login = (EditText)findViewById(R.id.loginTextEdit);
+			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
+			Log.i("LOGIN", login.getText().toString() + "  " + pwd.getText().toString());
+			//MCrypt mcryptVerif = new MCrypt();
+			/*String encryptedVerif=null;
+			try {
+				encryptedVerif = MCrypt.bytesToHex( mcryptVerif.encrypt(pwd.getText().toString()) );
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
+			//Log.i("LOGIN", "Encr  "+encryptedVerif);
+			if (dataBase.authentificationAdmin(login.getText().toString(),pwd.getText().toString() )){
+				Intent intent = new Intent(this, ConcertActivity.class);
+				this.startActivity(intent);
+			}
+
+
 			else{
-
-				/****************** AUTHENTIFICATION ***********************************/			
-
-				EditText login = (EditText)findViewById(R.id.loginTextEdit);
-				EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
-				Log.i("LOGIN", login.getText().toString() + "  " + pwd.getText().toString());
-				//MCrypt mcryptVerif = new MCrypt();
-				/*String encryptedVerif=null;
-				try {
-					encryptedVerif = MCrypt.bytesToHex( mcryptVerif.encrypt(pwd.getText().toString()) );
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}*/
-				//Log.i("LOGIN", "Encr  "+encryptedVerif);
-				if (dataBase.authentificationAdmin(login.getText().toString(),pwd.getText().toString() )){
-					Intent intent = new Intent(this, ConcertActivity.class);
-					this.startActivity(intent);
-				}
-
-
-				else{
-					/*** ERREUR *************/
-					Context myContext = getApplicationContext();
-					CharSequence text = "ERROR LOGIN OR PASSWORD !";
-					Toast toast = Toast.makeText(myContext, text, Toast.LENGTH_LONG);
-					TextView toastText = (TextView) toast.getView().findViewById(android.R.id.message);
-					toastText.setTextColor(Color.RED);
-					toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
-					toast.show();
-				}
-
+				/*** ERREUR *************/
+				Context myContext = getApplicationContext();
+				CharSequence text = "ERROR LOGIN OR PASSWORD !";
+				Toast toast = Toast.makeText(myContext, text, Toast.LENGTH_LONG);
+				TextView toastText = (TextView) toast.getView().findViewById(android.R.id.message);
+				toastText.setTextColor(Color.RED);
+				toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
+				toast.show();
 			}
+
+		}
+
+	}
+	@Override
+	public void onClick(View v) {
+		Button b = (Button)v;
+		if (b == buttonConnexion){
+			connect();
 		}
 	}
 
@@ -245,18 +249,13 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 			new Thread(new Runnable() {
 				public void run() {
 					while(running){
-						//if (userFunctions.isUserLoggedIn())
-						//			connectedToServer(0);
-						//	else
-						connectedToServer(1);
+						if (DatabaseHandler.isAvailableServer(context))
+							connectedToServer(0);
+						else
+							connectedToServer(1);
 						try {
-							Thread.sleep(500);
-							connectedToServer(2);
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+							Thread.sleep(10 * 60 * 1000);
+						} catch (InterruptedException e) {}
 					}
 				}
 			}).start();
@@ -270,12 +269,10 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 				@Override
 				public void run() {
 					if (item != null){
-						if (lighted == 0){
-							item.setIcon(R.drawable.ic_action_location_found_green);
-						}else if (lighted == 1){
-							item.setIcon(R.drawable.ic_action_location_found_red);
-						}else{
-							item.setIcon(R.drawable.ic_action_refresh);
+						switch (lighted){
+							case 0: item.setIcon(R.drawable.ic_action_location_found_green);break;
+							case 1: item.setIcon(R.drawable.ic_action_location_found_red);break;
+							default: item.setIcon(R.drawable.ic_action_refresh);break;
 						}
 					}
 				}

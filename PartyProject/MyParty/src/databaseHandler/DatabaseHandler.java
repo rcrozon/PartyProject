@@ -725,7 +725,7 @@ public class DatabaseHandler {
 		return tPing.getResult();
 	}
 
-	public static Boolean updateAllTable(Context context){
+	public static Boolean updateAllTables(Context context){
 		/********************* Test du serveur et de la connexion internet ******************************/
 		if(isNetworkConnected(context) && isAvailableServer(context)){
 			/*Vide la table*/
@@ -876,7 +876,6 @@ public class DatabaseHandler {
 							success = myDir.mkdir(); //On crée le répertoire (s'il n'existe pas!!)
 						}
 						if (success){
-
 							OutputStream out = null;
 							try {
 								out = new FileOutputStream(myFile);
@@ -890,19 +889,10 @@ public class DatabaseHandler {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-
-
-
 						}
-
-
 					}
 				}
 			}
-
-
-
-
 			return true;
 		}
 		else{

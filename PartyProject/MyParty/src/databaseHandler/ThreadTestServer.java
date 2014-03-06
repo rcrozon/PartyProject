@@ -9,37 +9,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.List;
-
-import databaseHandler.DatabaseHandler;
-import databaseHandler.DatabaseServer;
-import databaseHandler.MyJsonParser;
-import databaseHandler.Tables;
-import entities.Client;
-import entities.Concert;
-import lists.ConcertList;
-import lists.ListLayout;
-import lists.ReservationsList;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MenuItem.OnMenuItemClickListener;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ViewFlipper;
 
 public class ThreadTestServer extends Thread {
 		

@@ -11,8 +11,6 @@ import com.example.myparty.ConcertDetailsActivity;
 import com.example.myparty.R;
 
 import databaseHandler.DatabaseHandler;
-import entities.Concert;
-import entities.ConcertItem;
 import entities.Entity;
 import entities.Reservation;
 import entities.ReservationItem;

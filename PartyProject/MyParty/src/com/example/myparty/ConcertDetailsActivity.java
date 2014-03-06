@@ -11,6 +11,7 @@ import scan.IntentIntegrator;
 import scan.IntentResult;
 import scan.ScanLayout;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,6 +42,7 @@ OnClickListener, OnMenuItemClickListener {
 	private ViewFlipper view_flipper;
 	private MenuItem decoItem;
 	private MenuItem bluetoothItem;
+	private MenuItem connectedItem;
 	private ScanLayout scanner;
 	private ImageView imgView;
 	private TextView textTitle;
@@ -49,6 +51,7 @@ OnClickListener, OnMenuItemClickListener {
 	private TextView textLocation;
 	private TextView textNbSeets;
 	private TextView textPrice;
+	private Context context;
 	private DatabaseHandler dataBase;
 	private boolean isCLient = false;
 	private Concert concert;
@@ -58,7 +61,7 @@ OnClickListener, OnMenuItemClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_concert_details);
-
+		context = this;
 		this.buttonTickets = (Button) findViewById(R.id.buttonTickets);
 		this.buttonMap = (Button) findViewById(R.id.buttonMap);
 		this.buttonClients = (Button) findViewById(R.id.buttonClient);
@@ -68,7 +71,7 @@ OnClickListener, OnMenuItemClickListener {
 		this.view_flipper = (ViewFlipper) findViewById(R.id.view_flipper);
 
 		/****************** OUVERTURE BDD ***********************************/
-
+		lightHandler();
 		this.dataBase = new DatabaseHandler(this);
 		this.dataBase.open();
 
@@ -236,12 +239,51 @@ OnClickListener, OnMenuItemClickListener {
 		}
 	}
 
+
+	/**
+	 * Handler the icon showing the connection state
+	 */
+	private void lightHandler(){
+		new Thread(new Runnable() {
+			public void run() {
+				while(ConnectionActivity.running){
+					if (DatabaseHandler.isAvailableServer(context))
+						connectedToServer(0);
+					else
+						connectedToServer(1);
+					try {
+						Thread.sleep(10 * 60 * 1000);
+					} catch (InterruptedException e) {}
+				}
+			}
+		}).start();
+	}
+
+
+	/**
+	 * Change the icon
+	 * @param lighted : 0 if connected, 1 if not, 2 if refreshing
+	 */
+	private void connectedToServer(final int lighted){
+		this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (ConnectionActivity.item != null){
+					switch (lighted){
+						case 0: ConnectionActivity.item.setIcon(R.drawable.ic_action_location_found_green);break;
+						case 1: ConnectionActivity.item.setIcon(R.drawable.ic_action_location_found_red);break;
+						default: ConnectionActivity.item.setIcon(R.drawable.ic_action_refresh);break;
+					}
+				}
+			}
+		});
+	}
 	@Override
 	public boolean onMenuItemClick(MenuItem item) {
-		Intent intent;
+		Intent intent = null;
 		if (item == decoItem) {
 			intent = new Intent(this, ConnectionActivity.class);
-		} else {
+		} else if(item == bluetoothItem) {
 			intent = new Intent(this, BluetoothActivity.class);
 		}
 		this.startActivity(intent);

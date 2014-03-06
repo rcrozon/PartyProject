@@ -5,7 +5,6 @@ import java.util.Date;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,8 +13,6 @@ import com.example.myparty.ConcertDetailsActivity;
 import com.example.myparty.R;
 
 import databaseHandler.DatabaseHandler;
-import entities.Client;
-import entities.ClientItem;
 import entities.Concert;
 import entities.ConcertItem;
 import entities.DateParser;
