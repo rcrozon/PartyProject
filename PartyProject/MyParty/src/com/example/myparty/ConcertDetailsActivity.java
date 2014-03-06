@@ -30,7 +30,7 @@ import entities.Concert;
 import entities.ConcertDetailed;
 
 public class ConcertDetailsActivity extends Activity implements
-		OnClickListener, OnMenuItemClickListener {
+OnClickListener, OnMenuItemClickListener {
 
 	private Button buttonTickets;
 	private Button buttonMap;
@@ -71,10 +71,10 @@ public class ConcertDetailsActivity extends Activity implements
 
 		this.dataBase = new DatabaseHandler(this);
 		this.dataBase.open();
-		
-		
+
+
 		/************************ MISE A JOUR SERVEUR POUR LES SCAN ************************************/
-		
+
 		String jsonScan;
 		jsonScan = dataBase.getJsonScanMAJ();
 		Log.i("ScanJson", "Json:"+jsonScan);
@@ -94,8 +94,8 @@ public class ConcertDetailsActivity extends Activity implements
 					+ " Pour "+ concert.getId()+concert.getTitle());
 		}
 		}
-		
-/************************** Traitement du bouton validation scan ***********************************/
+
+		/************************** Traitement du bouton validation scan ***********************************/
 		this.scanner = new ScanLayout(this, this);
 		this.scanner.getButtonTariff().setOnClickListener(
 				new OnClickListener() {
@@ -109,8 +109,8 @@ public class ConcertDetailsActivity extends Activity implements
 						textButtonValidate(" ");
 					}
 				});
-		
-		
+
+
 		/**********************************************************/
 
 		this.view_flipper.addView(new ConcertDetailed(this, concert));
@@ -197,7 +197,7 @@ public class ConcertDetailsActivity extends Activity implements
 		}
 	}
 
-/**********************   Récupération des infos du billet      ************************************/
+	/**********************   Récupération des infos du billet      ************************************/
 	/*******id_res;id_concert;id_client;id_tarif********/
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		IntentResult scanResult = IntentIntegrator.parseActivityResult(
@@ -206,31 +206,33 @@ public class ConcertDetailsActivity extends Activity implements
 			String barcode;
 			//String typ;
 			barcode = scanResult.getContents();
-			//typ = scanResult.getFormatName();
-			String infoRes[] = barcode.split(";");
-			Log.i("SPLIT", infoRes[0]+"/"+infoRes[1]+"/"+
-					infoRes[2]+"/"+ infoRes[3]);
-			Boolean ok = dataBase.isValidTicket(Integer.parseInt(infoRes[0]), Integer.parseInt(infoRes[1])
-				, Integer.parseInt(infoRes[2]), Integer.parseInt(infoRes[3]),concert.getId());
-			
-			scanner.getTextView().setText(barcode + "   ");
-			scanner.getTextView().setFreezesText(true);
-			
-			if (ok){
-				scanner.getImageView().setBackgroundResource(
-						R.drawable.qrcode_green);
-				idResScan = Integer.parseInt(infoRes[0]);
-				String labelTarrif = dataBase.getLabelById(Integer.parseInt(infoRes[3]));
-				textButtonValidate("Tarif : "+labelTarrif);
-			}
-			else{
-				scanner.getImageView().setBackgroundResource(
-						R.drawable.qrcode_red);
-				idResScan = 0;
-				textButtonValidate("Error Ticket");
-				
-			}
+			if (barcode!=null){
+				//typ = scanResult.getFormatName();
+				String infoRes[] = barcode.split(";");
+				Log.i("SPLIT", infoRes[0]+"/"+infoRes[1]+"/"+
+						infoRes[2]+"/"+ infoRes[3]);
+				Boolean ok = dataBase.isValidTicket(Integer.parseInt(infoRes[0]), Integer.parseInt(infoRes[1])
+						, Integer.parseInt(infoRes[2]), Integer.parseInt(infoRes[3]),concert.getId());
 
+				scanner.getTextView().setText(barcode + "   ");
+				scanner.getTextView().setFreezesText(true);
+
+				if (ok){
+					scanner.getImageView().setBackgroundResource(
+							R.drawable.qrcode_green);
+					idResScan = Integer.parseInt(infoRes[0]);
+					String labelTarrif = dataBase.getLabelById(Integer.parseInt(infoRes[3]));
+					textButtonValidate("Tarif : "+labelTarrif);
+				}
+				else{
+					scanner.getImageView().setBackgroundResource(
+							R.drawable.qrcode_red);
+					idResScan = 0;
+					textButtonValidate("Error Ticket");
+
+				}
+
+			}
 		}
 	}
 
