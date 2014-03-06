@@ -237,6 +237,7 @@ class ConcertsController extends AppController{
             $uploadPath = WWW_ROOT . $uploadFolder;
             $image = $d['Concert']['image_file']['name'];
             $image = str_replace(" ", "-", $image);
+            $image = str_replace('.'.$extension, "-".date('Y-m-d-H-i-s').'.'.$extension, $image);
             $d['Concert']['image_file']['name'] = $image;
             $full_image_path = $uploadPath . '/' . $d['Concert']['image_file']['name'];
             if(!empty($d['Concert']['image_file']['tmp_name']) && 
@@ -461,6 +462,22 @@ class ConcertsController extends AppController{
     }
 
     function admin_delete($id) {
+        App::uses('Folder', 'Utility');
+        App::uses('File', 'Utility');
+        $uploadFolder = "img/Concerts";
+        $uploadPath = WWW_ROOT . $uploadFolder;
+        $concert = $this->Concert->find('first', array(
+            'conditions' => array('Concert.id' => $id)
+        ));
+        $img = $concert['Concert']['image'];
+        $dir = new Folder($uploadPath);
+        $files = $dir->find($img);
+        foreach ($files as $file) {
+            $file = new File($uploadPath.DS.$file);
+            $file->delete();
+            $file->close();
+        }
+
         $this->Session->setFlash('The party has been successfully deleted', 'notif',array('type'=>'success'));
         $this->Concert->delete($id);
         $this->redirect($this->referer());
@@ -547,6 +564,7 @@ class ConcertsController extends AppController{
             $uploadPath = WWW_ROOT . $uploadFolder;
             $image = $d['Concert']['image_file']['name'];
             $image = str_replace(" ", "-", $image);
+            $image = str_replace('.'.$extension, "-".date('Y-m-d-H-i-s').'.'.$extension, $image);
             $d['Concert']['image_file']['name'] = $image;
             $full_image_path = $uploadPath . '\\' . $d['Concert']['image_file']['name'];
             if(!empty($d['Concert']['image_file']['tmp_name']) && 
@@ -747,12 +765,8 @@ class ConcertsController extends AppController{
     }
 
     function showLastConcerts (){
-
-     
-
           $d = $this->Concert->find('all', array('order' => array('Concert.id DESC')));
           $this->set('showLastConcerts',$d);
-      
     }
 
     function showConcert (){
@@ -769,7 +783,6 @@ class ConcertsController extends AppController{
 			$idT = $v[$i]['AssocTarif']['id_tarif'];
 			$result[$i] = $this->Tarif->find('all',array('conditions' => array('Tarif.id' => $idT)));
         }
-
 
         $this->set('showConcert',$d);
         $this->set('showTarif',$result);
