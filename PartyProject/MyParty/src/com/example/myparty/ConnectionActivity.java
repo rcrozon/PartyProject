@@ -111,18 +111,10 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 
 
 	private void connect(){
-		ThreadTestServer tPing = new ThreadTestServer(this);
-		tPing.start();
-
-		try {
-			tPing.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
+		Log.i("bug", "avant");
 		/********************* Test du serveur et de la connexion internet ******************************/
-		if(isNetworkConnected(this) && tPing.getResult()){
-
+		if(isNetworkConnected(context) && DatabaseHandler.isAvailableServer(context)){
+			Log.i("bug", "après");
 			/* TODO A DECOMMENTER SI ON NE VEUT PAS UTILISER AUTHENTIFICATION*/
 			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
 			EditText login = (EditText)findViewById(R.id.loginTextEdit);
@@ -199,7 +191,7 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 			}
 		}
 		else{
-
+			Log.i("bug", "après else");
 			/****************** AUTHENTIFICATION ***********************************/			
 
 			EditText login = (EditText)findViewById(R.id.loginTextEdit);
@@ -250,12 +242,16 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 				public void run() {
 					while(running){
 						try {
-							if (DatabaseHandler.isAvailableServer(context))
+							if (DatabaseHandler.isAvailableServer(context)){
 								connectedToServer(0);
-							else
+								Log.i("buglight", "OK");
+							}
+							else{
 								connectedToServer(1);
+								Log.i("bug", "NOTOK");
+							}
 							Thread.sleep(10 * 60 * 1000);
-						} catch (InterruptedException e) {}
+						} catch (InterruptedException e) {Log.i("bug", "Catch");}
 					}
 				}
 			}).start();

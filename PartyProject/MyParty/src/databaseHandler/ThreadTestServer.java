@@ -37,11 +37,13 @@ public class ThreadTestServer extends Thread {
 		NetworkInfo netInfo = cm.getActiveNetworkInfo();
 		if (netInfo != null && netInfo.isConnected()) {
 			try {
-				URL url = new URL("http://anthony.flavigny.emi.u.fr");   // Change to "http://google.com" for www  test.
+				URL url = new URL("http://anthony.flavigny.emi.u-bordeaux1.fr");   // Change to "http://google.com" for www  test.
+			
 				HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
-				urlc.setConnectTimeout(1000);     
-				urlc.setReadTimeout(1000);// 1 s.
+				urlc.setConnectTimeout(1000*10);     
+				urlc.setReadTimeout(1000*10);// 1 s.
 				urlc.connect();
+				
 				Log.i("PING", ""+urlc.getResponseCode());
 				if (urlc.getResponseCode() == 200) {        // 200 = "OK" code (http connection is fine).
 					Log.i("PING", "PING OK");
