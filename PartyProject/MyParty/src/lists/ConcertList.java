@@ -65,12 +65,6 @@ public class ConcertList extends List {
 			}
 			
 		}
-		else{
-			Concert concert = new Concert(0, "NO CONCERT", "NO CONCERT", "NO CONCERT",  "NO CONCERT", 
-					"NO CONCERT", "NO CONCERT", 0, 0, 0, 0, 0);
-			ConcertItem testAff = new ConcertItem(context, concert);
-			items.add(testAff);
-		}
 		
 		adapter = new Adapter(items);
 		this.setAdapter(adapter);
