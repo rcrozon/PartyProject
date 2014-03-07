@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutMain"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/black">
+
+    <ViewFlipper
+        android:id="@+id/view_flipper"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" > 
+    </ViewFlipper>
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+    </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/layoutButtons"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/blue"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/buttonPrev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/blue"
+            android:textColor="@color/white" />
+		
+        <TextView
+            android:id="@+id/textNbTickets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/blue"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/buttonNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/blue"
+            android:text="@string/next_concerts"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutInfos"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layoutButtons"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical" >
+        
+        <LinearLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="20dp"
+	        android:layout_marginRight="20dp"
+	        android:layout_marginTop="20dp"
+	        android:background="@color/bis"
+	        android:orientation="vertical" >
+	        
+	        <TextView
+	            android:id="@+id/textTitle"
+	            android:gravity="left"	
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+		        android:layout_marginTop="10dp"
+		        android:layout_marginLeft="20dp"
+		        android:layout_marginRight="20dp"
+	            android:textColor="@color/white" />
+	        
+	        <TextView
+	            android:id="@+id/textBeginDate"
+	            android:gravity="left"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+		        android:layout_marginLeft="20dp"
+		        android:layout_marginRight="20dp"
+	            android:textColor="@color/white" />
+	        
+	        <TextView
+	            android:id="@+id/textEndDate"
+	            android:gravity="left"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+		        android:layout_marginLeft="20dp"
+		        android:layout_marginRight="20dp"
+	            android:textColor="@color/white" />
+	        
+	        <TextView
+	            android:id="@+id/textTariff"
+	            android:gravity="left"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+		        android:layout_marginLeft="20dp"
+		        android:layout_marginRight="20dp"
+	            android:textColor="@color/white" />
+	        
+	        <TextView
+	            android:id="@+id/textArtists"
+	            android:gravity="left"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+		        android:layout_marginLeft="20dp"
+		        android:layout_marginRight="20dp"
+	            android:textColor="@color/white" />
+	        
+	        <TextView
+	            android:id="@+id/textStyle"
+	            android:gravity="left"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+		        android:layout_marginLeft="20dp"
+		        android:layout_marginRight="20dp"
+		        android:layout_marginBottom="20dp"
+	            android:textColor="@color/white" />
+	    </LinearLayout>	    
+    </LinearLayout>
+</RelativeLayout>

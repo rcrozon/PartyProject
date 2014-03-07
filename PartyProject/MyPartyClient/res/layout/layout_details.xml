@@ -1,0 +1,83 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_concert_details"
+    android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="@color/black">
+	
+    <ImageView 
+        android:id="@+id/imgConcert"
+        android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+		android:contentDescription="@string/scan"/>
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+		android:layout_marginLeft="20dp"
+		android:layout_marginRight="20dp"
+        android:textColor="@color/white"
+        android:layout_below="@id/imgConcert"
+        android:text="@string/scan" />       
+        
+	<TextView
+        android:id="@+id/textDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+		android:layout_marginLeft="20dp"
+		android:layout_marginRight="20dp"
+        android:textColor="@color/white"
+        android:layout_below="@id/textTitle"
+        android:text="@string/action_settings" />       
+    
+    <TextView
+        android:id="@+id/textLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+		android:layout_marginLeft="20dp"
+		android:layout_marginRight="20dp"
+        android:textColor="@color/white"
+        android:layout_below="@id/textDate"
+        android:text="@string/lastname" />       
+        
+    <TextView
+        android:id="@+id/textPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+		android:layout_marginLeft="20dp"
+		android:layout_marginRight="20dp"
+        android:textColor="@color/white"
+        android:layout_below="@id/textLocation"
+        android:text="@string/password" />   
+        
+    <TextView
+        android:id="@+id/textNbSeets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+		android:layout_marginLeft="20dp"
+		android:layout_marginRight="20dp"
+        android:textColor="@color/white"
+        android:layout_below="@id/textPrice"
+        android:text="@string/news" />      
+        
+    <TextView
+        android:id="@+id/textFull"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_alignParentLeft="true"
+		android:layout_marginLeft="20dp"
+		android:layout_marginRight="20dp"
+        android:layout_below="@id/textNbSeets"
+        android:text="@string/firstname" />   
+            
+	
+</RelativeLayout>
+                

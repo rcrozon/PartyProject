@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/black"
+    tools:context=".ConnectionActivity" >
+    
+    <TextView
+        android:id="@+id/unknownUser"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/loginText"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:text="@string/unknown_user"
+        android:textAlignment="center"
+        android:textColor="@color/red"
+        android:visibility="invisible"
+        android:textSize="@dimen/textDimension" />
+    
+	<Button
+	    android:id="@+id/buttonConnexion"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="20dip"
+	    android:gravity="center"
+	    android:layout_marginRight="20dip"
+	    android:layout_alignParentBottom="true"
+	    android:layout_marginBottom="20dp"
+	    android:background="@color/blue"
+	    android:text="@string/connexion" />
+
+	<TextView 
+	    android:id="@+id/loginText"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_above="@+id/loginTextEdit"
+	    android:layout_alignLeft="@+id/loginTextEdit"
+	    android:layout_alignRight="@+id/loginTextEdit"
+	    android:layout_marginBottom="16dp"
+	    android:text="@string/login"
+	    android:gravity="center"
+	    android:textColor="@color/white"
+	    android:textAlignment="center"
+	    android:textSize="@dimen/itemDimension" />
+
+	<EditText
+	    android:id="@+id/loginTextEdit"
+	    style="@style/AppBaseTheme"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_above="@+id/pwdText"
+	    android:layout_alignLeft="@+id/pwdText"
+	    android:layout_alignRight="@+id/pwdText"
+	    android:layout_marginBottom="16dp"
+	    android:ems="10"
+	    android:gravity="center"
+	    android:textColor="@color/white"
+	    android:textSize="@dimen/itemDimension">
+	    <requestFocus /> 
+	</EditText> 
+
+	<TextView
+	    android:id="@+id/pwdText"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_above="@+id/pwdTextEdit"
+	    android:layout_alignLeft="@+id/buttonConnexion"
+	    android:gravity="center"
+	    android:layout_alignRight="@+id/buttonConnexion"
+	    android:layout_marginBottom="22dp"
+	    android:text="@string/password"
+	    android:textAlignment="center"
+	    android:textColor="@color/white"
+	    android:textSize="@dimen/itemDimension" />
+
+	<EditText
+	    android:id="@+id/pwdTextEdit"
+	    style="@style/AppBaseTheme"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_above="@+id/buttonConnexion"
+	    android:layout_alignLeft="@+id/pwdText"
+	    android:layout_marginBottom="109dp"
+	    android:ems="10"
+	    android:gravity="center"
+	    android:inputType="textPassword"
+	    android:textColor="@color/white"
+	    android:textSize="@dimen/itemDimension" />
+        
+</RelativeLayout>

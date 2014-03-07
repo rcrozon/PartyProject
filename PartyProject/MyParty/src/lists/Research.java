@@ -6,6 +6,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
+import android.widget.TextView;
 
 import com.example.myparty.R;
 
@@ -65,11 +66,12 @@ public class Research extends LinearLayout {
         search.findViewById(voiceSearchPlateId).setBackgroundResource(R.drawable.apptheme_textfield_activated_holo_dark);
 
         // change hint color
-//        int searchTextViewId = search.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-//        TextView searchTextView = (TextView) search.findViewById(searchTextViewId);
-//        searchTextView.setHintTextColor(getResources().getColor(R.color.white));
+        int searchTextViewId = search.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView searchTextView = (TextView) search.findViewById(searchTextViewId);
+        searchTextView.setHintTextColor(getResources().getColor(R.color.white));
+        searchTextView.setBackgroundResource(R.drawable.edit_text_design);
         
-	    search.setBackgroundColor(getResources().getColor(R.color.blue));
+	    //search.setBackgroundColor(getResources().getColor(R.color.));
 	    this.addView(search);
 		//this.addView(this.researchText);
 		//this.addView(this.researchButton);
