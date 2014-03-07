@@ -250,13 +250,12 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 				public void run() {
 					while(running){
 						try {
-							if (DatabaseHandler.isAvailableServer(ConnectionActivity.this))
+							if (DatabaseHandler.isAvailableServer(context))
 								connectedToServer(0);
 							else
 								connectedToServer(1);
-							Thread.sleep(1000);
+							Thread.sleep(10 * 60 * 1000);
 						} catch (InterruptedException e) {}
-						 catch (NullPointerException e) {}
 					}
 				}
 			}).start();

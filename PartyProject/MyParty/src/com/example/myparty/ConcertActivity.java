@@ -37,7 +37,10 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	private ProgressBar progressBar;
 	private LinearLayout layoutMain;
 	private MenuItem connectedItem;
- 
+	private ListLayout listAll;
+	private ListLayout listNext;
+	private ListLayout listNews;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,12 +61,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		
 /******* MISE A JOUR SQLITE DEPUIS LE SERVEUR ******************************************************************************************/
 
-		ListLayout listAll = new ListLayout(this, new ConcertList(this, null, 0));
-		ListLayout listNext = new ListLayout(this, new ConcertList(this, null, 1));
-		ListLayout listNews = new ListLayout(this, new ConcertList(this, null, 2));
-		this.view_flipper.addView(listAll);
-		this.view_flipper.addView(listNext);
-		this.view_flipper.addView(listNews);
+		updateLists();
 		this.buttonAllConcerts.setBackgroundResource(R.drawable.button_selected);
 		this.view_flipper.setDisplayedChild(0);
 		buttonAllConcerts.setOnClickListener(this);
@@ -72,6 +70,16 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 
 	}
 
+	private void updateLists(){
+		listAll = new ListLayout(this, new ConcertList(this, null, 0));
+		listNext = new ListLayout(this, new ConcertList(this, null, 1));
+		listNews = new ListLayout(this, new ConcertList(this, null, 2));
+		this.view_flipper.removeAllViews();
+		this.view_flipper.addView(listAll);
+		this.view_flipper.addView(listNext);
+		this.view_flipper.addView(listNews);
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.connected, menu);
@@ -162,7 +170,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	private void loadDatabase(){
 		progressBar.setVisibility(View.VISIBLE);
 		layoutMain.setVisibility(View.GONE);
-		new Thread(new Runnable() {
+		new Thread(new Runnable() { 
 			@Override
 			public void run() {
 				if (DatabaseHandler.updateAllTables(context)){
@@ -170,9 +178,9 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 						@Override
 						public void run() {
 							connectedToServer(0);  
+							updateLists();
 							progressBar.setVisibility(View.GONE);
 							layoutMain.setVisibility(View.VISIBLE);
-							/*Il faut recharger la concert activity mias pas ici sinon boucle !!*/
 						}
 					});
 					
@@ -180,7 +188,8 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							connectedToServer(1);
+							connectedToServer(1);  
+							updateLists();
 							progressBar.setVisibility(View.GONE);
 							layoutMain.setVisibility(View.VISIBLE);
 						}
