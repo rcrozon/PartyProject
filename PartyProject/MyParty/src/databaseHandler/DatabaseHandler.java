@@ -788,75 +788,18 @@ public class DatabaseHandler {
 			/*Image*/
 			List<Concert> imgConcert = getConcerts();
 			if (imgConcert != null){
-				/**POUR LA LISTE DES CONCERTS*/
-				for (int i=0; i<imgConcert.size();i++){
-					File ftest = new File(Environment.getExternalStorageDirectory() +
-							File.separator + "appli_img/icon"+imgConcert.get(i).getId()+".png");
-					/*Pour supprimer les images*/
-					//ftest.delete();
-					
-					
-					/*Si l'image n'existe pas on la crée*/
-					if (!ftest.exists()){
-						Log.i("IMAGE", "ON LA CRÉE"+"icon"+imgConcert.get(i).getId()+".png" );
-						ThreadBitMap t = new ThreadBitMap(Tables.IMG_PATH_SERVER + imgConcert.get(i).getImagePath(),0);
-						t.start();
-
-						try {
-							t.join();
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-
-						Bitmap myBm = t.getResult();
-						/*On écrit dans le disque dur du téléphone*/
-						File myFile = new File(Environment.getExternalStorageDirectory() +
-								File.separator + "appli_img","icon"+imgConcert.get(i).getId()+".png"); //on déclare notre futur fichier
-						
-						
-					
-						File myDir = new File(Environment.getExternalStorageDirectory() +
-								File.separator + "appli_img"); //pour créer le repertoire dans lequel on va mettre notre fichier
-						Boolean success=true;
-						if (!myDir.exists()) {
-							success = myDir.mkdir(); //On crée le répertoire (s'il n'existe pas!!)
-						}
-						if (success){
-
-							OutputStream out = null;
-							
-							try {
-								out = new FileOutputStream(myFile);
-								myBm.compress(Bitmap.CompressFormat.PNG,80,out);
-								out.flush();
-								out.close();
-								
-							} catch (FileNotFoundException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-
-
-
-						}
-
-
-					}
-				}
 				/**POURLE DETAIL D'UN CONCERT*/
 				for (int i=0; i<imgConcert.size();i++){
 					File ftest = new File(Environment.getExternalStorageDirectory() +
 							File.separator + "appli_img/detail"+imgConcert.get(i).getId()+".png");
 					/*Si l'image n'existe pas on la crée*/
+					/*Pour supprimer les images*/
+					//ftest.delete();
 					if (!ftest.exists()){
 						Log.i("IMAGE", "ON LA CRÉE"+"detail"+imgConcert.get(i).getId()+".png" );
-						ThreadBitMap t = new ThreadBitMap(Tables.IMG_PATH_SERVER + imgConcert.get(i).getImagePath(),1);
+						ThreadBitMap t = new ThreadBitMap(Tables.IMG_PATH_SERVER + imgConcert.get(i).getImagePath());
 						t.start();
-
+						
 						try {
 							t.join();
 						} catch (InterruptedException e) {

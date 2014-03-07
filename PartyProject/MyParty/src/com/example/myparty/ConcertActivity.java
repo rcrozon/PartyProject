@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
@@ -37,7 +38,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	private ProgressBar progressBar;
 	private LinearLayout layoutMain;
 	private MenuItem connectedItem;
- 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,13 +51,13 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		buttonNextConcerts = (Button)findViewById(R.id.buttonNextConcerts);
 		view_flipper = (ViewFlipper)findViewById(R.id.view_flipper);
 
-/******* OUVERTURE SQLITE ******************************************************************************************/
+		/******* OUVERTURE SQLITE ******************************************************************************************/
 
 		loadDatabase();
 		dataBase = new DatabaseHandler(this);
 		dataBase.open();
-		
-/******* MISE A JOUR SQLITE DEPUIS LE SERVEUR ******************************************************************************************/
+
+		/******* MISE A JOUR SQLITE DEPUIS LE SERVEUR ******************************************************************************************/
 
 		ListLayout listAll = new ListLayout(this, new ConcertList(this, null, 0));
 		ListLayout listNext = new ListLayout(this, new ConcertList(this, null, 1));
@@ -127,29 +128,45 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		}
 		else if(item == updateItem){
 			loadDatabase();
-//			if(DatabaseHandler.updateAllTables(this)){
-//				intent = new Intent(this, ConcertActivity.class);
-//				this.startActivity(intent);
-//			}
+			//			if(DatabaseHandler.updateAllTables(this)){
+			//				intent = new Intent(this, ConcertActivity.class);
+			//				this.startActivity(intent);
+			//			}
 		}
 		else if (item == scanPushItem){
 			/*tester la connexion*/
-			String jsonScan;
-			jsonScan = dataBase.getJsonScanMAJ();
-			Log.i("ScanJson", "Json: "+jsonScan);
-			DatabaseServer ser = new DatabaseServer();
-			String reponse = ser.postRequest("majReservation", jsonScan);
-			/*TODO Supprimer en fonction de la reponse*/
-			Log.i("ScanJson", "REP : "+reponse);
-			dataBase.deleteResMAJ();
-			String jsonScan2;
-			jsonScan2 = dataBase.getJsonScanMAJ();
-			Log.i("ScanJson", "Json2: "+jsonScan2);
-			if (reponse.equals("success")){
-				Log.i("ScanJson", "ON A REUSSI");
+			if(DatabaseHandler.isNetworkConnected(context) && DatabaseHandler.isAvailableServer(context)){
+				String jsonScan;
+				jsonScan = dataBase.getJsonScanMAJ();
+				Log.i("ScanJson", "Json: "+jsonScan);
+				DatabaseServer ser = new DatabaseServer();
+				String reponse = ser.postRequest("majReservation", jsonScan);
+				/*TODO Supprimer en fonction de la reponse*/
+				Log.i("ScanJson", "REP : "+reponse);
+				dataBase.deleteResMAJ();
+				String jsonScan2;
+				jsonScan2 = dataBase.getJsonScanMAJ();
+				Log.i("ScanJson", "Json2: "+jsonScan2);
+				Context myContext = getApplicationContext();
+				CharSequence text = "PUSH OK!";
+				int duration = Toast.LENGTH_LONG;
+
+				Toast toast = Toast.makeText(myContext, text, duration);
+				toast.show();
+				if (reponse.equals("success")){
+					Log.i("ScanJson", "ON A REUSSI");
+				}
+				else{
+					Log.i("ScanJson", "ON A PAAAAASSSSSS REUSSI");
+				}
 			}
 			else{
-				Log.i("ScanJson", "ON A PAAAAASSSSSS REUSSI");
+				Context myContext = getApplicationContext();
+				CharSequence text = "ERROR DATABASE PUSH!";
+				int duration = Toast.LENGTH_LONG;
+
+				Toast toast = Toast.makeText(myContext, text, duration);
+				toast.show();
 			}
 		}
 		else{
@@ -158,7 +175,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		}
 		return false;
 	}
-	
+
 	private void loadDatabase(){
 		progressBar.setVisibility(View.VISIBLE);
 		layoutMain.setVisibility(View.GONE);
@@ -175,11 +192,17 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 							/*Il faut recharger la concert activity mias pas ici sinon boucle !!*/
 						}
 					});
-					
+
 				}else{
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
+							Context myContext = getApplicationContext();
+							CharSequence text = "ERROR DATABASE PULL!";
+							int duration = Toast.LENGTH_LONG;
+
+							Toast toast = Toast.makeText(myContext, text, duration);
+							toast.show();
 							connectedToServer(1);
 							progressBar.setVisibility(View.GONE);
 							layoutMain.setVisibility(View.VISIBLE);
@@ -197,13 +220,13 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	private void connectedToServer(final int lighted){
 		if (connectedItem != null){
 			switch (lighted){
-				case 0: connectedItem.setIcon(R.drawable.ic_action_location_found_green);break;
-				case 1: connectedItem.setIcon(R.drawable.ic_action_location_found_red);break;
-				default: connectedItem.setIcon(R.drawable.ic_action_refresh);break;
+			case 0: connectedItem.setIcon(R.drawable.ic_action_location_found_green);break;
+			case 1: connectedItem.setIcon(R.drawable.ic_action_location_found_red);break;
+			default: connectedItem.setIcon(R.drawable.ic_action_refresh);break;
 			}
 		}
 	}
-	
+
 	public void onBackPressed(){
 		//No implementation
 	}
