@@ -774,6 +774,22 @@ class ConcertsController extends AppController{
         $d = $this->Concert->find('first',array(
             'conditions' => array('Concert.id' => $id)
         ));
+
+        /* Recuperation des styles */
+        $results = $this->AssocStyle->find('all',array(
+            'conditions' => array('AssocStyle.id_concert' => $id)));
+        for ($i = 0; $i < sizeof($results); $i++) {
+            
+            $styles[$i] = $this->Style->find('first',array('conditions' => array('Style.id' => 
+                $results[$i]['AssocStyle'])));
+        }
+         /* Recuperation des artistes */
+         $results = $this->AssocArtist->find('all',array(
+            'conditions' => array('AssocArtist.id_concert' => $id)));
+        for ($i = 0; $i < sizeof($results); $i++) {            
+            $artists[$i] = $this->Artist->find('first',array('conditions' => array('Artist.id' => 
+                $results[$i]['AssocArtist'])));
+        }
      
         $d = Hash::extract($d, 'Concert'); 
         //Get id of Tarif
@@ -785,6 +801,9 @@ class ConcertsController extends AppController{
         }
 
         $this->set('showConcert',$d);
+        $this->set('styles',$styles);
+        $this->set('artists',$artists);
+
         $this->set('showTarif',$result);
     }
 }

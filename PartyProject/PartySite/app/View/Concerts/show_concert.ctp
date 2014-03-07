@@ -1,16 +1,7 @@
 
 
 <?php
-
-/*echo $this->Html->image('Concerts/'.$showConcert['image'], array('fullBase' => false));
- echo $this->Html->link($this->Html->image('Concerts/'.$showConcert['image'],array('alt'=>'Logo')),'/', array('fullBase'=>true)); 
-
-
-
-echo $this->Html->url($this->Html->image('Concerts/'.$showConcert['image'],array('alt'=>'Logo')),'/', array('fullBase'=>true));*/
-					
-
-
+require('../webroot/date/dateConverter.php');
 
 ?>
 
@@ -25,6 +16,31 @@ echo $this->Html->url($this->Html->image('Concerts/'.$showConcert['image'],array
   background-position-y: 51px
 
 }
+
+h1{
+	 border-bottom: 3px solid #f0f1e7;
+    color: #444;
+    font-family: "Marvel", sans-serif;
+    
+    font-weight: bold;
+    line-height: 48px;
+    margin: 0 0 15px;
+    padding: 0 0 5px;
+    text-transform: uppercase;
+
+   
+		font-size: 22px;
+		line-height: 40px;
+		letter-spacing: -1px;color: #444;
+
+}
+p{
+   font-family: Arial,sans-serif;
+	padding: 0 0 0 0px;
+color: #666;
+font-size: 13px;
+}
+
 .detailConcert{
 	 background: #fff;
     border-radius: 2px;
@@ -56,9 +72,41 @@ text-align: center;
 			<?php
 			$nbSeatsDispo = $this->Concert->getNbDispoSeats($showConcert['id']);
 
+            $dateBegin = getDateOfDateTime($showConcert['start_datetime']);
+
+            $dateEnd = getDateOfDateTime($showConcert['end_datetime']);
+
+
+       		$timeBegin = getTimeOfDateTime($showConcert['start_datetime']);
+		    $timeEnd  = getTimeOfDateTime($showConcert['end_datetime']);
+ 			
 			echo '<h1>'.$showConcert['name_concert'].'</h1>';
-			echo '<p>'.'Begin date: '.$showConcert['start_datetime'].'<p>';
-			echo '<p>'.'End date: '.$showConcert['end_datetime'].'<p>';
+			echo '<p>'.$dateBegin.' - '.$timeBegin.' to '.$dateEnd.' - '. $timeEnd.' <p>';
+
+			echo '<p> Style(s): ';
+			for($i=0;$i<sizeof($styles);$i++){
+				if($i==sizeof($styles)-1){
+					echo $styles[$i]['Style']['name'];
+				}
+				else{
+						echo $styles[$i]['Style']['name'].', ';
+				}
+		
+			}
+			echo '</p>';
+
+			echo '<p> Artist(s): ';
+			for($i=0;$i<sizeof($artists);$i++){
+				if($i==sizeof($artists)-1){
+					echo $artists[$i]['Artist']['name'];
+				}
+				else{
+						echo $artists[$i]['Artist']['name'].', ';
+				}
+		
+			}
+			echo '</p>';
+
 			echo '<p>'.'Location: '.$showConcert['location'].'<p>';
 			if($nbSeatsDispo > 0){
 			echo '<span class="label-success">Tickets available : '.$nbSeatsDispo.'</span>';

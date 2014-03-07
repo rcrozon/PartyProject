@@ -154,7 +154,7 @@ class MobilesController  extends AppController{
     public function getAllClients() {
     	$results = $this->Client->find('all');
     		 	$table=array();
-
+    	debug($table);
 		for($i=0;$i<sizeof($results);$i++){
 			$d = $results[$i]['Client'];
 			$table[$i] = $d;
