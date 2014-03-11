@@ -235,7 +235,7 @@ for ($i = 0; $i <= sizeof($showTarif)-1; $i++) {  ?>
 		document.getElementById(<?php echo "\"subtotal_".$i."\"" ?>).innerHTML = price * quantity;
 		document.getElementById("total").innerHTML = 
 		<?php for ($j = 0; $j <= sizeof($showTarif)-1; $j++){ ?>
-		 parseInt(document.getElementById(<?php echo "\"subtotal_".$j."\"" ?>).innerHTML)
+		 parseFloat(document.getElementById(<?php echo "\"subtotal_".$j."\"" ?>).innerHTML)
 		<?php 
 		if ($j<sizeof($showTarif)-1){
 			echo "+";
