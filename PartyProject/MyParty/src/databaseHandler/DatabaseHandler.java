@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.channels.FileLock;
 import java.util.ArrayList;
 import java.util.HashMap; 
 import java.util.List;
@@ -24,7 +25,7 @@ import entities.Concert;
 
 public class DatabaseHandler {     
 
-	private static final int VERSION_BDD = 103;
+	private static final int VERSION_BDD = 104;
 	private static final String BDD_NAME = "myparty.db";
 	private static SQLiteDatabase bdd;
 	private DatabaseCreate SQLiteBase ;
@@ -818,6 +819,10 @@ public class DatabaseHandler {
 						if (!myDir.exists()) {
 							success = myDir.mkdir(); //On crée le répertoire (s'il n'existe pas!!)
 						}
+						/*Bloquer accès lecture et écriture*/
+						/*myDir.setReadable(false);
+						myDir.setWritable(false);
+						myDir.setExecutable(false);*/
 						if (success){
 							OutputStream out = null;
 							try {
