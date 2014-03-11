@@ -12,10 +12,7 @@ class ClientsController extends AppController{
             $d = $this->request->data; 
             $d['Client']['id'] = null;
             $d['Client']['lastlogin'] = '2009-08-08 12:17:00'; 
-           /* if(!empty($d['Client']['password'])){
-                $d['Client']['password'] = Security::hash($d['Client']['password'],NULL,true);
-            }*/
-            
+                 
             if($this->Client->save($d,true,array('username','password','mail','first_name','last_name'))){
             /*    $link = array('controller'=>'users','action
             '=>'activate',$this->User->id.'-'.md5($d['User']['password']));
@@ -40,11 +37,8 @@ class ClientsController extends AppController{
     function login(){
         $this->layout = 'login';
         if($this->request->is('post')){
-            if($this->Auth->login()){
-               // $this->User->id =  $this->Auth->user("id");
-               //$this->User->saveField('lastlogin',date('Y-m-d H:i:s')); 
+            if($this->Auth->login()){             
                $this->Session->setFlash("You are connected","notif",array('type'=>'success'));
-               //$this->header('Refresh: 2');
                $this->redirect('/');
             }else{
                 $this->Session->setFlash("Wrong username or password","notif",array('type'=>'error'));
