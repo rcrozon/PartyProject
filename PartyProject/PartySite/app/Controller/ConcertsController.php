@@ -556,9 +556,33 @@ class ConcertsController extends AppController{
                     $tabIDStyle[] = $name_styles[0]['Style']['id'];
                 }
             }
-            # # # # # # # # # # # 
-            # Partie load image
-            # # # # # # # # # # # 
+            # # # # # # # # # # # # # # # # # #
+            # Suppression de l'ancienne image #
+            # # # # # # # # # # # # # # # # # #
+            if(!empty($d['Concert']['image_file']['name'])) {
+                App::uses('Folder', 'Utility');
+                App::uses('File', 'Utility');
+                $uploadFolder = "img/Concerts";
+                $uploadPath = WWW_ROOT . $uploadFolder;
+                $concert = $this->Concert->find('first', array(
+                    'conditions' => array('Concert.id' => $id)
+                ));
+                $img = $concert['Concert']['image'];
+                $dir = new Folder($uploadPath);
+                $files = $dir->find($img);
+                foreach ($files as $file) {
+                    $file = new File($uploadPath.DS.$file);
+                    $file->delete();
+                    $file->close();
+                }
+            }
+            //debug($d['Concert']['image_file']['name']);
+            //die();
+            /*debug($img);
+            die();*/
+            # # # # # # # # # # # # #
+            # Partie load new image
+            # # # # # # # # # # # # #
             $extension = strtolower(pathinfo($d['Concert']['image_file']['name'], PATHINFO_EXTENSION));
             $uploadFolder = "img/Concerts";
             $uploadPath = WWW_ROOT . $uploadFolder;
