@@ -783,16 +783,51 @@ public class DatabaseHandler {
 
 			/*On insere les Assoc Artistes*/
 			parser.getAssocArtistsAndInsert(artistsAssocString);
-			
-			
-			
+
+
+
 			/*Image*/
 			List<Concert> imgConcert = getConcerts();
 			if (imgConcert != null){
 				/**POURLE DETAIL D'UN CONCERT*/
+
+
+				File deletemyDir = new File(Environment.getExternalStorageDirectory() +
+						File.separator +  Tables.PATH_REP_IMG); //pour créer le repertoire dans lequel on va mettre notre fichier
+
+				if (deletemyDir.exists()) {
+					String imgHer[] = deletemyDir.list();
+					if (imgHer != null){
+						for (int i=0; i< imgHer.length ; i++){
+							
+							String temp[] = imgHer[i].split("l");
+							String c = temp[1];
+							
+							String temp2[] = c.split("\\.");
+							
+							Log.i("SPLIT", "Ca : "+temp2[0]);
+							int num = Integer.parseInt(temp2[0]);
+							Boolean rep = false;
+							for (int j=0;j<imgConcert.size();j++){
+								if (imgConcert.get(j).getId() == num){
+									rep=true;
+								}
+							}
+							if (!rep){
+								File sup = new File(Environment.getExternalStorageDirectory() +
+										File.separator + Tables.PATH_REP_IMG+"/detail"+num+".png");
+								/*Si l'image n'existe pas on la crée*/
+								/*Pour supprimer les images*/
+								sup.delete();
+								
+							}
+						}
+					}
+				}
+
 				for (int i=0; i<imgConcert.size();i++){
 					File ftest = new File(Environment.getExternalStorageDirectory() +
-							File.separator + "appli_img/detail"+imgConcert.get(i).getId()+".png");
+							File.separator + Tables.PATH_REP_IMG+"/detail"+imgConcert.get(i).getId()+".png");
 					/*Si l'image n'existe pas on la crée*/
 					/*Pour supprimer les images*/
 					//ftest.delete();
@@ -800,7 +835,7 @@ public class DatabaseHandler {
 						Log.i("IMAGE", "ON LA CRÉE"+"detail"+imgConcert.get(i).getId()+".png" );
 						ThreadBitMap t = new ThreadBitMap(Tables.IMG_PATH_SERVER + imgConcert.get(i).getImagePath());
 						t.start();
-						
+
 						try {
 							t.join();
 						} catch (InterruptedException e) {
@@ -811,19 +846,19 @@ public class DatabaseHandler {
 						Bitmap myBm = t.getResult();
 						/*On écrit dans le disque dur du téléphone*/
 						File myFile = new File(Environment.getExternalStorageDirectory() +
-								File.separator + ".appli_img","detail"+imgConcert.get(i).getId()+".png"); //on déclare notre futur fichier
+								File.separator + Tables.PATH_REP_IMG,"detail"+imgConcert.get(i).getId()+".png"); //on déclare notre futur fichier
 
-						
+
 						File myDir = new File(Environment.getExternalStorageDirectory() +
-								File.separator + ".appli_img"); //pour créer le repertoire dans lequel on va mettre notre fichier
+								File.separator +  Tables.PATH_REP_IMG); //pour créer le repertoire dans lequel on va mettre notre fichier
 						Boolean success=true;
 						if (!myDir.exists()) {
 							success = myDir.mkdir(); //On crée le répertoire (s'il n'existe pas!!)
-							
+
 						}
 						/*Bloquer accès lecture et écriture*/
-						
-						
+
+
 						if (success){
 							OutputStream out = null;
 							try {

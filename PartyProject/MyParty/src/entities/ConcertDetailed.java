@@ -47,11 +47,11 @@ public class ConcertDetailed extends RelativeLayout {
 
 			/*********** Si le serveur est dispo **********************/
 			File ftest = new File(Environment.getExternalStorageDirectory() +
-					File.separator + ".appli_img/detail"+concert.getId()+".png");
+					File.separator +  Tables.PATH_REP_IMG+"/detail"+concert.getId()+".png");
 			if (ftest.exists()){
 			
 				BitmapDrawable bm = new BitmapDrawable(getResources(), Environment.getExternalStorageDirectory() +
-						File.separator + ".appli_img/detail"+concert.getId()+".png");
+						File.separator + Tables.PATH_REP_IMG +"/detail"+concert.getId()+".png");
 				imgView.setBackground(bm);
 				imgView.setLayoutParams(layoutParams);
 			}
