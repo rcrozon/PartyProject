@@ -3,6 +3,17 @@ class ConcertsController extends AppController{
 
 	public $components = array('RequestHandler');
 
+    public function beforeRender() {
+        if(isset($this->request->params['admin']) && $this->request->params['admin'] == 'true') {
+            if(AuthComponent::user('admin')=='0') {
+                $this->redirect(array('controller' => 'missing_controller', 'action' => ''));
+            }
+            else if(AuthComponent::user('admin')=='1') {
+                $this->layout = 'admin';
+            }
+        }
+    }
+
 	public function index() {
         $posts = $this->Concert->find('all');
         $this->set(array(
