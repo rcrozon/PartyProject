@@ -36,7 +36,7 @@ clear:both;
 text-decoration:none;
 }
 
-.notification {
+.bubble {
 display: block;
 position: absolute;
 top: -10px;
@@ -62,7 +62,7 @@ hsla(0, 0%, 0%, 0.08), inset 0 1px
 hsla(0, 100%, 100%, 0.3);
 }
 
-.notification {
+.bubble {
 border-color: #2FABE9;
 background-color: #67C2EF;
 background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, hsl(200, 80%, 82%)), color-stop(100%, hsl(200, 81%, 67%)));
@@ -73,7 +73,7 @@ background-image: -o-linear-gradient(top, hsl(200, 80%, 82%), hsl(200, 81%, 67%)
 background-image: linear-gradient(top, hsl(200, 80%, 82%), hsl(200, 81%, 67%));
 }
 
-.notification.green {
+.bubble.green {
 border-color: 	#5AAD34;
 background-color: 	#78CD51;
 background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, 	hsl(101, 54%, 71%)), color-stop(100%, 	hsl(101, 55%, 56%)));
@@ -84,7 +84,7 @@ background-image: -o-linear-gradient(top, 	hsl(101, 54%, 71%), 	hsl(101, 55%, 56
 background-image: linear-gradient(top, 	hsl(101, 54%, 71%), 	hsl(101, 55%, 56%));
 }
 
-.notification.yellow {
+.bubble.yellow {
 border-color: #F4A506;
 background-color: #FABB3D;
 background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, hsl(40, 95%, 76%)), color-stop(100%, hsl(40, 95%, 61%)));
@@ -95,7 +95,7 @@ background-image: -o-linear-gradient(top, hsl(40, 95%, 76%), hsl(40, 95%, 61%));
 background-image: linear-gradient(top, hsl(40, 95%, 76%), hsl(40, 95%, 61%));
 }
 
-.notification.red {
+.bubble.red {
 border-color: #FA5833;
 background-color: #FA603D;
 background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, hsl(11, 95%, 76%)), color-stop(100%, hsl(11, 95%, 61%)));
