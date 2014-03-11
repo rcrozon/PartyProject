@@ -811,18 +811,19 @@ public class DatabaseHandler {
 						Bitmap myBm = t.getResult();
 						/*On écrit dans le disque dur du téléphone*/
 						File myFile = new File(Environment.getExternalStorageDirectory() +
-								File.separator + "appli_img","detail"+imgConcert.get(i).getId()+".png"); //on déclare notre futur fichier
+								File.separator + ".appli_img","detail"+imgConcert.get(i).getId()+".png"); //on déclare notre futur fichier
 
+						
 						File myDir = new File(Environment.getExternalStorageDirectory() +
-								File.separator + "appli_img"); //pour créer le repertoire dans lequel on va mettre notre fichier
+								File.separator + ".appli_img"); //pour créer le repertoire dans lequel on va mettre notre fichier
 						Boolean success=true;
 						if (!myDir.exists()) {
 							success = myDir.mkdir(); //On crée le répertoire (s'il n'existe pas!!)
+							
 						}
 						/*Bloquer accès lecture et écriture*/
-						/*myDir.setReadable(false);
-						myDir.setWritable(false);
-						myDir.setExecutable(false);*/
+						
+						
 						if (success){
 							OutputStream out = null;
 							try {

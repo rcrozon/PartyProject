@@ -58,11 +58,11 @@ public class ConcertItem extends LinearLayout implements Items{
 
 		/*********** Si l'image existe on la met sinon, image par défaut **********************/
 		File ftest = new File(Environment.getExternalStorageDirectory() +
-				File.separator + "appli_img/detail"+concert.getId()+".png");
+				File.separator + ".appli_img/detail"+concert.getId()+".png");
 		if (ftest.exists()){
 		
 			BitmapDrawable bm = new BitmapDrawable(getResources(), Environment.getExternalStorageDirectory() +
-					File.separator + "appli_img/detail"+concert.getId()+".png");
+					File.separator + ".appli_img/detail"+concert.getId()+".png");
 			imgView.setBackground(bm);
 			imgView.setLayoutParams(llp);
 		}

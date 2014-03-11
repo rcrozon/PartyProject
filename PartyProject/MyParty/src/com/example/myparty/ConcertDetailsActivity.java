@@ -92,6 +92,7 @@ OnClickListener, OnMenuItemClickListener {
 			clientForConcert = dataBase.getClientsForOneConcert(concert.getId());
 		}
 		if (clientForConcert!=null){
+			
 			for (int i =0; i < clientForConcert.size();i++){
 				Log.i("NOMBRE", "Client : "+clientForConcert.get(i).getId()+clientForConcert.get(i).getFirstName()+ " Possede : "+dataBase.getNumberResClientForOneConcert(concert, clientForConcert.get(i))+" Tickets"
 					+ " Pour "+ concert.getId()+concert.getTitle());
