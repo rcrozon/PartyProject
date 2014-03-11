@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS concerts (
   start_datetime datetime NOT NULL,
   end_datetime datetime NOT NULL,
   location varchar(50) NOT NULL,
-  image varchar(50) NOT NULL,
+  image varchar(500) NOT NULL,
   id_tarif int(11) NOT NULL,
   nb_seats int(11) NOT NULL,
   full tinyint(1) NOT NULL,
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS reservations (
 CREATE TABLE IF NOT EXISTS ticket_Infos (
   id int(11) NOT NULL AUTO_INCREMENT,
   colorFont varchar(30) NOT NULL,
-  image varchar(255) NOT NULL,
+  image varchar(500) NOT NULL,
   coordQrX int (4) NOT NULL,
   coordQrY int (4) NOT NULL,
   coordTextX int (4) NOT NULL,

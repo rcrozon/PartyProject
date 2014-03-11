@@ -576,10 +576,6 @@ class ConcertsController extends AppController{
                     $file->close();
                 }
             }
-            //debug($d['Concert']['image_file']['name']);
-            //die();
-            /*debug($img);
-            die();*/
             # # # # # # # # # # # # #
             # Partie load new image
             # # # # # # # # # # # # #
