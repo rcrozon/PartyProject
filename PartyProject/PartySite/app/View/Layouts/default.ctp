@@ -21,13 +21,20 @@
     <link rel="stylesheet" href="<?php echo $this->Html->url('/css/sb-admin.css');?>">
     <link rel="stylesheet" href="<?php echo $this->Html->url('/font-awesome/css/font-awesome.min.css');?>">
 
+    <link rel="stylesheet" href="<?php echo $this->Html->url('/css/prettify.css');?>">
+    <link rel="stylesheet" href="<?php echo $this->Html->url('/css/anythingslider.css');?>">
+    <link rel="stylesheet" href="<?php echo $this->Html->url('/css/theme-metallic.css');?>">
+
     <!--<?php echo $this->Html->script('jquery-1.11.0.min.js');?>
     <?php echo $this->Html->script('mosaic.1.0.1.js');?>
     <?php echo $this->Html->script('less'); ?>-->
 
     <?php echo $this->Html->script('jquery-1.10.2'); ?>
-
     <?php echo $this->Html->script('less'); ?>
+    <?php echo $this->Html->script('jquery.easing.1.2'); ?>
+    <?php echo $this->Html->script('swfobject'); ?>
+    <?php echo $this->Html->script('jquery.anythingslider'); ?>
+    <?php echo $this->Html->script('prettify'); ?>
 
     <?php echo $scripts_for_layout; ?>
 
