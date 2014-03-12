@@ -42,12 +42,8 @@
 				'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false)); ?>
 			<?php echo $this->Form->input('nb_seats',array('label'=>"Numbrer of seats* : ",
 				'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false)); ?>
-			<?php echo $this->Form->input('image_file', array('type' => 'file', 'label'=>"Background image : ",
+			<?php echo $this->Form->input('image_file', array('type' => 'file', 'label'=>"Background image* : ",
 				'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false)); ?>
-			<!--<?php echo $this->Form->input('start_datetime', array('type' => 'datetime', 'label'=>"Start date and hour : ",
-				'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false)); ?>
-		  	<?php echo $this->Form->input('end_datetime', array('type' => 'datetime', 'label'=>"End date and hour : ",
-		  		'before' => '<tr><td>', 'after' => '</td></tr>', 'between' =>'</td><td>', 'div' => false)); ?>-->
 		<table>
 		  	<tr>
 			  	<td style="width:171px;"><label>Start Date & Hour : </label></td>
