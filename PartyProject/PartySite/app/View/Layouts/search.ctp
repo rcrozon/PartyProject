@@ -13,13 +13,13 @@
     <title>Starter Template for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap.min.css');?>">
-    <link rel="stylesheet" href="<?php echo $this->Html->url('/css/headerCss.css');?>">
-    <link rel="stylesheet" href="<?php echo $this->Html->url('/css/mosaic.css');?>">
+    <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap.min2.css');?>">
 
     <!--<link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap.css');?>">-->
     <link rel="stylesheet" href="<?php echo $this->Html->url('/css/sb-admin.css');?>">
     <link rel="stylesheet" href="<?php echo $this->Html->url('/font-awesome/css/font-awesome.min.css');?>">
+
+
 
     <!--<?php echo $this->Html->script('jquery-1.11.0.min.js');?>
     <?php echo $this->Html->script('mosaic.1.0.1.js');?>
@@ -71,7 +71,7 @@
             <?php if(AuthComponent::user('id')): ?>
             
             <li><?php echo $this->Html->link('<i class="fa fa-search"></i> Find concerts',
-                  array('action'=>'searchConcert','controller'=>'concerts'), array('escape' => false)); ?></li>
+                  array('action'=>'listMyAllReservations','controller'=>'reservations'), array('escape' => false)); ?></li>
               <li class="dropdown user-dropdown">
             <li><?php echo $this->Html->link('<i class="fa fa-ticket"></i> My Tickets',
                   array('action'=>'listMyAllReservations','controller'=>'reservations'), array('escape' => false)); ?></li>
