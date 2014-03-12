@@ -94,17 +94,20 @@ public class TicketsActivity extends Activity implements OnMenuItemClickListener
 		Concert concert = null;
 
         concert = dataBase.getConcertWithId(b.getInt("idConcert"));
-        
+        int idClient = b.getInt("idClient");
         ///////////////////////////////////////////////////
-        ArrayList<TicketItem> tickets = new ArrayList<TicketItem>();
-        tickets.add(new TicketItem(this, concert, new Ticket(0, concert)));
-        tickets.add(new TicketItem(this, concert, new Ticket(1, concert)));
-        tickets.add(new TicketItem(this, concert, new Ticket(2, concert)));
-        tickets.add(new TicketItem(this, concert, new Ticket(3, concert)));
-        tickets.add(new TicketItem(this, concert, new Ticket(4, concert)));
-        HashMap<String, Double> hmap = dataBase.getTariffsFromConcert(concert.getId());
-        ArrayList<String> artistsList = dataBase.getArtistsFromConcert(concert.getId());
-        ArrayList<String> stylesList = dataBase.getStylesFromConcert(concert.getId());
+        ArrayList<Ticket> tickets = dataBase.getTicketClient(idClient);
+        ArrayList<TicketItem> ticketsListItem = new ArrayList<TicketItem>();
+        for(Ticket ticket : tickets){
+        	ticketsListItem.add(new TicketItem(this, ticket, idClient));
+        }
+//        HashMap<String, Double> hmap = DatabaseHandler.getTariffsFromConcert(concert.getId());
+        ArrayList<String> artistsList = DatabaseHandler.getArtistsFromConcert(concert.getId());
+        ArrayList<String> stylesList = DatabaseHandler.getStylesFromConcert(concert.getId());
+        ArrayList<String> tariffsList = new ArrayList<String>();
+        for(Ticket ticket : tickets){
+        	tariffsList.add(DatabaseHandler.getLabelById(ticket.getIdTariff()));
+        }
         textArtists.setText("Artists : ");
         for(int i = 0; i < artistsList.size(); ++i){
         	textArtists.setText(textArtists.getText() + artistsList.get(i) + " ");
@@ -116,9 +119,8 @@ public class TicketsActivity extends Activity implements OnMenuItemClickListener
         textBeginDate.setText("Begin date : " + concert.getBeginDate());
         textEndDate.setText("End date : "+ concert.getEndDate());
         textTitle.setText("Title : " + concert.getTitle());
-        textTariff.setText("Tariff : ");
         
-        nbTickets = tickets.size();
+        nbTickets = ticketsListItem.size();
         if (nbTickets > 0 && nbTickets <= 10){
         	radioGroup.setVisibility(View.VISIBLE);
         	layoutButtons.setVisibility(View.GONE);
@@ -126,7 +128,8 @@ public class TicketsActivity extends Activity implements OnMenuItemClickListener
         		RadioButton radio = new RadioButton(this);
         		//layoutInfos.addView(tickets.get(i), 0);
         		this.radioGroup.addView(radio);
-        		this.viewFlipper.addView(tickets.get(i));
+                textTariff.setText("Tariff : " + tariffsList.get(i));
+        		this.viewFlipper.addView(ticketsListItem.get(i), 0);
         		//createQRCode(concert, i);
         	}
         	changeRadioSelection(0);
@@ -135,7 +138,8 @@ public class TicketsActivity extends Activity implements OnMenuItemClickListener
         	layoutButtons.setVisibility(View.VISIBLE);
         	textNbTickets.setText("1 / " + nbTickets);
         	for(int i = 0; i < nbTickets; ++i){
-        		this.viewFlipper.addView(tickets.get(i));
+                textTariff.setText("Tariff : " + tariffsList.get(i));
+        		this.viewFlipper.addView(ticketsListItem.get(i), 0);
         	}
         }else{
         	layoutButtons.setVisibility(View.VISIBLE);

@@ -43,14 +43,14 @@ namespace MyPartyProject
             //BuildLocalizedApplicationBar();
         }
 
-        private void updateDatabase()
+        private void updateDatabase(string idClient)
         {
             WebClient webClientConcert = new WebClient();
             webClientConcert.DownloadStringCompleted += concert_DownloadStringCompleted;
             webClientConcert.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllConcerts"));
             WebClient webClientTicket = new WebClient();
             webClientTicket.DownloadStringCompleted += ticket_DownloadStringCompleted;
-            webClientTicket.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllReservations"));
+            webClientTicket.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllReservationsById/id:" + idClient));
             WebClient webClientTariff = new WebClient();
             webClientTariff.DownloadStringCompleted += tariff_DownloadStringCompleted;
             webClientTariff.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllTariffs"));
@@ -74,18 +74,17 @@ namespace MyPartyProject
             {
                 invalidLogin.Visibility = Visibility.Collapsed;    
             }*/
-            PhoneApplicationService.Current.State["idClient"] = "3";
-            updateDatabase();
-            //if (PhoneApplicationService.Current.State["connected"].Equals(1))
-            //{
-                 NavigationService.Navigate(new Uri("/Concerts.xaml", UriKind.Relative));
-            //}
+            string idClient = "5";
+            PhoneApplicationService.Current.State["idClient"] = idClient;
+            updateDatabase(idClient);
         }
-
+        public void goToConcerts(){
+             NavigationService.Navigate(new Uri("/Concerts.xaml", UriKind.Relative));
+        }
 
         private void ticket_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            /*if (e.Error == null)
+            if (e.Error == null)
             {
                 List<Reservation> result = JsonConvert.DeserializeObject<List<Reservation>>(e.Result);
                 List<Reservation> reservations = new List<Reservation>();
@@ -105,26 +104,18 @@ namespace MyPartyProject
                 }
                 IsolatedStorageSettings.ApplicationSettings["tickets"] = reservations;
             }
-            else
-            {
-                IsolatedStorageSettings.ApplicationSettings["tickets"] = new List<Reservation>();
-            }*/
-            ((List<Reservation>)IsolatedStorageSettings.ApplicationSettings["tickets"]).Add(new Reservation
-            {
-                id = "0",
-                id_client = "3",
-                id_concert = "1",
-                id_tarif = "4",
-                scan = "0",
-            });
             IsolatedStorageSettings.ApplicationSettings.Save();
             loaded += 1;
-            progressBarLogin.Value = 50;
+            if (loaded == 3)
+            {
+                goToConcerts();
+            }
+            //progressBarLogin.Value = 50;
             MessageBox.Show("Ticket" + loaded, "null", MessageBoxButton.OK);
         }
         private void tariff_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            /*if (e.Error == null)
+            if (e.Error == null)
             {
                 List<Tariff> result = JsonConvert.DeserializeObject<List<Tariff>>(e.Result);
                 List<Tariff> tariffs = new List<Tariff>();
@@ -139,18 +130,18 @@ namespace MyPartyProject
                 }
                 IsolatedStorageSettings.ApplicationSettings["tariffs"] = tariffs;
             }
-            else
-            {
-                IsolatedStorageSettings.ApplicationSettings["tariffs"] = new List<Tariff>();
-            }*/
             IsolatedStorageSettings.ApplicationSettings.Save();
             loaded += 1;
             progressBarLogin.Value = 50;
             MessageBox.Show("Tariff" + loaded, "null", MessageBoxButton.OK);
+            if (loaded == 3)
+            {
+                goToConcerts();
+            } 
         }
         private void concert_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            /*if (e.Error == null)
+            if (e.Error == null)
             {
                 List<Concert> result = JsonConvert.DeserializeObject<List<Concert>>(e.Result);
                 List<Concert> concerts = new List<Concert>();
@@ -184,24 +175,15 @@ namespace MyPartyProject
                 Uri imageUri = new Uri("/Images/ic_not_connected", UriKind.Relative);
                 BitmapImage imageBitmap = new BitmapImage(imageUri);
                 imgConnected.Source = imageBitmap;
-                IsolatedStorageSettings.ApplicationSettings["concerts"] = new List<Concert>();
-                ((List<Concert>)IsolatedStorageSettings.ApplicationSettings["concerts"]).Add(new Concert
-                {
-                    id = "0",
-                    id_creator = "1",
-                    id_tarif = "2",
-                    start_datetime = "Begin date : 22/04/2014",
-                    end_datetime = "End date : 23/04/2014",
-                    location = "Bordeaux",
-                    image = "http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/img/Concerts/" + "GUETTA.jpg",
-                    nb_seats = "300",
-                    name_concert = "David Guetta",
-                });
-            }*/
+            }
             IsolatedStorageSettings.ApplicationSettings.Save();
             loaded += 1;
             progressBarLogin.Value = 100;
-            MessageBox.Show("Concert" + loaded, "null", MessageBoxButton.OK); 
+            MessageBox.Show("Concert" + loaded, "null", MessageBoxButton.OK);
+            if (loaded == 3)
+            {
+                goToConcerts();
+            } 
         }
         // Sample code for building a localized ApplicationBar
         //private void BuildLocalizedApplicationBar()

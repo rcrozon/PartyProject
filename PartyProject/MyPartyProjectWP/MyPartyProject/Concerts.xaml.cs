@@ -49,5 +49,11 @@ namespace MyPartyProject
             PhoneApplicationService.Current.State["ConcertMode"] = 2;
             NavigationService.Navigate(new Uri("/ConcertsList.xaml", UriKind.Relative));
         }
+
+        //Button NewsConcerts
+        private void Button_Reservations(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/ReservationsList.xaml", UriKind.Relative));
+        }
     }
 }

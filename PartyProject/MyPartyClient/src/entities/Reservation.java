@@ -3,25 +3,19 @@ package entities;
 
 public class Reservation implements Entity  {
 
-	private int id;
-	private int nbSeets;
-	private String concert;
-	private int id_concert;
+	private Concert concert;
+	private int nbTickets;
 	
-	public Reservation(int id, int nbSeets,	String concert, int id_concert){
-		this.id = id;
-		this.nbSeets 	= nbSeets;
-		this.concert 	= concert;
-		this.id_concert = id_concert;
+	public Reservation(Concert concert, int nbTickets){
+		this.concert = concert;
+		this.nbTickets = nbTickets;
 	}
 
-	public int getId(){return id;}
-	public String getConcertName(){return concert;}
-	public int getNbSeets(){return nbSeets;}
-	public int getIdConcert(){return id_concert;}
+	public int getNbTickets(){return nbTickets;}
+	public Concert getConcert(){return concert;}
 	
 	@Override
 	public String toString(){
-		return "Concert " + concert + "\n nomber of seets : " + nbSeets;
+		return "";
 	}
 }

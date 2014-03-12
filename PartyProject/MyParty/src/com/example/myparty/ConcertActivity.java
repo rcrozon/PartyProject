@@ -33,7 +33,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	private MenuItem scanPushItem;
 	private int index = 0;
 	private int nextIndex = 0;
-	DatabaseHandler dataBase;
+	private DatabaseHandler dataBase;
 	private Context context;
 	private ProgressBar progressBar;
 	private LinearLayout layoutMain;
@@ -56,10 +56,10 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		view_flipper = (ViewFlipper)findViewById(R.id.view_flipper);
 
 		/******* OUVERTURE SQLITE ******************************************************************************************/
-
+ 
 		loadDatabase();
 		dataBase = new DatabaseHandler(this);
-		dataBase.open();
+		dataBase.open(); 
 
 		/******* MISE A JOUR SQLITE DEPUIS LE SERVEUR ******************************************************************************************/
 
@@ -73,11 +73,11 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	}
 
 	private void updateLists(){
-		listAll = new ListLayout(this, new ConcertList(this, null, 0));
-		listNext = new ListLayout(this, new ConcertList(this, null, 1));
-		listNews = new ListLayout(this, new ConcertList(this, null, 2));
+		listAll = new ListLayout(this, new ConcertList(this, 0));
+		listNext = new ListLayout(this, new ConcertList(this, 1));
+		listNews = new ListLayout(this, new ConcertList(this, 2));
 		this.view_flipper.removeAllViews();
-		this.view_flipper.addView(listAll);
+		this.view_flipper.addView(listAll); 
 		this.view_flipper.addView(listNext);
 		this.view_flipper.addView(listNews);
 	}

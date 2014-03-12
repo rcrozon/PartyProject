@@ -35,8 +35,8 @@ public class ReservationItem extends LinearLayout implements Items{
 		TextView concert = new TextView(context);
 		TextView nbSeets = new TextView(context);
 		
-		concert.setText(reservation.getConcertName());
-		nbSeets.setText("Number of seets : " + reservation.getNbSeets());
+		concert.setText(reservation.getConcert().getTitle());
+		nbSeets.setText("Number of seets : " + reservation.getConcert().getNbSeets());
 		
 		concert.setTextColor(getResources().getColor(R.color.white));
 		nbSeets.setTextColor(getResources().getColor(R.color.white));
@@ -53,7 +53,7 @@ public class ReservationItem extends LinearLayout implements Items{
 	
 	@Override
 	public String toString(){
-		return reservation.getConcertName() + "  " + reservation.getNbSeets();
+		return reservation.getConcert().getTitle() + "  " + reservation.getConcert().getNbSeets();
 	}
 	
 	@Override
