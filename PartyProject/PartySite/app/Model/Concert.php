@@ -25,14 +25,16 @@ class Concert extends AppModel{
                 'allowEmpty' => false, 
                 'message' => "Please enter the number of seats"
             )
-        )/*,
-        'artists' => array(
-            array(
-                'rule' => array('custom','/([\w.-]+)+[\w+.-]/'),
-                'required' => true,
-                'allowEmpty' => false, 
-                'message' => "Please choose artists"
-            )
-        )*/
+        )
     );
+
+    public function isUploadedFile($params) {
+        $val = $params;
+        if ((isset($val['error']) && $val['error'] == 0) ||
+            (!empty( $val['tmp_name']) && $val['tmp_name'] != 'none')
+        ) {
+            return is_uploaded_file($val['tmp_name']);
+        }
+        return false;
+    }
 }

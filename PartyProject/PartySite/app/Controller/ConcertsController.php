@@ -3,6 +3,17 @@ class ConcertsController extends AppController{
 
 	public $components = array('RequestHandler');
 
+    public function beforeRender() {
+        if(isset($this->request->params['admin']) && $this->request->params['admin'] == 'true') {
+            if(AuthComponent::user('admin')=='0') {
+                $this->redirect(array('controller' => 'missing_controller', 'action' => ''));
+            }
+            else if(AuthComponent::user('admin')=='1') {
+                $this->layout = 'admin';
+            }
+        }
+    }
+
 	public function index() {
         $posts = $this->Concert->find('all');
         $this->set(array(
@@ -229,27 +240,6 @@ class ConcertsController extends AppController{
             # # # # # # # # # # # # #
             $id_client = $this->Session->read('Auth.User.id');
             $d['Concert']['id_creator'] = $id_client;
-            # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-            # On récupère l'image chargée et on la met sur le seveur
-            # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-            $extension = strtolower(pathinfo($d['Concert']['image_file']['name'], PATHINFO_EXTENSION));
-            $uploadFolder = "img/Concerts";
-            $uploadPath = WWW_ROOT . $uploadFolder;
-            $image = $d['Concert']['image_file']['name'];
-            $image = str_replace(" ", "-", $image);
-            $image = str_replace('.'.$extension, "-".date('Y-m-d-H-i-s').'.'.$extension, $image);
-            $d['Concert']['image_file']['name'] = $image;
-            $full_image_path = $uploadPath . '/' . $d['Concert']['image_file']['name'];
-            if(!empty($d['Concert']['image_file']['tmp_name']) && 
-                in_array($extension, array('jpg', 'jpeg', 'png', 'gif'))) {
-
-                if(move_uploaded_file($d['Concert']['image_file']['tmp_name'], $full_image_path)) {
-                    $d['Concert']['image'] = $d['Concert']['image_file']['name'];
-                }
-                else{
-                    echo'Sorry we can\'t load this image';
-                }
-            }
             # # # # # # # # # # # # # # # # # #
             # On récupère les dates et heures
             # # # # # # # # # # # # # # # # # #
@@ -266,27 +256,56 @@ class ConcertsController extends AppController{
             # # # # # # # # # # # # # # # # # # # # # # # # #
             # Sauvegarde des données dans la base de donnée
             # # # # # # # # # # # # # # # # # # # # # # # # #
-            if($this->Concert->save($d,true,array('name_concert','location','nb_seats','image','start_datetime','end_datetime','id_creator'))) {
-                $this->Session->setFlash("Your party has been well created", "notif", array('type'=>'success'));
-                $this->request->data = array();
+            if($this->Concert->isUploadedFile($d['Concert']['image_file'])/*is_uploaded_file($d['Concert']['image_file']['tmp_name'])*/) {
+                # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+                # On récupère l'image chargée et on la met sur le seveur
+                # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+                $extension = strtolower(pathinfo($d['Concert']['image_file']['name'], PATHINFO_EXTENSION));
+                $uploadFolder = "img/Concerts";
+                $uploadPath = WWW_ROOT . $uploadFolder;
+                $image = $d['Concert']['image_file']['name'];
+                $image = str_replace(" ", "-", $image);
+                $image = str_replace('.'.$extension, "-".date('Y-m-d-H-i-s').'.'.$extension, $image);
+                $d['Concert']['image_file']['name'] = $image;
+                $full_image_path = $uploadPath . '/' . $d['Concert']['image_file']['name'];
+                if(!empty($d['Concert']['image_file']['tmp_name']) && 
+                    in_array($extension, array('jpg', 'jpeg', 'png', 'gif'))) {
 
-                $idConcert = $this->Concert->getLastInsertId();
-                foreach ($tabID as $k => $v) {
-                    $data = array('id_artist' => $v, 'id_concert' => $idConcert);
-                    $this->AssocArtist->create();
-                    $this->AssocArtist->save($data);
+                    if(move_uploaded_file($d['Concert']['image_file']['tmp_name'], $full_image_path)) {
+                        $d['Concert']['image'] = $d['Concert']['image_file']['name'];
+                    }
+                    else{
+                        echo 'Sorry we can\'t load this image';
+                    }
                 }
+                # # # # # # # # # # # # # 
+                # Sauvegarde des données
+                # # # # # # # # # # # # # 
+                if($this->Concert->save($d,true,array('name_concert','location','nb_seats','image','start_datetime','end_datetime','id_creator'))) {
+                    $this->Session->setFlash("Your party has been well created", "notif", array('type'=>'success'));
+                    $this->request->data = array();
 
-                foreach ($tabIDStyle as $k => $v) {
-                    $data = array('id_style' => $v, 'id_concert' => $idConcert);
-                    $this->AssocStyle->create();
-                    $this->AssocStyle->save($data);
+                    $idConcert = $this->Concert->getLastInsertId();
+                    foreach ($tabID as $k => $v) {
+                        $data = array('id_artist' => $v, 'id_concert' => $idConcert);
+                        $this->AssocArtist->create();
+                        $this->AssocArtist->save($data);
+                    }
+
+                    foreach ($tabIDStyle as $k => $v) {
+                        $data = array('id_style' => $v, 'id_concert' => $idConcert);
+                        $this->AssocStyle->create();
+                        $this->AssocStyle->save($data);
+                    }
+                    
+                    $this->redirect(array('controller' => 'Tarifs', 'action' => 'addTarif', $this->Concert->getLastInsertId()));
+                } else{
+                    $this->Session->setFlash("Thanks to correct your mistakes", "notif", array('type'=>'error'));
                 }
-                
-                $this->redirect(array('controller' => 'Tarifs', 'action' => 'addTarif', $this->Concert->getLastInsertId()));
-            } else{
-                $this->Session->setFlash("Thanks to correct your mistakes","notif",array('type'=>'error'));
-            } 
+            }
+            else {
+                $this->Session->setFlash("Please upload an image", "notif", array('type'=>'error'));
+            }
         }
     }
 
@@ -556,9 +575,29 @@ class ConcertsController extends AppController{
                     $tabIDStyle[] = $name_styles[0]['Style']['id'];
                 }
             }
-            # # # # # # # # # # # 
-            # Partie load image
-            # # # # # # # # # # # 
+            # # # # # # # # # # # # # # # # # #
+            # Suppression de l'ancienne image #
+            # # # # # # # # # # # # # # # # # #
+            if(!empty($d['Concert']['image_file']['name'])) {
+                App::uses('Folder', 'Utility');
+                App::uses('File', 'Utility');
+                $uploadFolder = "img/Concerts";
+                $uploadPath = WWW_ROOT . $uploadFolder;
+                $concert = $this->Concert->find('first', array(
+                    'conditions' => array('Concert.id' => $id)
+                ));
+                $img = $concert['Concert']['image'];
+                $dir = new Folder($uploadPath);
+                $files = $dir->find($img);
+                foreach ($files as $file) {
+                    $file = new File($uploadPath.DS.$file);
+                    $file->delete();
+                    $file->close();
+                }
+            }
+            # # # # # # # # # # # # #
+            # Partie load new image
+            # # # # # # # # # # # # #
             $extension = strtolower(pathinfo($d['Concert']['image_file']['name'], PATHINFO_EXTENSION));
             $uploadFolder = "img/Concerts";
             $uploadPath = WWW_ROOT . $uploadFolder;

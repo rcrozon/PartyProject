@@ -26,28 +26,28 @@
       <span class="icon32 icon-red icon-user"></span>
       <div>Total Members</div>
       <div><?php echo $nbClient; ?></div>
-      <span class="notification"><?php echo $nbTodayNewClient; ?></span>
+      <span class="bubble"><?php echo $nbTodayNewClient; ?></span>
     </a>
 
     <a data-rel="tooltip" title="<?php echo $nbTodayNewAdmin; ?> new admin members today." class="well span3 top-block" href="#">
       <span class="icon32 icon-color icon-star-on"></span>
       <div>Admin Members</div>
       <div><?php echo $nbAdmin; ?></div>
-      <span class="notification green"><?php echo $nbTodayNewAdmin; ?></span>
+      <span class="bubble green"><?php echo $nbTodayNewAdmin; ?></span>
     </a>
 
     <a data-rel="tooltip" title="<?php echo $nbTodaySales; ?> $ new sales today." class="well span3 top-block" href="#">
       <span class="icon32 icon-color icon-cart"></span>
       <div>Sales</div>
       <div><?php echo $sales; ?> $</div>
-      <span class="notification yellow"><?php echo $nbTodaySales; ?> $</span>
+      <span class="bubble yellow"><?php echo $nbTodaySales; ?> $</span>
     </a>
 
     <a data-rel="tooltip" title="<?php echo $nbTodayNewParty; ?> new party today." class="well span3 top-block" href="#">
       <span class="icon32 icon-blue icon-audio"></span>
       <div>Total Party</div>
       <div><?php echo $nbParty; ?></div>
-      <span class="notification red"><?php echo $nbTodayNewParty; ?></span>
+      <span class="bubble red"><?php echo $nbTodayNewParty; ?></span>
     </a>
   </div>
 

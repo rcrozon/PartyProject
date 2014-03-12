@@ -1,8 +1,10 @@
 package com.example.myparty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lists.ClientList;
+import lists.ConcertList;
 import lists.ListLayout;
 import lists.ReservationsList;
 import lists.StatsList;
@@ -22,7 +24,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 import databaseHandler.DatabaseHandler;
 import databaseHandler.DatabaseServer;
@@ -91,11 +96,35 @@ OnClickListener, OnMenuItemClickListener {
 			concert = dataBase.getConcertWithId(b.getInt("id"));
 			clientForConcert = dataBase.getClientsForOneConcert(concert.getId());
 		}
-		if (clientForConcert!=null)
-		{for (int i =0; i < clientForConcert.size();i++){
-			Log.i("NOMBRE", "Client : "+clientForConcert.get(i).getId()+clientForConcert.get(i).getFirstName()+ " Possede : "+dataBase.getNumberResClientForOneConcert(concert, clientForConcert.get(i))+" Tickets"
-					+ " Pour "+ concert.getId()+concert.getTitle());
-		}
+		if (clientForConcert!=null){
+			/************* TRI ALPHABETIQUE ***********/
+			Log.i("LISTE", "NonTrié"+ clientForConcert.toString());
+
+			List<Client> oui = new ArrayList<Client>();
+			while(clientForConcert.size()>0){
+				int num = 0;
+				for (int i=1 ; i<clientForConcert.size() ; i++){
+					if (clientForConcert.get(num).getLastName().compareToIgnoreCase(clientForConcert.get(i).getLastName()) > 0){
+						num =i;
+					}
+				}
+				oui.add(clientForConcert.get(num));
+				clientForConcert.remove(num);
+
+			}
+			clientForConcert=oui;
+
+			Log.i("LISTE", "Trié"+ clientForConcert.toString());
+
+
+
+
+
+			/*****************************************/
+			for (int i =0; i < clientForConcert.size();i++){
+				Log.i("NOMBRE", "Client : "+clientForConcert.get(i).getId()+clientForConcert.get(i).getFirstName()+ " Possede : "+dataBase.getNumberResClientForOneConcert(concert, clientForConcert.get(i))+" Tickets"
+						+ " Pour "+ concert.getId()+concert.getTitle());
+			}
 		}
 
 		/************************** Traitement du bouton validation scan ***********************************/
@@ -270,9 +299,9 @@ OnClickListener, OnMenuItemClickListener {
 			public void run() {
 				if (ConnectionActivity.item != null){
 					switch (lighted){
-						case 0: ConnectionActivity.item.setIcon(R.drawable.ic_action_location_found_green);break;
-						case 1: ConnectionActivity.item.setIcon(R.drawable.ic_action_location_found_red);break;
-						default: ConnectionActivity.item.setIcon(R.drawable.ic_action_refresh);break;
+					case 0: ConnectionActivity.item.setIcon(R.drawable.ic_action_location_found_green);break;
+					case 1: ConnectionActivity.item.setIcon(R.drawable.ic_action_location_found_red);break;
+					default: ConnectionActivity.item.setIcon(R.drawable.ic_action_refresh);break;
 					}
 				}
 			}
@@ -283,8 +312,10 @@ OnClickListener, OnMenuItemClickListener {
 		Intent intent = null;
 		if (item == decoItem) {
 			intent = new Intent(this, ConnectionActivity.class);
+			
 		} else if(item == bluetoothItem) {
 			intent = new Intent(this, BluetoothActivity.class);
+			
 		}
 		this.startActivity(intent);
 		return false;
@@ -306,4 +337,9 @@ OnClickListener, OnMenuItemClickListener {
 			scanner.getButtonTariff().setVisibility(View.INVISIBLE);	
 		}
 	}
+
+	
+	
+	
+	
 }
