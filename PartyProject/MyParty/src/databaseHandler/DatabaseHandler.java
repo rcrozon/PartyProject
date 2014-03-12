@@ -413,7 +413,9 @@ public class DatabaseHandler {
 				Tables.RES_NAME_ID_TARIF,
 				Tables.RES_NAME_SCAN}, 
 				Tables.RES_NAME_ID_CONCERT + " LIKE \"" + id_concert +"\"", 
-				null, Tables.RES_NAME_ID_CLIENT, null, null, null);
+				null, Tables.RES_NAME_ID_CLIENT, null,null, null);
+		
+		
 
 		if (c.getCount() ==0 ){
 			return null;
