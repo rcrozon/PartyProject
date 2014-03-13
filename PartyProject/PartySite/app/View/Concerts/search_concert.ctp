@@ -11,7 +11,7 @@ require('../webroot/date/dateConverter.php');
 	<style>
 	.side-nav {
 	margin-left: -225px;
-	padding: 10px;
+padding: 25px;
 	padding-top: 50px;
 	left: 225px;
 	width: 18%;
