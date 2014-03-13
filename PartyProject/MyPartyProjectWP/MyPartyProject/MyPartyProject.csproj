@@ -99,6 +99,10 @@
     <Compile Include="ConcertsList.xaml.cs">
       <DependentUpon>ConcertsList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Ticket.cs" />
+    <Compile Include="ReservationsList.xaml.cs">
+      <DependentUpon>ReservationsList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Database\DatabaseHandler.cs" />
     <Compile Include="Entities\Concert.cs" />
     <Compile Include="Concerts.xaml.cs">
@@ -140,6 +144,10 @@
     <Page Include="ConcertsList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ReservationsList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>

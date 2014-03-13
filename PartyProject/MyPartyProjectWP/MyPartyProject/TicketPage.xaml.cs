@@ -34,7 +34,7 @@ namespace MyPartyProject
                 BitmapImage imageBitmapNotConnected = new BitmapImage(imageUriNotConnected);
                 imgConnected.Source = imageBitmapNotConnected;
             }
-            Reservation ticket = (Reservation)PhoneApplicationService.Current.State["Ticket"];
+            Ticket ticket = (Ticket)PhoneApplicationService.Current.State["Ticket"];
 
             BarcodeWriter writer = new BarcodeWriter { Format = BarcodeFormat.QR_CODE };
             string code = ticket.id + ";" + ticket.id_concert + ";" + ticket.id_client + ";" + ticket.id_tarif;

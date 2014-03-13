@@ -1,39 +1,54 @@
 package lists;
 
 import java.util.ArrayList;
+import java.util.Date;
+
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+
 import com.example.myparty.R;
 import com.example.myparty.TicketsActivity;
+
 import databaseHandler.DatabaseHandler;
-import entities.Entity;
 import entities.Reservation;
 import entities.ReservationItem;
+import entities.Ticket;
 
 public class ReservationsList extends List {
 
 	private Adapter adapter;
 	private DatabaseHandler dataBase;
 
-	public ReservationsList(final Context context, ArrayList<Entity> list) {
+	public ReservationsList(final Context context, final int idClient) {
 		super(context);
 		items = new ArrayList<Items>();
 
-//		dataBase = new DatabaseHandler(context);
-//		dataBase.open();
+/****************** OUVERTURE BDD ***********************************/		
+		
+		dataBase = new DatabaseHandler(context);
+		dataBase.open();
 
-		ReservationItem r1 = new ReservationItem(context, new Reservation(0, 3, "Michael Jackson",1));
-		ReservationItem r2 = new ReservationItem(context, new Reservation(1, 5, "AC/DC",2));
-		ReservationItem r3 = new ReservationItem(context, new Reservation(2, 1, "Queen",3));
-		ReservationItem r4 = new ReservationItem(context, new Reservation(3, 8, "Dire Straits",4));
-		ReservationItem r5 = new ReservationItem(context, new Reservation(4, 9, "Boston",5));
-		items.add(r1);
-		items.add(r2);
-		items.add(r3);
-		items.add(r4);
-		items.add(r5);
+/****************** LISTE DES RESERVATIONS ***********************************/
+		ArrayList<Ticket> listeTicket = dataBase.getTicketClient(idClient);
+		int cpt = 0;
+		if (listeTicket != null){
+			int idConcert = listeTicket.get(0).getIdConcert();
+			int i = 0;
+			while(i < listeTicket.size()){
+				if (listeTicket.get(i).getIdConcert() == idConcert){
+					cpt++;
+					i++;
+				}else{
+					Reservation res = new Reservation(listeTicket.get(i).getConcert(), cpt);
+					items.add(new ReservationItem(context, res));	
+					idConcert = listeTicket.get(i).getIdConcert();
+					cpt = 0;
+				}
+			}
+		}
 		
 		adapter = new Adapter(items);
 		this.setAdapter(adapter);
@@ -47,7 +62,8 @@ public class ReservationsList extends List {
 				
 				Intent intent = new Intent(context,
 						TicketsActivity.class);
-				intent.putExtra("idConcert", res.getIdConcert());
+				intent.putExtra("idConcert", res.getConcert().getId());
+				intent.putExtra("idClient", idClient);
 				context.startActivity(intent);
 			}
 		});

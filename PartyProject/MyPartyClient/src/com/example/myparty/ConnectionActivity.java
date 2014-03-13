@@ -3,30 +3,34 @@ package com.example.myparty;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import databaseHandler.DatabaseHandler;
 import databaseHandler.DatabaseServer;
 import databaseHandler.MyJsonParser;
 import databaseHandler.ThreadRequestResult;
-import entities.Concert; 
+import entities.Concert;
 
 
-public class ConnectionActivity extends Activity implements OnClickListener {
+public class ConnectionActivity extends Activity implements OnClickListener, OnFocusChangeListener {
 
 	private Button buttonConnexion ;
+	private EditText editTextLogin ;
+	private EditText editTextPassword ;
 	private MenuItem item;
 	private Context context;
 	private boolean running = true;
@@ -37,9 +41,18 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		buttonConnexion = (Button)findViewById(R.id.buttonConnexion);
+		editTextLogin = (EditText)findViewById(R.id.loginTextEdit);
+		editTextPassword = (EditText)findViewById(R.id.pwdTextEdit);
 		buttonConnexion.setOnClickListener(this);
+		editTextLogin.setOnFocusChangeListener(this);
+		editTextPassword.setOnFocusChangeListener(this);
 		context = this;
 		lightHandler();
+		
+		/****************** OUVERTURE BDD ***********************************/
+
+		dataBase = new DatabaseHandler(this);
+		dataBase.open();
 
 	}
 
@@ -77,34 +90,50 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 	
 
 	@Override
+	public void onFocusChange(View v, boolean hasFocus) {
+		EditText edit = (EditText)v;
+		if (edit == editTextLogin){
+			editTextLogin.setBackground(getResources().getDrawable(R.drawable.edit_text_design_focus));
+			editTextPassword.setBackground(getResources().getDrawable(R.drawable.edit_text_design));
+		}else{
+			editTextPassword.setBackground(getResources().getDrawable(R.drawable.edit_text_design_focus));
+			editTextLogin.setBackground(getResources().getDrawable(R.drawable.edit_text_design));
+		}
+	}
+
+	private void connect(){
+		Log.i("bug", "avant");
+		/********************* Test du serveur et de la connexion internet ******************************/
+		if(isNetworkConnected(context) && DatabaseHandler.isAvailableServer(context)){
+			Log.i("bug", "apr�s");
+			/* TODO A DECOMMENTER SI ON NE VEUT PAS UTILISER AUTHENTIFICATION*/
+			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
+			EditText login = (EditText)findViewById(R.id.loginTextEdit);
+			String myLogin = login.getText().toString();
+			String password = pwd.getText().toString();
+			int idClient = dataBase.authentification(myLogin,password);
+//			if (idClient > -1){
+				Intent intent = new Intent(this, ConcertActivity.class);
+				intent.putExtra("idClient", 5);
+				this.startActivity(intent);
+//			}else{
+//				/*** ERREUR *************/
+//				Context myContext = getApplicationContext();
+//				CharSequence text = "ERROR LOGIN OR PASSWORD !";
+//				Toast toast = Toast.makeText(myContext, text, Toast.LENGTH_LONG);
+//				TextView toastText = (TextView) toast.getView().findViewById(android.R.id.message);
+//				toastText.setTextColor(Color.RED);
+//				toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
+//				toast.show();
+//			}
+		}
+	} 
+	
+	@Override
 	public void onClick(View v) {
 		Button b = (Button)v;
 		if (b == buttonConnexion){
-	     	Intent intent = new Intent(this, ConcertActivity.class); 
-	        this.startActivity(intent);
-			
-			/* TODO A DECOMMENTER SI ON NE VEUT PAS UTILISER AUTHENTIFICATION*/
-			
-			
-/****************** AUTHENTIFICATION ***********************************/			
-
-			/*EditText login = (EditText)findViewById(R.id.loginTextEdit);
-			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
-		Log.i("LOGIN", login.getText().toString() + "  " + pwd.getText().toString());
-		if (dataBase.authentification(login.getText().toString(), pwd.getText().toString())){
-			Intent intent = new Intent(this, ConcertActivity.class);
-		    	this.startActivity(intent);
-		}
-			else{
-				/*** ERREUR *************/
-		/*	Context myContext = getApplicationContext();
-				CharSequence text = "ERROR LOGIN OR PASSWORD !";
-				int duration = Toast.LENGTH_SHORT;
-
-				Toast toast = Toast.makeText(myContext, text, duration);
-				toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
-				toast.show();
-			}*/
+			connect();
 		}
 	}
 
@@ -113,79 +142,28 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 		return (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected());
 		
 	}
-	public void loadDatabase(){
-	
-		/****************** OUVERTURE BDD ***********************************/
-
-		dataBase = new DatabaseHandler(context);
-		dataBase.open();
-		
-		/******************  BDD EXTERNE  ***********************************/
-		ThreadRequestResult t = new ThreadRequestResult("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/", "getAllConcerts");
-		t.start();
-		try {
-			t.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Log.i("NET", ""+t.getResult());
-		
-		/********************* Test du serveur et de la connexion internet ******************************/
-		if(isNetworkConnected(context) /*&& t.getResult() != null*/){
-			
-			/*ON ENVOI LA REQUETE*/
-			DatabaseServer dbbs = new DatabaseServer(); 
-			MyJsonParser parser = new MyJsonParser(context);
-			
-			String concertString = dbbs.getRequest("getAllConcerts");
-			String reservationString = dbbs.getRequest("getAllReservations");
-			String tarrifString = dbbs.getRequest("getAllTariffs");
-
-			List<Concert> concertlist = parser.getConcertFromJson(concertString);
-			
-			/*On insere les concerts dans bdd*/
-			for (int i=0 ; i< concertlist.size() ; i++){
-				Concert c = concertlist.get(i);
-				Log.i("Concert",c.testToString());
-				dataBase.insertConcert(c);
-			}
-			/*On insere les reservations*/
-			parser.getReservationAndInsert(reservationString);
-			
-			/*On insere les Tarrifs*/
-			parser.getTariffsAndInsert(tarrifString);
-			
-			Log.i("SCAN", "TARIF ADULTE ?? ::"+ dataBase.getLabelById(7));
-			Log.i("NET", "On est connecté !!");
-		}
-		else{
-			Log.i("NET", "On n'est pas connecté !!");
-		}
-	}
 		
 	/**
 	 * Handler the icon showing the connection state
 	 */
 	private void lightHandler(){
-		new Thread(new Runnable() {
-	        public void run() {
-            	while(running){
-            		//if (userFunctions.isUserLoggedIn())
-            //			connectedToServer(0);
-            	//	else
-            			connectedToServer(1);
-		            try {
-						Thread.sleep(500);
-						connectedToServer(2);
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	            }
-	        }
-	    }).start();
+		new Thread(new Runnable() { 
+			public void run() {
+				while(running){
+					try {
+						if (DatabaseHandler.isAvailableServer(context)){
+							connectedToServer(0);
+							Log.i("buglight", "OK");
+						}
+						else{
+							connectedToServer(1);
+							Log.i("bug", "NOTOK");
+						}
+						Thread.sleep(10 * 60 * 1000);
+					} catch (InterruptedException e) {Log.i("bug", "Catch");}
+				}
+			}
+		}).start();
 	}
 	/**
 	 * Change the icon
@@ -193,21 +171,18 @@ public class ConnectionActivity extends Activity implements OnClickListener {
 	 */
 	private void connectedToServer(final int lighted){
 		this.runOnUiThread(new Runnable() {
-	        @Override
-	        public void run() {
-	        	if (item != null){
-	        		if (lighted == 0){
-		    			item.setIcon(R.drawable.ic_action_location_found_green);
-		    		}else if (lighted == 1){
-		    			item.setIcon(R.drawable.ic_action_location_found_red);
-		    		}else{
-		    			item.setIcon(R.drawable.ic_action_refresh);
-		    		}
-        		}
-	        }
-        });
+			@Override
+			public void run() {
+				if (item != null){
+					switch (lighted){
+						case 0: item.setIcon(R.drawable.ic_action_location_found_green);break;
+						case 1: item.setIcon(R.drawable.ic_action_location_found_red);break;
+						default: item.setIcon(R.drawable.ic_action_refresh);break;
+					}
+				}
+			}
+		});
 	}
-	
 	
 	/**
 	 * Quit application

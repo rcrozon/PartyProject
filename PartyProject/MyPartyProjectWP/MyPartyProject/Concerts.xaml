@@ -21,8 +21,8 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="228*"/>
-            <RowDefinition Height="197*"/>
+            <RowDefinition Height="213*"/>
+            <RowDefinition Height="212*"/>
             <RowDefinition Height="182*"/>
         </Grid.RowDefinitions>
 
@@ -38,6 +38,7 @@
         <Button x:Name="nextConcertButton" Content="Next concerts" Grid.Row="2" Grid.ColumnSpan="1" Click="Button_Click_2" BorderThickness="0" Background="#FFBB0000" Padding="10,114,10,6" />
         <Button x:Name="newsConcertButton" Content="News" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Click="Button_Click_3" Background="#FFBB0000" BorderThickness="0" Padding="10,119,-117,6" />
         <Image x:Name="imgConnected" Source="/Images/ic_not_connected.png" Grid.Column="1" Height="30" Margin="210,0,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="reservationsButton" Content="Reservations" Grid.Row="3" Grid.ColumnSpan="2" Click="Button_Reservation" BorderThickness="0" OpacityMask="Black" BorderBrush="White" Background="#0000FF" Margin="0,0,1,0" Padding="0,0,0,0"/>
     </Grid>
 
 </phone:PhoneApplicationPage>

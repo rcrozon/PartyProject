@@ -16,7 +16,6 @@ import databaseHandler.DatabaseHandler;
 import entities.Concert;
 import entities.ConcertItem;
 import entities.DateParser;
-import entities.Entity;
 
 public class ConcertList extends List {
 
@@ -24,7 +23,7 @@ public class ConcertList extends List {
 
 	private DatabaseHandler dataBase;
 
-	public ConcertList(final Context context, ArrayList<Entity> list, int listType) {
+	public ConcertList(final Context context, int listType) {
 		super(context);
 		items = new ArrayList<Items>();
 		

@@ -845,4 +845,126 @@ class ConcertsController extends AppController{
 
         $this->set('showTarif',$result);
     }
+	  function searchConcert (){
+                $this->layout = 'search';
+
+        
+
+
+
+
+               
+                 if($this->request->is('post')) {
+
+
+
+                    $d = $this->request->data;
+                    if(!empty($d['Search'])){
+
+
+
+                         $allconcerts= $this->Concert->find('all', array(
+                        'conditions' => array("Concert.name_concert LIKE" => "%".$d['Search']['search']."%")
+                    ));
+                        $this->set("allconcerts",$allconcerts);
+
+                    }
+                    else{
+                   
+                    $sql = "SELECT DISTINCT concerts.id FROM concerts  
+                    JOIN assoc_tarifs ON assoc_tarifs.id_concert = concerts.id
+                    JOIN tarifs ON tarifs.id =  assoc_tarifs.id_tarif
+                    JOIN assoc_artists ON assoc_artists.id_concert = concerts.id
+                    JOIN artists ON artists.id =  assoc_artists.id_artist
+                    JOIN assoc_styles ON assoc_styles.id_concert = concerts.id
+                    JOIN styles ON styles.id =  assoc_styles.id_style
+                    ";
+ 
+ /*******************TRAITEMENT PRICE***********************************************/
+
+                    $prices = explode(",", $d['Concert']['price']);
+
+                    $sql .= "AND tarifs.price > ". $prices[0];
+                    $sql .= " AND tarifs.price < ". $prices[1];
+
+              
+                
+/*********************ARTISTS TRAITEMENT********************************************/
+
+                   $artists = $d['Concert']['name'];
+                    if(!empty($artists)) {
+                        $artists = explode("|", $artists);
+                        
+                        if(sizeof($artists==1)){
+                                $sql .= " AND artists.id = ". $artists[0]; 
+                        }
+                        else{
+                        for($i = 1; $i<=sizeof($artists);$i++){
+                            if($i == 1){
+                               $sql .= " AND (artists.id = ". $artists[$i-1]; 
+                            }
+                            else if($i == sizeof($artists)){
+                                $sql .= " OR artists.id = ". $artists[$i-1].")";
+                            }
+                            else{
+                                   $sql .= " OR artists.id = ". $artists[$i-1];
+                            }
+                        }
+                    }
+
+                       
+                    }
+
+/*********************STYLES TRAITEMENT********************************************/
+
+ $styles = $d['Concert']['style'];
+                    if(!empty($styles)) {
+                        $styles = explode("|", $styles);
+                        
+                        if(sizeof($styles==1)){
+                                $sql .= " AND styles.id = ". $styles[0]; 
+                        }
+                        else{
+                        for($i = 1; $i<=sizeof($styles);$i++){
+                            if($i == 1){
+                               $sql .= " AND (styles.id = ". $styles[$i-1]; 
+                            }
+                            else if($i == sizeof($artists)){
+                                $sql .= " OR styles.id = ". $styles[$i-1].")";
+                            }
+                            else{
+                                   $sql .= " OR styles.id = ". $styles[$i-1];
+                            }
+                        }
+                    }
+
+                       
+                    }
+
+                       
+                        $db = $this->Concert->query($sql);
+                        $allconcerts = array();
+                        if(!empty($db)){
+                             for($i=0;$i<sizeof($db);$i++){
+                            $allconcerts[$i]= $this->Concert->find('first', array(
+                        'conditions' => array('Concert.id' => $db[$i]['concerts']['id'])
+                    ));
+                        }
+                        }
+                        
+
+                        /*Construction du tableau de resultat pour le passer à la vue*/
+                       
+                 $this->set("allconcerts",$allconcerts);
+
+                 
+                }
+                  }
+                 else{
+                $allconcerts = $this->Concert->find("all");
+                $this->set("allconcerts",$allconcerts);
+            }
+
+        }
+            
 }

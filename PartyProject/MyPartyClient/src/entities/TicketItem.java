@@ -10,25 +10,19 @@ import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.example.myparty.R;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 
 public class TicketItem extends LinearLayout implements Items{ 
 	
 	ImageView imgFlashCode;
-	
-	public TicketItem(Context context, Ticket ticket){
-		super(context);
-	}
-	
-	public TicketItem(Context context, Concert concert, Ticket ticket){
+
+	public TicketItem(Context context, Ticket ticket, int idClient){
 		super(context);
 		imgFlashCode = new ImageView(context);
 		
-		createQRCode(concert, ticket.getId());
+		createQRCode(ticket.getConcert(), ticket.getId(), ticket.getIdClient(), ticket.getIdTariff());
 		//this.setBackgroundResource(R.drawable.list_border);
 		//this.setOrientation(VERTICAL);
 		
@@ -50,8 +44,8 @@ public class TicketItem extends LinearLayout implements Items{
 		this.setVisible(visible);
 	}
 	
-	private void createQRCode(Concert concert, int idTicket){
-		String stringQRCode = idTicket + ";" + concert.getId() + ";3;5";
+	private void createQRCode(Concert concert, int idTicket, int idClient, int idTariff){
+		String stringQRCode = idTicket + ";" + concert.getId() + ";" + idClient + ";" + idTariff;
 		QRCodeEncoder qrCodeEncoder = new QRCodeEncoder(stringQRCode, 
 														null, 
 														Contents.Type.TEXT,

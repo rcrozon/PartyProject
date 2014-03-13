@@ -7,6 +7,16 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseCreate extends SQLiteOpenHelper {
 	
+	private static final String CREATE_BDD = "CREATE TABLE IF NOT EXISTS " + Tables.CLIENT_TABLE 
+			+ " ("+ Tables.CLIENT_NAME_ID + " INTEGER PRIMARY KEY, " 
+			+ Tables.CLIENT_NAME_USERNAME + " TEXT NOT NULL, "
+			+ Tables.CLIENT_NAME_MAIL + " TEXT NOT NULL, "
+			+ Tables.CLIENT_NAME_PASSWORD + " TEXT NOT NULL, "
+			+ Tables.CLIENT_NAME_FIRSTNAME + " TEXT NOT NULL, "
+			+ Tables.CLIENT_NAME_LASTNAME + " TEXT NOT NULL, "
+			+ Tables.CLIENT_NAME_ADMIN + " TEXT NOT NULL, "
+			+ Tables.CLIENT_NAME_DATE_CREATE + " TEXT NOT NULL);";
+	
 	private static final String CREATE_BDD_CONCERT ="CREATE TABLE IF NOT EXISTS " + Tables.CONCERT_TABLE 
 			+ " (" + Tables.CONCERT_NAME_ID + " INTEGER PRIMARY KEY, "
 			+ Tables.CONCERT_NAME_START_DATE + " TEXT NOT NULL, "
@@ -18,7 +28,8 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 			+ Tables.CONCERT_NAME_ID_CREATOR + " INTEGER, "
 			+ Tables.CONCERT_NAME_TITLE_CONCERT + " TEXT NOT NULL, "
 			+ Tables.CONCERT_NAME_ONLINE + " INTEGER, "
-			+ Tables.CONCERT_NAME_ID_TARIF + " INTEGER);";
+			+ Tables.CONCERT_NAME_ID_TARIF + " INTEGER, "
+			+ Tables.CONCERT_NAME_CREATED + " TEXT NOT NULL);";
 	
 	private static final String CREATE_BDD_RES ="CREATE TABLE IF NOT EXISTS " + Tables.RES_TABLE 
 			+ " (" + Tables.RES_NAME_ID+ " INTEGER PRIMARY KEY, " 
@@ -30,6 +41,13 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 			+Tables.CONCERT_TABLE+" ("+Tables.CONCERT_NAME_ID+"), "
 			+ "FOREIGN KEY ("+Tables.RES_NAME_ID_CLIENT+") REFERENCES "
 			+Tables.CLIENT_TABLE+" ("+Tables.CLIENT_NAME_ID+"));";
+	
+	private static final String CREATE_BDD_RES_MAJ ="CREATE TABLE IF NOT EXISTS " + Tables.RESMAJ_TABLE 
+			+ " (" + Tables.RESMAJ_NAME_ID+ " INTEGER PRIMARY KEY, " 
+			+ Tables.RESMAJ_NAME_ID_CONCERT + " INTEGER, "
+			+ Tables.RESMAJ_NAME_ID_CLIENT + " INTEGER, "
+			+ Tables.RESMAJ_NAME_ID_TARIF + " INTEGER, "
+			+ Tables.RESMAJ_NAME_SCAN + " INTEGER);";
 	
 	private static final String CREATE_BDD_ARTIST = "CREATE TABLE IF NOT EXISTS " + Tables.ARTISTS_TABLE 
 			+ " (" + Tables.ARTIST_NAME_ID+ " INTEGER PRIMARY KEY, " 
@@ -81,8 +99,10 @@ public class DatabaseCreate extends SQLiteOpenHelper {
  
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		db.execSQL(CREATE_BDD);
 		db.execSQL(CREATE_BDD_CONCERT);
 		db.execSQL(CREATE_BDD_RES);
+		db.execSQL(CREATE_BDD_RES_MAJ);
 		db.execSQL(CREATE_BDD_ARTIST);
 		db.execSQL(CREATE_BDD_ASSOC_ARTISTS);
 		db.execSQL(CREATE_BDD_ASSOC_STYLES);
@@ -93,14 +113,16 @@ public class DatabaseCreate extends SQLiteOpenHelper {
  
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DROP TABLE " + Tables.CONCERT_TABLE + ";");
-		db.execSQL("DROP TABLE " + Tables.RES_TABLE + ";");
-		db.execSQL("DROP TABLE " + Tables.ARTISTS_TABLE + ";");
-		db.execSQL("DROP TABLE " + Tables.ASSOC_STYLES_TABLE + ";");
-		db.execSQL("DROP TABLE " + Tables.ASSOC_TARIFFS_TABLE + ";");
-		db.execSQL("DROP TABLE " + Tables.ASSOC_ARTISTS_TABLE + ";");
-		db.execSQL("DROP TABLE " + Tables.STYLES_TABLE + ";");
-		db.execSQL("DROP TABLE " + Tables.TARIFFS_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.CLIENT_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.CONCERT_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.RES_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.RESMAJ_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.ARTISTS_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.ASSOC_STYLES_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.ASSOC_TARIFFS_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.ASSOC_ARTISTS_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.STYLES_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.TARIFFS_TABLE + ";");
 		onCreate(db);
 		
 	}

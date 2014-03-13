@@ -13,6 +13,10 @@
     <title>Starter Template for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
+     <link rel="stylesheet" href="<?php echo $this->Html->url('/css/prettify.css');?>">
+   <link rel="stylesheet" href="<?php echo $this->Html->url('/css/anythingslider.css');?>">
+   <link rel="stylesheet" href="<?php echo $this->Html->url('/css/theme-metallic.css');?>">
+
     <link rel="stylesheet" href="<?php echo $this->Html->url('/css/bootstrap.min.css');?>">
     <link rel="stylesheet" href="<?php echo $this->Html->url('/css/headerCss.css');?>">
     <link rel="stylesheet" href="<?php echo $this->Html->url('/css/mosaic.css');?>">
@@ -28,6 +32,10 @@
     <?php echo $this->Html->script('jquery-1.10.2'); ?>
 
     <?php echo $this->Html->script('less'); ?>
+    <?php echo $this->Html->script('jquery.easing.1.2'); ?>
+     <?php echo $this->Html->script('swfobject'); ?>
+     <?php echo $this->Html->script('jquery.anythingslider'); ?>
+     <?php echo $this->Html->script('prettify'); ?>
 
     <?php echo $scripts_for_layout; ?>
 
@@ -71,7 +79,7 @@
             <?php if(AuthComponent::user('id')): ?>
             
             <li><?php echo $this->Html->link('<i class="fa fa-search"></i> Find concerts',
-                  array('action'=>'listMyAllReservations','controller'=>'reservations'), array('escape' => false)); ?></li>
+                  array('action'=>'searchConcert','controller'=>'concerts'), array('escape' => false)); ?></li>
               <li class="dropdown user-dropdown">
             <li><?php echo $this->Html->link('<i class="fa fa-ticket"></i> My Tickets',
                   array('action'=>'listMyAllReservations','controller'=>'reservations'), array('escape' => false)); ?></li>

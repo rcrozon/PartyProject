@@ -234,64 +234,62 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 		}
 	}
 
-		/**
-		 * Handler the icon showing the connection state
-		 */
-		private void lightHandler(){
-			new Thread(new Runnable() { 
-				public void run() {
-					while(running){
-						try {
-							if (DatabaseHandler.isAvailableServer(context)){
-								connectedToServer(0);
-								Log.i("buglight", "OK");
-							}
-							else{
-								connectedToServer(1);
-								Log.i("bug", "NOTOK");
-							}
-							Thread.sleep(10 * 60 * 1000);
-						} catch (InterruptedException e) {Log.i("bug", "Catch");}
-					}
-				}
-			}).start();
-		}
-		/**
-		 * Change the icon
-		 * @param lighted : 0 if connected, 1 if not, 2 if refreshing
-		 */
-		private void connectedToServer(final int lighted){
-			this.runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					if (item != null){
-						switch (lighted){
-							case 0: item.setIcon(R.drawable.ic_action_location_found_green);break;
-							case 1: item.setIcon(R.drawable.ic_action_location_found_red);break;
-							default: item.setIcon(R.drawable.ic_action_refresh);break;
+	/**
+	 * Handler the icon showing the connection state
+	 */
+	private void lightHandler(){
+		new Thread(new Runnable() { 
+			public void run() {
+				while(running){
+					try {
+						if (DatabaseHandler.isAvailableServer(context)){
+							connectedToServer(0);
+							Log.i("buglight", "OK");
 						}
+						else{
+							connectedToServer(1);
+							Log.i("bug", "NOTOK");
+						}
+						Thread.sleep(10 * 60 * 1000);
+					} catch (InterruptedException e) {Log.i("bug", "Catch");}
+				}
+			}
+		}).start();
+	}
+	/**
+	 * Change the icon
+	 * @param lighted : 0 if connected, 1 if not, 2 if refreshing
+	 */
+	private void connectedToServer(final int lighted){
+		this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (item != null){
+					switch (lighted){
+						case 0: item.setIcon(R.drawable.ic_action_location_found_green);break;
+						case 1: item.setIcon(R.drawable.ic_action_location_found_red);break;
+						default: item.setIcon(R.drawable.ic_action_refresh);break;
 					}
 				}
-			});
-		}
+			}
+		});
+	}
 
 
-		/**
-		 * Quit application
-		 * 
-		 */
-		public void onBackPressed(){
-			Intent intent = new Intent();
-			intent.setAction(Intent.ACTION_MAIN);
-			intent.addCategory(Intent.CATEGORY_HOME);
-			this.startActivity(intent);
-
-
-		}
-		public static boolean isNetworkConnected(Context context) {
-			ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-			return (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected());
-
-		}
+	/**
+	 * Quit application
+	 * 
+	 */
+	public void onBackPressed(){
+		Intent intent = new Intent();
+		intent.setAction(Intent.ACTION_MAIN);
+		intent.addCategory(Intent.CATEGORY_HOME);
+		this.startActivity(intent);
+	}
+	
+	public static boolean isNetworkConnected(Context context) {
+		ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		return (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected());
 
 	}
+}
