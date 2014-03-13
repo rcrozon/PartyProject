@@ -37,7 +37,7 @@ namespace MyPartyProject
             Ticket ticket = (Ticket)PhoneApplicationService.Current.State["Ticket"];
 
             BarcodeWriter writer = new BarcodeWriter { Format = BarcodeFormat.QR_CODE };
-            string code = ticket.id + ";" + ticket.id_concert + ";" + ticket.id_client + ";" + ticket.id_tarif;
+            string code = ticket.id + ";" + ticket.id_concert + ";" + ticket.id_client + ";" + ticket.id_tariff;
             WriteableBitmap writeableBitmap = writer.Write(code);
             imgQRCode.Source = writeableBitmap;
 

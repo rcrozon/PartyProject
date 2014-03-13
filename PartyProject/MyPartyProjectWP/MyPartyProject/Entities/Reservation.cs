@@ -17,6 +17,8 @@ namespace MyPartyProject.Entities
         public string start_datetime { get; set; }
         public string image { get; set; }
         public string nbTickets { get; set; }
+        public string concertLabel { get; set; }
+        
 
         public Reservation(string id, string id_client, string id_concert, string id_tarif, string image)
         {

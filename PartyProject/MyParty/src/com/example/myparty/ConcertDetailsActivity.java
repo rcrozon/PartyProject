@@ -246,23 +246,27 @@ OnClickListener, OnMenuItemClickListener {
 				Boolean ok = dataBase.isValidTicket(Integer.parseInt(infoRes[0]), Integer.parseInt(infoRes[1])
 						, Integer.parseInt(infoRes[2]), Integer.parseInt(infoRes[3]),concert.getId());
 
-				scanner.getTextView().setText(barcode + "   ");
-				scanner.getTextView().setFreezesText(true);
-
 				if (ok){
+					Client client = dataBase.getClientWithId(Integer.parseInt(infoRes[2]));
+					Concert concert = dataBase.getConcertWithId(Integer.parseInt(infoRes[1]));
+					scanner.getTextView().setText(client.getFirstName() + "\n" + client.getLastName() + "\n"+ concert.getTitle());
 					scanner.getImageView().setBackgroundResource(
 							R.drawable.qrcode_green);
 					idResScan = Integer.parseInt(infoRes[0]);
-					String labelTarrif = dataBase.getLabelById(Integer.parseInt(infoRes[3]));
+					String labelTarrif = DatabaseHandler.getLabelById(Integer.parseInt(infoRes[3]));
 					textButtonValidate("Tarif : "+labelTarrif);
 				}
 				else{
+					scanner.getTextView().setText(barcode + "   ");
 					scanner.getImageView().setBackgroundResource(
 							R.drawable.qrcode_red);
 					idResScan = 0;
 					textButtonValidate("Error Ticket");
 
 				}
+				scanner.getTextView().setFreezesText(true);
+
+
 
 			}
 		}
