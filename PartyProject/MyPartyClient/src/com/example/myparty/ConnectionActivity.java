@@ -112,20 +112,20 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 			String myLogin = login.getText().toString();
 			String password = pwd.getText().toString();
 			int idClient = dataBase.authentification(myLogin,password);
-//			if (idClient > -1){
+			if (idClient > -1){
 				Intent intent = new Intent(this, ConcertActivity.class);
 				intent.putExtra("idClient", 5);
 				this.startActivity(intent);
-//			}else{
-//				/*** ERREUR *************/
-//				Context myContext = getApplicationContext();
-//				CharSequence text = "ERROR LOGIN OR PASSWORD !";
-//				Toast toast = Toast.makeText(myContext, text, Toast.LENGTH_LONG);
-//				TextView toastText = (TextView) toast.getView().findViewById(android.R.id.message);
-//				toastText.setTextColor(Color.RED);
-//				toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
-//				toast.show();
-//			}
+			}else{
+				/*** ERREUR *************/
+				Context myContext = getApplicationContext();
+				CharSequence text = "ERROR LOGIN OR PASSWORD !";
+				Toast toast = Toast.makeText(myContext, text, Toast.LENGTH_LONG);
+				TextView toastText = (TextView) toast.getView().findViewById(android.R.id.message);
+				toastText.setTextColor(Color.RED);
+				toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
+				toast.show();
+			}
 		}
 	} 
 	

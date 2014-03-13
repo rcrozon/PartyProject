@@ -5,8 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.channels.FileLock;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashMap; 
 import java.util.List;
 
 import android.content.ContentValues;
@@ -14,6 +16,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.Path;
 import android.net.ConnectivityManager;
 import android.os.Environment;
 import android.util.Log;
@@ -22,7 +25,7 @@ import entities.Ticket;
 
 public class DatabaseHandler {     
 
-	private static final int VERSION_BDD = 103;
+	private static final int VERSION_BDD = 104;
 	private static final String BDD_NAME = "myparty.db";
 	private static SQLiteDatabase bdd;
 	private DatabaseCreate SQLiteBase ;
@@ -154,21 +157,46 @@ public class DatabaseHandler {
 
 		/*On vérifie que l'on obtient qu'un résultat a partir du login*/
 		if (c.getCount() == 1){
-			c.moveToFirst(); 
-			Log.i("PASSWORD", "1 password trouve");
+			c.moveToFirst();
+
+
 			/* Decrypt */
 			/*On decrypt le mot de passe contenu dans la table*/
 			String decrypted = decodePassword(c.getString(2));
+
+
 			/*On compare le mdp rentré et celui de la table*/
 			if (pwd.equals(decrypted)){
 				return c.getInt(Tables.CLIENT_NUM_ID);
 			}
 		}
-		Log.i("PASSWORD", "pas de password trouve " + login);
 		return -1;
 	}
 
-
+	/***************** TROUVER LES TICKETS PAR ID DE CLIENT DANS LA BDD ***************************/
+	public ArrayList<Ticket> getTicketClient(int idClient){
+		ArrayList<Ticket> listTicket = new ArrayList<Ticket>();
+		Cursor c = bdd.query(Tables.RES_TABLE, 
+				new String[] {Tables.RES_NAME_ID, 
+				Tables.RES_NAME_ID_CONCERT, 
+				Tables.RES_NAME_ID_CLIENT,
+				Tables.RES_NAME_ID_TARIF,
+				Tables.RES_NAME_SCAN}, 
+				Tables.RES_NAME_ID_CLIENT + " LIKE \"" + idClient +"\" ORDER BY "+ Tables.RES_NAME_ID_CONCERT + " ASC", null, null, null, null);
+		if (c.getCount() == 0){
+			return null;
+		}
+		c.moveToFirst();
+		for (int i =0; i< c.getCount(); i++){
+			if (i!=0){
+				c.move(1);
+			}
+			Ticket ticket = new Ticket(getConcertWithId(c.getInt(Tables.RES_NUM_ID_CONCERT)), c.getInt(Tables.RES_NUM_ID_TARIF), idClient);
+			listTicket.add(ticket);
+		}
+		c.close();
+		return listTicket;
+	}
 	/***************** TROUVER LES TARIFS PAR ID DE CONCERT DANS LA BDD ***************************/
 	public static HashMap<String, Double> getTariffsFromConcert(int id_concert){
 		Log.i("TARIFF", "passe");
@@ -278,7 +306,6 @@ public class DatabaseHandler {
 		return concert;
 
 	}
-	
 	/***************** TROUVER LA LISTE DE TOUS LES CONCERTS DANS LA BDD ***************************/
 
 	public static List<Concert> getConcerts(){ 
@@ -341,32 +368,6 @@ public class DatabaseHandler {
 
 		return c.getCount();
 	}
-	/***************** TROUVER LE NOMBRE DE RESERVATION POUR UN CLIENT POUR UN CONCERT  ***************************/
-
-	public ArrayList<Ticket> getTicketClient(int idClient){
-		ArrayList<Ticket> listTicket = new ArrayList<Ticket>();
-		Cursor c = bdd.query(Tables.RES_TABLE, 
-				new String[] {Tables.RES_NAME_ID, 
-				Tables.RES_NAME_ID_CONCERT, 
-				Tables.RES_NAME_ID_CLIENT,
-				Tables.RES_NAME_ID_TARIF,
-				Tables.RES_NAME_SCAN}, 
-				Tables.RES_NAME_ID_CLIENT + " LIKE \"" + idClient +"\" ORDER BY "+ Tables.RES_NAME_ID_CONCERT + " ASC", null, null, null, null);
-		if (c.getCount() == 0){
-			return null;
-		}
-		c.moveToFirst();
-		for (int i =0; i< c.getCount(); i++){
-			if (i!=0){
-				c.move(1);
-			}
-			Ticket ticket = new Ticket(getConcertWithId(c.getInt(Tables.RES_NUM_ID_CONCERT)), c.getInt(Tables.RES_NUM_ID_TARIF), idClient);
-			listTicket.add(ticket);
-		}
-		c.close();
-		return listTicket;
-	}
-
 
 	/***************************  Trouver le label du prix par ID*******************************************/
 	public static String getLabelById(int id_tarrif){
@@ -384,7 +385,6 @@ public class DatabaseHandler {
 		return label;
 
 	}
-	
 	/************************ SUPPRESSION D'UNE LIGNE DANS LA TBLE RESMAJ *****************************/
 
 	public int deleteInResMAJById(int id){
@@ -411,25 +411,30 @@ public class DatabaseHandler {
 		bdd.delete(Tables.TARIFFS_TABLE,null,null);
 	}
 
-	/************************ METTRE A JOUR LE MOT DE PASSE *****************************/
-
-//	public void updatePassword(Client client,String pwd){
-//
-//		Cursor c = bdd.query(Tables.CLIENT_TABLE, 
-//				new String[] {Tables.CLIENT_NAME_ID, 
-//				Tables.CLIENT_NAME_PASSWORD}, 
-//				Tables.CLIENT_NAME_ID + " LIKE \"" + client.getId() +"\"", null, null, null, null);
-//
-//		c.moveToFirst();
-//		ContentValues newValues = new ContentValues();
-//		newValues.put(Tables.CLIENT_NAME_PASSWORD, pwd);
-//
-//		bdd.update(Tables.CLIENT_TABLE, newValues,Tables.CLIENT_NAME_ID+"="+client.getId(), null);
-//
-//		c.close();
-//
-//
-//	}
+	public static void deleteConcertTable(){
+		bdd.delete(Tables.CONCERT_TABLE,null,null);	
+	}
+	public static void deleteResTable(){
+		bdd.delete(Tables.RES_TABLE,null,null);	
+	}
+	public static void deleteArtistsTable(){
+		bdd.delete(Tables.ARTISTS_TABLE,null,null);
+	}
+	public static void deleteAssocStylesTable(){
+		bdd.delete(Tables.ASSOC_STYLES_TABLE,null,null);
+	}
+	public static void deleteAssocTarrifTable(){
+		bdd.delete(Tables.ASSOC_TARIFFS_TABLE,null,null);
+	}
+	public static void deleteAssocArtistsTable(){
+		bdd.delete(Tables.ASSOC_ARTISTS_TABLE,null,null);
+	}
+	public static void deleteStylesTable(){
+		bdd.delete(Tables.STYLES_TABLE,null,null);
+	}
+	public static void deleteTarifsTable(){
+		bdd.delete(Tables.TARIFFS_TABLE,null,null);
+	}
 
 
 	/******************************** BDD EXTERNE ************************************************/
@@ -446,17 +451,17 @@ public class DatabaseHandler {
 		return tPing.getResult();
 	}
 
-	public static Boolean updateAllTables(Context context, int idClient){
+	public static Boolean updateAllTables(Context context){
 		/********************* Test du serveur et de la connexion internet ******************************/
 		if(isNetworkConnected(context) && isAvailableServer(context)){
 			/*Vide la table*/
-			deleteAllTable();
+			//deleteAllTable();
 			/*ON ENVOI LA REQUETE*/
 			DatabaseServer dbbs = new DatabaseServer(); 
 			MyJsonParser parser = new MyJsonParser(context);
 
 			String concertString = dbbs.getRequest("getAllConcerts");
-			String reservationString = dbbs.getRequest("getReservationsByCLient/id:" + idClient);
+			String reservationString = dbbs.getRequest("getAllReservations");
 			String tarrifString = dbbs.getRequest("getAllTariffs");
 			String tarrifAssocString = dbbs.getRequest("getAllAssocTarifs");
 			String stylesAssocString = dbbs.getRequest("getAllAssocStyles");
@@ -464,46 +469,102 @@ public class DatabaseHandler {
 			String artistsString = dbbs.getRequest("getAllArtists");
 			String artistsAssocString = dbbs.getRequest("getAllAssocArtists");
 
-			List<Concert> concertlist = parser.getConcertFromJson(concertString);
+			if (parser.reponseIsJson(concertString)
+					&& parser.reponseIsJson(reservationString) && parser.reponseIsJson(tarrifString)
+					&& parser.reponseIsJson(tarrifAssocString) && parser.reponseIsJson(stylesAssocString)
+					&& parser.reponseIsJson(stylesString) && parser.reponseIsJson(artistsString)
+					&& parser.reponseIsJson(artistsAssocString)){
+				Log.i("DBB", "ON VIDE");
+				deleteAllTable();
 
-			/*On insere les concerts dans bdd*/
-			if (concertlist != null){
-				for (int i=0 ; i< concertlist.size() ; i++){
-					Concert c = concertlist.get(i);
-					insertConcert(c);
+				List<Concert> concertlist = parser.getConcertFromJson(concertString);
+
+				/*On insere les concerts dans bdd*/
+				if (concertlist != null){
+					for (int i=0 ; i< concertlist.size() ; i++){
+						Concert c = concertlist.get(i);
+						insertConcert(c);
+					}
 				}
+
+				/*On insere les reservations*/
+
+				parser.getReservationAndInsert(reservationString);
+
+
+
+
+				/*On insere les Tarrifs*/
+				parser.getTariffsAndInsert(tarrifString);
+
+
+				/*On insere les AssocTarrifs*/
+				parser.getAssocTariffsAndInsert(tarrifAssocString);
+
+
+				/*On insere les AssocTStyle*/
+
+				parser.getAssocStylesAndInsert(stylesAssocString);
+
+				/*On insere les Style*/
+
+				parser.getStylesAndInsert(stylesString);
+
+
+				/*On insere les Artistes*/
+
+				parser.getArtistsAndInsert(artistsString);
+
+
+				/*On insere les Assoc Artistes*/
+
+
+				parser.getAssocArtistsAndInsert(artistsAssocString);
 			}
 
-			/*On insere les reservations*/
-			parser.getReservationAndInsert(reservationString);
 
-			/*On insere les Tarrifs*/
-			parser.getTariffsAndInsert(tarrifString);
-
-			/*On insere les AssocTarrifs*/
-			parser.getAssocTariffsAndInsert(tarrifAssocString);
-
-			/*On insere les AssocTStyle*/
-			parser.getAssocStylesAndInsert(stylesAssocString);
-
-			/*On insere les AssocTStyle*/
-			parser.getStylesAndInsert(stylesString);
-
-			/*On insere les Artistes*/
-			parser.getArtistsAndInsert(artistsString);
-
-			/*On insere les Assoc Artistes*/
-			parser.getAssocArtistsAndInsert(artistsAssocString);
-			
-			
-			
 			/*Image*/
 			List<Concert> imgConcert = getConcerts();
 			if (imgConcert != null){
 				/**POURLE DETAIL D'UN CONCERT*/
+
+
+				File deletemyDir = new File(Environment.getExternalStorageDirectory() +
+						File.separator +  Tables.PATH_REP_IMG); //pour créer le repertoire dans lequel on va mettre notre fichier
+
+				if (deletemyDir.exists()) {
+					String imgHer[] = deletemyDir.list();
+					if (imgHer != null){
+						for (int i=0; i< imgHer.length ; i++){
+
+							String temp[] = imgHer[i].split("l");
+							String c = temp[1];
+
+							String temp2[] = c.split("\\.");
+
+							Log.i("SPLIT", "Ca : "+temp2[0]);
+							int num = Integer.parseInt(temp2[0]);
+							Boolean rep = false;
+							for (int j=0;j<imgConcert.size();j++){
+								if (imgConcert.get(j).getId() == num){
+									rep=true;
+								}
+							}
+							if (!rep){
+								File sup = new File(Environment.getExternalStorageDirectory() +
+										File.separator + Tables.PATH_REP_IMG+"/detail"+num+".png");
+								/*Si l'image n'existe pas on la crée*/
+								/*Pour supprimer les images*/
+								sup.delete();
+
+							}
+						}
+					}
+				}
+
 				for (int i=0; i<imgConcert.size();i++){
 					File ftest = new File(Environment.getExternalStorageDirectory() +
-							File.separator + "appli_img/detail"+imgConcert.get(i).getId()+".png");
+							File.separator + Tables.PATH_REP_IMG+"/detail"+imgConcert.get(i).getId()+".png");
 					/*Si l'image n'existe pas on la crée*/
 					/*Pour supprimer les images*/
 					//ftest.delete();
@@ -511,7 +572,7 @@ public class DatabaseHandler {
 						Log.i("IMAGE", "ON LA CRÉE"+"detail"+imgConcert.get(i).getId()+".png" );
 						ThreadBitMap t = new ThreadBitMap(Tables.IMG_PATH_SERVER + imgConcert.get(i).getImagePath());
 						t.start();
-						
+
 						try {
 							t.join();
 						} catch (InterruptedException e) {
@@ -522,14 +583,19 @@ public class DatabaseHandler {
 						Bitmap myBm = t.getResult();
 						/*On écrit dans le disque dur du téléphone*/
 						File myFile = new File(Environment.getExternalStorageDirectory() +
-								File.separator + "appli_img","detail"+imgConcert.get(i).getId()+".png"); //on déclare notre futur fichier
+								File.separator + Tables.PATH_REP_IMG,"detail"+imgConcert.get(i).getId()+".png"); //on déclare notre futur fichier
+
 
 						File myDir = new File(Environment.getExternalStorageDirectory() +
-								File.separator + "appli_img"); //pour créer le repertoire dans lequel on va mettre notre fichier
+								File.separator +  Tables.PATH_REP_IMG); //pour créer le repertoire dans lequel on va mettre notre fichier
 						Boolean success=true;
 						if (!myDir.exists()) {
 							success = myDir.mkdir(); //On crée le répertoire (s'il n'existe pas!!)
+
 						}
+						/*Bloquer accès lecture et écriture*/
+
+
 						if (success){
 							OutputStream out = null;
 							try {

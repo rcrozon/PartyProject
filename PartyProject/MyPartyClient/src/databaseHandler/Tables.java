@@ -5,7 +5,8 @@ public final class Tables {
 	/***************** ADRESSE SERVEUR *************************************/
 	
 	public static final String IMG_PATH_SERVER = "http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/img/Concerts/";
-	
+
+	public static final String PATH_REP_IMG = "appli_img";
 	/************* TABLE CLIENTS *************************/
 	
 	public static final String CLIENT_TABLE = "clients";
