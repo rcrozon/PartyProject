@@ -36,6 +36,16 @@ public class MyJsonParser {
 		return true;
 	}
 
+	public Boolean reponseIsJson(String reponse){
+		JSONArray rep;
+		try {
+			rep = new JSONArray(reponse);
+		} catch (JSONException e) {
+			return false;
+		}
+		return true;
+	}
+
 	public List<Client> getClientFromJson(String json) {
 		List<Client> cl = new ArrayList<Client>();
 
@@ -77,6 +87,8 @@ public class MyJsonParser {
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			cl=null;
+
 		}
 		return cl;
 	}    	
@@ -125,11 +137,12 @@ public class MyJsonParser {
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			cl=null;
 		}
 		return cl;
 	}   
 
-	public void getReservationAndInsert(String json) {
+	public Boolean getReservationAndInsert(String json) {
 		DatabaseHandler dataBase = new DatabaseHandler(context);
 		dataBase.open();
 
@@ -152,10 +165,12 @@ public class MyJsonParser {
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
 
-	public void getAssocTariffsAndInsert(String json) {
+	public Boolean getAssocTariffsAndInsert(String json) {
 		DatabaseHandler dataBase = new DatabaseHandler(context);
 		dataBase.open();
 
@@ -175,11 +190,12 @@ public class MyJsonParser {
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
-
+		return true;
 	}
-	
-	public void getAssocArtistsAndInsert(String json) {
+
+	public Boolean getAssocArtistsAndInsert(String json) {
 		DatabaseHandler dataBase = new DatabaseHandler(context);
 		dataBase.open();
 
@@ -199,11 +215,12 @@ public class MyJsonParser {
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
-
+		return true;
 	}
-	
-	public void getAssocStylesAndInsert(String json) {
+
+	public Boolean getAssocStylesAndInsert(String json) {
 		DatabaseHandler dataBase = new DatabaseHandler(context);
 		dataBase.open();
 
@@ -223,11 +240,12 @@ public class MyJsonParser {
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
-
+		return true;
 	} 
-	
-	public void getStylesAndInsert(String json) {
+
+	public Boolean getStylesAndInsert(String json) {
 		DatabaseHandler dataBase = new DatabaseHandler(context);
 		dataBase.open();
 
@@ -246,11 +264,12 @@ public class MyJsonParser {
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
-
+		return true;
 	} 
-	
-	public void getArtistsAndInsert(String json) {
+
+	public Boolean getArtistsAndInsert(String json) {
 		DatabaseHandler dataBase = new DatabaseHandler(context);
 		dataBase.open();
 
@@ -269,11 +288,12 @@ public class MyJsonParser {
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
-
+		return true;
 	} 
 
-	public void getTariffsAndInsert(String json){
+	public Boolean getTariffsAndInsert(String json){
 		DatabaseHandler dataBase = new DatabaseHandler(context);
 		dataBase.open();
 
@@ -292,8 +312,9 @@ public class MyJsonParser {
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
-
+		return true;
 	}
 
 

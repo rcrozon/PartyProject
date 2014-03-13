@@ -57,10 +57,13 @@ public class ThreadRequestResult extends Thread {
                setResult(response.toString());
 			} catch (URISyntaxException e1) {
 				e1.printStackTrace();
+				
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
+				
 			} catch (IOException e) {
 				e.printStackTrace();
+				
 			}
 	    	
 	    	

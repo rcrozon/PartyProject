@@ -414,8 +414,8 @@ public class DatabaseHandler {
 				Tables.RES_NAME_SCAN}, 
 				Tables.RES_NAME_ID_CONCERT + " LIKE \"" + id_concert +"\"", 
 				null, Tables.RES_NAME_ID_CLIENT, null,null, null);
-		
-		
+
+
 
 		if (c.getCount() ==0 ){
 			return null;
@@ -693,6 +693,34 @@ public class DatabaseHandler {
 		bdd.delete(Tables.TARIFFS_TABLE,null,null);
 	}
 
+	public static void deleteClientTable(){
+		bdd.delete(Tables.CLIENT_TABLE,null,null);
+	}
+	public static void deleteConcertTable(){
+		bdd.delete(Tables.CONCERT_TABLE,null,null);	
+	}
+	public static void deleteResTable(){
+		bdd.delete(Tables.RES_TABLE,null,null);	
+	}
+	public static void deleteArtistsTable(){
+		bdd.delete(Tables.ARTISTS_TABLE,null,null);
+	}
+	public static void deleteAssocStylesTable(){
+		bdd.delete(Tables.ASSOC_STYLES_TABLE,null,null);
+	}
+	public static void deleteAssocTarrifTable(){
+		bdd.delete(Tables.ASSOC_TARIFFS_TABLE,null,null);
+	}
+	public static void deleteAssocArtistsTable(){
+		bdd.delete(Tables.ASSOC_ARTISTS_TABLE,null,null);
+	}
+	public static void deleteStylesTable(){
+		bdd.delete(Tables.STYLES_TABLE,null,null);
+	}
+	public static void deleteTarifsTable(){
+		bdd.delete(Tables.TARIFFS_TABLE,null,null);
+	}
+
 	/************************ METTRE A JOUR LE MOT DE PASSE *****************************/
 
 	public void updatePassword(Client client,String pwd){
@@ -732,7 +760,7 @@ public class DatabaseHandler {
 		/********************* Test du serveur et de la connexion internet ******************************/
 		if(isNetworkConnected(context) && isAvailableServer(context)){
 			/*Vide la table*/
-			deleteAllTable();
+			//deleteAllTable();
 			/*ON ENVOI LA REQUETE*/
 			DatabaseServer dbbs = new DatabaseServer(); 
 			MyJsonParser parser = new MyJsonParser(context);
@@ -747,45 +775,66 @@ public class DatabaseHandler {
 			String artistsString = dbbs.getRequest("getAllArtists");
 			String artistsAssocString = dbbs.getRequest("getAllAssocArtists");
 
-			List<Client> clientlist = parser.getClientFromJson(tmp);
-			List<Concert> concertlist = parser.getConcertFromJson(concertString);
+			if (parser.reponseIsJson(concertString) && parser.reponseIsJson(tmp)
+					&& parser.reponseIsJson(reservationString) && parser.reponseIsJson(tarrifString)
+					&& parser.reponseIsJson(tarrifAssocString) && parser.reponseIsJson(stylesAssocString)
+					&& parser.reponseIsJson(stylesString) && parser.reponseIsJson(artistsString)
+					&& parser.reponseIsJson(artistsAssocString)){
+				Log.i("DBB", "ON VIDE");
+				deleteAllTable();
 
-			/*On insere les concerts dans bdd*/
-			if (concertlist != null){
-				for (int i=0 ; i< concertlist.size() ; i++){
-					Concert c = concertlist.get(i);
-					insertConcert(c);
+				List<Client> clientlist = parser.getClientFromJson(tmp);
+				List<Concert> concertlist = parser.getConcertFromJson(concertString);
+
+				/*On insere les concerts dans bdd*/
+				if (concertlist != null){
+					for (int i=0 ; i< concertlist.size() ; i++){
+						Concert c = concertlist.get(i);
+						insertConcert(c);
+					}
 				}
-			}
 
-			/*On insere les clients dans bdd*/
-			if (clientlist != null){
-				for (int i=0 ; i< clientlist.size() ; i++){
-					Client c = clientlist.get(i);
-					insertClient(c);
+				/*On insere les clients dans bdd*/
+				if (clientlist != null){
+					for (int i=0 ; i< clientlist.size() ; i++){
+						Client c = clientlist.get(i);
+						insertClient(c);
+					}
 				}
+				/*On insere les reservations*/
+
+				parser.getReservationAndInsert(reservationString);
+
+
+
+
+				/*On insere les Tarrifs*/
+				parser.getTariffsAndInsert(tarrifString);
+
+
+				/*On insere les AssocTarrifs*/
+				parser.getAssocTariffsAndInsert(tarrifAssocString);
+
+
+				/*On insere les AssocTStyle*/
+
+				parser.getAssocStylesAndInsert(stylesAssocString);
+
+				/*On insere les Style*/
+
+				parser.getStylesAndInsert(stylesString);
+
+
+				/*On insere les Artistes*/
+
+				parser.getArtistsAndInsert(artistsString);
+
+
+				/*On insere les Assoc Artistes*/
+
+
+				parser.getAssocArtistsAndInsert(artistsAssocString);
 			}
-			/*On insere les reservations*/
-			parser.getReservationAndInsert(reservationString);
-
-			/*On insere les Tarrifs*/
-			parser.getTariffsAndInsert(tarrifString);
-
-			/*On insere les AssocTarrifs*/
-			parser.getAssocTariffsAndInsert(tarrifAssocString);
-
-			/*On insere les AssocTStyle*/
-			parser.getAssocStylesAndInsert(stylesAssocString);
-
-			/*On insere les AssocTStyle*/
-			parser.getStylesAndInsert(stylesString);
-
-			/*On insere les Artistes*/
-			parser.getArtistsAndInsert(artistsString);
-
-			/*On insere les Assoc Artistes*/
-			parser.getAssocArtistsAndInsert(artistsAssocString);
-
 
 
 			/*Image*/
@@ -801,12 +850,12 @@ public class DatabaseHandler {
 					String imgHer[] = deletemyDir.list();
 					if (imgHer != null){
 						for (int i=0; i< imgHer.length ; i++){
-							
+
 							String temp[] = imgHer[i].split("l");
 							String c = temp[1];
-							
+
 							String temp2[] = c.split("\\.");
-							
+
 							Log.i("SPLIT", "Ca : "+temp2[0]);
 							int num = Integer.parseInt(temp2[0]);
 							Boolean rep = false;
@@ -821,7 +870,7 @@ public class DatabaseHandler {
 								/*Si l'image n'existe pas on la crée*/
 								/*Pour supprimer les images*/
 								sup.delete();
-								
+
 							}
 						}
 					}
