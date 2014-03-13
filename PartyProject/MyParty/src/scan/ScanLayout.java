@@ -29,8 +29,8 @@ public class ScanLayout extends RelativeLayout implements OnClickListener{
 		this.linearLayout = new LinearLayout(context);
 		this.linearLayout.setId(500);
 		this.linearLayout.setOrientation(LinearLayout.VERTICAL);
-		ViewGroup.LayoutParams llpMainLayout = new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, 
-				LayoutParams.MATCH_PARENT);
+		RelativeLayout.LayoutParams llpMainLayout = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 
+				LayoutParams.WRAP_CONTENT);
 		RelativeLayout.LayoutParams llpLayout = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 
 				LayoutParams.WRAP_CONTENT);
 		llpLayout.addRule(ALIGN_PARENT_TOP);
@@ -48,11 +48,8 @@ public class ScanLayout extends RelativeLayout implements OnClickListener{
 		this.text.setId(1001);
 		this.text.setText("Click on the flashcode to scan a ticket");
 		this.text.setTextColor(getResources().getColor(R.color.white));
-		LayoutParams llpTextView = new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+		LinearLayout.LayoutParams llpTextView = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT);
-		llpTextView.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-		llpTextView.addRule(RelativeLayout.CENTER_HORIZONTAL);
-		llpTextView.addRule(RelativeLayout.BELOW, imgView.getId());
 		this.text.setGravity(Gravity.TOP | Gravity.CENTER);
 		
 		LayoutParams llpButtonTariff = new LayoutParams(LayoutParams.MATCH_PARENT,
@@ -60,11 +57,9 @@ public class ScanLayout extends RelativeLayout implements OnClickListener{
 		llpButtonTariff.addRule(ALIGN_PARENT_BOTTOM);
 		this.buttonTariff = new Button(context);
 		this.buttonTariff.setBackgroundResource(R.color.blue);
-		this.buttonTariff.setText("");
-		this.buttonTariff.setGravity(Gravity.BOTTOM | Gravity.CENTER);
+		this.buttonTariff.setVisibility(INVISIBLE);
+		this.buttonTariff.setGravity(Gravity.CENTER);
 		this.buttonTariff.setLayoutParams(llpButtonTariff);
-		this.buttonTariff.setMaxHeight(100);
-		llpButtonTariff.addRule(BELOW, linearLayout.getId());
 		llpButtonTariff.setMargins(20, 700, 20, 0); 
 
 		this.linearLayout.addView(this.imgView, llpImg);

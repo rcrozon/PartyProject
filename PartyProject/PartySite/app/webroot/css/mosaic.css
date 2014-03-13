@@ -19,7 +19,8 @@
 	float:left;
 	position:relative;
 	overflow:hidden;
-	width:100%;
+	/*width:100%;*/
+	width:246px;
 	height:300px;
 	margin:10px;
 	background:#111 url(../img/progress.gif) no-repeat center center;
