@@ -43,7 +43,10 @@ require('../webroot/date/dateConverter.php');
 	width: 100%;
 
 	}
-
+	.resultSearch{
+		height:auto;
+		overflow:auto
+	}
 
 	.event_fiche{
 		font-family: Arial,sans-serif;
@@ -54,7 +57,7 @@ require('../webroot/date/dateConverter.php');
 	.multi_header{
 		margin-bottom: 10px;
 		position: relative;
-	border: 1px solid #eee;
+	border: 1px solid #DAD5D5;
 	padding: 10px;
 	height:120px;
 	}
@@ -150,7 +153,7 @@ form.form-search:before {
 	   <?php echo $this->Form->input('price',array('label'=>"Price : ",'type'=>"text",
 	  'id'=>"foo",
 	  'data-slider-min'=>"0",
-	  'data-slider-max'=>"150", 'data-slider-step'=>"1", 'class'=>"span2",'data-slider-value'=>"[0,1]", 'data-slider-orientation'=>"horizontal", 'data-slider-selection'=>"before" ,'data-slider-tooltip'=>"show")); ?>
+	  'data-slider-max'=>"150", 'data-slider-step'=>"1", 'class'=>"span2",'data-slider-value'=>"[0,150]", 'data-slider-orientation'=>"horizontal", 'data-slider-selection'=>"before" ,'data-slider-tooltip'=>"show",'value'=>"0,150")); ?>
 		
 		
 
@@ -221,7 +224,7 @@ form.form-search:before {
     				"slug" =>$allconcerts[$i]['Concert']['name_concert']
     			
 					));
-				echo "\" target=\"_blank\" class=\"mosaic-overlay\">".$allconcerts[$i]['Concert']['name_concert']."</a>";
+				echo "\">".$allconcerts[$i]['Concert']['name_concert']."</a>";
 	   
 	      echo    '</div>'.'<div class="event_date">'
 	       .'<p>'.$dateBegin.' - '.$timeBegin.' to '.$dateEnd.' - '. $timeEnd.' <p>'.
