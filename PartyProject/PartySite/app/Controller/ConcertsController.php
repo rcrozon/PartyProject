@@ -940,8 +940,12 @@ class ConcertsController extends AppController{
 
                        
                     }
+/*******************Date TRAITEMENT **********************************************/
+                if(!empty($d['start_date'])) {
+                    $sql .= " AND (concerts.start_datetime between '".$d['start_date']."'and '".$d['end_date']."')";
+                  
+                }
 
-                       
                         $db = $this->Concert->query($sql);
                         $allconcerts = array();
                         if(!empty($db)){

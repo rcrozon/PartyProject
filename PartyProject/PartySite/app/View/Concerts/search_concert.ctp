@@ -83,6 +83,7 @@ require('../webroot/date/dateConverter.php');
 		margin-left: 21%;
 	}
 
+
 	input.search-query {
     padding-left:26px;
 }
@@ -102,6 +103,9 @@ form.form-search:before {
     opacity: .5;
     z-index: 1000;
 }
+.input-group{
+margin-bottom: 10px;
+}
 	</style>
 
 	          
@@ -117,7 +121,7 @@ form.form-search:before {
 
          <div class="input-group">
          	  <?php echo $this->Form->input('search',array('label'=>"Party name : ",'class'=>"form-control search-query",
-         	  "placeholder"=>"Search...", 'label' => false,'id'=>'demo')); ?><span class="input-group-btn">
+         	  "placeholder"=>"Search...", 'label' => false,'id'=>'demo')); ?>
            <span class="input-group-btn">
 
             <?php echo $this->Form->button("Search", array('class' => 'btn btn-primary')); ?>
@@ -155,11 +159,42 @@ form.form-search:before {
 	  'data-slider-min'=>"0",
 	  'data-slider-max'=>"150", 'data-slider-step'=>"1", 'class'=>"span2",'data-slider-value'=>"[0,150]", 'data-slider-orientation'=>"horizontal", 'data-slider-selection'=>"before" ,'data-slider-tooltip'=>"show",'value'=>"0,150")); ?>
 		
+	
+				
+		<label for="foo">Begin date : </label>
+  <div class="input-group">
+         <input name="start_date" class="form-control search-query" id="id-date-picker-1" type="text" data-date-format="yyyy-mm-dd" style="z-index: 0;"  />
+          <span class="input-group-btn" 'style'='border:1px solid #ccc;border-radius:0 4px 4px 0;height:35px;width:35px;background-color:#eeeeee;margin-top: -9px;
+								margin-left: -4px;z-index: 2;" 
+						class="icon32 icon-blue icon-calendar"'>
+
+                 <?php echo $this->Form->button("Search", array('style'=>'border:1px solid #ccc;border-radius:0 4px 4px 0;height: 34px;width:35px;background-color:#eeeeee;
+								margin-left: -4px;z-index: 2;" 
+						class="icon32 icon-blue icon-calendar"','disabled'=>true)); ?>
+
+            </span>
+
+        </div>
+<label for="foo">End date : </label>
+   <div class="input-group">
+         <input name="end_date" class="form-control search-query" id="id-date-picker-2" type="text" data-date-format="yyyy-mm-dd" style="z-index: 0;"  />
+          <span class="input-group-btn" 'style'='border:1px solid #ccc;border-radius:0 4px 4px 0;height:35px;width:35px;background-color:#eeeeee;margin-top: -9px;
+								margin-left: -4px;z-index: 2;" 
+						class="icon32 icon-blue icon-calendar"'>
+
+            <?php echo $this->Form->button("Search", array('style'=>'border:1px solid #ccc;border-radius:0 4px 4px 0;height: 34px;width:35px;background-color:#eeeeee;
+								margin-left: -4px;z-index: 2;" 
+						class="icon32 icon-blue icon-calendar"','disabled'=>true)); ?>
+
+            </span>
+
+        </div>
+
+
+
 		
 
-			
-
-		<?php echo $this->Form->button("Search", array('class' => 'btn btn-primary')); ?>
+		<?php echo $this->Form->button("Search", array('class' => 'btn btn-primary','style'=>"float: right;")); ?>
 	<?php echo $this->Form->end(); ?>
 	<script>$('#foo').slider()
 	  .on('slide', function(ev){
@@ -247,7 +282,22 @@ form.form-search:before {
 
 
 		
-
+<script type="text/javascript">
+		    $(document).ready(function() {   
+		        $('#id-date-picker-1').datepicker();
+		        $('#id-date-picker-2').datepicker();
+		        $('#timepicker1').timepicker({
+		          minuteStep: 1,
+		          showSeconds: true,
+		          showMeridian: false
+		        });
+		        $('#timepicker2').timepicker({
+		          minuteStep: 1,
+		          showSeconds: true,
+		          showMeridian: false
+		        });
+		    });
+    	</script>
 	       
 	  
 		<script type="text/javascript">
