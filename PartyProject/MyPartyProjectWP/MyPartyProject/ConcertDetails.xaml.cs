@@ -54,19 +54,18 @@ namespace MyPartyProject
             textTitle.Text = concert.name_concert;
             try
             {
-                List<Reservation> tickets = (List<Reservation>)IsolatedStorageSettings.ApplicationSettings["tickets"];
+                List<Reservation> reservations = (List<Reservation>)IsolatedStorageSettings.ApplicationSettings["tickets"];
                 List<Concert> concerts = (List<Concert>)IsolatedStorageSettings.ApplicationSettings["concerts"];
-                for (int i = 0; i < tickets.Count; ++i)
+                for (int i = 0; i < reservations.Count; ++i)
                 {
-                    if (tickets[i].id_concert.Equals(concert.id))
+                    if (reservations[i].id_concert.Equals(concert.id))
                     {
-                        Concert c = Concert.getConcertFromId(concerts, tickets[i].id_concert);
-                        tickets[i].image = c.image;
-                        tickets[i].concertLabel = c.name_concert;
-                        tickets[i].tariffLabel = Tariff.getLabelTariffFromId((List<Tariff>)IsolatedStorageSettings.ApplicationSettings["tariffs"], tickets[i].id_tarif);
+                        Concert c = Concert.getConcertFromId(concerts, reservations[i].id_concert);
+                        reservations[i].image = c.image;
+                        reservations[i].concertLabel = c.name_concert;
                     }
                 }
-                ticketsListBox.ItemsSource = tickets;
+                ticketsListBox.ItemsSource = reservations;
             }
             catch (System.Collections.Generic.KeyNotFoundException e) { }
             /********************** Affichage des tickets *******************************/

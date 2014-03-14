@@ -467,9 +467,14 @@
 
 		// Set panel dimensions to either resize content or adjust panel to content
 		base.setDimensions = function(){
-
+			var h_tmp;
+			if( ($(window).width()) > 1000) {
+				h_tmp = '642px';
+			}else {
+				h_tmp = '2560px';
+			}
 			// reset element width & height
-			base.$wrapper.find('.anythingWindow, .anythingBase, .panel')[ $.fn.addBack ? 'addBack' : 'andSelf' ]().css({ width: '1170px', height: '642px' });
+			base.$wrapper.find('.anythingWindow, .anythingBase, .panel')[ $.fn.addBack ? 'addBack' : 'andSelf' ]().css({ width: 'auto !important', height: h_tmp });
 			base.width = base.$el.width();
 			base.height = base.$el.height();
 			base.outerPad = [ base.$wrapper.innerWidth() - base.$wrapper.width(), base.$wrapper.innerHeight() - base.$wrapper.height() ];

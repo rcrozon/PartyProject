@@ -97,8 +97,6 @@ namespace MyPartyProject
                             id = result[i].id,
                             id_client = result[i].id_client,
                             id_concert = result[i].id_concert,
-                            id_tarif = result[i].id_tarif,
-                            scan = result[i].scan,
                         });
                     //}
                 }

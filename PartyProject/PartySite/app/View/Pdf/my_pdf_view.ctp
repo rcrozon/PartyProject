@@ -82,9 +82,12 @@ echo $pdf->Output(APP.'webroot/files/'.$client['Client']['username']."/".$fileNa
 <object height="400" width="100%" data=" <?php echo $this->webroot.'app/webroot/files/'.$client['Client']['username'].'/'.$fileName.'.pdf' ?>" type="application/pdf">
 
             <p>It appears you don't have a PDF plugin for this browser.
-                No biggie... you can <a href= "<?php echo $dir . DS . $fileName.'.pdf' ?>" >click here to
+                No biggie... you can <a href= "<?php echo $this->webroot.'app/webroot/files/'.$client['Client']['username'].'/'.$fileName.'.pdf' ?>" >click here to
                 download the PDF file.</a>
             </p>
 
+
         </object>
 
+<a  class="btn btn-primary" href= "<?php echo $this->webroot.'app/webroot/files/'.$client['Client']['username'].'/'.$fileName.'.pdf' ?>" >click here to
+                download the PDF file</a>

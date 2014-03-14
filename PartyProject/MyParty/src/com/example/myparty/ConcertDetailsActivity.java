@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lists.ClientList;
-import lists.ConcertList;
 import lists.ListLayout;
 import lists.ReservationsList;
 import lists.StatsList;
@@ -23,14 +22,8 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 import databaseHandler.DatabaseHandler;
-import databaseHandler.DatabaseServer;
 import entities.Client;
 import entities.Concert;
 import entities.ConcertDetailed;
@@ -47,15 +40,7 @@ OnClickListener, OnMenuItemClickListener {
 	private ViewFlipper view_flipper;
 	private MenuItem decoItem;
 	private MenuItem bluetoothItem;
-	private MenuItem connectedItem;
 	private ScanLayout scanner;
-	private ImageView imgView;
-	private TextView textTitle;
-	private TextView textDate;
-	private TextView textFull;
-	private TextView textLocation;
-	private TextView textNbSeets;
-	private TextView textPrice;
 	private Context context;
 	private DatabaseHandler dataBase;
 	private boolean isCLient = false;
@@ -92,7 +77,7 @@ OnClickListener, OnMenuItemClickListener {
 		Bundle b = getIntent().getExtras();
 		List<Client> clientForConcert = null;
 		concert = null;
-		if (b.getInt("id") != 0){
+		if (b.getInt("id") != 0){ 
 			concert = dataBase.getConcertWithId(b.getInt("id"));
 			clientForConcert = dataBase.getClientsForOneConcert(concert.getId());
 		}
@@ -111,12 +96,12 @@ OnClickListener, OnMenuItemClickListener {
 				}
 				oui.add(clientForConcert.get(num));
 				clientForConcert.remove(num);
-
+		
 			}
 			clientForConcert=oui;
 
-			Log.i("LISTE", "Trié"+ clientForConcert.toString());
-
+			Log.i("LISTE", "Trie"+ clientForConcert.toString());
+		
 
 
 
@@ -137,6 +122,7 @@ OnClickListener, OnMenuItemClickListener {
 						scanner.getImageView().setBackgroundResource(
 								R.drawable.qrcode_blue);
 						if (idResScan !=0 ){
+							scanner.getTextView().setText("");
 							dataBase.scanTicket(idResScan);
 						}
 						textButtonValidate("");
@@ -247,23 +233,26 @@ OnClickListener, OnMenuItemClickListener {
 				Boolean ok = dataBase.isValidTicket(Integer.parseInt(infoRes[0]), Integer.parseInt(infoRes[1])
 						, Integer.parseInt(infoRes[2]), Integer.parseInt(infoRes[3]),concert.getId());
 
-				scanner.getTextView().setText(barcode + "   ");
-				scanner.getTextView().setFreezesText(true);
-
 				if (ok){
-					scanner.getImageView().setBackgroundResource(
-							R.drawable.qrcode_green);
+					Client client = dataBase.getClientWithId(Integer.parseInt(infoRes[2]));
+					Concert concert = dataBase.getConcertWithId(Integer.parseInt(infoRes[1]));
+					scanner.getTextView().setText(client.getFirstName() + "\n" + client.getLastName() + "\n"+ concert.getTitle());
+					scanner.getImageView().setBackgroundResource(R.drawable.qrcode_green);
 					idResScan = Integer.parseInt(infoRes[0]);
-					String labelTarrif = dataBase.getLabelById(Integer.parseInt(infoRes[3]));
+					String labelTarrif = DatabaseHandler.getLabelById(Integer.parseInt(infoRes[3]));
 					textButtonValidate("Tarif : "+labelTarrif);
 				}
 				else{
+					scanner.getTextView().setText(barcode + "   ");
 					scanner.getImageView().setBackgroundResource(
 							R.drawable.qrcode_red);
 					idResScan = 0;
 					textButtonValidate("Error Ticket");
 
 				}
+				scanner.getTextView().setFreezesText(true);
+
+
 
 			}
 		}
@@ -330,11 +319,10 @@ OnClickListener, OnMenuItemClickListener {
 	 */
 	public void textButtonValidate(String message) {
 		// TODO when the database is done
+		scanner.getButtonTariff().setText(message);
 		if (!message.equals("")){
-			scanner.getButtonTariff().setText(message);
 			scanner.getButtonTariff().setVisibility(View.VISIBLE);	
 		}else{
-			scanner.getButtonTariff().setText(message);
 			scanner.getButtonTariff().setVisibility(View.INVISIBLE);	
 		}
 	}

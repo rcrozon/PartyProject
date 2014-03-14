@@ -804,7 +804,9 @@ class ConcertsController extends AppController{
     }
 
     function showLastConcerts (){
-          $d = $this->Concert->find('all', array('order' => array('Concert.id DESC')));
+          $d = $this->Concert->find('all', array(
+            //'conditions' => array('Concert.online' => 1),
+            'order' => array('Concert.id DESC')));
           $this->set('showLastConcerts',$d);
     }
 
@@ -940,8 +942,12 @@ class ConcertsController extends AppController{
 
                        
                     }
+/*******************Date TRAITEMENT **********************************************/
+                if(!empty($d['start_date'])) {
+                    $sql .= " AND (concerts.start_datetime between '".$d['start_date']."'and '".$d['end_date']."')";
+                  
+                }
 
-                       
                         $db = $this->Concert->query($sql);
                         $allconcerts = array();
                         if(!empty($db)){
