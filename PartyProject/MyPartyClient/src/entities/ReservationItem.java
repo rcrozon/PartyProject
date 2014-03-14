@@ -53,16 +53,24 @@ public class ReservationItem extends LinearLayout implements Items{
 		this.addView(imgView);
 		
 		TextView concert = new TextView(context);
-		TextView nbSeets = new TextView(context);
+		TextView location = new TextView(context);
+		TextView date = new TextView(context);
+		TextView nbSeatsBought = new TextView(context);
 		
 		concert.setText(reservation.getConcert().getTitle());
-		nbSeets.setText("Number of seets : " + reservation.getConcert().getNbSeets());
+		nbSeatsBought.setText("Number of seats reserved : " + reservation.getNbTickets());
+		location.setText("Location : " + reservation.getConcert().getLocation());
+		date.setText("Date : " + reservation.getConcert().getBeginDate());
 		
 		concert.setTextColor(getResources().getColor(R.color.white));
-		nbSeets.setTextColor(getResources().getColor(R.color.white));
+		nbSeatsBought.setTextColor(getResources().getColor(R.color.white));
+		date.setTextColor(getResources().getColor(R.color.white));
+		location.setTextColor(getResources().getColor(R.color.white));
 		
 		layoutClientData.addView(concert);
-		layoutClientData.addView(nbSeets);
+		layoutClientData.addView(location);
+		layoutClientData.addView(date);
+		layoutClientData.addView(nbSeatsBought);
 			
 		this.addView(layoutClientData); 
 	}
