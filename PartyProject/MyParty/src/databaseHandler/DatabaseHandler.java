@@ -192,6 +192,7 @@ public class DatabaseHandler {
 	/***************** AUTHENTIFICATION  Admin***************************/	
 
 	public Boolean authentificationAdmin(String login, String pwd){ 
+		Log.i("LOGIN", "Log : "+ login +"Mdp : "+pwd);
 		Cursor c = bdd.query(Tables.CLIENT_TABLE, 
 				new String[] {Tables.CLIENT_NAME_ID, 
 				Tables.CLIENT_NAME_USERNAME,

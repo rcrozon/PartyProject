@@ -205,7 +205,7 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}*/
-			//Log.i("LOGIN", "Encr  "+encryptedVerif);
+			
 			if (dataBase.authentificationAdmin(login.getText().toString(),pwd.getText().toString() )){
 				Intent intent = new Intent(this, ConcertActivity.class);
 				this.startActivity(intent);

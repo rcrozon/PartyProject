@@ -88,6 +88,7 @@ OnClickListener, OnMenuItemClickListener {
 			List<Client> oui = new ArrayList<Client>();
 			while(clientForConcert.size()>0){
 				int num = 0;
+				Log.i("Tri", "Taille "+clientForConcert.size());
 				for (int i=1 ; i<clientForConcert.size() ; i++){
 					if (clientForConcert.get(num).getLastName().compareToIgnoreCase(clientForConcert.get(i).getLastName()) > 0){
 						num =i;
