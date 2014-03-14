@@ -1,4 +1,6 @@
-<?php echo $this->Html->script('mosaic.1.0.1');?>
+<?php echo $this->Html->script('mosaic.1.0.1');
+require('../webroot/date/dateConverter.php');
+?>
 
 <script type="text/javascript">  
 	jQuery(function($){
@@ -90,10 +92,14 @@
 	body { background-color:#e9eaed; }
 
 	.details{ margin:15px 20px; }	
+	 a:hover{
+		 text-decoration:none; 
+		 font-color:blue;
+	}
 
 	h4 { font:300 16px 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height:160%; letter-spacing:0.15em; color:#fff; text-shadow:1px 1px 0 rgb(0,0,0); }
 
-	p { font:300 12px 'Lucida Grande', Tahoma, Verdana, sans-serif; color:#aaa; text-shadow:1px 1px 0 rgb(0,0,0);}
+	p { font:300 11px 'Lucida Grande', Tahoma, Verdana, sans-serif; color:#aaa; text-shadow:1px 1px 0 rgb(0,0,0);}
 
 	a { text-decoration:none; }
 
@@ -176,8 +182,40 @@
 							
 			for ($i = 0; $i <= sizeof($results)-1; $i++) {
 				$d = $results[$i];
-				//echo $i;
+			$resultStyle = $this->Style->getStylesByIDConcert($d['id']);
+		$style = '<p> Style(s): ';
+			for($j=0;$j<sizeof($resultStyle);$j++){
+				if($j==sizeof($resultStyle)-1){
+					$style .= $resultStyle[$j]['Style']['name'];
+				}
+				else{
+					$style .= $resultStyle[$j]['Style']['name'].', ';
+				}
+		
+			}
+
+			$resultArtists = $this->Artist->getArtistsByIDConcert($d['id']);
+			$artists =  'Artist(s): ';
+			for($j=0;$j<sizeof($resultArtists);$j++){
+				if($j==sizeof($resultArtists)-1){
+					$artists .= $resultArtists[$j]['Artist']['name'];
+				}
+				else{
+						$artists .= $resultArtists[$j]['Artist']['name'].', ';
+				}
+		
+			}
+
+		  $dateBegin = getDateOfDateTime($d['start_datetime']);
+
+            $dateEnd = getDateOfDateTime($d['end_datetime']);
+
+
+       		$timeBegin = getTimeOfDateTime($d['start_datetime']);
+		    $timeEnd  = getTimeOfDateTime($d['end_datetime']);				//echo $i;
+	
 				
+
 				if(($i+1)%8==1) {
 					echo '<li>';
 				}
@@ -195,7 +233,10 @@
 							echo "<div class=\"details\">";
 								echo "<h4>" ; echo $d['name_concert'] ;echo "</h4>";
 								echo "<p>"; echo"Location: "; echo $d['location'] ;echo "</p>";
-								echo "<p>" ; echo $d['start_datetime'] ;echo "</p>";
+								echo '<p>'.$artists.' </p>';
+								echo '<p>'.$style.' </p>';
+
+								echo '<p>'.$dateBegin.' - '.$timeBegin.' to '.$dateEnd.' - '. $timeEnd.' <p>';
 							echo"</div> </a>";
 
 							echo"<div class=\"mosaic-backdrop\">";

@@ -10,7 +10,6 @@ $AssocStyle = new AssocStyle();
 		  $results = $AssocStyle->find('all',array(
                     'conditions' => array('AssocStyle.id_concert' => $id)));
                 for ($i = 0; $i < sizeof($results); $i++) {
-                    
                     $styles[$i] = $Style->find('first',array('conditions' => array('Style.id' => 
                         $results[$i]['AssocStyle'])));
                 }

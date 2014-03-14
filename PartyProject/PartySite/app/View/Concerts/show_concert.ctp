@@ -133,21 +133,33 @@ text-align: center;
  			echo"<p id=\"price\" class='plan-price'>"; 			  
             echo"</p>";
                         			echo "</div>";
-
 						if($nbSeatsDispo > 0){
 
 
 			?>
+<?php if(AuthComponent::user('id')): ?>
 
         <a  href="<?php echo $this->Html->url(array(
     				"controller" => "reservations",
   					"action" => "addReservations",
   					"idC"=>$showConcert['id']    			
 					));?>" role="button" style="margin-left:15px; margin-top:5px;" class="btn btn-primary">Go to Ticket Office</a>
-					<?php } ?>
-  	
+					
+					 <?php else: ?>
+
+					  	
 
 		</div>
+		<div class="alert alert-info" style="margin-top:10px;">You must be connected to access Ticket Office.</div>
+					
+<?php endif; ?>
+	</div>
+					<?php }
+					
+					 ?>
+  	
+
+	
 
 
 
