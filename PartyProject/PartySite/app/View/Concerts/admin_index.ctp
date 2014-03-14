@@ -14,10 +14,6 @@
         </li>
         <li class="active"><i class="fa fa-bar-chart-o"></i> Charts</li>
       </ol>
-      <div class="alert alert-info alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        There are two options for charts: <a href="http://www.flotcharts.org/" target="_blank" class="alert-link">Flot charts</a> and <a href="http://www.oesmith.co.uk/morris.js/" class="alert-link" target="_blank">morris.js</a>. Choose which one best suits your needs, and make sure to master the documentation to get the most out of these charts!
-      </div>
     </div>
   </div><!-- /.row -->
 
