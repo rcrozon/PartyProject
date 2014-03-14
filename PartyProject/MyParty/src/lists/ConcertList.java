@@ -35,14 +35,18 @@ public class ConcertList extends List {
 /****************** LISTE DES CONCERTS ***********************************/
 		Log.i("DATE", new Date().toString());
 		java.util.List<Concert> listeConcerts = dataBase.getConcerts();
+		
 		if (listeConcerts != null){
+			
 			switch(listType){
 				case 0 : // All
+					listeConcerts = DateParser.sortConcert(listeConcerts);
 					for (Concert concert : listeConcerts){
 						ConcertItem item = new ConcertItem(this.getContext(), concert);
 						items.add(item);
 					}break;
 				case 1 : // Next 
+					listeConcerts = DateParser.sortConcert(listeConcerts);
 					for (Concert concert : listeConcerts){
 						if (DateParser.isNextConcert(concert.getBeginDate())){
 							ConcertItem item = new ConcertItem(this.getContext(), concert);
@@ -50,6 +54,7 @@ public class ConcertList extends List {
 						}
 					}break;
 				case 2 : //News
+					listeConcerts = DateParser.sortConcertNews(listeConcerts);
 					for (Concert concert : listeConcerts){
 						if (DateParser.isNewConcert(concert.getBeginDate())){
 							ConcertItem item = new ConcertItem(this.getContext(), concert);
