@@ -80,7 +80,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		new Thread(new Runnable() { 
 			@Override
 			public void run() {
-				if (DatabaseHandler.updateAllTables(context)){
+				if (DatabaseHandler.updateAllTables(context, idClient)){
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {

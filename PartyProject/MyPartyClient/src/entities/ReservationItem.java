@@ -1,13 +1,19 @@
 package entities;
 
+import java.io.File;
+
 import lists.Items;
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Environment;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.myparty.R;
+
+import databaseHandler.Tables;
 
 public class ReservationItem extends LinearLayout implements Items{ 
 	
@@ -28,7 +34,21 @@ public class ReservationItem extends LinearLayout implements Items{
 		ImageView imgView = new ImageView(context);
 		LayoutParams llp = new LayoutParams(400, 300, Gravity.CENTER_HORIZONTAL); 
 		layoutParams.weight = 4;
-		imgView.setBackgroundResource(R.drawable.party2);
+		
+		/*********** Si l'image existe on la met sinon, image par défaut **********************/
+		File ftest = new File(Environment.getExternalStorageDirectory() +
+				File.separator + Tables.PATH_REP_IMG +"/detail" + reservation.getConcert().getId()+".png");
+		if (ftest.exists()){
+		
+			BitmapDrawable bm = new BitmapDrawable(getResources(), Environment.getExternalStorageDirectory() +
+					File.separator +  Tables.PATH_REP_IMG+"/detail"+reservation.getConcert().getId()+".png");
+			imgView.setBackground(bm);
+			imgView.setLayoutParams(llp);
+		}
+		else{
+			imgView.setBackgroundResource(R.drawable.party2);
+			imgView.setLayoutParams(llp);
+		}
 		imgView.setLayoutParams(llp);
 		this.addView(imgView);
 		
