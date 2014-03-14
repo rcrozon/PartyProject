@@ -57,7 +57,7 @@ public class Research extends LinearLayout {
 							adapter2.getItemsList().remove(item);
 						}
 					}
-					list.setAdapter(adapter2);
+					list.setAdapter(adapter2); 
 				} catch (CloneNotSupportedException e) {
 					e.printStackTrace();
 				}

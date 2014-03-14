@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.app.ActionBar.Tab;
 import android.content.Context;
 import android.util.Log;
+import entities.Client;
 import entities.Concert;
 
 public class MyJsonParser {
@@ -44,6 +45,55 @@ public class MyJsonParser {
 		}
 		return true;
 	}
+
+	public List<Client> getClientFromJson(String json) {
+		List<Client> cl = new ArrayList<Client>();
+
+		JSONArray rep;
+		try {
+			rep = new JSONArray(json);
+			for (int i = 0 ; i<rep.length() ; i++){
+
+				JSONObject infoClient = rep.getJSONObject(i);
+				//String infoStr = client.getString("Client");
+				//JSONObject infoClient = new JSONObject(infoStr);
+				int id = Integer.parseInt(infoClient.getString(Tables.CLIENT_NAME_ID));
+				String username = infoClient.getString(Tables.CLIENT_NAME_USERNAME);
+				String mail = infoClient.getString(Tables.CLIENT_NAME_MAIL);
+				/*TODO Crypter MDP*/
+				String password = infoClient.getString(Tables.CLIENT_NAME_PASSWORD);
+				String firstName = infoClient.getString(Tables.CLIENT_NAME_FIRSTNAME);
+				String lastName = infoClient.getString(Tables.CLIENT_NAME_LASTNAME);
+				int admin = Integer.parseInt(infoClient.getString(Tables.CLIENT_NAME_ADMIN));
+
+				/*	if (admin == 1){
+					DatabaseHandler dataBase = new DatabaseHandler(context);
+					dataBase.open();
+					Client c = dataBase.getClientWithId(id);
+					if (c != null){
+						password= c.getPassword();
+					}
+					else{
+						password= "errorTEst";
+					}
+
+				}*/
+
+				String dateCreated = infoClient.getString(Tables.CLIENT_NAME_DATE_CREATE);
+				Client clientObj = new Client(id, firstName, lastName, mail, username, password, admin, dateCreated);
+				Log.i("ADMIN", "INFO: "+clientObj.testToString());
+				cl.add(clientObj);			
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			cl=null;
+
+		}
+		return cl;
+	}    	
+
+
 	public List<Concert> getConcertFromJson(String json) {
 		List<Concert> cl = new ArrayList<Concert>();
 
@@ -92,7 +142,7 @@ public class MyJsonParser {
 		return cl;
 	}   
 
-	public Boolean getReservationAndInsert(String json) {
+	public Boolean getReservationAndInsert(String json) { 
 		DatabaseHandler dataBase = new DatabaseHandler(context);
 		dataBase.open();
 
@@ -110,7 +160,7 @@ public class MyJsonParser {
 				int id_tarif = Integer.parseInt(infoReservation.getString(Tables.RES_NAME_ID_TARIF));
 				int scan = Integer.parseInt(infoReservation.getString(Tables.RES_NAME_SCAN));
 				dataBase.insertRes(id, id_concert, id_client, id_tarif, scan);
-
+				Log.i("INSERTRES", id + "  " + id_concert + "  " + id_client);
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block

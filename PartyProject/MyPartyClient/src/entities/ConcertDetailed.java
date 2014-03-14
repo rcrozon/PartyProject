@@ -1,8 +1,12 @@
 package entities;
 
+import java.io.File;
+
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.ConnectivityManager;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,10 +16,8 @@ import android.widget.TextView;
 
 import com.example.myparty.MapActivity;
 import com.example.myparty.R;
-import com.google.android.gms.internal.bu;
 
 import databaseHandler.Tables;
-import databaseHandler.ThreadBitMap;
 
 public class ConcertDetailed extends RelativeLayout {
 
@@ -40,19 +42,20 @@ public class ConcertDetailed extends RelativeLayout {
 
 
 			/*********** Si le serveur est dispo **********************/
-
-			ThreadBitMap t = new ThreadBitMap(Tables.IMG_PATH_SERVER + concert.getImagePath());
-			t.start();
-			try {
-				t.join();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			File ftest = new File(Environment.getExternalStorageDirectory() +
+					File.separator +  Tables.PATH_REP_IMG+"/detail"+concert.getId()+".png");
+			if (ftest.exists()){
+			
+				BitmapDrawable bm = new BitmapDrawable(getResources(), Environment.getExternalStorageDirectory() +
+						File.separator + Tables.PATH_REP_IMG +"/detail"+concert.getId()+".png");
+				imgView.setBackground(bm);
+				imgView.setLayoutParams(layoutParams);
 			}
-			imgView.setImageBitmap(t.getResult());
-			imgView.setLayoutParams(layoutParams);
-
-			Log.i("ConcertPath", Tables.IMG_PATH_SERVER + concert.getImagePath());
+			else{
+				imgView.setBackgroundResource(R.drawable.party2);
+				imgView.setLayoutParams(layoutParams);
+			}
+		
 
 			/***********************************************************/
 
@@ -104,5 +107,11 @@ public class ConcertDetailed extends RelativeLayout {
 			this.addView(imgView);
 			this.addView(layoutConcertData);
 		}
-	}
+		}
+		
+		public static boolean isNetworkConnected(Context context) {
+			ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+			return (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected());
+			
+		}
 }

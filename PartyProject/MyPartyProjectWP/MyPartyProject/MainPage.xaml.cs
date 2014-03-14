@@ -57,6 +57,7 @@ namespace MyPartyProject
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            progressBarLogin.Visibility = System.Windows.Visibility.Visible;
             IsolatedStorageSettings.ApplicationSettings["login"] = login.Text;
             if (rememberCheckBox.IsChecked == true)
                 IsolatedStorageSettings.ApplicationSettings["pwd"] = pwd.Password;

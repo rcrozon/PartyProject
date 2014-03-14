@@ -2,6 +2,7 @@ package lists;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +16,7 @@ import com.example.myparty.TicketsActivity;
 import databaseHandler.DatabaseHandler;
 import entities.Reservation;
 import entities.ReservationItem;
-import entities.Ticket;
+import entities.TicketUnitaire;
 
 public class ReservationsList extends List {
 
@@ -32,21 +33,13 @@ public class ReservationsList extends List {
 		dataBase.open();
 
 /****************** LISTE DES RESERVATIONS ***********************************/
-		ArrayList<Ticket> listeTicket = dataBase.getTicketClient(idClient);
-		int cpt = 0;
+		HashMap<Integer, ArrayList<TicketUnitaire>> listeTicket = dataBase.getTicketClientByConcert(idClient);
+		int cpt ;
 		if (listeTicket != null){
-			int idConcert = listeTicket.get(0).getIdConcert();
-			int i = 0;
-			while(i < listeTicket.size()){
-				if (listeTicket.get(i).getIdConcert() == idConcert){
-					cpt++;
-					i++;
-				}else{
-					Reservation res = new Reservation(listeTicket.get(i).getConcert(), cpt);
-					items.add(new ReservationItem(context, res));	
-					idConcert = listeTicket.get(i).getIdConcert();
-					cpt = 0;
-				}
+			for(int idC : listeTicket.keySet()){
+				cpt = listeTicket.get(idC).size();
+				Reservation res = new Reservation(listeTicket.get(idC).get(0).getConcert(), cpt);
+				items.add(new ReservationItem(context, res));
 			}
 		}
 		

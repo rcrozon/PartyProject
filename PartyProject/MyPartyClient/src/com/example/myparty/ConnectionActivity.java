@@ -21,8 +21,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import databaseHandler.DatabaseHandler;
 import databaseHandler.DatabaseServer;
+import databaseHandler.MCrypt;
 import databaseHandler.MyJsonParser;
 import databaseHandler.ThreadRequestResult;
+import entities.Client;
 import entities.Concert;
 
 
@@ -105,16 +107,86 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 		Log.i("bug", "avant");
 		/********************* Test du serveur et de la connexion internet ******************************/
 		if(isNetworkConnected(context) && DatabaseHandler.isAvailableServer(context)){
-			Log.i("bug", "apr�s");
+			Log.i("bug", "apres");
 			/* TODO A DECOMMENTER SI ON NE VEUT PAS UTILISER AUTHENTIFICATION*/
 			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
 			EditText login = (EditText)findViewById(R.id.loginTextEdit);
 			String myLogin = login.getText().toString();
 			String password = pwd.getText().toString();
-			int idClient = dataBase.authentification(myLogin,password);
-			if (idClient > -1){
+
+			Log.i("HSA", "entre "+ password);
+
+			MCrypt mcrypt = new MCrypt();
+
+			/* Encrypt */
+			String encrypted=null;
+			try {
+				encrypted = MCrypt.bytesToHex( mcrypt.encrypt(password) );
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String json = "[{\"username\":\""+myLogin+"\",\"password\":\""+encrypted+"\"}]";
+
+			Log.i("HSA", " "+json);
+			Log.i("HSA", " "+encrypted);
+
+			DatabaseServer dbbs = new DatabaseServer();
+			String reponse = dbbs.postRequest("login"," "+ json);
+			Log.i("HSA", "REP: "+reponse);
+			/*Vérifier la réponse et vérifier si on a un admin puis insérer l'admin*/
+			/*
+			 * Décommenter quand il ya ura bonne reponse
+			 */
+			MyJsonParser parser = new MyJsonParser(this);
+			if(parser.reponseIsClient(reponse)){
+				List<Client> logClient =parser.getClientFromJson(reponse);
+				Client tmp =dataBase.getClientWithId(logClient.get(0).getId());
+				if (tmp == null){
+					DatabaseHandler.insertClient(logClient.get(0));
+					Log.i("SERVER", "ON INSERE LE CLIENT");
+					Intent intent = new Intent(this, ConcertActivity.class);
+					Log.i("IDCLIENT", "id : " + logClient.get(0).getId());
+					intent.putExtra("idClient", logClient.get(0).getId());
+					this.startActivity(intent);
+				}
+				else{
+					/*Comparer les mots de passe*/
+					String paswUse;
+					String paswBase;
+					paswUse = logClient.get(0).getPassword();
+					paswBase = dataBase.getClientWithId(logClient.get(0).getId()).getPassword();
+					if (!paswUse.equals(paswBase)){
+						Log.i("SERVER", "ON MODIFIE LE MOT DE PASSE ");
+						dataBase.updatePassword(logClient.get(0),paswUse);
+					}
+					Intent intent = new Intent(this, ConcertActivity.class);
+					Log.i("IDCLIENT", "id : " + logClient.get(0).getId());
+					intent.putExtra("idClient", logClient.get(0).getId());
+					this.startActivity(intent);
+				}
+			}else{
+				Context myContext = getApplicationContext();
+				CharSequence text = "ERROR LOGIN OR PASSWORD !";
+				int duration = Toast.LENGTH_SHORT;
+
+				Toast toast = Toast.makeText(myContext, text, duration);
+				toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
+				toast.show();
+			}
+		}
+		else{
+			Log.i("bug", "apres else");
+			/****************** AUTHENTIFICATION ***********************************/			
+
+			EditText login = (EditText)findViewById(R.id.loginTextEdit);
+			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
+			Log.i("LOGIN", login.getText().toString() + "  " + pwd.getText().toString());
+			int idClient = dataBase.authentification(login.getText().toString(),pwd.getText().toString()); 
+			if (idClient != -1){
 				Intent intent = new Intent(this, ConcertActivity.class);
-				intent.putExtra("idClient", 5);
+				Log.i("IDCLIENT", "id : " + idClient);
+				intent.putExtra("idClient", idClient);
 				this.startActivity(intent);
 			}else{
 				/*** ERREUR *************/
@@ -126,7 +198,9 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 				toast.setGravity(Gravity.TOP|Gravity.LEFT, 150, 600);
 				toast.show();
 			}
+
 		}
+
 	} 
 	
 	@Override

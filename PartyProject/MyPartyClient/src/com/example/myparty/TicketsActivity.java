@@ -16,6 +16,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
@@ -36,7 +37,7 @@ import databaseHandler.Tables;
 import databaseHandler.ThreadBitMap;
 import entities.Concert;
 import entities.Reservation;
-import entities.Ticket;
+import entities.TicketUnitaire;
 import entities.TicketItem;
 
 public class TicketsActivity extends Activity implements OnMenuItemClickListener, OnClickListener {
@@ -49,12 +50,6 @@ public class TicketsActivity extends Activity implements OnMenuItemClickListener
 	private ViewFlipper viewFlipper;
 	private RadioGroup radioGroup ;
 	private TextView textNbTickets;
-	private TextView textStyle;
-	private TextView textArtists;
-	private TextView textEndDate;
-	private TextView textBeginDate;
-	private TextView textTitle;
-	private TextView textTariff; 
 	private Button buttonPrev;
 	private Button buttonNext;
 	private int nbTickets ;
@@ -68,16 +63,9 @@ public class TicketsActivity extends Activity implements OnMenuItemClickListener
 		setContentView(R.layout.activity_tickets);
 		layoutButtons = (LinearLayout)findViewById(R.id.layoutButtons);
 		layoutMain = (RelativeLayout)findViewById(R.id.layoutMain);
-		layoutInfos = (LinearLayout)findViewById(R.id.layoutInfos);
 		viewFlipper = (ViewFlipper)findViewById(R.id.view_flipper);
 		radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
 		textNbTickets = (TextView)findViewById(R.id.textNbTickets);
-		textStyle = (TextView)findViewById(R.id.textStyle);
-		textArtists = (TextView)findViewById(R.id.textArtists);
-		textBeginDate = (TextView)findViewById(R.id.textBeginDate);
-		textEndDate = (TextView)findViewById(R.id.textEndDate);
-		textTitle = (TextView)findViewById(R.id.textTitle);
-		textTariff = (TextView)findViewById(R.id.textTariff);
 		buttonNext = (Button)findViewById(R.id.buttonNext);
 		buttonPrev = (Button)findViewById(R.id.buttonPrev);
 		
@@ -93,34 +81,18 @@ public class TicketsActivity extends Activity implements OnMenuItemClickListener
 		Bundle b = getIntent().getExtras();
 		Concert concert = null;
 
-        concert = dataBase.getConcertWithId(b.getInt("idConcert"));
+        concert = DatabaseHandler.getConcertWithId(b.getInt("idConcert"));
         int idClient = b.getInt("idClient");
         ///////////////////////////////////////////////////
-        ArrayList<Ticket> tickets = dataBase.getTicketClient(idClient);
+        ArrayList<TicketUnitaire> tickets = dataBase.getTicketClient(idClient, b.getInt("idConcert"));
         ArrayList<TicketItem> ticketsListItem = new ArrayList<TicketItem>();
-        for(Ticket ticket : tickets){
+        for(TicketUnitaire ticket : tickets){
         	ticketsListItem.add(new TicketItem(this, ticket, idClient));
         }
-//        HashMap<String, Double> hmap = DatabaseHandler.getTariffsFromConcert(concert.getId());
-        ArrayList<String> artistsList = DatabaseHandler.getArtistsFromConcert(concert.getId());
-        ArrayList<String> stylesList = DatabaseHandler.getStylesFromConcert(concert.getId());
-        ArrayList<String> tariffsList = new ArrayList<String>();
-        for(Ticket ticket : tickets){
-        	tariffsList.add(DatabaseHandler.getLabelById(ticket.getIdTariff()));
-        }
-        textArtists.setText("Artists : ");
-        for(int i = 0; i < artistsList.size(); ++i){
-        	textArtists.setText(textArtists.getText() + artistsList.get(i) + " ");
-        }
-        textStyle.setText("Styles : ");
-        for(int i = 0; i < artistsList.size(); ++i){
-        	textStyle.setText(textStyle.getText() + stylesList.get(i) + " ");
-        }
-        textBeginDate.setText("Begin date : " + concert.getBeginDate());
-        textEndDate.setText("End date : "+ concert.getEndDate());
-        textTitle.setText("Title : " + concert.getTitle());
+        
         
         nbTickets = ticketsListItem.size();
+        Log.i("NBTICKET", "nb " + nbTickets);
         if (nbTickets > 0 && nbTickets <= 10){
         	radioGroup.setVisibility(View.VISIBLE);
         	layoutButtons.setVisibility(View.GONE);
@@ -128,8 +100,7 @@ public class TicketsActivity extends Activity implements OnMenuItemClickListener
         		RadioButton radio = new RadioButton(this);
         		//layoutInfos.addView(tickets.get(i), 0);
         		this.radioGroup.addView(radio);
-                textTariff.setText("Tariff : " + tariffsList.get(i));
-        		this.viewFlipper.addView(ticketsListItem.get(i), 0);
+        		this.viewFlipper.addView(ticketsListItem.get(i));
         		//createQRCode(concert, i);
         	}
         	changeRadioSelection(0);
@@ -138,8 +109,7 @@ public class TicketsActivity extends Activity implements OnMenuItemClickListener
         	layoutButtons.setVisibility(View.VISIBLE);
         	textNbTickets.setText("1 / " + nbTickets);
         	for(int i = 0; i < nbTickets; ++i){
-                textTariff.setText("Tariff : " + tariffsList.get(i));
-        		this.viewFlipper.addView(ticketsListItem.get(i), 0);
+        		this.viewFlipper.addView(ticketsListItem.get(i));
         	}
         }else{
         	layoutButtons.setVisibility(View.VISIBLE);
