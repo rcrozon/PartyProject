@@ -22,6 +22,9 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 import databaseHandler.DatabaseHandler;
 import entities.Client;
@@ -48,11 +51,16 @@ OnClickListener, OnMenuItemClickListener {
 	private int idResScan;
 	private MenuItem updateItem;
 	
+	private ProgressBar progressBar;
+	private LinearLayout layoutMain;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_concert_details);
 		context = this;
+		layoutMain = (LinearLayout)findViewById(R.id.layoutMain);
+		progressBar = (ProgressBar)findViewById(R.id.progressBar);
 		this.buttonTickets = (Button) findViewById(R.id.buttonTickets);
 		this.buttonMap = (Button) findViewById(R.id.buttonMap);
 		this.buttonClients = (Button) findViewById(R.id.buttonClient);
@@ -338,6 +346,46 @@ OnClickListener, OnMenuItemClickListener {
 		}
 	}
 
+	private void loadDatabase(){
+		progressBar.setVisibility(View.VISIBLE);
+		layoutMain.setVisibility(View.GONE);
+		new Thread(new Runnable() { 
+			@Override
+			public void run() {
+				if (DatabaseHandler.updateAllTables(context)){
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							connectedToServer(0);  
+							//updateLists();
+							progressBar.setVisibility(View.GONE);
+							layoutMain.setVisibility(View.VISIBLE);
+						}
+					});
+
+				}else{
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+
+							Context myContext = getApplicationContext();
+							CharSequence text = "ERROR DATABASE PULL!";
+							int duration = Toast.LENGTH_LONG;
+
+							Toast toast = Toast.makeText(myContext, text, duration);
+							toast.show();
+							connectedToServer(1);
+ 
+							//updateLists();
+
+							progressBar.setVisibility(View.GONE);
+							layoutMain.setVisibility(View.VISIBLE);
+						}
+					});
+				}
+			}
+		}).start();
+	}
 	
 	
 	
