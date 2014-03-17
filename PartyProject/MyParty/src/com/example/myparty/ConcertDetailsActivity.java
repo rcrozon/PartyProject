@@ -46,7 +46,8 @@ OnClickListener, OnMenuItemClickListener {
 	private boolean isCLient = false;
 	private Concert concert;
 	private int idResScan;
-
+	private MenuItem updateItem;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -168,6 +169,8 @@ OnClickListener, OnMenuItemClickListener {
 		getMenuInflater().inflate(R.menu.connected, menu);
 		this.decoItem = menu.findItem(R.id.menu_deconect);
 		this.bluetoothItem = menu.findItem(R.id.bluetooth);
+		updateItem = menu.findItem(R.id.update); 
+		updateItem.setOnMenuItemClickListener(this);
 		// decoItem.setIcon(R.drawable.logout);
 		this.decoItem.setOnMenuItemClickListener(this);
 		this.bluetoothItem.setOnMenuItemClickListener(this);
@@ -302,12 +305,20 @@ OnClickListener, OnMenuItemClickListener {
 		Intent intent = null;
 		if (item == decoItem) {
 			intent = new Intent(this, ConnectionActivity.class);
+			this.startActivity(intent);
 			
 		} else if(item == bluetoothItem) {
 			intent = new Intent(this, BluetoothActivity.class);
+			this.startActivity(intent);
 			
 		}
-		this.startActivity(intent);
+		else if(item == updateItem){
+			
+			//			if(DatabaseHandler.updateAllTables(this)){
+			//				intent = new Intent(this, ConcertActivity.class);
+			//				this.startActivity(intent);
+			//			}
+		}
 		return false;
 	}
 
