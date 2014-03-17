@@ -1,26 +1,48 @@
 package bluetooth;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.UUID;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.os.ParcelUuid;
 import android.util.Log;
 
-public class BluetoothServer extends Thread {
+public class BluetoothServer extends Bluetooth {
     
 	private final BluetoothServerSocket blueServerSocket;
-	private static final UUID uuid = UUID.fromString("a60f35f0-b93a-11de-8a39-08102009c666");
+	//private static final UUID uuid = UUID.fromString("a60f35f0-b93a-11de-8a39-08102009c666");
 	 
     public BluetoothServer() {
         // On utilise un objet temporaire qui sera assigné plus tard à blueServerSocket car blueServerSocket est "final"
         BluetoothServerSocket tmp = null;
     	BluetoothAdapter blueAdapter = BluetoothAdapter.getDefaultAdapter();
         try {
-            // MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est nécessaire côté client également !
-            tmp = blueAdapter.listenUsingRfcommWithServiceRecord("MYPARTY", uuid);
-        } catch (IOException e) {}
+        	Method getUuidsMethod;
+				getUuidsMethod = BluetoothAdapter.class.getDeclaredMethod("getUuids", null);
+			
+        	ParcelUuid[] uuids = null;
+				uuids = (ParcelUuid[])getUuidsMethod.invoke(blueAdapter, null);
+			
+        	for (ParcelUuid uuid: uuids) {
+        	    Log.d("UUIDS", "UUID: " + uuid.getUuid().toString());
+        	}
+        	// MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est nécessaire côté client également !
+            tmp = blueAdapter.listenUsingRfcommWithServiceRecord("MYPARTY", uuids[0].getUuid());
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+        } catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+    	} catch (IOException e) {
+			e.printStackTrace();
+		}
         blueServerSocket = tmp;
     }
 

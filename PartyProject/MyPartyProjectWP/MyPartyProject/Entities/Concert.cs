@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media.Imaging;
+using System.Windows.Resources;
 
 namespace MyPartyProject.Entities
 {
@@ -50,6 +55,44 @@ namespace MyPartyProject.Entities
                 }
             }
             return null;
+        }
+
+        public static void saveImage(string path, string image)
+        {
+            // First of all create a filename for JPEG file in isolated storage.
+            // Now we are going to Create virtual store and file stream. Check for duplicate tempJPEG files.
+            using (IsolatedStorageFile ISF = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                if (!ISF.FileExists(image))
+                {
+                    IsolatedStorageFileStream FS = ISF.CreateFile(image);
+                    StreamResourceInfo Str_ri = null;
+                    Uri ur = new Uri(path + image, UriKind.RelativeOrAbsolute);
+                    Str_ri = Application.GetResourceStream(ur);
+                    BitmapImage BI = new BitmapImage();
+                    BI.SetSource(Str_ri.Stream);
+                    WriteableBitmap Wr_B = new WriteableBitmap(BI);
+                    // Furthe we have to encode WriteableBitmap object to a JPEG stream.
+                    Extensions.SaveJpeg(Wr_B, FS, Wr_B.PixelWidth, Wr_B.PixelHeight, 0, 85);
+                    Wr_B.SaveJpeg(FS, Wr_B.PixelWidth, Wr_B.PixelHeight, 0, 85);
+                    FS.Close();
+                    MessageBox.Show("Image has been saved");
+                }
+            }
+        }
+
+        public static BitmapImage loadImage(string image)
+        {
+            BitmapImage Bit_Img = new BitmapImage();
+            using (IsolatedStorageFile ISF = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                using (IsolatedStorageFileStream FS = ISF.OpenFile(image, FileMode.Open, FileAccess.Read))
+                {
+                   Bit_Img.SetSource(FS);
+                }
+            }
+            MessageBox.Show(Bit_Img.UriSource.ToString());
+            return Bit_Img;
         }
     }
 }

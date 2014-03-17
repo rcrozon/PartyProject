@@ -54,20 +54,24 @@ namespace MyPartyProject
             textTitle.Text = concert.name_concert;
             try
             {
-                List<Reservation> reservations = (List<Reservation>)IsolatedStorageSettings.ApplicationSettings["tickets"];
                 List<Concert> concerts = (List<Concert>)IsolatedStorageSettings.ApplicationSettings["concerts"];
+                List<Reservation> reservations = (List<Reservation>)IsolatedStorageSettings.ApplicationSettings["reservations"];
+
                 for (int i = 0; i < reservations.Count; ++i)
                 {
                     if (reservations[i].id_concert.Equals(concert.id))
                     {
-                        Concert c = Concert.getConcertFromId(concerts, reservations[i].id_concert);
-                        reservations[i].image = c.image;
-                        reservations[i].concertLabel = c.name_concert;
+                        reservations[i].image = concert.image;
+                        reservations[i].location = concert.location;
+                        reservations[i].name_concert = concert.name_concert;
+                        reservations[i].start_datetime = concert.start_datetime;
+                        reservations[i].end_datetime = concert.end_datetime;
                     }
                 }
                 ticketsListBox.ItemsSource = reservations;
             }
-            catch (System.Collections.Generic.KeyNotFoundException e) { }
+            catch (System.Collections.Generic.KeyNotFoundException e) { } 
+            
             /********************** Affichage des tickets *******************************/
             
             //geoWatcher = new GeoCoordinateWatcher();

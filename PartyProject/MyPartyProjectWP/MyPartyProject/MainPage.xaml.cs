@@ -14,6 +14,7 @@ using System.IO.IsolatedStorage;
 using Newtonsoft.Json;
 using System.Windows.Media.Imaging;
 using System.Diagnostics;
+using System.IO;
 
 namespace MyPartyProject
 {
@@ -50,7 +51,7 @@ namespace MyPartyProject
             webClientConcert.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllConcerts"));
             WebClient webClientTicket = new WebClient();
             webClientTicket.DownloadStringCompleted += ticket_DownloadStringCompleted;
-            webClientTicket.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllReservationsById/id:" + idClient));
+            webClientTicket.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getReservationsByCLient/id:" + idClient));
             WebClient webClientTariff = new WebClient();
             webClientTariff.DownloadStringCompleted += tariff_DownloadStringCompleted;
             webClientTariff.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllTariffs"));
@@ -75,7 +76,7 @@ namespace MyPartyProject
             {
                 invalidLogin.Visibility = Visibility.Collapsed;    
             }*/
-            string idClient = "5";
+            string idClient = "2";
             PhoneApplicationService.Current.State["idClient"] = idClient;
             updateDatabase(idClient);
         }
@@ -87,13 +88,15 @@ namespace MyPartyProject
         {
             if (e.Error == null)
             {
-                List<Reservation> result = JsonConvert.DeserializeObject<List<Reservation>>(e.Result);
-                List<Reservation> reservations = new List<Reservation>();
+
+                MessageBox.Show("Ticket", e.Result, MessageBoxButton.OK);
+                List<Ticket> result = JsonConvert.DeserializeObject<List<Ticket>>(e.Result);
+                List<Ticket> tickets = new List<Ticket>();
                 for (int i = 0; i < result.Count; ++i)
                 {
                     //if (result[i].id_client.Equals((string)(PhoneApplicationService.Current.State["idClient"])))
                     //{
-                        reservations.Add(new Reservation
+                    tickets.Add(new Ticket
                         {
                             id = result[i].id,
                             id_client = result[i].id_client,
@@ -101,7 +104,7 @@ namespace MyPartyProject
                         });
                     //}
                 }
-                IsolatedStorageSettings.ApplicationSettings["tickets"] = reservations;
+                IsolatedStorageSettings.ApplicationSettings["tickets"] = tickets;
             }
             IsolatedStorageSettings.ApplicationSettings.Save();
             loaded += 1;
@@ -109,7 +112,6 @@ namespace MyPartyProject
             {
                 goToConcerts();
             }
-            //progressBarLogin.Value = 50;
             MessageBox.Show("Ticket" + loaded, "null", MessageBoxButton.OK);
         }
         private void tariff_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
@@ -131,7 +133,6 @@ namespace MyPartyProject
             }
             IsolatedStorageSettings.ApplicationSettings.Save();
             loaded += 1;
-            progressBarLogin.Value = 50;
             MessageBox.Show("Tariff" + loaded, "null", MessageBoxButton.OK);
             if (loaded == 3)
             {
@@ -148,7 +149,22 @@ namespace MyPartyProject
                 for (int i = 0; i < result.Count; ++i)
                 {
 
-                    //MessageBox.Show("Concert" + loaded, "pas null", MessageBoxButton.OK); 
+                    MessageBox.Show("Concert" + loaded, "pas null", MessageBoxButton.OK); 
+                    /*Concert.saveImage("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/img/Concerts/", result[i].image);
+                    /////////////////////////
+                    BitmapImage Bit_Img = new BitmapImage();
+                    using (IsolatedStorageFile ISF = IsolatedStorageFile.GetUserStoreForApplication())
+                    {
+                        using (IsolatedStorageFileStream FS = ISF.OpenFile(result[i].image, FileMode.Open, FileAccess.Read))
+                        {
+                            Bit_Img.SetSource(FS);
+                            //this.img2.Height = Bit_Img.PixelHeight;
+                            //this.img2.Width = Bit_Img.PixelWidth;
+                        }
+                    }
+                    //this.img2.Source = Bit_Img;
+                    /////////////////////////
+                    //Concert.loadImage(result[i].image);*/
                     concerts.Add(new Concert
                     {
                         id = result[i].id,
@@ -157,7 +173,7 @@ namespace MyPartyProject
                         start_datetime = "Begin date : " + result[i].start_datetime,
                         end_datetime = "End date :" + result[i].end_datetime,
                         location = result[i].location,
-                        image = "http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/img/Concerts/" + result[i].image,
+                        image = result[i].image,
                         nb_seats = result[i].nb_seats,
                         name_concert = result[i].name_concert,
                     });
@@ -177,7 +193,6 @@ namespace MyPartyProject
             }
             IsolatedStorageSettings.ApplicationSettings.Save();
             loaded += 1;
-            progressBarLogin.Value = 100;
             MessageBox.Show("Concert" + loaded, "null", MessageBoxButton.OK);
             if (loaded == 3)
             {

@@ -53,11 +53,11 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0" Grid.RowSpan="7">
             <Grid.RowDefinitions>
-                <RowDefinition/>
+                <RowDefinition Height="505*"/>
+                <RowDefinition Height="129*"/>
             </Grid.RowDefinitions>
-            <Button Content="Button" Margin="0,521,0,10" Click="Button_Click_1" Background="#FF07378B" BorderThickness="0"/>
-            <ProgressBar x:Name="progressBarLogin" Visibility="Collapsed" IsIndeterminate="True" Margin="0,521,0,103"/>
-
+            <Button x:Name="Connection" Margin="0,0,0,10" Click="Button_Click_1" Background="#FF07378B" BorderThickness="0" Grid.Row="1" Content="Connection"/>
+            <ProgressBar x:Name="progressBarLogin" Visibility="Collapsed" IsIndeterminate="True" Margin="0,0,0,112" Grid.Row="1"/>
         </Grid>
         <TextBlock x:Name="invalidLogin" Grid.Row="1" Foreground="Red" FontSize="25" TextWrapping="Wrap" Text="Invalid username or password" RenderTransformOrigin="0.118,0.404" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
         <TextBlock Margin="194,10" Grid.Row="2" TextWrapping="Wrap" Text="Login" HorizontalAlignment="Center" FontSize="37.333" Width="92"/>
