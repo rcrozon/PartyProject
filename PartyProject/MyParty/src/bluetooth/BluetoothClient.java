@@ -80,9 +80,9 @@ public class BluetoothClient extends Bluetooth {
     }
 
     private void manageConnectedSocket(final BluetoothSocket blueSocket) {
-		Thread t = new Thread(new Runnable() {
-			@Override
-			public void run() {
+//		Thread t = new Thread(new Runnable() {
+//			@Override
+//			public void run() {
 				try {
 					tmpIn = blueSocket.getInputStream();
 			        tmpOut = blueSocket.getOutputStream();
@@ -109,7 +109,8 @@ public class BluetoothClient extends Bluetooth {
 		            Log.e("TAG", "temp sockets not created", e);
 		        }
 			}
-		});
+//		});
+//		t.start();
 		
 	}
 
