@@ -20,6 +20,7 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 import databaseHandler.DatabaseHandler;
 import databaseHandler.DatabaseServer;
+import databaseHandler.MyJsonParser;
 
 public class ConcertActivity extends Activity implements OnClickListener, OnMenuItemClickListener{
 
@@ -143,33 +144,68 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 			//			}
 		}
 		else if (item == scanPushItem){
+			
+			
 			/*tester la connexion*/
+			progressBar.setVisibility(View.VISIBLE);
+			layoutMain.setVisibility(View.GONE);
+			
 			if(DatabaseHandler.isNetworkConnected(context) && DatabaseHandler.isAvailableServer(context)){
-				String jsonScan;
-				jsonScan = dataBase.getJsonScanMAJ();
-				Log.i("ScanJson", "Json: "+jsonScan);
-				DatabaseServer ser = new DatabaseServer();
-				String reponse = ser.postRequest("majReservation", jsonScan);
-				/*TODO Supprimer en fonction de la reponse*/
-				Log.i("ScanJson", "REP : "+reponse);
-				dataBase.deleteResMAJ();
-				String jsonScan2;
-				jsonScan2 = dataBase.getJsonScanMAJ();
-				Log.i("ScanJson", "Json2: "+jsonScan2);
-				Context myContext = getApplicationContext();
-				CharSequence text = "PUSH OK!";
-				int duration = Toast.LENGTH_LONG;
+				
+				
+				new Thread(new Runnable() { 
+					@Override
+					public void run() {
+						runOnUiThread(new Runnable() {
+							
+							@Override
+							public void run() {
+								String jsonScan;
+								jsonScan = dataBase.getJsonScanMAJ();
+								Log.i("ScanJson", "Json: "+jsonScan);
+								DatabaseServer ser = new DatabaseServer();
+								String reponse = ser.postRequest("majReservation", jsonScan);
+								/*TODO Supprimer en fonction de la reponse*/
+								Log.i("ScanJson", "REP : "+reponse);
+								String jsonScan2;
+								jsonScan2 = dataBase.getJsonScanMAJ();
+								Log.i("ScanJson", "Json2: "+jsonScan2);
+								Context myContext = getApplicationContext();
+								
+								MyJsonParser pars = new MyJsonParser(context);
+								if (pars.reponseIsJson(reponse)){
+									Log.i("ScanJson", "ON A REUSSI");
+									dataBase.deleteResMAJ();
+									CharSequence text = "PUSH OK!";
+									int duration = Toast.LENGTH_LONG;
 
-				Toast toast = Toast.makeText(myContext, text, duration);
-				toast.show();
-				if (reponse.equals("success")){
-					Log.i("ScanJson", "ON A REUSSI");
-				}
-				else{
-					Log.i("ScanJson", "ON A PAAAAASSSSSS REUSSI");
-				}
+									Toast toast = Toast.makeText(myContext, text, duration);
+									toast.show();
+								}
+								else{
+									Log.i("ScanJson", "ON A PAAAAASSSSSS REUSSI");
+									CharSequence text = "PUSH NOT OK!";
+									int duration = Toast.LENGTH_LONG;
+
+									Toast toast = Toast.makeText(myContext, text, duration);
+									toast.show();
+								}
+								
+								progressBar.setVisibility(View.GONE);
+								layoutMain.setVisibility(View.VISIBLE);
+								
+							}
+						});
+						
+						
+					}
+				}).start();
+				
+				
 			}
 			else{
+				progressBar.setVisibility(View.GONE);
+				layoutMain.setVisibility(View.VISIBLE);
 				Context myContext = getApplicationContext();
 				CharSequence text = "ERROR DATABASE PUSH!";
 				int duration = Toast.LENGTH_LONG;
@@ -178,6 +214,10 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 				toast.show();
 			}
 		}
+		
+		
+		
+		
 		else{
 			intent = new Intent(this, BluetoothActivity.class);
 			this.startActivity(intent);
