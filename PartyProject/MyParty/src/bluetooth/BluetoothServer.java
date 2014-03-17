@@ -73,6 +73,8 @@ public class BluetoothServer extends Bluetooth {
     private void manageConnectedSocket(BluetoothSocket blueSocket) {
 		Log.i("TAG MANAGE SERVER", "PASSE");
 		
+		//TODO Recupérer infos et stockage bd
+		
 	}
 
 	// On stoppe l'écoute des connexions et on tue le thread

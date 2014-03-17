@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.ByteBuffer;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -80,9 +81,9 @@ public class BluetoothClient extends Bluetooth {
     }
 
     private void manageConnectedSocket(final BluetoothSocket blueSocket) {
-		Thread t = new Thread(new Runnable() {
-			@Override
-			public void run() {
+//		Thread t = new Thread(new Runnable() {
+//			@Override
+//			public void run() {
 				try {
 					tmpIn = blueSocket.getInputStream();
 			        tmpOut = blueSocket.getOutputStream();
@@ -95,12 +96,13 @@ public class BluetoothClient extends Bluetooth {
 			            try {
 			                // Read from the InputStream
 			                bytes = tmpIn.read(buffer);
-	
+			                
 			                // Send the obtained bytes to the UI Activity
 			                int id_res = 0;
-			                mHandler.obtainMessage(id_res, bytes, -1, buffer)
-			                        .sendToTarget();
-			            } catch (IOException e) {
+			                byte[] buff = ByteBuffer.allocate(1).putInt(id_res).array();
+			                write(buff);
+			                Log.i("TAG RECEIVED",""+ bytes);
+		            	} catch (IOException e) {
 			                Log.e("TAG", "disconnected", e);
 			                break;
 			            }
@@ -108,8 +110,9 @@ public class BluetoothClient extends Bluetooth {
 				} catch (IOException e) {
 		            Log.e("TAG", "temp sockets not created", e);
 		        }
-			}
-		});
+//			}
+//		});
+//		t.start();
 		
 	}
 
@@ -119,11 +122,10 @@ public class BluetoothClient extends Bluetooth {
      */
     public void write(byte[] buffer) {
         try {
+            Log.e("TAG WRITE ", "WRITE" + buffer.toString());
         	tmpOut.write(buffer);
         	int id_res = 2;
             // Share the sent message back to the UI Activity
-            mHandler.obtainMessage(id_res, -1, -1, buffer)
-                    .sendToTarget();
         } catch (IOException e) {
             Log.e("TAG", "Exception during write", e);
         }
