@@ -27,6 +27,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 import databaseHandler.DatabaseHandler;
+import databaseHandler.DatabaseServer;
+import databaseHandler.MyJsonParser;
 import entities.Client;
 import entities.Concert;
 import entities.ConcertDetailed;
@@ -50,7 +52,7 @@ OnClickListener, OnMenuItemClickListener {
 	private Concert concert;
 	private int idResScan;
 	private MenuItem updateItem;
-	
+	private MenuItem scanPushItem;
 	private ProgressBar progressBar;
 	private LinearLayout layoutMain;
 	
@@ -177,7 +179,9 @@ OnClickListener, OnMenuItemClickListener {
 		getMenuInflater().inflate(R.menu.connected, menu);
 		this.decoItem = menu.findItem(R.id.menu_deconect);
 		this.bluetoothItem = menu.findItem(R.id.bluetooth);
+		scanPushItem = menu.findItem(R.id.scanpush);
 		updateItem = menu.findItem(R.id.update); 
+		scanPushItem.setOnMenuItemClickListener(this);
 		updateItem.setOnMenuItemClickListener(this);
 		// decoItem.setIcon(R.drawable.logout);
 		this.decoItem.setOnMenuItemClickListener(this);
@@ -326,6 +330,77 @@ OnClickListener, OnMenuItemClickListener {
 			//				intent = new Intent(this, ConcertActivity.class);
 			//				this.startActivity(intent);
 			//			}
+		}
+	else if (item == scanPushItem){
+			
+			
+			/*tester la connexion*/
+			progressBar.setVisibility(View.VISIBLE);
+			layoutMain.setVisibility(View.GONE);
+			
+			if(DatabaseHandler.isNetworkConnected(context) && DatabaseHandler.isAvailableServer(context)){
+				
+				
+				new Thread(new Runnable() { 
+					@Override
+					public void run() {
+						runOnUiThread(new Runnable() {
+							
+							@Override
+							public void run() {
+								String jsonScan;
+								jsonScan = dataBase.getJsonScanMAJ();
+								Log.i("ScanJson", "Json: "+jsonScan);
+								DatabaseServer ser = new DatabaseServer();
+								String reponse = ser.postRequest("majReservation", jsonScan);
+								/*TODO Supprimer en fonction de la reponse*/
+								Log.i("ScanJson", "REP : "+reponse);
+								String jsonScan2;
+								jsonScan2 = dataBase.getJsonScanMAJ();
+								Log.i("ScanJson", "Json2: "+jsonScan2);
+								Context myContext = getApplicationContext();
+								
+								MyJsonParser pars = new MyJsonParser(context);
+								if (pars.reponseIsJson(reponse)){
+									Log.i("ScanJson", "ON A REUSSI");
+									dataBase.deleteResMAJ();
+									CharSequence text = "PUSH OK!";
+									int duration = Toast.LENGTH_LONG;
+
+									Toast toast = Toast.makeText(myContext, text, duration);
+									toast.show();
+								}
+								else{
+									Log.i("ScanJson", "ON A PAAAAASSSSSS REUSSI");
+									CharSequence text = "PUSH NOT OK!";
+									int duration = Toast.LENGTH_LONG;
+
+									Toast toast = Toast.makeText(myContext, text, duration);
+									toast.show();
+								}
+								
+								progressBar.setVisibility(View.GONE);
+								layoutMain.setVisibility(View.VISIBLE);
+								
+							}
+						});
+						
+						
+					}
+				}).start();
+				
+				
+			}
+			else{
+				progressBar.setVisibility(View.GONE);
+				layoutMain.setVisibility(View.VISIBLE);
+				Context myContext = getApplicationContext();
+				CharSequence text = "ERROR DATABASE PUSH!";
+				int duration = Toast.LENGTH_LONG;
+
+				Toast toast = Toast.makeText(myContext, text, duration);
+				toast.show();
+			}
 		}
 		return false;
 	}
