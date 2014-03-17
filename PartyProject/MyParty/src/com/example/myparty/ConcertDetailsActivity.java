@@ -321,7 +321,7 @@ OnClickListener, OnMenuItemClickListener {
 			
 		}
 		else if(item == updateItem){
-			
+			loadDatabase();
 			//			if(DatabaseHandler.updateAllTables(this)){
 			//				intent = new Intent(this, ConcertActivity.class);
 			//				this.startActivity(intent);
