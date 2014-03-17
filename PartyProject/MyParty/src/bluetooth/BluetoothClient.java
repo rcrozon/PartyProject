@@ -1,19 +1,23 @@
 package bluetooth;
 
 import java.io.IOException;
-import java.util.UUID;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
-import android.telephony.TelephonyManager;
+import android.os.Handler;
 import android.util.Log;
 
 public class BluetoothClient extends Bluetooth {
 	
     private BluetoothSocket blueSocket ;
     private final BluetoothDevice blueDevice ;
+    private InputStream tmpIn;
+    private OutputStream tmpOut;
+    private Handler mHandler = new Handler();
+    
 //	private static final UUID uuid = UUID.fromString("a60f35f0-b93a-11de-8a39-08102009c666");
 	
     public BluetoothClient(BluetoothDevice device, Context context) {
@@ -49,7 +53,57 @@ public class BluetoothClient extends Bluetooth {
         //manageConnectedSocket(blueSocket);
     }
 
-    // Annule toute connexion en cours et tue le thread
+    private void manageConnectedSocket(final BluetoothSocket blueSocket) {
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					tmpIn = blueSocket.getInputStream();
+			        tmpOut = blueSocket.getOutputStream();
+			        Log.i("TAG", "BEGIN mConnectedThread");
+			        byte[] buffer = new byte[1024];
+			        int bytes;
+	
+			        // Keep listening to the InputStream while connected
+			        while (true) {
+			            try {
+			                // Read from the InputStream
+			                bytes = tmpIn.read(buffer);
+	
+			                // Send the obtained bytes to the UI Activity
+			                int id_res = 0;
+			                mHandler.obtainMessage(id_res, bytes, -1, buffer)
+			                        .sendToTarget();
+			            } catch (IOException e) {
+			                Log.e("TAG", "disconnected", e);
+			                break;
+			            }
+			        }
+				} catch (IOException e) {
+		            Log.e("TAG", "temp sockets not created", e);
+		        }
+			}
+		});
+		
+	}
+
+    /**
+     * Write to the connected OutStream.
+     * @param buffer  The bytes to write
+     */
+    public void write(byte[] buffer) {
+        try {
+        	tmpOut.write(buffer);
+        	int id_res = 2;
+            // Share the sent message back to the UI Activity
+            mHandler.obtainMessage(id_res, -1, -1, buffer)
+                    .sendToTarget();
+        } catch (IOException e) {
+            Log.e("TAG", "Exception during write", e);
+        }
+    }
+
+	// Annule toute connexion en cours et tue le thread
     public void cancel() {
         try {
             blueSocket.close();
