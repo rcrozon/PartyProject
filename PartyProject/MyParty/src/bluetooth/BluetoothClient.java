@@ -108,7 +108,7 @@ public class BluetoothClient extends Bluetooth {
 				} catch (IOException e) {
 		            Log.e("TAG", "temp sockets not created", e);
 		        }
-			}
+//			}
 //		});
 //		t.start();
 		
