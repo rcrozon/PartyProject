@@ -23,10 +23,10 @@ public class BluetoothServer extends Bluetooth {
         try {
         	Method getUuidsMethod;
 				getUuidsMethod = BluetoothAdapter.class.getDeclaredMethod("getUuids", null);
-			uuids = (ParcelUuid[])getUuidsMethod.invoke(blueAdapter, null);
+				ParcelUuid[] uuids = (ParcelUuid[])getUuidsMethod.invoke(blueAdapter, null);
 			
         	for (ParcelUuid uuid: uuids) {
-        	    Log.d("UUIDS", "UUID: " + uuid.getUuid().toString());
+        	    Log.d("TAG UUIDS SERVER", "UUID: " + uuid.getUuid().toString());
         	}
         	// MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est nécessaire côté client également !
             tmp = blueAdapter.listenUsingRfcommWithServiceRecord("MYPARTY", uuids[0].getUuid());

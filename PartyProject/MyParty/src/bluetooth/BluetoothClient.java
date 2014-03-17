@@ -3,11 +3,15 @@ package bluetooth;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.os.Handler;
+import android.os.ParcelUuid;
 import android.util.Log;
 
 public class BluetoothClient extends Bluetooth {
@@ -31,8 +35,30 @@ public class BluetoothClient extends Bluetooth {
         // On récupère un objet BluetoothSocket grâce à l'objet BluetoothDevice
         try {
             // MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est nécessaire côté serveur également !
+        	BluetoothAdapter blueAdapter = BluetoothAdapter.getDefaultAdapter();
+            Method getUuidsMethod;
+			getUuidsMethod = BluetoothAdapter.class.getDeclaredMethod("getUuids", null);
+			ParcelUuid[] uuids;
+			uuids = (ParcelUuid[])getUuidsMethod.invoke(blueAdapter, null);
+		
+	    	for (ParcelUuid uuid: uuids) {
+	    	    Log.d("TAG UUIDS CLIENT", "UUID: " + uuid.getUuid().toString());
+	    	}
         	tmp = device.createRfcommSocketToServiceRecord(uuids[0].getUuid());
         } catch (IOException e) { }
+        catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         blueSocket = tmp;
     }
 
