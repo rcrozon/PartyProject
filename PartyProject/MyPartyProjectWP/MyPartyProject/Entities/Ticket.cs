@@ -31,7 +31,17 @@ namespace MyPartyProject.Entities
         public Ticket()
         {
         }
-
-        
+        public static List<Ticket> getTicketsForOneConcert(List<Ticket> tickets, string id_concert) 
+        {
+            List<Ticket> ticketsByConcert = new List<Ticket>();
+            foreach (Ticket ticket in tickets)
+            {
+                if (ticket.id_concert.Equals(id_concert))
+                {
+                    ticketsByConcert.Add(ticket);
+                }
+            }
+            return ticketsByConcert;
+        }
     }
 }

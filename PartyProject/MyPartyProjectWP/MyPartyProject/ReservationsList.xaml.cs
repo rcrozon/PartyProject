@@ -34,7 +34,19 @@ namespace MyPartyProject
             }
             try
             {
-                reservationsListBox.ItemsSource = (List<Reservation>)IsolatedStorageSettings.ApplicationSettings["reservations"];
+                List<Concert> concerts = (List<Concert>)IsolatedStorageSettings.ApplicationSettings["concerts"];
+                List<Ticket> tickets = (List<Ticket>)IsolatedStorageSettings.ApplicationSettings["tickets"];
+                foreach (Ticket ticket in tickets)
+                {
+                    Concert currentConcert = Concert.getConcertFromId(concerts, ticket.id_concert);
+                    ticket.location = currentConcert.location;
+                    ticket.name_concert = currentConcert.name_concert;
+                    ticket.start_datetime = currentConcert.start_datetime;
+                    ticket.end_datetime = currentConcert.end_datetime;
+                    ticket.image = currentConcert.image;
+                }
+                List<Reservation> resByConcert = Reservation.getListReservationByConcert(tickets, concerts);
+                reservationsListBox.ItemsSource = resByConcert;
             }
             catch (System.Collections.Generic.KeyNotFoundException e) {}
         }

@@ -10,7 +10,7 @@ import android.content.Context;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
-public class BluetoothClient extends Thread {
+public class BluetoothClient extends Bluetooth {
 	
     private BluetoothSocket blueSocket ;
     private final BluetoothDevice blueDevice ;
@@ -27,11 +27,7 @@ public class BluetoothClient extends Thread {
         // On récupère un objet BluetoothSocket grâce à l'objet BluetoothDevice
         try {
             // MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est nécessaire côté serveur également !
-        	TelephonyManager tManager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
-        	String uuid = tManager.getDeviceId();
-        	UUID u = UUID.fromString(uuid);
-        	Log.i("UUID ", uuid);
-        	tmp = device.createRfcommSocketToServiceRecord(u);
+        	tmp = device.createRfcommSocketToServiceRecord(uuids[0].getUuid());
         } catch (IOException e) { }
         blueSocket = tmp;
     }

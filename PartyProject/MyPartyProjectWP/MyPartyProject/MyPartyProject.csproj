@@ -99,6 +99,7 @@
     <Compile Include="ConcertsList.xaml.cs">
       <DependentUpon>ConcertsList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Encrypt\Encryption.cs" />
     <Compile Include="Entities\Ticket.cs" />
     <Compile Include="ReservationsList.xaml.cs">
       <DependentUpon>ReservationsList.xaml</DependentUpon>

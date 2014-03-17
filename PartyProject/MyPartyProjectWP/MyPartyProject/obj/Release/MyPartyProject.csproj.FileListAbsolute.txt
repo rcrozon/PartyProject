@@ -1,0 +1,10 @@
+C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\obj\Release\App.g.cs
+C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\obj\Release\ConcertDetails.g.cs
+C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\obj\Release\Concerts.g.cs
+C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\obj\Release\ConcertsList.g.cs
+C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\obj\Release\ReservationsList.g.cs
+C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\obj\Release\MainPage.g.cs
+C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\obj\Release\TicketPage.g.cs
+C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\obj\Release\MyPartyProject.g.resources
+C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\obj\Release\MyPartyProject.Resources.AppResources.resources
+C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\obj\Release\MyPartyProject.csproj.GenerateResource.Cache

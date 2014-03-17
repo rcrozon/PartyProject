@@ -14,6 +14,8 @@ using Huyn.QRCode;
 using ZXing.QrCode;
 using ZXing;
 using Windows.UI;
+using System.IO.IsolatedStorage;
+using System.Windows.Media;
 
 namespace MyPartyProject
 {
@@ -34,18 +36,69 @@ namespace MyPartyProject
                 BitmapImage imageBitmapNotConnected = new BitmapImage(imageUriNotConnected);
                 imgConnected.Source = imageBitmapNotConnected;
             }
-            Ticket ticket = (Ticket)PhoneApplicationService.Current.State["Ticket"];
-
-            BarcodeWriter writer = new BarcodeWriter { Format = BarcodeFormat.QR_CODE };
-            string code = ticket.id + ";" + ticket.id_concert + ";" + ticket.id_client + ";" + ticket.id_tariff;
-            WriteableBitmap writeableBitmap = writer.Write(code);
-            imgQRCode.Source = writeableBitmap;
-
-            Uri backgroundUri = new Uri(ticket.image, UriKind.Absolute);
-            BitmapImage bitmap = new BitmapImage(backgroundUri);
-            imgBackground.Source = bitmap;
+            Reservation res = (Reservation)PhoneApplicationService.Current.State["reservation"];
+            List<Ticket> tickets = Ticket.getTicketsForOneConcert((List<Ticket>)IsolatedStorageSettings.ApplicationSettings["tickets"], res.id_concert);
+            int index = 1;
+            foreach (Ticket ticket in tickets)
+            {
+                PivotItem pivotItem = new PivotItem();
+                StackPanel stack = new StackPanel();
+                ImageBrush brush = new ImageBrush();
+                BitmapImage image = new BitmapImage(new Uri(ticket.image, UriKind.Absolute));
+                brush.ImageSource = image;
+                stack.Background = brush; 
+                TextBlock textBlockTitle = new TextBlock();
+                TextBlock textBlockLocation = new TextBlock();
+                TextBlock textBlockStartTime = new TextBlock();
+                TextBlock textBlockEndTime = new TextBlock();
+                TextBlock textBlockArtist = new TextBlock();
+                TextBlock textBlockStyle = new TextBlock();
+                TextBlock textBlockTariff = new TextBlock();
+                textBlockTitle.Text = ticket.name_concert;
+                textBlockLocation.Text = ticket.location;
+                textBlockStartTime.Text = ticket.start_datetime;
+                textBlockEndTime.Text = ticket.end_datetime;
+                textBlockArtist.Text = "Artists :";
+                textBlockStyle.Text = "Style :";
+                textBlockTariff.Text = "Tariff : " + ticket.id_tariff;
+                
+                Image i = new Image();
+                BarcodeWriter writer = new BarcodeWriter { Format = BarcodeFormat.QR_CODE };
+                string code = ticket.id + ";" + ticket.id_concert + ";" + ticket.id_client + ";" + ticket.id_tariff;
+                WriteableBitmap writeableBitmap = writer.Write(code);
+                i.Source = writeableBitmap;
+                i.MaxHeight = 200;
+                i.MaxWidth = 200;
+                
+                stack.Children.Add(i);
+                stack.Children.Add(textBlockTitle);
+                stack.Children.Add(textBlockLocation);
+                stack.Children.Add(textBlockStartTime);
+                stack.Children.Add(textBlockEndTime);
+                stack.Children.Add(textBlockArtist);
+                stack.Children.Add(textBlockStyle);
+                stack.Children.Add(textBlockTariff);
+                pivotItem.Content = stack;
+                pivotItem.Header = "Ticket " + index;
+                index++;
+                pivot.Items.Add(pivotItem);
+            }
             
+            /*
+            PivotItem p = new PivotItem();
+            Image     i = new Image();
 
+            i.Source = new BitmapImage(new Uri("/image.jpg", UriKind.Relative));
+            p.Margin = new Thickness(0, -10, 0, -2);
+
+            DiaporamaPivot.Items.Add(i); 
+             
+             * 
+                Uri backgroundUri = new Uri(ticket.image, UriKind.Absolute);
+                BitmapImage bitmap = new BitmapImage(backgroundUri);
+                imgBackground.Source = bitmap;
+             */
+            
 
         }
     }

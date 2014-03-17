@@ -51,7 +51,7 @@ namespace MyPartyProject
         }
 
         //Button NewsConcerts
-        private void Button_Reservations(object sender, RoutedEventArgs e)
+        private void Button_Reservation(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/ReservationsList.xaml", UriKind.Relative));
         }
