@@ -58,7 +58,7 @@ public class BluetoothServer extends Bluetooth {
             // Si une connexion est acceptée
             if (blueSocket != null) {
                 // On fait ce qu'on veut de la connexion (dans un thread séparé), à vous de la créer
-                //manageConnectedSocket(blueSocket);
+                manageConnectedSocket(blueSocket);
                 try {
 					blueServerSocket.close();
 				} catch (IOException e) {
@@ -70,7 +70,12 @@ public class BluetoothServer extends Bluetooth {
         }
     }
 
-    // On stoppe l'écoute des connexions et on tue le thread
+    private void manageConnectedSocket(BluetoothSocket blueSocket) {
+		Log.i("TAG MANAGE SERVER", "PASSE");
+		
+	}
+
+	// On stoppe l'écoute des connexions et on tue le thread
     public void cancel() {
         try {
             blueServerSocket.close();

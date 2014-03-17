@@ -76,7 +76,7 @@ public class BluetoothClient extends Bluetooth {
         }
 
         // Utilisez la connexion (dans un thread séparé) pour faire ce que vous voulez
-        //manageConnectedSocket(blueSocket);
+        manageConnectedSocket(blueSocket);
     }
 
     private void manageConnectedSocket(final BluetoothSocket blueSocket) {
