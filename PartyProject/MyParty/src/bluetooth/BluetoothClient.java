@@ -95,16 +95,16 @@ public class BluetoothClient extends Bluetooth {
 			        while (true) {
 			            try {
 			                // Read from the InputStream
+			            	int id_res = 0;
+			                byte[] buff = ByteBuffer.allocate(1).putInt(id_res).array();
+			                write(buff);
 			                bytes = tmpIn.read(buffer);
 			                
 			                // Send the obtained bytes to the UI Activity
-			                int id_res = 0;
-			                byte[] buff = ByteBuffer.allocate(1).putInt(id_res).array();
-			                write(buff);
 			                Log.i("TAG RECEIVED",""+ bytes);
 		            	} catch (IOException e) {
 			                Log.e("TAG", "disconnected", e);
-			                break;
+			                break; 
 			            }
 			        }
 				} catch (IOException e) {
