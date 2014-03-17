@@ -23,9 +23,7 @@ public class BluetoothServer extends Bluetooth {
         try {
         	Method getUuidsMethod;
 				getUuidsMethod = BluetoothAdapter.class.getDeclaredMethod("getUuids", null);
-			
-        	ParcelUuid[] uuids = null;
-				uuids = (ParcelUuid[])getUuidsMethod.invoke(blueAdapter, null);
+			uuids = (ParcelUuid[])getUuidsMethod.invoke(blueAdapter, null);
 			
         	for (ParcelUuid uuid: uuids) {
         	    Log.d("UUIDS", "UUID: " + uuid.getUuid().toString());
