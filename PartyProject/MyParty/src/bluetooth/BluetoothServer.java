@@ -72,6 +72,7 @@ public class BluetoothServer extends Bluetooth {
 //				}
                 break;
             }
+    		Log.i("TAG MANAGE SERVER", "BLUESOCKET NULL");
         }
     }
 
