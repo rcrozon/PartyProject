@@ -143,7 +143,7 @@ OnClickListener, OnMenuItemClickListener {
 						if (idResScan != 0 ){
 							for(BluetoothClient client : listBluetoothClient){
 								Log.i("TAG ENVOIE ID_RES", "ENVOIE " + idResScan);
-								while(!client.write(idResScan));
+								client.write(idResScan);
 							}
 							scanner.getTextView().setText("");
 							dataBase.scanTicket(idResScan);
