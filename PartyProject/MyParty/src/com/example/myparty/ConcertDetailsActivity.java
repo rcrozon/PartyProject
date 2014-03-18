@@ -118,8 +118,6 @@ OnClickListener, OnMenuItemClickListener {
 
 			Log.i("LISTE", "Trie"+ clientForConcert.toString());
 
-			BluetoothServer server = new BluetoothServer();
-			server.start();
 			BluetoothDevices bluetoothDevices = new BluetoothDevices(this);
 
 		    for(BluetoothDevice device : bluetoothDevices.getBluetoothDevices()){
