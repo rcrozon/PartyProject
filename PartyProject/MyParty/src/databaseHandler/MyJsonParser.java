@@ -96,6 +96,8 @@ public class MyJsonParser {
 
 	public List<Concert> getConcertFromJson(String json) {
 		List<Concert> cl = new ArrayList<Concert>();
+		/*DatabaseHandler dt = new DatabaseHandler(context);
+		String decode = dt.decodePassword(json);*/
 
 		JSONArray rep;
 		try {
