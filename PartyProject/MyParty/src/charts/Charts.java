@@ -47,6 +47,7 @@ public abstract class Charts extends DemoView implements Items {
         plot.setOutlinePaintType(black_color);
         plot.setBaseSectionPaintType(black_color);
         plot.setLabelLinkPaintType(white_color);
+        
         plot.setLabelShadowPaint(black_color);
         plot.setInteriorGap(0);
         plot.setBaseSectionOutlinePaintType(black_color);
