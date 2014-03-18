@@ -39,6 +39,7 @@
 
     <?php echo $scripts_for_layout; ?>
 
+
     <!-- Custom styles for this template -->
 
 
@@ -51,6 +52,7 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style type="text/css"></style>
+
   </head>
   
   <body class="home">  
@@ -103,6 +105,8 @@
                   array('action'=>'signup','controller'=>'clients'), array('escape' => false)); ?></li>
                 <li><?php echo $this->Html->link('<i class="fa fa-power-off"></i> Log In',
                   array('action'=>'login','controller'=>'clients'), array('escape' => false)); ?></li>
+               
+</li>
             <?php endif; ?>
           </ul>
         </div><!-- /.navbar-collapse -->
@@ -123,3 +127,4 @@
     <?php echo $this->Html->script('bootstrap'); ?>
   </body>
 </html>
+ 
