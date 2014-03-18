@@ -68,7 +68,8 @@ public class BluetoothClient extends Bluetooth {
         try {
             // On se connecte. Cet appel est bloquant jusqu'� la r�ussite ou la lev�e d'une erreur
             blueSocket.connect();
-            manageConnectedSocket(blueSocket);
+            write(1000);
+            //manageConnectedSocket(blueSocket);
             Log.i("TAG RUN CLIENT", "connected");
         } catch (IOException connectException) {
             Log.i("TAG RUN CLIENT", "NOT connected");
@@ -97,8 +98,9 @@ public class BluetoothClient extends Bluetooth {
 			        int bytes;
 			        while (true) {
 				        try {
+							Log.i("TAG RECEIVED1","AVANT");
 							bytes = tmpIn.read(buffer);
-							Log.i("TAG RECEIVED","ID = "+ bytes);
+							Log.i("TAG RECEIVED2","ID = "+ bytes);
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
