@@ -81,41 +81,34 @@ public class BluetoothClient extends Bluetooth {
     }
 
     private void manageConnectedSocket(final BluetoothSocket blueSocket) {
-		Thread t = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					tmpIn = blueSocket.getInputStream();
-			        tmpOut = blueSocket.getOutputStream();
-			        Log.i("TAG", "BEGIN mConnectedThread");
-			        byte[] buffer = new byte[1024];
+        
+        // Keep listening to the InputStream while connected
+        try {
+            // Read from the InputStream
+    		tmpIn = blueSocket.getInputStream();
+            tmpOut = blueSocket.getOutputStream();
+            Log.i("TAG", "BEGIN mConnectedThread");
+        	Thread read = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					byte[] buffer = new byte[1024];
 			        int bytes;
-//			        int id_res = 0;
-//	                byte[] buff = ByteBuffer.allocate(4).putInt(id_res).array();
-//	                write(buff);
-	                
-			        // Keep listening to the InputStream while connected
 			        while (true) {
-			            try {
-			                // Read from the InputStream
-
-			            	bytes = tmpIn.read(buffer);
-
-			                
-			                // Send the obtained bytes to the UI Activity
-			                Log.i("TAG RECEIVED","ID = "+ bytes);
-		            	} catch (IOException e) {
-			                Log.e("TAG", "disconnected", e);
-			                break; 
-			            }
-			        }
-				} catch (IOException e) {
-		            Log.e("TAG", "temp sockets not created", e);
-		        }
-			}
-		});
-		t.start();
-		
+				        try {
+							bytes = tmpIn.read(buffer);
+							Log.i("TAG RECEIVED","ID = "+ bytes);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	            	}
+				}
+			});
+        	read.start();
+            // Send the obtained bytes to the UI Activity
+        } catch (IOException e) {
+            Log.e("TAG", "disconnected", e);
+        }
 	}
 
     /**

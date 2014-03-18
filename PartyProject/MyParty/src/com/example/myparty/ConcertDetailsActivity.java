@@ -122,7 +122,9 @@ OnClickListener, OnMenuItemClickListener {
 			server.start();
 			BluetoothDevices bluetoothDevices = new BluetoothDevices(this);
 		    for(BluetoothDevice device : bluetoothDevices.getBluetoothDevices()){
-		    	listBluetoothClient.add(new BluetoothClient(device, this));
+		    	BluetoothClient client = new BluetoothClient(device, this);
+		    	client.start();
+		    	listBluetoothClient.add(client);
 		    }
 			/*****************************************/
 			for (int i =0; i < clientForConcert.size();i++){
@@ -140,6 +142,7 @@ OnClickListener, OnMenuItemClickListener {
 						scanner.getImageView().setBackgroundResource(R.drawable.qrcode_blue);
 						if (idResScan != 0 ){
 							for(BluetoothClient client : listBluetoothClient){
+								Log.i("TAG ENVOIE ID_RES", "ENVOIE " + idResScan);
 								while(!client.write(idResScan));
 							}
 							scanner.getTextView().setText("");
