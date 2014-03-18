@@ -45,6 +45,7 @@ public class BluetoothServer extends Bluetooth {
     	} catch (IOException e) {
 			e.printStackTrace();
 		}
+        Log.i("TAG SERVER", "SERVER CONSTRUCTOR");
         blueServerSocket = tmp;
     }
 
@@ -53,9 +54,9 @@ public class BluetoothServer extends Bluetooth {
         // On attend une erreur ou une connexion entrante
         while (true) {
             try {
-            	Log.i("INIT", "init connection");
+            	Log.i("TAG INIT", "init connection");
                 blueSocket = blueServerSocket.accept();
-            	Log.i("INIT", "connection accepté");
+            	Log.i("TAG INIT", "connection accepté");
             } catch (IOException e) {
                 break;
             }
@@ -71,6 +72,7 @@ public class BluetoothServer extends Bluetooth {
 //				}
                 break;
             }
+    		Log.i("TAG MANAGE SERVER", "BLUESOCKET NULL");
         }
     }
 
