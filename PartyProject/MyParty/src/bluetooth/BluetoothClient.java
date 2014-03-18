@@ -98,18 +98,9 @@ public class BluetoothClient extends Bluetooth {
 			        while (true) {
 			            try {
 			                // Read from the InputStream
-<<<<<<< HEAD
+
 			            	bytes = tmpIn.read(buffer);
-=======
 
-			            	//int id_res = 0;
-			                //byte[] buff = ByteBuffer.allocate(1).putInt(id_res).array();
-			                //write(buff);
-			  
-
-			            	//bytes = tmpIn.read(buffer);
-
->>>>>>> c4686f4e920758fa2791ff07f62450c8d5af96f1
 			                
 			                // Send the obtained bytes to the UI Activity
 			                Log.i("TAG RECEIVED","ID = "+ bytes);
