@@ -24,6 +24,8 @@ public class MyJsonParser {
 
 	public Boolean reponseIsClient(String reponse){
 
+		
+		
 		JSONArray rep;
 		try {
 			rep = new JSONArray(reponse);
@@ -37,9 +39,13 @@ public class MyJsonParser {
 	}
 
 	public Boolean reponseIsJson(String reponse){
+		
+		String r = reponse.substring(8);
+		DatabaseHandler dt = new DatabaseHandler(context);
+		String decode = dt.decodePassword(r);
 		JSONArray rep;
 		try {
-			rep = new JSONArray(reponse);
+			rep = new JSONArray(decode);
 		} catch (JSONException e) {
 			return false;
 		}
@@ -47,11 +53,14 @@ public class MyJsonParser {
 	}
 
 	public List<Client> getClientFromJson(String json) {
+		String r = json.substring(8);
 		List<Client> cl = new ArrayList<Client>();
+		DatabaseHandler dt = new DatabaseHandler(context);
+		String decode = dt.decodePassword(r);
 
 		JSONArray rep;
 		try {
-			rep = new JSONArray(json);
+			rep = new JSONArray(decode);
 			for (int i = 0 ; i<rep.length() ; i++){
 
 				JSONObject infoClient = rep.getJSONObject(i);
@@ -95,9 +104,10 @@ public class MyJsonParser {
 
 
 	public List<Concert> getConcertFromJson(String json) {
+		String r = json.substring(8);
 		List<Concert> cl = new ArrayList<Concert>();
 		DatabaseHandler dt = new DatabaseHandler(context);
-		String decode = dt.decodePassword(json);
+		String decode = dt.decodePassword(r);
 
 		JSONArray rep;
 		try {
@@ -145,12 +155,16 @@ public class MyJsonParser {
 	}   
 
 	public Boolean getReservationAndInsert(String json) {
+		String r = json.substring(8);
 		DatabaseHandler dataBase = new DatabaseHandler(context);
 		dataBase.open();
+		
+		
+		String decode = dataBase.decodePassword(r);
 
 		JSONArray rep;
 		try {
-			rep = new JSONArray(json);
+			rep = new JSONArray(decode);
 			for (int i = 0 ; i<rep.length() ; i++){
 
 				JSONObject infoReservation= rep.getJSONObject(i);
@@ -173,12 +187,14 @@ public class MyJsonParser {
 	}
 
 	public Boolean getAssocTariffsAndInsert(String json) {
+		String r = json.substring(8);
 		DatabaseHandler dataBase = new DatabaseHandler(context);
 		dataBase.open();
+		String decode = dataBase.decodePassword(r);
 
 		JSONArray rep;
 		try {
-			rep = new JSONArray(json);
+			rep = new JSONArray(decode);
 			for (int i = 0 ; i<rep.length() ; i++){
 
 				JSONObject infoAssocTarrif = rep.getJSONObject(i);
@@ -198,12 +214,14 @@ public class MyJsonParser {
 	}
 
 	public Boolean getAssocArtistsAndInsert(String json) {
+		String r = json.substring(8);
 		DatabaseHandler dataBase = new DatabaseHandler(context);
 		dataBase.open();
+		String decode = dataBase.decodePassword(r);
 
 		JSONArray rep;
 		try {
-			rep = new JSONArray(json);
+			rep = new JSONArray(decode);
 			for (int i = 0 ; i<rep.length() ; i++){
 
 				JSONObject infoAssocArtist = rep.getJSONObject(i);
@@ -223,12 +241,14 @@ public class MyJsonParser {
 	}
 
 	public Boolean getAssocStylesAndInsert(String json) {
+		String r = json.substring(8);
 		DatabaseHandler dataBase = new DatabaseHandler(context);
 		dataBase.open();
+		String decode = dataBase.decodePassword(r);
 
 		JSONArray rep;
 		try {
-			rep = new JSONArray(json);
+			rep = new JSONArray(decode);
 			for (int i = 0 ; i<rep.length() ; i++){
 
 				JSONObject infoAssocStyles = rep.getJSONObject(i);
@@ -248,12 +268,14 @@ public class MyJsonParser {
 	} 
 
 	public Boolean getStylesAndInsert(String json) {
+		String r = json.substring(8);
 		DatabaseHandler dataBase = new DatabaseHandler(context);
 		dataBase.open();
+		String decode = dataBase.decodePassword(r);
 
 		JSONArray rep;
 		try {
-			rep = new JSONArray(json);
+			rep = new JSONArray(decode);
 			for (int i = 0 ; i<rep.length() ; i++){
 
 				JSONObject infoStyles = rep.getJSONObject(i);
@@ -272,12 +294,14 @@ public class MyJsonParser {
 	} 
 
 	public Boolean getArtistsAndInsert(String json) {
+		String r = json.substring(8);
 		DatabaseHandler dataBase = new DatabaseHandler(context);
 		dataBase.open();
+		String decode = dataBase.decodePassword(r);
 
 		JSONArray rep;
 		try {
-			rep = new JSONArray(json);
+			rep = new JSONArray(decode);
 			for (int i = 0 ; i<rep.length() ; i++){
 
 				JSONObject infoArtists = rep.getJSONObject(i);
@@ -296,12 +320,14 @@ public class MyJsonParser {
 	} 
 
 	public Boolean getTariffsAndInsert(String json){
+		String r = json.substring(8);
 		DatabaseHandler dataBase = new DatabaseHandler(context);
 		dataBase.open();
+		String decode = dataBase.decodePassword(r);
 
 		JSONArray rep;
 		try {
-			rep = new JSONArray(json);
+			rep = new JSONArray(decode);
 			for (int i = 0 ; i<rep.length() ; i++){
 
 				JSONObject infoTarrif = rep.getJSONObject(i);

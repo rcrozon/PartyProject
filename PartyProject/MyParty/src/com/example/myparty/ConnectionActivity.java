@@ -148,7 +148,8 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 			 * Décommenter quand il ya ura bonne reponse
 			 */
 			MyJsonParser parser = new MyJsonParser(this);
-			if(parser.reponseIsClient(reponse)){
+			if(parser.reponseIsJson(reponse)){
+				
 				List<Client> logClient =parser.getClientFromJson(reponse);
 				if (logClient.get(0).getAdmin() == 1){
 					Client tmp =dataBase.getClientWithId(logClient.get(0).getId());

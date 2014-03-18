@@ -951,6 +951,10 @@ public class DatabaseHandler {
 			e.printStackTrace();
 		}
 
+		Log.i("DECRYPT", "Crypte = "+ code);
+		
+
+		
 		/******ON ENLEVE LES CARACTERE SPECIAUX*****/
 
 		byte bytes[] = decrypted.getBytes();
@@ -968,7 +972,16 @@ public class DatabaseHandler {
 			}
 		}
 		decrypted = new String(bytes);
-
+		
+		
+		
+		
+		decrypted = decrypted.replaceAll("\\\\","");
+		int taille = decrypted.length();
+		if (decrypted.startsWith("\""))
+			decrypted= decrypted.substring(1, taille-1);
+		
+		Log.i("DECRYPT", "DeCrypte = "+ decrypted);
 		return decrypted;
 	}
 

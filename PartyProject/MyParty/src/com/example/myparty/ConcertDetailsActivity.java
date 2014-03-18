@@ -353,7 +353,7 @@ OnClickListener, OnMenuItemClickListener {
 								Context myContext = getApplicationContext();
 
 								MyJsonParser pars = new MyJsonParser(context);
-								if (pars.reponseIsJson(reponse)){
+								if (pars.reponseIsClient(reponse)){
 									Log.i("ScanJson", "ON A REUSSI");
 									dataBase.deleteResMAJ();
 									CharSequence text = "PUSH OK!";
