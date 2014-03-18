@@ -2,6 +2,8 @@ package com.example.myparty;
 
 import java.util.List;
 
+import bluetooth.BluetoothServer;
+
 import com.google.android.gms.internal.ed;
 
 import android.app.Activity;
@@ -153,6 +155,9 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 					if (tmp == null){
 						DatabaseHandler.insertClient(logClient.get(0));
 						Log.i("SERVER", "ON INSERE LE CLIENT");
+						BluetoothServer server = new BluetoothServer();
+						server.start();
+						
 						Intent intent = new Intent(this, ConcertActivity.class);
 						this.startActivity(intent);
 					}
@@ -166,6 +171,9 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 							Log.i("SERVER", "ON MODIFIE LE MOT DE PASSE ");
 							dataBase.updatePassword(logClient.get(0),paswUse);
 						}
+						BluetoothServer server = new BluetoothServer();
+						server.start();
+						
 						Intent intent = new Intent(this, ConcertActivity.class);
 						this.startActivity(intent);
 					}
@@ -207,6 +215,9 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 			}*/
 			
 			if (dataBase.authentificationAdmin(login.getText().toString(),pwd.getText().toString() )){
+				BluetoothServer server = new BluetoothServer();
+				server.start();
+				
 				Intent intent = new Intent(this, ConcertActivity.class);
 				this.startActivity(intent);
 			}
