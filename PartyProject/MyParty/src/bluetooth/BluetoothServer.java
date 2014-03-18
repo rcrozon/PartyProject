@@ -1,6 +1,8 @@
 package bluetooth;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.UUID;
@@ -14,7 +16,9 @@ import android.util.Log;
 public class BluetoothServer extends Bluetooth {
     
 	private final BluetoothServerSocket blueServerSocket;
-	//private static final UUID uuid = UUID.fromString("a60f35f0-b93a-11de-8a39-08102009c666");
+    private InputStream tmpIn;
+    private OutputStream tmpOut;
+    //private static final UUID uuid = UUID.fromString("a60f35f0-b93a-11de-8a39-08102009c666");
 	 
     public BluetoothServer() {
         // On utilise un objet temporaire qui sera assigné plus tard à blueServerSocket car blueServerSocket est "final"
@@ -59,12 +63,12 @@ public class BluetoothServer extends Bluetooth {
             if (blueSocket != null) {
                 // On fait ce qu'on veut de la connexion (dans un thread séparé), à vous de la créer
                 manageConnectedSocket(blueSocket);
-                try {
-					blueServerSocket.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//                try {
+//					blueServerSocket.close();
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
                 break;
             }
         }
@@ -72,7 +76,34 @@ public class BluetoothServer extends Bluetooth {
 
     private void manageConnectedSocket(BluetoothSocket blueSocket) {
 		Log.i("TAG MANAGE SERVER", "PASSE");
-		
+		// Keep listening to the InputStream while connected
+        try {
+            // Read from the InputStream
+    		tmpIn = blueSocket.getInputStream();
+            //tmpOut = blueSocket.getOutputStream();
+            Log.i("TAG", "BEGIN mConnectedThread");
+        	Thread read = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					byte[] buffer = new byte[1024];
+			        int bytes;
+			        while (true) {
+				        try {
+							Log.i("TAG RECEIVED1","AVANT");
+							bytes = tmpIn.read(buffer);
+							Log.i("TAG RECEIVED2","ID = "+ bytes);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	            	}
+				}
+			});
+        	read.start();
+            // Send the obtained bytes to the UI Activity
+        } catch (IOException e) {
+            Log.e("TAG", "disconnected", e);
+        }
 		//TODO Recupérer infos et stockage bd
 		
 	}
