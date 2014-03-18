@@ -96,12 +96,12 @@ public class MyJsonParser {
 
 	public List<Concert> getConcertFromJson(String json) {
 		List<Concert> cl = new ArrayList<Concert>();
-		/*DatabaseHandler dt = new DatabaseHandler(context);
-		String decode = dt.decodePassword(json);*/
+		DatabaseHandler dt = new DatabaseHandler(context);
+		String decode = dt.decodePassword(json);
 
 		JSONArray rep;
 		try {
-			rep = new JSONArray(json);
+			rep = new JSONArray(decode);
 			for (int i = 0 ; i<rep.length() ; i++){
 
 				JSONObject infoConcert = rep.getJSONObject(i);
