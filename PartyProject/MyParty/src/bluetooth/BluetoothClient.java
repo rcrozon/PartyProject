@@ -43,7 +43,7 @@ public class BluetoothClient extends Bluetooth {
 			uuids = (ParcelUuid[])getUuidsMethod.invoke(blueAdapter, null);
 		
 	    	for (ParcelUuid uuid: uuids) {
-	    	    Log.d("TAG UUIDS CLIENT", "UUID: " + uuid.getUuid().toString());
+	    	    Log.i("TAG UUIDS CLIENT", "UUID: " + uuid.getUuid().toString());
 	    	}
         	tmp = device.createRfcommSocketToServiceRecord(uuids[0].getUuid());
         } catch (IOException e) { }
@@ -68,16 +68,18 @@ public class BluetoothClient extends Bluetooth {
         try {
             // On se connecte. Cet appel est bloquant jusqu'� la r�ussite ou la lev�e d'une erreur
             blueSocket.connect();
+            manageConnectedSocket(blueSocket);
+            Log.i("TAG RUN CLIENT", "connected");
         } catch (IOException connectException) {
+            Log.i("TAG RUN CLIENT", "NOT connected");
             // Impossible de se connecter, on ferme la socket et on tue le thread
-            try {
-                blueSocket.close();
-            } catch (IOException closeException) { }
+//            try {
+//                blueSocket.close();
+//            } catch (IOException closeException) { }
             return;
         }
 
         // Utilisez la connexion (dans un thread s�par�) pour faire ce que vous voulez
-        manageConnectedSocket(blueSocket);
     }
 
     private void manageConnectedSocket(final BluetoothSocket blueSocket) {

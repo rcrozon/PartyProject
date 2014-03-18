@@ -4,7 +4,8 @@ class MobilesController  extends AppController{
 
 
 	function getAllConcerts(){
-		$results = $this->Concert->find('all');
+		$results = $this->Concert->find('all',array(
+            'conditions' => array('Concert.online' => 1)));
 			 	$table=array();
 
 		for($i=0;$i<sizeof($results);$i++){
@@ -200,6 +201,7 @@ class MobilesController  extends AppController{
 
 	$data = $this->request->data['json'];	
 	$message = json_decode($data);
+
 	$log =  array();
     for ($i = 0; $i < sizeof($message); $i++) {
     	
@@ -213,7 +215,8 @@ class MobilesController  extends AppController{
 		}
 	
 	}
-		return new CakeResponse(array('body' => json_encode('success'))); 
+		$log[0]='success';
+		return new CakeResponse(array('body' => $data)); 
 
 }
 	public function login(){
