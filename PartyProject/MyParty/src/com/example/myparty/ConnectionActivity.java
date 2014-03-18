@@ -155,11 +155,7 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 					if (tmp == null){
 						DatabaseHandler.insertClient(logClient.get(0));
 						Log.i("SERVER", "ON INSERE LE CLIENT");
-						BluetoothServer server = new BluetoothServer();
-						server.start();
 						
-						Intent intent = new Intent(this, ConcertActivity.class);
-						this.startActivity(intent);
 					}
 					else{
 						/*Comparrer les mot de passe*/
@@ -171,12 +167,12 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 							Log.i("SERVER", "ON MODIFIE LE MOT DE PASSE ");
 							dataBase.updatePassword(logClient.get(0),paswUse);
 						}
-						BluetoothServer server = new BluetoothServer();
-						server.start();
-						
-						Intent intent = new Intent(this, ConcertActivity.class);
-						this.startActivity(intent);
 					}
+					BluetoothServer server = new BluetoothServer();
+					server.start();
+					
+					Intent intent = new Intent(this, ConcertActivity.class);
+					this.startActivity(intent);
 				}
 				else{
 					Context myContext = getApplicationContext();

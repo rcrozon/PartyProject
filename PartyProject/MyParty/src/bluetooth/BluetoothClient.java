@@ -70,7 +70,7 @@ public class BluetoothClient extends Bluetooth {
             blueSocket.connect();
             write(1000);
             //manageConnectedSocket(blueSocket);
-            Log.i("TAG RUN CLIENT", "connected");
+            Log.i("TAG RUN CLIENT", "connected"); 
         } catch (IOException connectException) {
             Log.i("TAG RUN CLIENT", "NOT connected");
             // Impossible de se connecter, on ferme la socket et on tue le thread
