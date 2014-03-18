@@ -33,9 +33,9 @@ public class BluetoothClient extends Bluetooth {
         BluetoothSocket tmp = null;
         //blueDevice = device;
 
-        // On récupère un objet BluetoothSocket grâce à l'objet BluetoothDevice
+        // On rï¿½cupï¿½re un objet BluetoothSocket grï¿½ce ï¿½ l'objet BluetoothDevice
         try {
-            // MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est nécessaire côté serveur également !
+            // MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est nï¿½cessaire cï¿½tï¿½ serveur ï¿½galement !
         	BluetoothAdapter blueAdapter = BluetoothAdapter.getDefaultAdapter();
             Method getUuidsMethod;
 			getUuidsMethod = BluetoothAdapter.class.getDeclaredMethod("getUuids", null);
@@ -66,7 +66,7 @@ public class BluetoothClient extends Bluetooth {
     
     public void run() {
         try {
-            // On se connecte. Cet appel est bloquant jusqu'à la réussite ou la levée d'une erreur
+            // On se connecte. Cet appel est bloquant jusqu'ï¿½ la rï¿½ussite ou la levï¿½e d'une erreur
             blueSocket.connect();
         } catch (IOException connectException) {
             // Impossible de se connecter, on ferme la socket et on tue le thread
@@ -76,7 +76,7 @@ public class BluetoothClient extends Bluetooth {
             return;
         }
 
-        // Utilisez la connexion (dans un thread séparé) pour faire ce que vous voulez
+        // Utilisez la connexion (dans un thread sï¿½parï¿½) pour faire ce que vous voulez
         manageConnectedSocket(blueSocket);
     }
 
@@ -95,9 +95,9 @@ public class BluetoothClient extends Bluetooth {
 			        while (true) {
 			            try {
 			                // Read from the InputStream
-			            	int id_res = 0;
-			                byte[] buff = ByteBuffer.allocate(1).putInt(id_res).array();
-			                write(buff);
+			            	//int id_res = 0;
+			                //byte[] buff = ByteBuffer.allocate(1).putInt(id_res).array();
+			                //write(buff);
 			                bytes = tmpIn.read(buffer);
 			                
 			                // Send the obtained bytes to the UI Activity

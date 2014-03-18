@@ -21,7 +21,7 @@
         android:orientation="vertical"
          >
 
-        <TableRow
+      	<TableRow
             android:id="@+id/tableRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
@@ -36,27 +36,7 @@
                 android:text="@string/details"
                 android:textColor="@color/white" />
 
-            <Button
-                android:id="@+id/buttonTickets"
-                style="@style/AppBaseTheme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/button_unselected"
-                android:text="@string/tickets"
-                android:textColor="@color/white"
-                android:visibility="invisible" />
-
-            <Button
-                android:id="@+id/buttonMap"
-                style="@style/AppBaseTheme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/button_unselected"
-                android:text="@string/map"
-                android:textColor="@color/white"
-                android:visibility="invisible" />
+            
 
             <Button
                 android:id="@+id/buttonClient"

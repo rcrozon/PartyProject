@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lists.ClientList;
+import lists.ConcertList;
 import lists.ListLayout;
 import lists.ReservationsList;
 import lists.StatsList;
@@ -36,8 +37,7 @@ import entities.ConcertDetailed;
 public class ConcertDetailsActivity extends Activity implements
 OnClickListener, OnMenuItemClickListener {
 
-	private Button buttonTickets;
-	private Button buttonMap;
+
 	private Button buttonClients;
 	private Button buttonDetails;
 	private Button buttonScan;
@@ -48,14 +48,14 @@ OnClickListener, OnMenuItemClickListener {
 	private ScanLayout scanner;
 	private Context context;
 	private DatabaseHandler dataBase;
-	private boolean isCLient = false;
+
 	private Concert concert;
 	private int idResScan;
 	private MenuItem updateItem;
 	private MenuItem scanPushItem;
 	private ProgressBar progressBar;
 	private LinearLayout layoutMain;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,8 +63,6 @@ OnClickListener, OnMenuItemClickListener {
 		context = this;
 		layoutMain = (LinearLayout)findViewById(R.id.layoutMain);
 		progressBar = (ProgressBar)findViewById(R.id.progressBar);
-		this.buttonTickets = (Button) findViewById(R.id.buttonTickets);
-		this.buttonMap = (Button) findViewById(R.id.buttonMap);
 		this.buttonClients = (Button) findViewById(R.id.buttonClient);
 		this.buttonDetails = (Button) findViewById(R.id.buttonDetails);
 		this.buttonScan = (Button) findViewById(R.id.buttonScan);
@@ -107,12 +105,12 @@ OnClickListener, OnMenuItemClickListener {
 				}
 				oui.add(clientForConcert.get(num));
 				clientForConcert.remove(num);
-		
+
 			}
 			clientForConcert=oui;
 
 			Log.i("LISTE", "Trie"+ clientForConcert.toString());
-		
+
 
 
 
@@ -144,30 +142,18 @@ OnClickListener, OnMenuItemClickListener {
 		/**********************************************************/
 
 		this.view_flipper.addView(new ConcertDetailed(this, concert));
-		this.view_flipper.addView(new ListLayout(this, new TicketsList(this,
-				null)));
-		this.view_flipper.addView(new ListLayout(this, new ReservationsList(
-				this, null)));
 		this.view_flipper.addView(new ListLayout(this, new ClientList(this,
 				clientForConcert,concert)));
 		this.view_flipper.addView(scanner);
 		this.view_flipper.addView(new StatsList(this, concert.getId()));
 
-		if (isCLient) {
-			this.buttonTickets.setVisibility(View.VISIBLE);
-			this.buttonMap.setVisibility(View.VISIBLE);
-			this.buttonClients.setVisibility(View.GONE);
-			this.buttonScan.setVisibility(View.GONE);
-			this.buttonStats.setVisibility(View.GONE);
-		} else {
-			this.buttonClients.setVisibility(View.VISIBLE);
-			this.buttonScan.setVisibility(View.VISIBLE);
-			this.buttonStats.setVisibility(View.VISIBLE);
-			this.buttonTickets.setVisibility(View.GONE);
-			this.buttonMap.setVisibility(View.GONE);
-		}
-		this.buttonTickets.setOnClickListener(this);
-		this.buttonMap.setOnClickListener(this);
+
+		this.buttonClients.setVisibility(View.VISIBLE);
+		this.buttonScan.setVisibility(View.VISIBLE);
+		this.buttonStats.setVisibility(View.VISIBLE);
+
+
+
 		this.buttonClients.setOnClickListener(this);
 		this.buttonDetails.setOnClickListener(this);
 		this.buttonScan.setOnClickListener(this);
@@ -194,8 +180,6 @@ OnClickListener, OnMenuItemClickListener {
 		Button b = (Button) v;
 		int index = view_flipper.getDisplayedChild();
 		int nextIndex;
-		buttonTickets.setBackgroundResource(R.drawable.button_unselected);
-		buttonMap.setBackgroundResource(R.drawable.button_unselected);
 		buttonClients.setBackgroundResource(R.drawable.button_unselected);
 		buttonDetails.setBackgroundResource(R.drawable.button_unselected);
 		buttonScan.setBackgroundResource(R.drawable.button_unselected);
@@ -203,20 +187,14 @@ OnClickListener, OnMenuItemClickListener {
 		if (b == buttonDetails) {
 			nextIndex = 0;
 			buttonDetails.setBackgroundResource(R.drawable.button_selected);
-		} else if (b == buttonTickets) {
+		}  else if (b == buttonClients) {
 			nextIndex = 1;
-			buttonTickets.setBackgroundResource(R.drawable.button_selected);
-		} else if (b == buttonMap) {
-			nextIndex = 2;
-			buttonMap.setBackgroundResource(R.drawable.button_selected);
-		} else if (b == buttonClients) {
-			nextIndex = 3;
 			buttonClients.setBackgroundResource(R.drawable.button_selected);
 		} else if (b == buttonScan) {
-			nextIndex = 4;
+			nextIndex = 2;
 			buttonScan.setBackgroundResource(R.drawable.button_selected);
 		} else {
-			nextIndex = 5;
+			nextIndex = 3;
 			buttonStats.setBackgroundResource(R.drawable.button_selected);
 		}
 		if (nextIndex != index) {
@@ -318,11 +296,11 @@ OnClickListener, OnMenuItemClickListener {
 		if (item == decoItem) {
 			intent = new Intent(this, ConnectionActivity.class);
 			this.startActivity(intent);
-			
+
 		} else if(item == bluetoothItem) {
 			intent = new Intent(this, BluetoothActivity.class);
 			this.startActivity(intent);
-			
+
 		}
 		else if(item == updateItem){
 			loadDatabase();
@@ -331,21 +309,21 @@ OnClickListener, OnMenuItemClickListener {
 			//				this.startActivity(intent);
 			//			}
 		}
-	else if (item == scanPushItem){
-			
-			
+		else if (item == scanPushItem){
+
+
 			/*tester la connexion*/
 			progressBar.setVisibility(View.VISIBLE);
 			layoutMain.setVisibility(View.GONE);
-			
+
 			if(DatabaseHandler.isNetworkConnected(context) && DatabaseHandler.isAvailableServer(context)){
-				
-				
+
+
 				new Thread(new Runnable() { 
 					@Override
 					public void run() {
 						runOnUiThread(new Runnable() {
-							
+
 							@Override
 							public void run() {
 								String jsonScan;
@@ -359,7 +337,7 @@ OnClickListener, OnMenuItemClickListener {
 								jsonScan2 = dataBase.getJsonScanMAJ();
 								Log.i("ScanJson", "Json2: "+jsonScan2);
 								Context myContext = getApplicationContext();
-								
+
 								MyJsonParser pars = new MyJsonParser(context);
 								if (pars.reponseIsJson(reponse)){
 									Log.i("ScanJson", "ON A REUSSI");
@@ -378,18 +356,18 @@ OnClickListener, OnMenuItemClickListener {
 									Toast toast = Toast.makeText(myContext, text, duration);
 									toast.show();
 								}
-								
+
 								progressBar.setVisibility(View.GONE);
 								layoutMain.setVisibility(View.VISIBLE);
-								
+
 							}
 						});
-						
-						
+
+
 					}
 				}).start();
-				
-				
+
+
 			}
 			else{
 				progressBar.setVisibility(View.GONE);
@@ -450,7 +428,7 @@ OnClickListener, OnMenuItemClickListener {
 							Toast toast = Toast.makeText(myContext, text, duration);
 							toast.show();
 							connectedToServer(1);
- 
+
 							//updateLists();
 
 							progressBar.setVisibility(View.GONE);
@@ -461,8 +439,18 @@ OnClickListener, OnMenuItemClickListener {
 			}
 		}).start();
 	}
-	
-	
-	
-	
+
+
+	/*private void updateLists(){
+		listAll = new ListLayout(this, new ConcertList(this, 0));
+		listNext = new ListLayout(this, new ConcertList(this, 1));
+		listNews = new ListLayout(this, new ConcertList(this, 2));
+		this.view_flipper.removeAllViews();
+		this.view_flipper.addView(listAll); 
+		this.view_flipper.addView(listNext);
+		this.view_flipper.addView(listNews);
+	}	*/
+
+
+
 }
