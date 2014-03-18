@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bluetooth.BluetoothClient;
+import bluetooth.BluetoothDevices;
+import bluetooth.BluetoothServer;
 import lists.ClientList;
 import lists.ListLayout;
 import lists.ReservationsList;
@@ -13,6 +15,7 @@ import scan.IntentIntegrator;
 import scan.IntentResult;
 import scan.ScanLayout;
 import android.app.Activity;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -56,6 +59,7 @@ OnClickListener, OnMenuItemClickListener {
 	private MenuItem scanPushItem;
 	private ProgressBar progressBar;
 	private LinearLayout layoutMain;
+	private ArrayList<BluetoothClient> listBluetoothClient = new ArrayList<BluetoothClient>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -111,10 +115,15 @@ OnClickListener, OnMenuItemClickListener {
 		
 			}
 			clientForConcert=oui;
-//			BluetoothClient client = new BluetoothClient(device, context);
-//			client.start();
+
 			Log.i("LISTE", "Trie"+ clientForConcert.toString());
 
+			BluetoothServer server = new BluetoothServer();
+			server.start();
+			BluetoothDevices bluetoothDevices = new BluetoothDevices(this);
+		    for(BluetoothDevice device : bluetoothDevices.getBluetoothDevices()){
+		    	listBluetoothClient.add(new BluetoothClient(device, this));
+		    }
 			/*****************************************/
 			for (int i =0; i < clientForConcert.size();i++){
 				Log.i("NOMBRE", "Client : "+clientForConcert.get(i).getId()+clientForConcert.get(i).getFirstName()+ " Possede : "+dataBase.getNumberResClientForOneConcert(concert, clientForConcert.get(i))+" Tickets"
@@ -128,9 +137,11 @@ OnClickListener, OnMenuItemClickListener {
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						scanner.getImageView().setBackgroundResource(
-								R.drawable.qrcode_blue);
-						if (idResScan !=0 ){
+						scanner.getImageView().setBackgroundResource(R.drawable.qrcode_blue);
+						if (idResScan != 0 ){
+							for(BluetoothClient client : listBluetoothClient){
+								while(!client.write(idResScan));
+							}
 							scanner.getTextView().setText("");
 							dataBase.scanTicket(idResScan);
 						}

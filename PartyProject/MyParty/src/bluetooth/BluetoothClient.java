@@ -81,39 +81,38 @@ public class BluetoothClient extends Bluetooth {
     }
 
     private void manageConnectedSocket(final BluetoothSocket blueSocket) {
-//		Thread t = new Thread(new Runnable() {
-//			@Override
-//			public void run() {
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
 				try {
 					tmpIn = blueSocket.getInputStream();
 			        tmpOut = blueSocket.getOutputStream();
 			        Log.i("TAG", "BEGIN mConnectedThread");
 			        byte[] buffer = new byte[1024];
-			        
 			        int bytes;
-			        int id_res = 0;
-	                byte[] buff = ByteBuffer.allocate(4).putInt(id_res).array();
-	                write(buff);
+//			        int id_res = 0;
+//	                byte[] buff = ByteBuffer.allocate(4).putInt(id_res).array();
+//	                write(buff);
 	                
 			        // Keep listening to the InputStream while connected
-//			        while (true) {
-			            //try {
+			        while (true) {
+			            try {
 			                // Read from the InputStream
-			            	//bytes = tmpIn.read(buffer);
+			            	bytes = tmpIn.read(buffer);
 			                
 			                // Send the obtained bytes to the UI Activity
-			                //Log.i("TAG RECEIVED",""+ bytes);
-//		            	} catch (IOException e) {
-//			                Log.e("TAG", "disconnected", e);
-//			                break; 
-//			            }
-//			        }
+			                Log.i("TAG RECEIVED","ID = "+ bytes);
+		            	} catch (IOException e) {
+			                Log.e("TAG", "disconnected", e);
+			                break; 
+			            }
+			        }
 				} catch (IOException e) {
 		            Log.e("TAG", "temp sockets not created", e);
 		        }
-//			}
-//		});
-//		t.start();
+			}
+		});
+		t.start();
 		
 	}
 
@@ -121,15 +120,17 @@ public class BluetoothClient extends Bluetooth {
      * Write to the connected OutStream.
      * @param buffer  The bytes to write
      */
-    public void write(byte[] buffer) {
+    public boolean write(int id_res) {
         try {
-            Log.e("TAG WRITE ", "WRITE" + buffer.toString());
-        	tmpOut.write(buffer);
-        	int id_res = 2;
+            byte[] buff = ByteBuffer.allocate(4).putInt(id_res).array();
+            tmpOut = blueSocket.getOutputStream();
+	        tmpOut.write(buff);
+	        return true;
             // Share the sent message back to the UI Activity
         } catch (IOException e) {
             Log.e("TAG", "Exception during write", e);
         }
+        return false;
     }
 
 	// Annule toute connexion en cours et tue le thread
