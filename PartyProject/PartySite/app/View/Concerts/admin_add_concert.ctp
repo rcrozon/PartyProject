@@ -1,6 +1,6 @@
 <div id="page-wrapper">        
 	<div class="page-header">
-		<h1>Add Concert</h1>
+		<h1>Add Party</h1>
 	</div>
 
 	<!--<div class="row-fluid">

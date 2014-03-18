@@ -53,7 +53,7 @@
 					});
 				});
 			</script>
-  			<tr>
+  			<!--<tr>
   				<td><label>Is Full ?</label></td>
 	  			<?php echo $this->Form->input('full', array( 
 	  				'before' => '<td>', 'after' => '</td>', 'div' => false));?>
@@ -62,7 +62,43 @@
   				<td><label>Is Online ?</label></td>
   				<?php echo $this->Form->input('online', array( 
   				'before' => '<td>', 'after' => '</td>', 'div' => false));?>
-  			</tr>
+  			</tr>-->
+  			<tr>
+  				<td><label>Is Full ?</label></td>
+  				<td>
+		  			<div class="row-fluid tp">
+			          <div class="span4 offset2">
+			            <div class="onoffswitch tick">
+			              <input type="checkbox" name="full" class="onoffswitch-checkbox" id="myonoffswitch-tick" 
+			              	<?php if($full) echo 'checked'; ?>
+			              >
+			              <label class="onoffswitch-label" for="myonoffswitch-tick">
+				               <span class="onoffswitch-inner"></span>
+				               <span class="onoffswitch-switch tickswitch-switch"></span>
+			              </label>
+			            </div>
+			          </div>
+		        	</div>
+		        </td>
+	        </tr>
+	        <tr>
+  				<td><label>Is Online ?</label></td>
+  				<td>
+		  			<div class="row-fluid tp">
+			          <div class="span4 offset1">
+			            <div class="onoffswitch tickoff">
+			              <input type="checkbox" name="online" class="onoffswitch-checkbox" id="myonoffswitch-tickoff" 
+			              	<?php if($online) echo 'checked'; ?>
+			              >
+			              <label class="onoffswitch-label" for="myonoffswitch-tickoff">
+			                  <span class="onoffswitch-inner"></span>
+			                  <span class="onoffswitch-switch tickswitch-switch"></span>
+			              </label>
+			            </div>
+			          </div>
+		        	</div>
+		        </td>
+	        </tr>
   			<?php echo $this->Form->input('id');?>
 		<tr><td><?php echo $this->Form->button("Update my party", array('class' => 'btn btn-primary'));?></td></tr>
 		<?php echo $this->Form->end(); ?>
