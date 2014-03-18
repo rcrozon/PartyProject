@@ -60,7 +60,7 @@ OnClickListener, OnMenuItemClickListener {
 	private ProgressBar progressBar;
 	private LinearLayout layoutMain;
 	private ArrayList<BluetoothClient> listBluetoothClient = new ArrayList<BluetoothClient>();
-	
+
 	private List<Client> clientForConcert;
 
 	@Override
@@ -121,9 +121,9 @@ OnClickListener, OnMenuItemClickListener {
 			BluetoothServer server = new BluetoothServer();
 			server.start();
 			BluetoothDevices bluetoothDevices = new BluetoothDevices(this);
-		    for(BluetoothDevice device : bluetoothDevices.getBluetoothDevices()){
-		    	listBluetoothClient.add(new BluetoothClient(device, this));
-		    }
+			for(BluetoothDevice device : bluetoothDevices.getBluetoothDevices()){
+				listBluetoothClient.add(new BluetoothClient(device, this));
+			}
 			/*****************************************/
 			for (int i =0; i < clientForConcert.size();i++){
 				Log.i("NOMBRE", "Client : "+clientForConcert.get(i).getId()+clientForConcert.get(i).getFirstName()+ " Possede : "+dataBase.getNumberResClientForOneConcert(concert, clientForConcert.get(i))+" Tickets"
@@ -453,6 +453,27 @@ OnClickListener, OnMenuItemClickListener {
 
 
 	private void updateLists(){
+		clientForConcert = dataBase.getClientsForOneConcert(concert.getId());
+
+		if (clientForConcert!=null){
+			/************* TRI ALPHABETIQUE ***********/
+			Log.i("LISTE", "NonTrié"+ clientForConcert.toString());
+
+			List<Client> oui = new ArrayList<Client>();
+			while(clientForConcert.size()>0){
+				int num = 0;
+				Log.i("Tri", "Taille "+clientForConcert.size());
+				for (int i=1 ; i<clientForConcert.size() ; i++){
+					if (clientForConcert.get(num).getLastName().compareToIgnoreCase(clientForConcert.get(i).getLastName()) > 0){
+						num =i;
+					}
+				}
+				oui.add(clientForConcert.get(num));
+				clientForConcert.remove(num);
+
+			}
+			clientForConcert=oui;
+		}
 		int index = view_flipper.getDisplayedChild();
 		this.view_flipper.removeAllViews();
 		this.view_flipper.addView(new ConcertDetailed(this, concert));

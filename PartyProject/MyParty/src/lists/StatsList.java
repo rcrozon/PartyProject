@@ -38,7 +38,7 @@ public class StatsList extends LinearLayout {
 		int cptIn = database.getNumberResForOneConcertScanned(idConcert);
 		int cptOut = database.getNumberResForOneConcert(idConcert) - cptIn;
 		int persons[] = {cptIn, cptOut};
-		int tickets[] = {cptIn + cptOut, database.getConcertWithId(idConcert).getNbSeets()};
+		int tickets[] = {database.getNumberResForOneConcert(idConcert), database.getConcertWithId(idConcert).getNbSeets()-database.getNumberResForOneConcert(idConcert)};
 		chartTicketSold.createChart(chartTicketSold.createDataset(tickets));
 		chartTariff.createChart(chartTariff.createDataset(tariffs));
 		chartPersonsIn.createChart(chartPersonsIn.createDataset(persons));
