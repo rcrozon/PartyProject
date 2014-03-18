@@ -91,7 +91,7 @@ require('../webroot/date/dateConverter.php');
 	/*Demo Styles*/
 	body { background-color:#e9eaed; }
 
-	.details{ margin:15px 20px; }	
+	.details{ margin:15px 15px; }	
 	 a:hover{
 		 text-decoration:none; 
 		 font-color:blue;

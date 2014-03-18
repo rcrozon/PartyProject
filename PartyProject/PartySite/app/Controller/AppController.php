@@ -53,8 +53,6 @@ class AppController extends Controller {
             else {
                 $this->layout = 'error';
             }
-        } else {
-            $this->layout = 'default';
-        }
+        } 
     }
 }
