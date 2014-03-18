@@ -616,11 +616,34 @@ class ConcertsController extends AppController{
                     echo'Sorry we can\'t load this image';
                 }
             }
+            # # # # # # # # # # # # #
+            # Partie full & online
+            # # # # # # # # # # # # #
+            if(isset($d['full'])) {
+                $full = $d['full'];
+                if($full == 'on') {
+                    $d['Concert']['full'] = 1;
+                }
+            } else {
+                $d['Concert']['full'] = 0;
+            }
+
+            if(isset($d['online'])) {
+                $online = $d['online'];
+                if($online == 'on') {
+                    $d['Concert']['online'] = 1;
+                }
+            } else {
+                $d['Concert']['online'] = 0;
+            }
+            /*debug($d);
+            debug($d['Concert']['full']);
+            die();*/
             # # # # # # # 
             # Sauvegarde
             # # # # # # # 
             if($this->Concert->save($d,true,
-                array('name_concert','location','nb_seats','image','start_datetime','end_datetime','full','online', 'artists'))) {
+                array('name_concert','location','nb_seats','image','start_datetime','end_datetime','full','online','artists'))) {
                     $this->Session->setFlash('The party has been successfully updated', 'notif', array('type'=>'success'));
                     # # # # # # # # # # # # # # # # 
                     # Sauvegarde dans AssocArtist #
@@ -664,6 +687,13 @@ class ConcertsController extends AppController{
         $this->Concert->id = $id;
         $this->request->data = $this->Concert->read();
         $d['partyName'] = $this->Concert->data['Concert']['name_concert'];
+        $this->set($d);
+        # # # # # # # # # # # # # # # # # # 
+        # Envoi le nom du concert à la vue
+        # # # # # # # # # # # # # # # # # # 
+        $d['full'] = $this->Concert->data['Concert']['full'];
+        $this->set($d);
+        $d['online'] = $this->Concert->data['Concert']['online'];
         $this->set($d);
         # # # # # # # # # # # # # # # # # # # # # # # # #
         # Envoi les artistes pré-sélectionné à la vue

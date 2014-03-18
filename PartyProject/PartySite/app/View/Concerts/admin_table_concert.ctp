@@ -25,7 +25,9 @@
 			<td><?php echo $v['image'];?></td>
 			<td><?php echo $v['start_datetime'];?></td>
 			<td><?php echo $v['end_datetime'];?></td>
-			<td style="width: 50px;"><?php echo $v['full']=='0'?'<span class="label-success">Open</span>':'<span class="label-important">Full</span>';?></td>
+			<td style="width: 50px;">
+				<?php echo $v['full']=='0'?'<span class="label-success">Open</span>':'<span class="label-important">Full</span>';?>
+			</td>
 			<td><?php echo $v['online']=='0'?'<span class="label-important">Offline</span>':'<span class="label-success">Online</span>';?></td>
 			<td>
 				<?php echo $this->Html->link("Tariff(s)", array('action' => 'tariff', $v['id'])); ?> -
@@ -38,3 +40,20 @@
 	</table>
 	<div class="pagination"><?php echo $this->Paginator->numbers(); ?></div>
 </div>
+
+<!--<tr>
+	<td><label>Is Online ?</label></td>
+	<td>
+		<div class="row-fluid tp">
+	      <div class="span4 offset2">
+	        <div class="onoffswitch tick">
+	          <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch-tick" checked>
+	          <label class="onoffswitch-label" for="myonoffswitch-tick">
+	              <span class="onoffswitch-inner"></span>
+	              <span class="onoffswitch-switch tickswitch-switch"></span>
+	          </label>
+	        </div>
+	      </div>
+		</div>
+	</td>
+</tr>-->
