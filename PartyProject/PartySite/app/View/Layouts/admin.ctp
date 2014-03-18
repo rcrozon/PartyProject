@@ -18,6 +18,7 @@
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/sb-admin.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/font-awesome/css/font-awesome.min.css');?>">
         <link rel="stylesheet" href="<?php echo $this->Html->url('/css/morris.css');?>">
+        <link rel="stylesheet" href="<?php echo $this->Html->url('/css/checkbox-radio-switch.css');?>">
 
         <?php echo $this->Html->script('jquery-1.10.2'); ?>
         <?php echo $this->Html->script('flot/jquery.flot'); ?>
