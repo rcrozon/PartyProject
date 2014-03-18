@@ -81,6 +81,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 		this.view_flipper.addView(listAll); 
 		this.view_flipper.addView(listNext);
 		this.view_flipper.addView(listNews);
+		view_flipper.setDisplayedChild(nextIndex);
 	}
 	
 	@Override

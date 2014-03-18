@@ -56,6 +56,8 @@ OnClickListener, OnMenuItemClickListener {
 	private MenuItem scanPushItem;
 	private ProgressBar progressBar;
 	private LinearLayout layoutMain;
+	
+	private List<Client> clientForConcert;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +87,7 @@ OnClickListener, OnMenuItemClickListener {
 		/****************** RECUPERATION DE L'ID DU CONCERT *****************/
 
 		Bundle b = getIntent().getExtras();
-		List<Client> clientForConcert = null;
+		clientForConcert = null;
 		concert = null;
 		if (b.getInt("id") != 0){ 
 			concert = dataBase.getConcertWithId(b.getInt("id"));
@@ -409,7 +411,7 @@ OnClickListener, OnMenuItemClickListener {
 						@Override
 						public void run() {
 							connectedToServer(0);  
-							//updateLists();
+							updateLists();
 							progressBar.setVisibility(View.GONE);
 							layoutMain.setVisibility(View.VISIBLE);
 						}
@@ -428,7 +430,7 @@ OnClickListener, OnMenuItemClickListener {
 							toast.show();
 							connectedToServer(1);
 
-							//updateLists();
+							updateLists();
 
 							progressBar.setVisibility(View.GONE);
 							layoutMain.setVisibility(View.VISIBLE);
@@ -440,15 +442,17 @@ OnClickListener, OnMenuItemClickListener {
 	}
 
 
-	/*private void updateLists(){
-		listAll = new ListLayout(this, new ConcertList(this, 0));
-		listNext = new ListLayout(this, new ConcertList(this, 1));
-		listNews = new ListLayout(this, new ConcertList(this, 2));
+	private void updateLists(){
+		int index = view_flipper.getDisplayedChild();
 		this.view_flipper.removeAllViews();
-		this.view_flipper.addView(listAll); 
-		this.view_flipper.addView(listNext);
-		this.view_flipper.addView(listNews);
-	}	*/
+		this.view_flipper.addView(new ConcertDetailed(this, concert));
+		this.view_flipper.addView(new ListLayout(this, new ClientList(this,
+				clientForConcert,concert)));
+		this.view_flipper.addView(scanner);
+		this.view_flipper.addView(new StatsList(this, concert.getId()));
+		view_flipper.setDisplayedChild(index);
+
+	}	
 
 
 
