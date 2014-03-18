@@ -3,6 +3,7 @@ package com.example.myparty;
 import java.util.ArrayList;
 import java.util.List;
 
+import bluetooth.BluetoothClient;
 import lists.ClientList;
 import lists.ListLayout;
 import lists.ReservationsList;
@@ -110,12 +111,9 @@ OnClickListener, OnMenuItemClickListener {
 		
 			}
 			clientForConcert=oui;
-
+//			BluetoothClient client = new BluetoothClient(device, context);
+//			client.start();
 			Log.i("LISTE", "Trie"+ clientForConcert.toString());
-		
-
-
-
 
 			/*****************************************/
 			for (int i =0; i < clientForConcert.size();i++){

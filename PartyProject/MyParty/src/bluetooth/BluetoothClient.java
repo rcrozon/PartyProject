@@ -89,24 +89,25 @@ public class BluetoothClient extends Bluetooth {
 			        tmpOut = blueSocket.getOutputStream();
 			        Log.i("TAG", "BEGIN mConnectedThread");
 			        byte[] buffer = new byte[1024];
+			        
 			        int bytes;
-	
+			        int id_res = 0;
+	                byte[] buff = ByteBuffer.allocate(4).putInt(id_res).array();
+	                write(buff);
+	                
 			        // Keep listening to the InputStream while connected
-			        while (true) {
-			            try {
+//			        while (true) {
+			            //try {
 			                // Read from the InputStream
-			            	int id_res = 0;
-			                byte[] buff = ByteBuffer.allocate(1).putInt(id_res).array();
-			                write(buff);
-			                bytes = tmpIn.read(buffer);
+			            	//bytes = tmpIn.read(buffer);
 			                
 			                // Send the obtained bytes to the UI Activity
-			                Log.i("TAG RECEIVED",""+ bytes);
-		            	} catch (IOException e) {
-			                Log.e("TAG", "disconnected", e);
-			                break; 
-			            }
-			        }
+			                //Log.i("TAG RECEIVED",""+ bytes);
+//		            	} catch (IOException e) {
+//			                Log.e("TAG", "disconnected", e);
+//			                break; 
+//			            }
+//			        }
 				} catch (IOException e) {
 		            Log.e("TAG", "temp sockets not created", e);
 		        }
