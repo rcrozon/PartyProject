@@ -79,6 +79,8 @@ public class BluetoothClient extends Bluetooth {
      */
     public boolean write(int id_res) {
         try {
+        	blueSocket.connect();
+        	 Log.i("TAG RUN CLIENT", "connected"); 
             byte[] buff = ByteBuffer.allocate(4).putInt(id_res).array();
             tmpOut = blueSocket.getOutputStream();
 	        tmpOut.write(buff);
