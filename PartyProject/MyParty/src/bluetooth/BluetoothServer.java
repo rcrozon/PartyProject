@@ -33,7 +33,7 @@ public class BluetoothServer extends Bluetooth {
         	    Log.d("TAG UUIDS SERVER", "UUID: " + uuid.getUuid().toString());
         	}
         	// MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est n�cessaire c�t� client �galement !
-        	blueServerSocket = blueAdapter.listenUsingRfcommWithServiceRecord("MYPARTY", uuids[0].getUuid());
+        	blueServerSocket = blueAdapter.listenUsingInsecureRfcommWithServiceRecord("MYPARTY", uuids[0].getUuid());
         } catch (NullPointerException e) {
 			e.printStackTrace();
         } catch (NoSuchMethodException e) {

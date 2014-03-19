@@ -45,7 +45,7 @@ public class BluetoothClient extends Bluetooth {
 	    	for (ParcelUuid uuid: uuids) {
 	    	    Log.i("TAG UUIDS CLIENT", "UUID: " + uuid.getUuid().toString());
 	    	}
-        	tmp = device.createRfcommSocketToServiceRecord(uuids[0].getUuid());
+        	tmp = device.createInsecureRfcommSocketToServiceRecord(uuids[0].getUuid());
         } catch (IOException e) { }
         catch (IllegalAccessException e) {
 			// TODO Auto-generated catch block
