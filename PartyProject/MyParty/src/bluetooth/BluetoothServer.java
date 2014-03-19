@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
-import android.bluetooth.BluetoothSocket;
+import android.bluetooth.BluetoothSocket; 
 import android.os.ParcelUuid;
 import android.util.Log;
 

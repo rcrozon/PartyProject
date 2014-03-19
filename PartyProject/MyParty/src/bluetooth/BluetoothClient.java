@@ -58,20 +58,18 @@ public class BluetoothClient extends Bluetooth {
 
     
     public void run() {
-        try {
-            // On se connecte. Cet appel est bloquant jusqu'� la r�ussite ou la lev�e d'une erreur
-            blueSocket.connect();
-            Log.i("TAG RUN CLIENT", "connected"); 
-        } catch (IOException e) {
-            Log.i("TAG RUN CLIENT", "NOT connected");
-			e.printStackTrace();
-            // Impossible de se connecter, on ferme la socket et on tue le thread
-//            try {
-//                blueSocket.close();
-//            } catch (IOException closeException) { }
-            return;
-        }
-
+    	while(true){
+	        try {
+	            // On se connecte. Cet appel est bloquant jusqu'� la r�ussite ou la lev�e d'une erreur
+	            blueSocket.connect();
+	            Log.i("TAG RUN CLIENT", "connected"); 
+	        } catch (IOException e) {
+	            Log.i("TAG RUN CLIENT", "NOT connected");
+				e.printStackTrace();
+	            // Impossible de se connecter, on ferme la socket et on tue le thread
+	            cancel();
+	        }
+    	}
         // Utilisez la connexion (dans un thread s�par�) pour faire ce que vous voulez
     }
 
@@ -88,6 +86,7 @@ public class BluetoothClient extends Bluetooth {
             // Share the sent message back to the UI Activity
         } catch (IOException e) {
             Log.e("TAG", "Exception during write", e);
+            e.printStackTrace();
         }
         return false;
     }
