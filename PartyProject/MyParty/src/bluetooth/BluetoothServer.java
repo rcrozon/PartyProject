@@ -58,7 +58,7 @@ public class BluetoothServer extends Bluetooth {
 	                blueSocket = blueServerSocket.accept();
 	            	Log.i("TAG INIT", "connection accepté");
             	}else{
-            		Log.i("TAG INIT", "connection accepté");	
+            		Log.i("TAG INIT", "connection pas accepté");	
             	}
             } catch (IOException e) {
 	            break;

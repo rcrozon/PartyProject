@@ -16,7 +16,7 @@ import android.os.Handler;
 import android.os.ParcelUuid;
 import android.util.Log;
 
-public class BluetoothClient extends Bluetooth {
+public class BluetoothClient {
 	
     private BluetoothSocket blueSocket ;
     private final BluetoothDevice blueDevice ;
@@ -56,7 +56,7 @@ public class BluetoothClient extends Bluetooth {
         blueSocket = tmp;
     }
 
-    
+    /*
     public void run() {
     	while(true){
 	        try {
@@ -72,23 +72,30 @@ public class BluetoothClient extends Bluetooth {
     	}
         // Utilisez la connexion (dans un thread s�par�) pour faire ce que vous voulez
     }
-
+*/
     /**
      * Write to the connected OutStream.
      * @param buffer  The bytes to write
      */
-    public boolean write(int id_res) {
-        try {
-            byte[] buff = ByteBuffer.allocate(4).putInt(id_res).array();
-            tmpOut = blueSocket.getOutputStream();
-	        tmpOut.write(buff);
-	        return true;
-            // Share the sent message back to the UI Activity
-        } catch (IOException e) {
-            Log.e("TAG", "Exception during write", e);
-            e.printStackTrace();
-        }
-        return false;
+    public void write(final int id_res) {
+    	Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+		            byte[] buff = ByteBuffer.allocate(4).putInt(id_res).array();
+		            blueSocket.connect();
+		            Log.i("TAG RUN CLIENT", "connected"); 
+		            tmpOut = blueSocket.getOutputStream();
+			        tmpOut.write(buff);
+			        // Share the sent message back to the UI Activity
+		        } catch (IOException e) {
+		            Log.e("TAG", "Exception during write", e);
+		            e.printStackTrace();
+		        }
+			}
+		});
+    	t.start();
     }
 
 	// Annule toute connexion en cours et tue le thread

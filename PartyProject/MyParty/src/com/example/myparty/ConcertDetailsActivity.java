@@ -122,7 +122,6 @@ OnClickListener, OnMenuItemClickListener {
 
 		    for(BluetoothDevice device : bluetoothDevices.getBluetoothDevices()){
 		    	BluetoothClient client = new BluetoothClient(device, this);
-		    	client.start();
 		    	listBluetoothClient.add(client);
 		    }
 
