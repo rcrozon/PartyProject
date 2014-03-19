@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
+import java.util.UUID;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -37,26 +38,18 @@ public class BluetoothClient extends Bluetooth {
         try {
             // MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est n�cessaire c�t� serveur �galement !
         	blueAdapter = BluetoothAdapter.getDefaultAdapter();
-            Method getUuidsMethod;
-			getUuidsMethod = BluetoothAdapter.class.getDeclaredMethod("getUuids", null);
-			ParcelUuid[] uuids;
-			uuids = (ParcelUuid[])getUuidsMethod.invoke(blueAdapter, null);
-		
-	    	for (ParcelUuid uuid: uuids) {
-	    	    Log.i("TAG UUIDS CLIENT", "UUID: " + uuid.getUuid().toString());
-	    	}
-        	tmp = device.createInsecureRfcommSocketToServiceRecord(uuids[0].getUuid());
+//            Method getUuidsMethod;
+//			getUuidsMethod = BluetoothAdapter.class.getDeclaredMethod("getUuids", null);
+//			ParcelUuid[] uuids;
+//			uuids = (ParcelUuid[])getUuidsMethod.invoke(blueAdapter, null);
+//		
+//	    	for (ParcelUuid uuid: uuids) {
+//	    	    Log.i("TAG UUIDS CLIENT", "UUID: " + uuid.getUuid().toString());
+//	    	}
+        	String s = "0000111f-0000-1000-8000-00805f9b34fb";
+        	tmp = device.createInsecureRfcommSocketToServiceRecord(UUID.fromString(s));
         } catch (IOException e) { }
-        catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
+         catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

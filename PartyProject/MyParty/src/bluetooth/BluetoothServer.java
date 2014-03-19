@@ -25,31 +25,27 @@ public class BluetoothServer extends Bluetooth {
         BluetoothServerSocket tmp = null;
     	BluetoothAdapter blueAdapter = BluetoothAdapter.getDefaultAdapter();
         try {
-        	Method getUuidsMethod;
-				getUuidsMethod = BluetoothAdapter.class.getDeclaredMethod("getUuids", null);
-				ParcelUuid[] uuids = (ParcelUuid[])getUuidsMethod.invoke(blueAdapter, null);
-			
-        	for (ParcelUuid uuid: uuids) {
-        	    Log.d("TAG UUIDS SERVER", "UUID: " + uuid.getUuid().toString());
-        	}
+//          Method getUuidsMethod;
+//			getUuidsMethod = BluetoothAdapter.class.getDeclaredMethod("getUuids", null);
+//			ParcelUuid[] uuids;
+//			uuids = (ParcelUuid[])getUuidsMethod.invoke(blueAdapter, null);
+//		
+//	    	for (ParcelUuid uuid: uuids) {
+//	    	    Log.i("TAG UUIDS CLIENT", "UUID: " + uuid.getUuid().toString());
+//	    	}
+        	String s = "0000111f-0000-1000-8000-00805f9b34fb";
+
         	// MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est n�cessaire c�t� client �galement !
-        	blueServerSocket = blueAdapter.listenUsingInsecureRfcommWithServiceRecord("MYPARTY", uuids[0].getUuid());
+        	blueServerSocket = blueAdapter.listenUsingInsecureRfcommWithServiceRecord("MYPARTY", UUID.fromString(s));
         } catch (NullPointerException e) {
 			e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-			e.printStackTrace();
-        } catch (IllegalAccessException e) {
-			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
 			e.printStackTrace();
     	} catch (IOException e) {
 			e.printStackTrace();
 		}
         
         Log.i("TAG SERVER", "SERVER CONSTRUCTOR");
-        //blueServerSocket = tmp;
     }
 
     public void run() {
