@@ -18,7 +18,9 @@ margin-right: 0px;
 margin-bottom: 8px;
 
 }
-
+.msg-noplace{
+	margin-top: 50px;
+}
 .label-success, p.notif {
 margin-bottom: 5px;
 padding: 2px 4px;
@@ -175,7 +177,6 @@ for ($i = 0; $i <= sizeof($showTarif)-1; $i++) {  ?>
 		<span class="quantity" ><input type="number" value=0  min=0 max=15 id="<?php echo "quantity_".$i?>" name=<?php echo "\"".$showTarif[$i][0]['Tarif']['id']."\"";?>></span>
 	</div>
 	<div class="col-md-3">
-
 		<span class="subtotal" id="<?php echo "subtotal_".$i?>"></span>
 	</div>
 
@@ -187,11 +188,16 @@ for ($i = 0; $i <= sizeof($showTarif)-1; $i++) {  ?>
 
 
 ?>            
-<span>Total :</span>	<span class="total" id="total">0</span>
+<div class="col-md-3">		
+
+
+<span>Total :</span>	<span class="label label-default" id="total">0 €</span>
+	</div>
 <div class="msg-noplace" id="msg-noplace"></div>
 
 <div class="row" id="validateReservation">
-	
+	           
+
 	<?php echo $this->Form->end("Validate"); ?>
 
 </div>
@@ -221,7 +227,7 @@ for ($i = 0; $i <= sizeof($showTarif)-1; $i++) {  ?>
 		document.getElementById("validateReservation").innerHTML =" ";
 	}
 		else{
-		document.getElementById("validateReservation").innerHTML = '<?php echo $this->Form->end("Validate"); ?>';
+		document.getElementById("validateReservation").innerHTML = '<?php echo $this->Form->button("Validate", array("class" => "btn btn-primary","style"=>"margin-top:50px;margin-left:40%"));echo $this->Form->end(); ?>';
 		document.getElementById("msg-noplace").innerHTML =" ";
 		;
 		}
@@ -244,7 +250,9 @@ for ($i = 0; $i <= sizeof($showTarif)-1; $i++) {  ?>
 			echo ";";
 		}
 			} ?>
-	})
+		document.getElementById("total").innerHTML = document.getElementById("total").innerHTML + " €";
+})
+
 	.change();
 	<?php } ?>
 
