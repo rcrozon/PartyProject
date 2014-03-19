@@ -61,7 +61,7 @@ public class BluetoothServer extends Bluetooth {
             		Log.i("TAG INIT", "connection pas accepté");	
             	}
             } catch (IOException e) {
-	            break;
+	            e.printStackTrace();
 	        }
             // Si une connexion est acceptée
             if (blueSocket != null) {
