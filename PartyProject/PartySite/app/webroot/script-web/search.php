@@ -1,3 +1,5 @@
+<?php require('connect.php'); ?>
+
 <?php
 	#
 	# Example PHP server-side script for generating
@@ -5,8 +7,8 @@
 	#
 
 	# Connect to the database
-	mysql_pconnect("localhost", "root", "") or die("Could not connect");
-	mysql_select_db("myparty") or die("Could not select database");
+	mysql_pconnect(getHost(), getLogin(), getPassword()) or die("Could not connect");
+	mysql_select_db(getDatabase()) or die("Could not select database");
 
 	# Perform the query
 	$query = sprintf("SELECT id, name FROM artists WHERE name LIKE '%%%s%%' ORDER BY name DESC LIMIT 10", mysql_real_escape_string($_GET["q"]));

@@ -1,31 +1,18 @@
 <?php
 
 class ClientsController extends AppController{
-     
-    /*function beforeFilter(){
-        
-    }*/
 
     function signup(){
+
                 $this->layout = 'login';
 
-            if($this->request->is('post')){
+        if($this->request->is('post')){
+
             $d = $this->request->data; 
             $d['Client']['id'] = null;
             $d['Client']['lastlogin'] = '2009-08-08 12:17:00'; 
                  
             if($this->Client->save($d,true,array('username','password','mail','first_name','last_name'))){
-            /*    $link = array('controller'=>'users','action
-            '=>'activate',$this->User->id.'-'.md5($d['User']['password']));
-                App::uses('CakeEmail','Network/Email'); 
-                $mail = new CakeEmail(); 
-                $mail->from('noreply@localhost.com')
-                    ->to($d['User']['mail'])
-                    ->subject('Test :: Inscription')
-                    ->emailFormat('html')
-                    ->template('signup')
-                    ->viewVars(array('username'=>$d['User']['username'],'link'=>$link))
-                    ->send();*/
                 $this->Session->setFlash("Your account has been well created","notif",array('type'=>'success'));
                 $this->request->data = array(); 
                 $this->redirect('/');
@@ -48,9 +35,7 @@ class ClientsController extends AppController{
     }
  
     function membre_index(){
-         
     }
- 
  
     function logout(){
         $this->Auth->logout(); 
@@ -116,10 +101,8 @@ class ClientsController extends AppController{
                     ->send();
             }
         }
-         
     }
- 
- 
+
     function edit(){
         $user_id = $this->Auth->user('id');
         if(!$user_id){
@@ -149,5 +132,4 @@ class ClientsController extends AppController{
         }
         $this->request->data['Client']['pass1'] = $this->request->data['Client']['pass2'] = ''; 
     }
- 
 }

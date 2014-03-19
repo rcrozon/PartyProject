@@ -43,10 +43,12 @@ public class BluetoothDevices {
         */
 	    //re-start discovery
 	    //cancel any prior BT device discovery
-	    if (bluetoothAdapter.isDiscovering()){
-	        bluetoothAdapter.cancelDiscovery();
-	    }
-	    bluetoothAdapter.startDiscovery();
+
+//	    if (bluetoothAdapter.isDiscovering()){
+//	        bluetoothAdapter.cancelDiscovery();
+//	    }
+//	    bluetoothAdapter.startDiscovery();
+
 
         // Get a set of currently paired devices
         Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();

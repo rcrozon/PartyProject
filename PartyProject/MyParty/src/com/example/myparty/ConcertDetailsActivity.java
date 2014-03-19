@@ -143,7 +143,7 @@ OnClickListener, OnMenuItemClickListener {
 						if (idResScan != 0 ){
 							for(BluetoothClient client : listBluetoothClient){
 								Log.i("TAG ENVOIE ID_RES", "ENVOIE " + idResScan);
-								while(!client.write(idResScan));
+								client.write(idResScan);
 							}
 							scanner.getTextView().setText("");
 							dataBase.scanTicket(idResScan);
@@ -353,7 +353,7 @@ OnClickListener, OnMenuItemClickListener {
 								Context myContext = getApplicationContext();
 
 								MyJsonParser pars = new MyJsonParser(context);
-								if (pars.reponseIsJson(reponse)){
+								if (pars.reponseIsClient(reponse)){
 									Log.i("ScanJson", "ON A REUSSI");
 									dataBase.deleteResMAJ();
 									CharSequence text = "PUSH OK!";

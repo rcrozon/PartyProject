@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
+import java.util.UUID;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -28,7 +29,7 @@ public class BluetoothClient extends Bluetooth {
     public BluetoothClient(BluetoothDevice device, Context context) {
     	
     	blueDevice = device;
-    	
+    	BluetoothAdapter blueAdapter;
         // On utilise un objet temporaire car blueSocket et blueDevice sont "final"
         BluetoothSocket tmp = null;
         //blueDevice = device;
@@ -36,27 +37,19 @@ public class BluetoothClient extends Bluetooth {
         // On r�cup�re un objet BluetoothSocket gr�ce � l'objet BluetoothDevice
         try {
             // MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est n�cessaire c�t� serveur �galement !
-        	BluetoothAdapter blueAdapter = BluetoothAdapter.getDefaultAdapter();
-            Method getUuidsMethod;
-			getUuidsMethod = BluetoothAdapter.class.getDeclaredMethod("getUuids", null);
-			ParcelUuid[] uuids;
-			uuids = (ParcelUuid[])getUuidsMethod.invoke(blueAdapter, null);
-		
-	    	for (ParcelUuid uuid: uuids) {
-	    	    Log.i("TAG UUIDS CLIENT", "UUID: " + uuid.getUuid().toString());
-	    	}
-        	tmp = device.createRfcommSocketToServiceRecord(uuids[0].getUuid());
+        	blueAdapter = BluetoothAdapter.getDefaultAdapter();
+//            Method getUuidsMethod;
+//			getUuidsMethod = BluetoothAdapter.class.getDeclaredMethod("getUuids", null);
+//			ParcelUuid[] uuids;
+//			uuids = (ParcelUuid[])getUuidsMethod.invoke(blueAdapter, null);
+//		
+//	    	for (ParcelUuid uuid: uuids) {
+//	    	    Log.i("TAG UUIDS CLIENT", "UUID: " + uuid.getUuid().toString());
+//	    	}
+        	String s = "0000111f-0000-1000-8000-00805f9b34fb";
+        	tmp = device.createInsecureRfcommSocketToServiceRecord(UUID.fromString(s));
         } catch (IOException e) { }
-        catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
+         catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -65,53 +58,20 @@ public class BluetoothClient extends Bluetooth {
 
     
     public void run() {
-        try {
-            // On se connecte. Cet appel est bloquant jusqu'� la r�ussite ou la lev�e d'une erreur
-            blueSocket.connect();
-            manageConnectedSocket(blueSocket);
-            Log.i("TAG RUN CLIENT", "connected");
-        } catch (IOException connectException) {
-            Log.i("TAG RUN CLIENT", "NOT connected");
-            // Impossible de se connecter, on ferme la socket et on tue le thread
-//            try {
-//                blueSocket.close();
-//            } catch (IOException closeException) { }
-            return;
-        }
-
+    	while(true){
+	        try {
+	            // On se connecte. Cet appel est bloquant jusqu'� la r�ussite ou la lev�e d'une erreur
+	            blueSocket.connect();
+	            Log.i("TAG RUN CLIENT", "connected"); 
+	        } catch (IOException e) {
+	            Log.i("TAG RUN CLIENT", "NOT connected");
+				e.printStackTrace();
+	            // Impossible de se connecter, on ferme la socket et on tue le thread
+	            cancel();
+	        }
+    	}
         // Utilisez la connexion (dans un thread s�par�) pour faire ce que vous voulez
     }
-
-    private void manageConnectedSocket(final BluetoothSocket blueSocket) {
-        
-        // Keep listening to the InputStream while connected
-        try {
-            // Read from the InputStream
-    		tmpIn = blueSocket.getInputStream();
-            tmpOut = blueSocket.getOutputStream();
-            Log.i("TAG", "BEGIN mConnectedThread");
-        	Thread read = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					byte[] buffer = new byte[1024];
-			        int bytes;
-			        while (true) {
-				        try {
-							bytes = tmpIn.read(buffer);
-							Log.i("TAG RECEIVED","ID = "+ bytes);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-	            	}
-				}
-			});
-        	read.start();
-            // Send the obtained bytes to the UI Activity
-        } catch (IOException e) {
-            Log.e("TAG", "disconnected", e);
-        }
-	}
 
     /**
      * Write to the connected OutStream.
@@ -126,6 +86,7 @@ public class BluetoothClient extends Bluetooth {
             // Share the sent message back to the UI Activity
         } catch (IOException e) {
             Log.e("TAG", "Exception during write", e);
+            e.printStackTrace();
         }
         return false;
     }

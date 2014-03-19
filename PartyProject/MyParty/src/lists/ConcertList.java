@@ -55,8 +55,10 @@ public class ConcertList extends List {
 					}break;
 				case 2 : //News
 					listeConcerts = DateParser.sortConcertNews(listeConcerts);
+					int nombreAff = 0;
 					for (Concert concert : listeConcerts){
-						if (DateParser.isNewConcert(concert.getBeginDate())){
+						if (DateParser.isNewConcert(concert.getBeginDate()) && nombreAff < 3){
+							nombreAff++;
 							ConcertItem item = new ConcertItem(this.getContext(), concert);
 							items.add(item);
 						}

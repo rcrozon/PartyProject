@@ -12,8 +12,11 @@ import org.afree.graphics.SolidColor;
 import org.afree.graphics.geom.Font;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.shapes.Shape;
 
 public abstract class Charts extends DemoView implements Items {
 	
@@ -35,6 +38,7 @@ public abstract class Charts extends DemoView implements Items {
 										                false);
         SolidColor white_color = new SolidColor(Color.WHITE);
         SolidColor black_color = new SolidColor(Color.BLACK);
+        
         PiePlot plot = (PiePlot) chart.getPlot();
         plot.setLabelPaint(white_color);
         plot.setLabelFont(new Font("SansSerif", Typeface.NORMAL, 36));
@@ -47,7 +51,7 @@ public abstract class Charts extends DemoView implements Items {
         plot.setOutlinePaintType(black_color);
         plot.setBaseSectionPaintType(black_color);
         plot.setLabelLinkPaintType(white_color);
-        
+       
         plot.setLabelShadowPaint(black_color);
         plot.setInteriorGap(0);
         plot.setBaseSectionOutlinePaintType(black_color);

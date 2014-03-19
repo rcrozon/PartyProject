@@ -174,7 +174,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 								Context myContext = getApplicationContext();
 								
 								MyJsonParser pars = new MyJsonParser(context);
-								if (pars.reponseIsJson(reponse)){
+								if (pars.reponseIsClient(reponse)){
 									Log.i("ScanJson", "ON A REUSSI");
 									dataBase.deleteResMAJ();
 									CharSequence text = "PUSH OK!";
