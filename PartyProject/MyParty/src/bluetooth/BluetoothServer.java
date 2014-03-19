@@ -34,7 +34,9 @@ public class BluetoothServer extends Bluetooth {
         	}
         	// MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est nécessaire côté client également !
             tmp = blueAdapter.listenUsingRfcommWithServiceRecord("MYPARTY", uuids[0].getUuid());
-		} catch (NoSuchMethodException e) {
+        } catch (NullPointerException e) {
+			e.printStackTrace();
+        } catch (NoSuchMethodException e) {
 			e.printStackTrace();
         } catch (IllegalAccessException e) {
 			e.printStackTrace();
@@ -57,9 +59,10 @@ public class BluetoothServer extends Bluetooth {
             	Log.i("TAG INIT", "init connection");
                 blueSocket = blueServerSocket.accept();
             	Log.i("TAG INIT", "connection accepté");
+            } catch (NullPointerException e) {
             } catch (IOException e) {
-                break;
-            }
+	            break;
+	        }
             // Si une connexion est acceptée
             if (blueSocket != null) {
                 // On fait ce qu'on veut de la connexion (dans un thread séparé), à vous de la créer
