@@ -122,7 +122,7 @@ OnClickListener, OnMenuItemClickListener {
 
 		    for(BluetoothDevice device : bluetoothDevices.getBluetoothDevices()){
 		    	BluetoothClient client = new BluetoothClient(device, this);
-//		    	client.start();
+		    	client.start();
 		    	listBluetoothClient.add(client);
 		    }
 
@@ -143,8 +143,7 @@ OnClickListener, OnMenuItemClickListener {
 						if (idResScan != 0 ){
 							for(BluetoothClient client : listBluetoothClient){
 								Log.i("TAG ENVOIE ID_RES", "ENVOIE " + idResScan);
-								client.start();
-						    	client.write(idResScan);
+								client.write(idResScan);
 							}
 							scanner.getTextView().setText("");
 							dataBase.scanTicket(idResScan);
