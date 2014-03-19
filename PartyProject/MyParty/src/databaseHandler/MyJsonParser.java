@@ -43,6 +43,8 @@ public class MyJsonParser {
 		String r = reponse.substring(8);
 		DatabaseHandler dt = new DatabaseHandler(context);
 		String decode = dt.decodePassword(r);
+		if (decode == null)
+			return false;
 		JSONArray rep;
 		try {
 			rep = new JSONArray(decode);

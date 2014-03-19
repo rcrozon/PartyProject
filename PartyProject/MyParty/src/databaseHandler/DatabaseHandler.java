@@ -948,7 +948,7 @@ public class DatabaseHandler {
 		try {
 			decrypted = new String( mcrypt.decrypt( code ) );
 		} catch (Exception e) {
-			e.printStackTrace();
+			return null;
 		}
 
 		Log.i("DECRYPT", "Crypte = "+ code);
