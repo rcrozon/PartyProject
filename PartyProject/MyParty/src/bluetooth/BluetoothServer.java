@@ -21,7 +21,7 @@ public class BluetoothServer extends Bluetooth {
     //private static final UUID uuid = UUID.fromString("a60f35f0-b93a-11de-8a39-08102009c666");
 	 
     public BluetoothServer() {
-        // On utilise un objet temporaire qui sera assigné plus tard à blueServerSocket car blueServerSocket est "final"
+        // On utilise un objet temporaire qui sera assignï¿½ plus tard ï¿½ blueServerSocket car blueServerSocket est "final"
         BluetoothServerSocket tmp = null;
     	BluetoothAdapter blueAdapter = BluetoothAdapter.getDefaultAdapter();
         try {
@@ -32,7 +32,7 @@ public class BluetoothServer extends Bluetooth {
         	for (ParcelUuid uuid: uuids) {
         	    Log.d("TAG UUIDS SERVER", "UUID: " + uuid.getUuid().toString());
         	}
-        	// MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est nécessaire côté client également !
+        	// MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est nï¿½cessaire cï¿½tï¿½ client ï¿½galement !
             tmp = blueAdapter.listenUsingRfcommWithServiceRecord("MYPARTY", uuids[0].getUuid());
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
@@ -45,6 +45,9 @@ public class BluetoothServer extends Bluetooth {
     	} catch (IOException e) {
 			e.printStackTrace();
 		}
+        catch (NullPointerException e) {
+		
+		}
         Log.i("TAG SERVER", "SERVER CONSTRUCTOR");
         blueServerSocket = tmp;
     }
@@ -56,13 +59,13 @@ public class BluetoothServer extends Bluetooth {
             try {
             	Log.i("TAG INIT", "init connection");
                 blueSocket = blueServerSocket.accept();
-            	Log.i("TAG INIT", "connection accepté");
+            	Log.i("TAG INIT", "connection acceptï¿½");
             } catch (IOException e) {
                 break;
             }
-            // Si une connexion est acceptée
+            // Si une connexion est acceptï¿½e
             if (blueSocket != null) {
-                // On fait ce qu'on veut de la connexion (dans un thread séparé), à vous de la créer
+                // On fait ce qu'on veut de la connexion (dans un thread sï¿½parï¿½), ï¿½ vous de la crï¿½er
                 manageConnectedSocket(blueSocket);
 //                try {
 //					blueServerSocket.close();
@@ -106,11 +109,11 @@ public class BluetoothServer extends Bluetooth {
         } catch (IOException e) {
             Log.e("TAG", "disconnected", e);
         }
-		//TODO Recupérer infos et stockage bd
+		//TODO Recupï¿½rer infos et stockage bd
 		
 	}
 
-	// On stoppe l'écoute des connexions et on tue le thread
+	// On stoppe l'ï¿½coute des connexions et on tue le thread
     public void cancel() {
         try {
             blueServerSocket.close();
