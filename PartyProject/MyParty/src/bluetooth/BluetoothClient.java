@@ -28,7 +28,7 @@ public class BluetoothClient extends Bluetooth {
     public BluetoothClient(BluetoothDevice device, Context context) {
     	
     	blueDevice = device;
-    	
+    	BluetoothAdapter blueAdapter;
         // On utilise un objet temporaire car blueSocket et blueDevice sont "final"
         BluetoothSocket tmp = null;
         //blueDevice = device;
@@ -36,7 +36,7 @@ public class BluetoothClient extends Bluetooth {
         // On r�cup�re un objet BluetoothSocket gr�ce � l'objet BluetoothDevice
         try {
             // MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est n�cessaire c�t� serveur �galement !
-        	BluetoothAdapter blueAdapter = BluetoothAdapter.getDefaultAdapter();
+        	blueAdapter = BluetoothAdapter.getDefaultAdapter();
             Method getUuidsMethod;
 			getUuidsMethod = BluetoothAdapter.class.getDeclaredMethod("getUuids", null);
 			ParcelUuid[] uuids;
@@ -68,11 +68,10 @@ public class BluetoothClient extends Bluetooth {
         try {
             // On se connecte. Cet appel est bloquant jusqu'� la r�ussite ou la lev�e d'une erreur
             blueSocket.connect();
-//            write(1000);
-            //manageConnectedSocket(blueSocket);
             Log.i("TAG RUN CLIENT", "connected"); 
-        } catch (IOException connectException) {
+        } catch (IOException e) {
             Log.i("TAG RUN CLIENT", "NOT connected");
+			e.printStackTrace();
             // Impossible de se connecter, on ferme la socket et on tue le thread
 //            try {
 //                blueSocket.close();
@@ -82,38 +81,6 @@ public class BluetoothClient extends Bluetooth {
 
         // Utilisez la connexion (dans un thread s�par�) pour faire ce que vous voulez
     }
-
-    private void manageConnectedSocket(final BluetoothSocket blueSocket) {
-        
-        // Keep listening to the InputStream while connected
-        try {
-            // Read from the InputStream
-    		tmpIn = blueSocket.getInputStream();
-            tmpOut = blueSocket.getOutputStream();
-            Log.i("TAG", "BEGIN mConnectedThread");
-        	Thread read = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					byte[] buffer = new byte[1024];
-			        int bytes;
-			        while (true) {
-				        try {
-							Log.i("TAG RECEIVED1","AVANT");
-							bytes = tmpIn.read(buffer);
-							Log.i("TAG RECEIVED2","ID = "+ bytes);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-	            	}
-				}
-			});
-        	read.start();
-            // Send the obtained bytes to the UI Activity
-        } catch (IOException e) {
-            Log.e("TAG", "disconnected", e);
-        }
-	}
 
     /**
      * Write to the connected OutStream.
