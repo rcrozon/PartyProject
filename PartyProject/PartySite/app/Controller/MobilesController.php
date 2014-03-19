@@ -8,11 +8,18 @@ class MobilesController  extends AppController{
             'conditions' => array('Concert.online' => 1)));
 			 	$table=array();
 
+
+
+
 		for($i=0;$i<sizeof($results);$i++){
 			$d = $results[$i]['Concert'];
 			$table[$i] = $d;
 		}
-		return new CakeResponse(array('body' => json_encode($table)));
+		$mcrypt = new MCrypt();
+		$encrypted = $mcrypt->encrypt(json_encode($table));
+		return new CakeResponse(array('body' =>($encrypted) ));
+
+
 
 	}
 
@@ -23,7 +30,28 @@ class MobilesController  extends AppController{
 			$d = $results[$i]['Reservation'];
 			$table[$i] = $d;
 		}
-		return new CakeResponse(array('body' => json_encode($table)));
+		$mcrypt = new MCrypt();
+		$encrypted = $mcrypt->encrypt(json_encode($table));
+		return new CakeResponse(array('body' =>($encrypted) ));
+
+	}
+
+	 function test(){
+	 	$results = $this->Concert->find('all',array(
+            'conditions' => array('Concert.online' => 1)));
+			 	$table=array();
+
+
+
+
+		for($i=0;$i<sizeof($results);$i++){
+			$d = $results[$i]['Concert'];
+			$table[$i] = $d;
+		}
+		$mcrypt = new MCrypt();
+		$encrypted = $mcrypt->encrypt(json_encode($table));
+	 	$decrypted = $mcrypt->decrypt($encrypted);
+		return new CakeResponse(array('body' =>$decrypted ));
 
 	}
 
@@ -36,7 +64,9 @@ class MobilesController  extends AppController{
 			$d = $results[$i]['Reservation'];
 			$table[$i] = $d;
 		}
-		return new CakeResponse(array('body' => json_encode($table)));
+		$mcrypt = new MCrypt();
+		$encrypted = $mcrypt->encrypt(json_encode($table));
+		return new CakeResponse(array('body' =>($encrypted) ));
 
 	}
 
@@ -47,7 +77,9 @@ class MobilesController  extends AppController{
 			$d = $results[$i]['AssocTarif'];
 			$table[$i] = $d;
 		}
-		return new CakeResponse(array('body' => json_encode($table)));
+		$mcrypt = new MCrypt();
+		$encrypted = $mcrypt->encrypt(json_encode($table));
+		return new CakeResponse(array('body' =>($encrypted) ));
 
 	}
 	function getAllArtists(){
@@ -57,8 +89,9 @@ class MobilesController  extends AppController{
 			$d = $results[$i]['Artist'];
 			$table[$i] = $d;
 		}
-		return new CakeResponse(array('body' => json_encode($table)));
-
+		$mcrypt = new MCrypt();
+		$encrypted = $mcrypt->encrypt(json_encode($table));
+		return new CakeResponse(array('body' =>($encrypted) ));
 	}
 
 	function getAllStyles(){
@@ -68,7 +101,9 @@ class MobilesController  extends AppController{
 			$d = $results[$i]['Style'];
 			$table[$i] = $d;
 		}
-		return new CakeResponse(array('body' => json_encode($table)));
+		$mcrypt = new MCrypt();
+		$encrypted = $mcrypt->encrypt(json_encode($table));
+		return new CakeResponse(array('body' =>($encrypted) ));
 
 	}
 
@@ -79,7 +114,9 @@ class MobilesController  extends AppController{
 			$d = $results[$i]['AssocStyle'];
 			$table[$i] = $d;
 		}
-		return new CakeResponse(array('body' => json_encode($table)));
+		$mcrypt = new MCrypt();
+		$encrypted = $mcrypt->encrypt(json_encode($table));
+		return new CakeResponse(array('body' =>($encrypted) ));
 
 	}
 
@@ -90,7 +127,9 @@ class MobilesController  extends AppController{
 			$d = $results[$i]['AssocArtist'];
 			$table[$i] = $d;
 		}
-		return new CakeResponse(array('body' => json_encode($table)));
+	$mcrypt = new MCrypt();
+		$encrypted = $mcrypt->encrypt(json_encode($table));
+		return new CakeResponse(array('body' =>($encrypted) ));
 
 	}
 	function getTariffByID(){
@@ -102,7 +141,9 @@ class MobilesController  extends AppController{
 			$d = $results['Tarif'];
 			$table = $d;
 	
-		return new CakeResponse(array('body' => json_encode($table)));
+	$mcrypt = new MCrypt();
+		$encrypted = $mcrypt->encrypt(json_encode($table));
+		return new CakeResponse(array('body' =>($encrypted) ));
 
 	}
 
@@ -114,7 +155,9 @@ class MobilesController  extends AppController{
 			$d = $results[$i]['Tarif'];
 			$table[$i] = $d;
 		}
-		return new CakeResponse(array('body' => json_encode($table)));
+		$mcrypt = new MCrypt();
+		$encrypted = $mcrypt->encrypt(json_encode($table));
+		return new CakeResponse(array('body' =>($encrypted) ));
 
 	}
 
@@ -128,7 +171,9 @@ class MobilesController  extends AppController{
 			$d = $results['Concert'];
 			$table = $d;
 	
-		return new CakeResponse(array('body' => json_encode($table)));
+	$mcrypt = new MCrypt();
+		$encrypted = $mcrypt->encrypt(json_encode($table));
+		return new CakeResponse(array('body' =>($encrypted) ));
 
     }
 
@@ -144,7 +189,9 @@ class MobilesController  extends AppController{
 			$d = $results['Concert'];
 			$table = $d;
 	
-		return new CakeResponse(array('body' => json_encode($table)));
+	$mcrypt = new MCrypt();
+		$encrypted = $mcrypt->encrypt(json_encode($table));
+		return new CakeResponse(array('body' =>($encrypted) ));
 
 
 
@@ -159,7 +206,9 @@ class MobilesController  extends AppController{
 			$d = $results[$i]['Client'];
 			$table[$i] = $d;
 		}
-		return new CakeResponse(array('body' => json_encode($table)));
+		$mcrypt = new MCrypt();
+		$encrypted = $mcrypt->encrypt(json_encode($table));
+		return new CakeResponse(array('body' =>($encrypted) ));
 
     }
 
@@ -240,9 +289,13 @@ class MobilesController  extends AppController{
 		$d = $results['Client'];
 		$table = json_encode($d);
 		$table = '['.$table.']';
-		return new CakeResponse(array('body' =>$table)); 
+		$mcrypt = new MCrypt();
+		
+		$encrypted = $mcrypt->encrypt(json_encode($table));
+		return new CakeResponse(array('body' =>($encrypted) ));
 	}
 	else{
+
 		return new CakeResponse(array('body' => json_encode('Invalid password'))); 
 
 	}

@@ -7,8 +7,9 @@ class ClientsController extends AppController{
     }*/
 
     function signup(){
-        $this->layout = 'login';
-        if($this->request->is('post')){
+                $this->layout = 'login';
+
+            if($this->request->is('post')){
             $d = $this->request->data; 
             $d['Client']['id'] = null;
             $d['Client']['lastlogin'] = '2009-08-08 12:17:00'; 

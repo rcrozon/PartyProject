@@ -1,3 +1,4 @@
+
 <?php
 class ConcertsController extends AppController{
 
@@ -545,6 +546,7 @@ class ConcertsController extends AppController{
     function admin_edit($id) {
         if($this->request->is('put')) {
             $d = $this->request->data;
+            debug($d);
             # # # # # # # # # # # # # # # # # # # #
             # Partie artists : comme addConcert()
             # # # # # # # # # # # # # # # # # # # #

@@ -13,7 +13,9 @@
     <title>Starter Template for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
-     <link rel="stylesheet" href="<?php echo $this->Html->url('/css/prettify.css');?>">
+    <link rel="stylesheet" href="<?php echo $this->Html->url('/css/checkbox-radio-switch.css');?>">
+
+  <link rel="stylesheet" href="<?php echo $this->Html->url('/css/prettify.css');?>">
    <link rel="stylesheet" href="<?php echo $this->Html->url('/css/anythingslider.css');?>">
    <link rel="stylesheet" href="<?php echo $this->Html->url('/css/theme-metallic.css');?>">
 

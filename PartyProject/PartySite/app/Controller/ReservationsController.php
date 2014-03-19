@@ -14,13 +14,33 @@ class ReservationsController extends AppController{
 	}
 
 	function listMyAllReservations(){
-		$idClient = AuthComponent::user('id');  		
+		$idClient = AuthComponent::user('id'); 
+		if($this->request->is('post')) {
+			$resultPost = $this->request->data;
+			
+
+			$sql = 'SELECT * FROM `reservations` WHERE id_client = '.$idClient;
+			if ($resultPost['Reservation']['idConcert'] != 'all'){
+				$sql .= ' AND id_concert = '.$resultPost['Reservation']['idConcert'];
+			}
+			if ($resultPost['Reservation']['scanned'] != 'all'){
+				$sql .= ' AND scan = '.$resultPost['Reservation']['scanned'];
+			}
+			$d = $this->Reservation->query($sql);
+			$this->set('reservations',$d);
+			$db = $this->Reservation->query('SELECT DISTINCT `id_concert` FROM `reservations` WHERE id_client = '.$idClient);
+			$this->set('listID',$db);
+
+		}
+		else{
+		$d =  $this->Reservation->query('SELECT * FROM `reservations` WHERE id_client = '.$idClient);	      
+		$this->set('reservations',$d);
+		 $db = $this->Reservation->query('SELECT DISTINCT `id_concert` FROM `reservations` WHERE id_client = '.$idClient);
+		$this->set('listID',$db);
+		} 		
 		
 
-		$d = $this->Reservation->find('all',array('conditions' => array(
-			'Reservation.id_client' => $idClient)));		      
-		$this->set('reservations',$d);
-
+		
 		
 	}
 
