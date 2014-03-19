@@ -8,7 +8,7 @@ public final class Tables {
 	
 	/***************** ADRESSE SERVEUR *************************************/
 	
-	public static final String PATH_REP_IMG = "appli_img";
+	public static final String PATH_REP_IMG = ".appli_img";
 	
 	/************* TABLE CLIENTS *************************/
 	
