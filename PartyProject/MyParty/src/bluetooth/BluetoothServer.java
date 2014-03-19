@@ -15,7 +15,7 @@ import android.util.Log;
 
 public class BluetoothServer extends Bluetooth {
     
-	private final BluetoothServerSocket blueServerSocket;
+	private BluetoothServerSocket blueServerSocket ;
     private InputStream tmpIn;
     private OutputStream tmpOut;
     //private static final UUID uuid = UUID.fromString("a60f35f0-b93a-11de-8a39-08102009c666");
@@ -33,7 +33,7 @@ public class BluetoothServer extends Bluetooth {
         	    Log.d("TAG UUIDS SERVER", "UUID: " + uuid.getUuid().toString());
         	}
         	// MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est nï¿½cessaire cï¿½tï¿½ client ï¿½galement !
-            tmp = blueAdapter.listenUsingRfcommWithServiceRecord("MYPARTY", uuids[0].getUuid());
+        	blueServerSocket = blueAdapter.listenUsingRfcommWithServiceRecord("MYPARTY", uuids[0].getUuid());
         } catch (NullPointerException e) {
 			e.printStackTrace();
         } catch (NoSuchMethodException e) {
@@ -49,7 +49,7 @@ public class BluetoothServer extends Bluetooth {
 		}
         
         Log.i("TAG SERVER", "SERVER CONSTRUCTOR");
-        blueServerSocket = tmp;
+        //blueServerSocket = tmp;
     }
 
     public void run() {
@@ -57,10 +57,13 @@ public class BluetoothServer extends Bluetooth {
         // On attend une erreur ou une connexion entrante
         while (true) {
             try {
-            	Log.i("TAG INIT", "init connection");
-                blueSocket = blueServerSocket.accept();
-            	Log.i("TAG INIT", "connection accepté");
-            } catch (NullPointerException e) {
+            	if (blueServerSocket != null){
+	            	Log.i("TAG INIT", "init connection");
+	                blueSocket = blueServerSocket.accept();
+	            	Log.i("TAG INIT", "connection accepté");
+            	}else{
+            		Log.i("TAG INIT", "connection accepté");	
+            	}
             } catch (IOException e) {
 	            break;
 	        }

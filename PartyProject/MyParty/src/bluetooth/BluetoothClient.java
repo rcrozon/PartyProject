@@ -68,7 +68,7 @@ public class BluetoothClient extends Bluetooth {
         try {
             // On se connecte. Cet appel est bloquant jusqu'� la r�ussite ou la lev�e d'une erreur
             blueSocket.connect();
-            write(1000);
+//            write(1000);
             //manageConnectedSocket(blueSocket);
             Log.i("TAG RUN CLIENT", "connected"); 
         } catch (IOException connectException) {
