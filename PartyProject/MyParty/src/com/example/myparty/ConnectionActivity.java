@@ -169,8 +169,8 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 							dataBase.updatePassword(logClient.get(0),paswUse);
 						}
 					}
-					BluetoothServer server = new BluetoothServer();
-					server.start();
+					//BluetoothServer server = new BluetoothServer();
+					//server.start();
 					
 					Intent intent = new Intent(this, ConcertActivity.class);
 					this.startActivity(intent);
@@ -212,8 +212,8 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 			}*/
 			
 			if (dataBase.authentificationAdmin(login.getText().toString(),pwd.getText().toString() )){
-				BluetoothServer server = new BluetoothServer();
-				server.start();
+				//BluetoothServer server = new BluetoothServer();
+				//server.start();
 				
 				Intent intent = new Intent(this, ConcertActivity.class);
 				this.startActivity(intent);
