@@ -391,10 +391,8 @@ public class BluetoothChatService {
 
         public void run() {
             Log.i(TAG, "BEGIN mConnectedThread");
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[2];
             int bytes;
-            String s = "TEST";
-            write(s.getBytes());
             // Keep listening to the InputStream while connected
             while (true) {
                 try {
@@ -409,7 +407,7 @@ public class BluetoothChatService {
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);
                     connectionLost();
-                    break;
+                    break;  
                 }
             }
         }

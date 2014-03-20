@@ -77,12 +77,7 @@ OnClickListener, OnMenuItemClickListener {
 
     // Return Intent extra
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
-
-    // Member fields
-    private BluetoothAdapter mBtAdapter;
-    private ArrayAdapter<String> mPairedDevicesArrayAdapter;
-    private ArrayAdapter<String> mNewDevicesArrayAdapter;
-
+    BluetoothChat chat ;
 	//////////////////////////////
 
 	@Override
@@ -108,8 +103,8 @@ OnClickListener, OnMenuItemClickListener {
 		this.dataBase = new DatabaseHandler(this);
 		this.dataBase.open();
 
-		server = new BluetoothServer();
-		server.start();
+//		server = new BluetoothServer();
+//		server.start();
 		/************************ MISE A JOUR SERVEUR POUR LES SCAN ************************************/
 
 		String jsonScan;
@@ -159,7 +154,8 @@ OnClickListener, OnMenuItemClickListener {
 						+ " Pour "+ concert.getId()+concert.getTitle());
 			}
 		}
-
+		chat = new BluetoothChat(this);
+		
 		/************************** Traitement du bouton validation scan ***********************************/
 		this.scanner = new ScanLayout(this, this);
 		this.scanner.getButtonTariff().setOnClickListener(
@@ -168,6 +164,12 @@ OnClickListener, OnMenuItemClickListener {
 					public void onClick(View v) {
 						scanner.getImageView().setBackgroundResource(R.drawable.qrcode_blue);
 						if (idResScan != 0 ){
+							String s = "25";
+				            byte[] b = s.getBytes();
+				            Log.i("TAG WORD SIZE", "" + b.length);
+				            while(true)
+				            	chat.sendMessage(s);
+				            
 							/*
 //							for(BluetoothClient client : listBluetoothClient){
 							Log.i("TAG ENVOIE ID_RES", "ENVOIE " + idResScan);
@@ -203,7 +205,6 @@ OnClickListener, OnMenuItemClickListener {
 		this.buttonScan.setOnClickListener(this);
 		this.buttonStats.setOnClickListener(this);
 		
-		BluetoothChat chat = new BluetoothChat(this);
 	}
 
 	@Override
