@@ -47,7 +47,7 @@ import android.widget.Toast;
  */
 public class BluetoothChat {
     // Debugging
-    private static final String TAG = "BluetoothChat";
+    private static final String TAG = "TAG";
     private static final boolean D = true;
 
     // Message types sent from the BluetoothChatService Handler
@@ -96,7 +96,7 @@ public class BluetoothChat {
             Toast.makeText(context, "Bluetooth is not available", Toast.LENGTH_LONG).show();
             return;
         }
-        if (!mBluetoothAdapter.isEnabled()) {
+        if (!mBluetoothAdapter.isEnabled()) { 
         	mBluetoothAdapter.enable();
         	// Otherwise, setup the chat session
         } else {
@@ -110,12 +110,14 @@ public class BluetoothChat {
         Log.d(TAG, "setupChat()");
 
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
+        Log.i(TAG + " DEVICE", ((BluetoothDevice)pairedDevices.toArray()[0]).getName());
         mChatService = new BluetoothChatService(context, mHandler);
         mChatService.connect((BluetoothDevice)pairedDevices.toArray()[0]);
         // Initialize the BluetoothChatService to perform bluetooth connections
         
         sendMessage("begin");
-        
+        Log.d(TAG, "setupChat()");
+
         // Initialize the buffer for outgoing messages
         mOutStringBuffer = new StringBuffer("");
     }
@@ -166,7 +168,6 @@ public class BluetoothChat {
                 if(D) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
                 switch (msg.arg1) {
                 case BluetoothChatService.STATE_CONNECTED:
-                    mConversationArrayAdapter.clear();
                     break;
                 case BluetoothChatService.STATE_CONNECTING:
                     break;
