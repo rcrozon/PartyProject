@@ -399,6 +399,7 @@ public class BluetoothChatService {
 					//Read from the InputStream
 					Log.i(TAG, "BEGIN READ");
 					bytes = mmInStream.read(buffer);
+					Log.i("Bluetooth RESULT", new String(buffer));
 					Log.i(TAG, "END READ");
 
 					// Send the obtained bytes to the UI Activity
