@@ -397,20 +397,20 @@ public class BluetoothChatService {
             write(s.getBytes());
             // Keep listening to the InputStream while connected
             while (true) {
-                try {
+              //  try {
                     // Read from the InputStream
-                	Log.i(TAG, "BEGIN READ");
-                	bytes = mmInStream.read(buffer);
-                    Log.i(TAG, "END READ");
+                	//Log.i(TAG, "BEGIN READ");
+                	//bytes = mmInStream.read(buffer);
+                  //  Log.i(TAG, "END READ");
                     
                     // Send the obtained bytes to the UI Activity
-                    mHandler.obtainMessage(BluetoothChat.MESSAGE_READ, bytes, -1, buffer)
-                            .sendToTarget();
-                } catch (IOException e) {
-                    Log.e(TAG, "disconnected", e);
-                    connectionLost();
-                    break;
-                }
+                 //   mHandler.obtainMessage(BluetoothChat.MESSAGE_READ, bytes, -1, buffer)
+                   //         .sendToTarget();
+              //  } catch (IOException e) {
+                //    Log.e(TAG, "disconnected", e);
+              //      connectionLost();
+                  //  break;
+             //   }
             }
         }
 
