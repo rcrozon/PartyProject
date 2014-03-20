@@ -61,9 +61,9 @@ public class BluetoothServer extends Bluetooth {
 	            	Log.i("TAG INIT", "init connection");
 	                blueSocket = blueServerSocket.accept();
 	                
-	            	Log.i("TAG INIT", "connection accept�");
+	            	Log.i("TAG INIT", "connection accepte");
             	}else{
-            		Log.i("TAG INIT", "connection pas accept�");	
+            		Log.i("TAG INIT", "connection pas accepte");	
             	}
             } catch (IOException e) {
             e.printStackTrace();
@@ -119,27 +119,33 @@ public class BluetoothServer extends Bluetooth {
 		
 	}
 
-    public void write(Context context, final int id_res) {
+    public void write(final Context context, final int id_res) {
     	BluetoothSocket blueSocket ;
-    	BluetoothDevices devices = new BluetoothDevices(context);
-        Log.i("TAG RUN SERVER", "BEGIN WRITE"); 
-	    for(BluetoothDevice device : devices.getBluetoothDevices()){
-    		try {
-				BluetoothSocket blueClientSocket = device.createInsecureRfcommSocketToServiceRecord(UUID.fromString(s));
+    	Log.i("TAG RUN SERVER", "BEGIN WRITE"); 
+	    Thread t = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				BluetoothDevices devices = new BluetoothDevices(context);
+		        for(BluetoothDevice device : devices.getBluetoothDevices()){
+		    		try {
+						BluetoothSocket blueClientSocket = device.createInsecureRfcommSocketToServiceRecord(UUID.fromString(s));
 
-	    		blueSocket = blueServerSocket.accept();
-	    		tmpOut = blueSocket.getOutputStream();
-	            byte[] buff = ByteBuffer.allocate(4).putInt(id_res).array();
-	            Log.i("TAG RUN SERVER", "connected"); 
-	            tmpOut.write(buff);
-	            Log.i("TAG RUN SERVER", "written"); 
-		        // Share the sent message back to the UI Activity
-	        } catch (IOException e) {
-	            Log.e("TAG", "Exception during write", e);
-	            e.printStackTrace();
-	        }
-    	}
-    }
+			    		blueClientSocket.connect();
+			    		tmpOut = blueClientSocket.getOutputStream();
+			            byte[] buff = ByteBuffer.allocate(4).putInt(id_res).array();
+			            Log.i("TAG RUN SERVER", "connected"); 
+			            tmpOut.write(buff);
+			            Log.i("TAG RUN SERVER", "written"); 
+				        // Share the sent message back to the UI Activity
+			        } catch (IOException e) {
+			            Log.e("TAG", "Exception during write", e);
+			            e.printStackTrace();
+			        }
+		    	}		
+			}
+		});
+		    }
 	// On stoppe l'�coute des connexions et on tue le thread
     public void cancel() {
         try {
