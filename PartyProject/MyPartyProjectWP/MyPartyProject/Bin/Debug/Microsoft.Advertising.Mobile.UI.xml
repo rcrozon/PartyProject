@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   IntelliSense
   Culture en-US
-  Version 6.1.524.0
+  Version 
 --><doc>
   <assembly>
     <name>Microsoft.Advertising.Mobile.UI</name>
@@ -82,6 +82,71 @@
       The IsAutoRefreshEnabled property is set to true.
     </exception>
     </member>
+    <member name="M:Microsoft.Advertising.Mobile.UI.AdControl.Suspend">
+      <summary>
+      Suspends the current ad and replaces the current view of the ad with a snapshot of
+      what was currently being rendered. If the ad was engaged, this action is cancelled
+      and the expanded ad is closed. After calling Suspend the AdControl will not automatically
+      refresh, even if IsAutoRefreshEnabled=true, and you cannot manually refresh the AdControl
+      until Resume has been called.
+    </summary>
+      <remarks>
+      When the ad is suspended, user cannot interact with the ad until Resume has been called.
+    </remarks>
+    </member>
+    <member name="M:Microsoft.Advertising.Mobile.UI.AdControl.Suspend(System.Boolean)">
+      <summary>
+        Suspends the current ad and replaces the current view of the ad with a snapshot of
+        what was currently being rendered. If the ad was engaged, this action is cancelled
+        and the expanded ad is closed. After calling Suspend the AdControl will not automatically
+        refresh, if IsAutoRefreshEnabled=true, and you cannot manually refresh the AdControl
+        until Resume has been called.
+    </summary>
+      <remarks>
+      When the ad is suspended, user cannot interact with the ad until Resume has been called.
+    </remarks>
+      <param name="closeExpandedAd">
+      If true and the ad was engaged, this action is cancelled and the expanded ad is closed. If false then no action is taken on the expanded ad.
+    </param>
+    </member>
+    <member name="M:Microsoft.Advertising.Mobile.UI.AdControl.Resume">
+      <summary>
+      Removes the static snapshot of the AdControl and replaces it with the dynamic display.
+      Resumes automatic refresh of the AdControl, if IsAutoRefreshEnable=true, and allows manual refresh to occur again.
+    </summary>
+    </member>
+    <member name="M:Microsoft.Advertising.Mobile.UI.AdControl.AddAdTag(System.String,System.String)">
+      <summary>
+      Add an ad tag to the AdControl. The maximum is 10 tags per AdControl. If the maximum number of tags
+      is exceeded an errorOccurred event will be fired.
+    </summary>
+      <param name="tagName">
+      The name of the ad tag. Maximum of 16 characters. If the maximum number of characters is exceeded an errorOccurred event will be fired.
+    </param>
+      <param name="tagValue">
+      The value of the ad tag. Maximum of 128 characters. If the maximum number of characters is exceeded an errorOccurred event will be fired.
+    </param>
+    </member>
+    <member name="M:Microsoft.Advertising.Mobile.UI.AdControl.RemoveAdTag(System.String)">
+      <summary>
+      Remove an ad tag from the AdControl. This has no effect if the tag name does not exist.
+    </summary>
+      <param name="tagName">
+      The name of the ad tag to remove.
+    </param>
+    </member>
+    <member name="M:Microsoft.Advertising.Mobile.UI.AdControl.SendMessageToAd(System.String,System.String)">
+      <summary>
+      Pass data to  the current AdControl renderer that  was received from another AdControl instance through the
+      PublisherMessageEvent delegate. Used to synchronize the display of ads among multiple AdControl objects
+    </summary>
+      <param name="type">
+      The type of the message received from another AdControl.
+    </param>
+      <param name="data">
+      The data of the message received from another AdControl.
+    </param>
+    </member>
     <member name="E:Microsoft.Advertising.Mobile.UI.AdControl.ErrorOccurred">
       <summary>
       Error event that is raised when the <c>AdControl</c> encounters an error while retrieving ads.
@@ -100,23 +165,28 @@
       This event is intended to give developers the option to pause the app when the action dialog appears.
     </remarks>
     </member>
+    <member name="E:Microsoft.Advertising.Mobile.UI.AdControl.PublisherMessageEvent">
+      <summary>
+      Event that is raised when the user moves to the media of the ad. The metadata of the media being displayed by the ad is passed as part of the event.
+    </summary>
+      <remarks>
+      Use this event to send data to another AdControl instance in order to synchronize the display of ads.
+    </remarks>
+    </member>
     <member name="P:Microsoft.Advertising.Mobile.UI.AdControl.Keywords">
       <summary>
       Gets or sets the keywords as a comma-separated list. Keywords allow the app to provide ads that are relevant to the user.
     </summary>
-      <exception cref="System.ArgumentException">Keywords cannot exceed the maximum allowed length.</exception>
     </member>
     <member name="P:Microsoft.Advertising.Mobile.UI.AdControl.Latitude">
       <summary>
       The latitude of the user. The location is in the format of a latitude coordinate.
     </summary>
-      <exception cref="System.ArgumentException">The latitude must be within the maximum and minimum range.</exception>
     </member>
     <member name="P:Microsoft.Advertising.Mobile.UI.AdControl.Longitude">
       <summary>
       The longitude of the user. The location is in the format of a longitude coordinate.
     </summary>
-      <exception cref="System.ArgumentException">The longitude must be within the maximum and minimum range.</exception>
     </member>
     <member name="P:Microsoft.Advertising.Mobile.UI.AdControl.CountryOrRegion">
       <summary>
@@ -126,13 +196,11 @@
       The country or region codes are specified by the ISO 3166-1 standard. This standard is available at
       <a href="http://www.iso.org/iso/country_codes/iso_3166_code_lists/english_country_names_and_code_elements.htm">http://www.iso.org/iso/country_codes/iso_3166_code_lists/english_country_names_and_code_elements.htm</a>.
     </remarks>
-      <exception cref="System.ArgumentException">Invalid Country or Region Code.</exception>
     </member>
     <member name="P:Microsoft.Advertising.Mobile.UI.AdControl.PostalCode">
       <summary>
       The postal code of the user of the app.
     </summary>
-      <exception cref="System.ArgumentException">Invalid Postal Code.</exception>
     </member>
     <member name="P:Microsoft.Advertising.Mobile.UI.AdControl.AdUnitId">
       <summary>
@@ -162,11 +230,6 @@
       </para>
       </remarks>
     </member>
-    <member name="P:Microsoft.Advertising.Mobile.UI.AdControl.IsEngaged">
-      <summary>
-      Gets a value that indicates whether the user is currently interacting with one of the ads.
-    </summary>
-    </member>
     <member name="P:Microsoft.Advertising.Mobile.UI.AdControl.IsAutoRefreshEnabled">
       <summary>
       Enables or disables the automatic refresh of ads. This property cannot be changed after the <c>AdControl</c> is added to a page.
@@ -175,58 +238,67 @@
       This property can only be set when the <c>AdControl</c> is instantiated by using the default constructor or in XAML.
       Once set, this property cannot be modified later. This property is set to <c>true</c> by default.
     </remarks>
-      <exception cref="System.InvalidOperationException">The IsAutoRefreshEnabled property has been set already.</exception>
     </member>
     <member name="P:Microsoft.Advertising.Mobile.UI.AdControl.IsAutoCollapseEnabled">
       <summary>
       Enables or disables the automatic hiding of the <c>AdControl</c> if no ad is available or an error occurs.
     </summary>
     </member>
+    <member name="P:Microsoft.Advertising.Mobile.UI.AdControl.IsEngaged">
+      <summary>
+      Gets a value that indicates whether the user is currently interacting with one of the ads.
+    </summary>
+    </member>
+    <member name="P:Microsoft.Advertising.Mobile.UI.AdControl.IsSuspended">
+      <summary>
+      Gets the current suspended state of the AdControl.
+    </summary>
+    </member>
   </members>
-<Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>d8BLLvoHgo2I5eTJhaspAP5/Vp8=</DigestValue></Reference></SignedInfo><SignatureValue>
-    WPy7qfZYX+6H/R2Bf6JlHE4SuvL0BS1Z7x6pq/Ybtx9fNIn8gCqx7wb3vVwbtqChy6EPMG7g
-    D029rMe2UmQ8MI9kUr5UurBHYx57xl8ttXWLGuiY0ueqtoyVRSOKd4SfX2FoFNmfdS5T9El7
-    BZNvHK0Xo5bBHZLzak6CBksXUsk0BEzk8pHT/EQ5ZJP3+7tI51h1DtvftC9xFE+F6jvoYgw1
-    6v2dCHokim6cB2gHF0SmVvjKG9bABy7uNAWVX25Cj1posHZOMHyQl/srMjYEQlot/yPegpZu
-    Mxj1UQTUlBBDF0igna5/DFaM3HKTsKwaEtbJ/xELTegOfetHOAKWoQ==
+<Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>tNsRoYTCvf2mykYVhaNXK1HUMD4=</DigestValue></Reference></SignedInfo><SignatureValue>
+    Xa3kJQOF1i46QD4Fai8YjLAdw/wxBOIfRIFe/tOdzoTLXp0zAd4uZBYbi3DJsb4easeLIjGe
+    17W//K9QBg9BQ9Nc/urLcnxqyvFJq7NDrBuFJZS8ZodisLefpbEaoZURBr7jQZeFMUFUcaaA
+    dT/4z4Fsexf9HNlGvg7BPr0Sx2ZphOhO3jar7ZpMOQX9PXWZvAlK9A+uHZ/Cx06uHP0tkVBI
+    FoWHuEvoyqgQLgTDNqzdV1E8G9jBsflwmcEyDuRS8usw29x2PupsFhUq3MhgQ38tUsU/G7AW
+    Lq2en5vQopHe/WgaTOhrPcDsKaY6KmxCmSh9kblMpvNowdNGBaMJOg==
   </SignatureValue><KeyInfo>
       <KeyValue>
         <RSAKeyValue>
           <Modulus>
-            7lu+fREk44YG4Gb/SLUXvQLktAwy8HI+fS6H106hsadDL/dlnjHhMjFFrtfBJIQh1y61hH76
-            NdNTHNe2UR5Pzma567cMAv0pXK2oh/bKIrTVvwh19Ypwj2PX74oe6Y9DJGRa04d9kG07rHbN
-            VzZ96LwQVqyY8IldLmTGryYJXh5jFfE9vxaPmYgCwzC3wQtgHw9yzNa3qDUShpuhCwrmk1uO
-            +lScwfMZX0KNEp8dP5C3JxODGTKCHfPZh9QhsjyitgdP1ySq7o31s9n6+TlPp+nyr1lS9NxB
-            my8RcGPd6t6q8W0hBBBTM7uyT8XhU7JBZUduN/a86ZsWQZFrLlswww==
+            s3R00II8h6ea1I6yBEKAlyUu5EHOk2M2XxPytHiYgMYofsyKE+89N4w7CaDYFMVcXtipHX8B
+            wbOYG1B37P7qfEXPf+EhDsWEyp8Pa7MJOLd0xFcevvBIqHla3w6bHJqovMhStQxpj4TOcVV7
+            /wkgv0B3NyEwdFuV33fLoOXBchIGPfLIVWyvwftqFifI9bNh49nOGw8e9OTNTDRsPkcR5wIr
+            XxR6BAf11z2L22d9Vz41622NAUCNGoeW4g93TIm6OJz7jgKR2yIP5dA2qbg3RdAq/JaNwWBx
+            M6WIsfbCBDCHW8PXL7J5EdiLZWKiihFmXX5/BXpzih96heXNKBDRPQ==
           </Modulus>
           <Exponent>AQAB</Exponent>
         </RSAKeyValue>
       </KeyValue>
       <X509Data>
         <X509Certificate>
-          MIIEoDCCA4igAwIBAgIKYRnMkwABAAAAZjANBgkqhkiG9w0BAQUFADB5MQswCQYDVQQGEwJV
-          UzETMBEGA1UECBMKV2FzaGluZ3RvbjEQMA4GA1UEBxMHUmVkbW9uZDEeMBwGA1UEChMVTWlj
-          cm9zb2Z0IENvcnBvcmF0aW9uMSMwIQYDVQQDExpNaWNyb3NvZnQgQ29kZSBTaWduaW5nIFBD
-          QTAeFw0xMTEwMTAyMDMyMjVaFw0xMzAxMTAyMDMyMjVaMIGDMQswCQYDVQQGEwJVUzETMBEG
-          A1UECBMKV2FzaGluZ3RvbjEQMA4GA1UEBxMHUmVkbW9uZDEeMBwGA1UEChMVTWljcm9zb2Z0
-          IENvcnBvcmF0aW9uMQ0wCwYDVQQLEwRNT1BSMR4wHAYDVQQDExVNaWNyb3NvZnQgQ29ycG9y
-          YXRpb24wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDuW759ESTjhgbgZv9ItRe9
-          AuS0DDLwcj59LofXTqGxp0Mv92WeMeEyMUWu18EkhCHXLrWEfvo101Mc17ZRHk/OZrnrtwwC
-          /SlcraiH9soitNW/CHX1inCPY9fvih7pj0MkZFrTh32QbTusds1XNn3ovBBWrJjwiV0uZMav
-          JgleHmMV8T2/Fo+ZiALDMLfBC2AfD3LM1reoNRKGm6ELCuaTW476VJzB8xlfQo0Snx0/kLcn
-          E4MZMoId89mH1CGyPKK2B0/XJKrujfWz2fr5OU+n6fKvWVL03EGbLxFwY93q3qrxbSEEEFMz
-          u7JPxeFTskFlR2439rzpmxZBkWsuWzDDAgMBAAGjggEdMIIBGTATBgNVHSUEDDAKBggrBgEF
-          BQcDAzAdBgNVHQ4EFgQUG1IO8xEqt8CJwxGBPdSWWLmjU24wDgYDVR0PAQH/BAQDAgeAMB8G
-          A1UdIwQYMBaAFMsR6MrStBZYAck3LjMWFrlMmgofMFYGA1UdHwRPME0wS6BJoEeGRWh0dHA6
-          Ly9jcmwubWljcm9zb2Z0LmNvbS9wa2kvY3JsL3Byb2R1Y3RzL01pY0NvZFNpZ1BDQV8wOC0z
-          MS0yMDEwLmNybDBaBggrBgEFBQcBAQROMEwwSgYIKwYBBQUHMAKGPmh0dHA6Ly93d3cubWlj
-          cm9zb2Z0LmNvbS9wa2kvY2VydHMvTWljQ29kU2lnUENBXzA4LTMxLTIwMTAuY3J0MA0GCSqG
-          SIb3DQEBBQUAA4IBAQClWzZsrU6baRLjb4oCm2l3w2xkciiI2T1FbSwYe9QoLxPiWWobwgs0
-          t4r96rmU7Acx5mr0dQTTp9peOgaeEP2pDb2cUUNv/2eUnOHPfPAksDXMg13u2sBvNknAWgpX
-          9nPhnvPjCEw7Pi/M0s3uTyJw9wQfAqZLm7iPXIgONpRsMwe4qa1RoNDC3I4iEr3D34LXVqH3
-          3fClIFcQEJ3urIZ0bHGbwfDywnBep9ttTTdYmU15QNA0XVolrmfrG05GBrCMKR+jEI+lM58j
-          1fi1Rn3g7mOYkEs+BagvsBizWaSvQVOOCAUQLSrJOgZMHC6pMVFWZKyazKyXmCmKl5CH6p22
-          
+          MIIEqTCCA5GgAwIBAgITMwAAAIhZDjxRH+JqZwABAAAAiDANBgkqhkiG9w0BAQUFADB5MQsw
+          CQYDVQQGEwJVUzETMBEGA1UECBMKV2FzaGluZ3RvbjEQMA4GA1UEBxMHUmVkbW9uZDEeMBwG
+          A1UEChMVTWljcm9zb2Z0IENvcnBvcmF0aW9uMSMwIQYDVQQDExpNaWNyb3NvZnQgQ29kZSBT
+          aWduaW5nIFBDQTAeFw0xMjA3MjYyMDUwNDFaFw0xMzEwMjYyMDUwNDFaMIGDMQswCQYDVQQG
+          EwJVUzETMBEGA1UECBMKV2FzaGluZ3RvbjEQMA4GA1UEBxMHUmVkbW9uZDEeMBwGA1UEChMV
+          TWljcm9zb2Z0IENvcnBvcmF0aW9uMQ0wCwYDVQQLEwRNT1BSMR4wHAYDVQQDExVNaWNyb3Nv
+          ZnQgQ29ycG9yYXRpb24wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCzdHTQgjyH
+          p5rUjrIEQoCXJS7kQc6TYzZfE/K0eJiAxih+zIoT7z03jDsJoNgUxVxe2KkdfwHBs5gbUHfs
+          /up8Rc9/4SEOxYTKnw9rswk4t3TEVx6+8EioeVrfDpscmqi8yFK1DGmPhM5xVXv/CSC/QHc3
+          ITB0W5Xfd8ug5cFyEgY98shVbK/B+2oWJ8j1s2Hj2c4bDx705M1MNGw+RxHnAitfFHoEB/XX
+          PYvbZ31XPjXrbY0BQI0ah5biD3dMibo4nPuOApHbIg/l0DapuDdF0Cr8lo3BYHEzpYix9sIE
+          MIdbw9cvsnkR2ItlYqKKEWZdfn8FenOKH3qF5c0oENE9AgMBAAGjggEdMIIBGTATBgNVHSUE
+          DDAKBggrBgEFBQcDAzAdBgNVHQ4EFgQUJls+W12WX+L3d4h/XkVTWKguW7gwDgYDVR0PAQH/
+          BAQDAgeAMB8GA1UdIwQYMBaAFMsR6MrStBZYAck3LjMWFrlMmgofMFYGA1UdHwRPME0wS6BJ
+          oEeGRWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9wa2kvY3JsL3Byb2R1Y3RzL01pY0NvZFNp
+          Z1BDQV8wOC0zMS0yMDEwLmNybDBaBggrBgEFBQcBAQROMEwwSgYIKwYBBQUHMAKGPmh0dHA6
+          Ly93d3cubWljcm9zb2Z0LmNvbS9wa2kvY2VydHMvTWljQ29kU2lnUENBXzA4LTMxLTIwMTAu
+          Y3J0MA0GCSqGSIb3DQEBBQUAA4IBAQAP3kBJiJHRMTejRDhpsmor1JH7aIWuWLseDI9W+pnX
+          ypcnTOiFjnlpLOS9lj/lcGaXlTBlKa3Gyqz1D3moZ79p9A+X4woPv+6WdimyItAzxv+LSa2u
+          sv2/JervJ1DA6xn4GmRqoOEXWa/xz+yBqInosdIUBuNqbXRSZNqWlCpcaWsf7QWZGtzoZaqI
+          GxWVGtOkUZb9VZX4Y42fFAyxnn9KBP/DZq0Kr66k3mP68OrDs7Lrh9vFOK22c9J4ZOrsIVtr
+          O9ZEIvSBUqUrQymLDKEqcYJCy6sbftSlp6333vdGms5DOegqU+3PQOR3iEK/RxbgpTZq76ca
+          jTo9MwT2JSAj
         </X509Certificate>
       </X509Data>
       <X509Data>
@@ -292,74 +364,82 @@
           aZuW4hCoELQ3UAjWwz0=
         </X509Certificate>
       </X509Data>
-    </KeyInfo><Object id="ts-countersig"><X509Data><X509Certificate>MIIEmjCCA4KgAwIBAgIKYQeDRQAAAAAAEDANBgkqhkiG9w0BAQUFADB5MQswCQYDVQQGEwJVUzET
-MBEGA1UECBMKV2FzaGluZ3RvbjEQMA4GA1UEBxMHUmVkbW9uZDEeMBwGA1UEChMVTWljcm9zb2Z0
-IENvcnBvcmF0aW9uMSMwIQYDVQQDExpNaWNyb3NvZnQgVGltZXN0YW1waW5nIFBDQTAeFw0xMjAx
-MDkyMTUzNThaFw0xMzA0MDkyMTUzNThaMIGzMQswCQYDVQQGEwJVUzETMBEGA1UECBMKV2FzaGlu
-Z3RvbjEQMA4GA1UEBxMHUmVkbW9uZDEeMBwGA1UEChMVTWljcm9zb2Z0IENvcnBvcmF0aW9uMQ0w
-CwYDVQQLEwRNT1BSMScwJQYDVQQLEx5uQ2lwaGVyIERTRSBFU046N0QyRS0zNzgyLUIwRjcxJTAj
-BgNVBAMTHE1pY3Jvc29mdCBUaW1lLVN0YW1wIFNlcnZpY2UwggEiMA0GCSqGSIb3DQEBAQUAA4IB
-DwAwggEKAoIBAQCqOYA2cofc4+9/ZQha5gI673Dzx2nkBahvpuBs49IQUa15z+kpSG3stuBAeo2C
-0OQD3BxSdymGqfEyYG3DzGMma9OwuKCd1fpO8/V3tcFGbMCYlnHeI1KkD4LA7r+yiVAGNQr5VWKM
-FHnj+y/SqrgTlvsfZ6NfWJ/n8r5sdWBagJmuue/XSQ1phAvE7MsV2jtBvagRgCQO3/M1T8yDpjGx
-2dcL+R71rtKWNtWOfo0Pax6H/sW7ozIwFcA24J5jRVyp8RUgRQgpaKFZko7zXHovcjiZ7O4VBRNv
-Rsuer8Htf9VyrhN/2GP0+xSGLSAK+rl/ZdTFYFpXr/lTiX0l+N77AgMBAAGjgegwgeUwHQYDVR0O
-BBYEFOEbm/0SuFL4h+9hMzzQs+lg4x9FMB8GA1UdIwQYMBaAFG/oTj+XuTSrS4aPvJzqrDtBQ8bQ
-MEQGA1UdHwQ9MDswOaA3oDWGM2h0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9wa2kvY3JsL3Byb2R1
-Y3RzL3RzcGNhLmNybDBIBggrBgEFBQcBAQQ8MDowOAYIKwYBBQUHMAKGLGh0dHA6Ly93d3cubWlj
-cm9zb2Z0LmNvbS9wa2kvY2VydHMvdHNwY2EuY3J0MBMGA1UdJQQMMAoGCCsGAQUFBwMIMA0GCSqG
-SIb3DQEBBQUAA4IBAQB34v+FOOZIMqubtd4LRX06XFmd3bO2WIvcXQ5fY7Dr2TkkCWJuxXXfLee9
-eg3OJAoBu7URRGMGA7tuMjbxxVPm9AWSNwB6qd4UAWUAREg9Dmh0/b3eZ4Eeg8e3CMJvSVrMW4ew
-yFGuHKjrY408yhUY3JeNdxQmi1AU7euzA/g5udRlXfZCqjqfZFk0k6HfRg3LmsZP284xd/RUwJKa
-HbG3u1oc10VM2MXEdUuXwylPfE5owyW3Vm4SPoAo0rNv8tntKJyap6TyNnE1tn+EInccIzXmstEr
-W8ZKDS7RaZkYQU/o9ZkZ0AE/SMyDbBnomV0Jec/6+aZtfM4kZi23VRKh</X509Certificate></X509Data><X509Data><X509Certificate>MIIEnTCCA4WgAwIBAgIQaguZT8AAJasR20UfWHpnojANBgkqhkiG9w0BAQUFADBwMSswKQYDVQQL
-EyJDb3B5cmlnaHQgKGMpIDE5OTcgTWljcm9zb2Z0IENvcnAuMR4wHAYDVQQLExVNaWNyb3NvZnQg
-Q29ycG9yYXRpb24xITAfBgNVBAMTGE1pY3Jvc29mdCBSb290IEF1dGhvcml0eTAeFw0wNjA5MTYw
-MTA0NDdaFw0xOTA5MTUwNzAwMDBaMHkxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpXYXNoaW5ndG9u
-MRAwDgYDVQQHEwdSZWRtb25kMR4wHAYDVQQKExVNaWNyb3NvZnQgQ29ycG9yYXRpb24xIzAhBgNV
-BAMTGk1pY3Jvc29mdCBUaW1lc3RhbXBpbmcgUENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB
-CgKCAQEA3Ddu+6/IQkpxGMjOSD5TwPqrFLosMrsST1LIg+0+M9lJMZIotpFk4B9QhLrCS9F/Bfjv
-db6Lx6jVrmlwZngnZui2t++Fuc3uqv0SpAtZIikvz0DZVgQbdrVtZG1KVNvd8d6/n4PHgN9/TAI3
-lPXAnghWHmhHzdnAdlwvfbYlBLRWW2ocY/+AfDzu1QQlTTl3dAddwlzYhjcsdckO6h45CXx2/p1s
-bnrg7D6Pl55xDl8qTxhiYDKe0oNOKyJcaEWL3i+EEFCy+bUajWzuJZsT+MsQ14UO9IJ2czbGlXqi
-zGAG7AWwhjO3+JRbhEGEWIWUbrAfLEjMb5xD4GrofyaOawIDAQABo4IBKDCCASQwEwYDVR0lBAww
-CgYIKwYBBQUHAwgwgaIGA1UdAQSBmjCBl4AQW9Bw72lyniNRfhSyTY7/y6FyMHAxKzApBgNVBAsT
-IkNvcHlyaWdodCAoYykgMTk5NyBNaWNyb3NvZnQgQ29ycC4xHjAcBgNVBAsTFU1pY3Jvc29mdCBD
-b3Jwb3JhdGlvbjEhMB8GA1UEAxMYTWljcm9zb2Z0IFJvb3QgQXV0aG9yaXR5gg8AwQCLPDyIEdE+
-9mPs30AwEAYJKwYBBAGCNxUBBAMCAQAwHQYDVR0OBBYEFG/oTj+XuTSrS4aPvJzqrDtBQ8bQMBkG
-CSsGAQQBgjcUAgQMHgoAUwB1AGIAQwBBMAsGA1UdDwQEAwIBhjAPBgNVHRMBAf8EBTADAQH/MA0G
-CSqGSIb3DQEBBQUAA4IBAQCUTRExwnxQuxGOoWEHAQ6McEWN73NUvT8JBS3/uFFThRztOZG3o1YL
-3oy2OxvR+6ynybexUSEbbwhpfmsDoiJG7Wy0bXwiuEbThPOND74HijbB637pcF1Fn5LSzM7djsDh
-vyrNfOzJrjLVh7nLY8Q20Rghv3beO5qzG3OeIYjYtLQSVIz0nMJlSpooJpxgig87xxNleEi7z62D
-Ok+wYljeMOnpOR3jifLaOYH5EyGMZIBjBgSW8poCQy97Roi6/wLZZflK3toDdJOzBW4MzJ3cKGF8
-SPEXnBEhOAIch6wGxZYyuOVAxlM9vamJ3uhmN430IpaczLB3VFE61nJEsiP2</X509Certificate></X509Data><CounterSignature xmlns="http://schemas.microsoft.com/xmldsig/timestamp/2003" ts-format="cms-timestamp-message">MIIGygYJKoZIhvcNAQcCoIIGuzCCBrcCAQMxCzAJBgUrDgMCGgUAMIIBEwYJKoZIhvcNAQcBoIIB
-BASCAQBY/Lup9lhf7of9HYF/omUcThK68vQFLVnvHqmr9hu3H180ifyAKrHvBve9XBu2oKHLoQ8w
-buAPTb2sx7ZSZDwwj2RSvlS6sEdjHnvGXy21dYsa6JjS56q2jJVFI4p3hJ9fYWgU2Z91LlP0SXsF
-k28crRejlsEdkvNqToIGSxdSyTQETOTykdP8RDlkk/f7u0jnWHUO29+0L3EUT4XqO+hiDDXq/Z0I
-eiSKbpwHaAcXRKZW+Mob1sAHLu40BZVfbkKPWmiwdk4wfJCX+ysyNgRCWi3/I96Clm4zGPVRBNSU
-EEMXSKCdrn8MVozccpOwrBoS1sn/EQtN6A5960c4ApahoIIDeqGCA3YwggJeAgEBMIHjoYG5pIG2
+    </KeyInfo><Object id="ts-countersig"><X509Data><X509Certificate>MIIEwzCCA6ugAwIBAgITMwAAADUo7mFTkiJhkQAAAAAANTANBgkqhkiG9w0BAQUFADB3MQswCQYD
+VQQGEwJVUzETMBEGA1UECBMKV2FzaGluZ3RvbjEQMA4GA1UEBxMHUmVkbW9uZDEeMBwGA1UEChMV
+TWljcm9zb2Z0IENvcnBvcmF0aW9uMSEwHwYDVQQDExhNaWNyb3NvZnQgVGltZS1TdGFtcCBQQ0Ew
+HhcNMTMwMzI3MjAwODI2WhcNMTQwNjI3MjAwODI2WjCBszELMAkGA1UEBhMCVVMxEzARBgNVBAgT
+Cldhc2hpbmd0b24xEDAOBgNVBAcTB1JlZG1vbmQxHjAcBgNVBAoTFU1pY3Jvc29mdCBDb3Jwb3Jh
+dGlvbjENMAsGA1UECxMETU9QUjEnMCUGA1UECxMebkNpcGhlciBEU0UgRVNOOjMxQzUtMzBCQS03
+QzkxMSUwIwYDVQQDExxNaWNyb3NvZnQgVGltZS1TdGFtcCBTZXJ2aWNlMIIBIjANBgkqhkiG9w0B
+AQEFAAOCAQ8AMIIBCgKCAQEAm9vWEfGEH1m0kUedzTgvsolxQaJbPc6WtX2a9wqAK0ICg8R8//f2
+6pcftWw4XkuVVOjsk9K5TeT3KyaHr7vrG+hNHCFDF/igM5qRsYFNOIEkUwKxdnlaLqz7y4xcXTub
+XKU7NoBsI3S2xnffQyfNOpmouBP65aqjt8VzhFbsjsFIMwGJMa8nNq07LQDicQQxvva3dLFnP1rl
+hLUBJpB4iYAlPj5CHFJKZCcCaM6iBr7QtT5EF4CZiImcwLkP1fI5lcM1FLsJEEW56m5frIDLh3xF
+ZAImCU+adqVmvhBJKKO57P+y+mFb+WPqknL1SurKOz0TkYw7/TnWSTwC7nod4QIDAQABo4IBCTCC
+AQUwHQYDVR0OBBYEFLkUVdsQ7WBr1Q2DdA3Oc3OVImUcMB8GA1UdIwQYMBaAFCM0+NlSRnAK7UD7
+dvuzK7DDNbMPMFQGA1UdHwRNMEswSaBHoEWGQ2h0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9wa2kv
+Y3JsL3Byb2R1Y3RzL01pY3Jvc29mdFRpbWVTdGFtcFBDQS5jcmwwWAYIKwYBBQUHAQEETDBKMEgG
+CCsGAQUFBzAChjxodHRwOi8vd3d3Lm1pY3Jvc29mdC5jb20vcGtpL2NlcnRzL01pY3Jvc29mdFRp
+bWVTdGFtcFBDQS5jcnQwEwYDVR0lBAwwCgYIKwYBBQUHAwgwDQYJKoZIhvcNAQEFBQADggEBAJaV
+lxhREadlaCDXqFbP6lUQVKjx5/JsbwouUz8YgQjPN/Y1ymKKoJBe4u9HzqrHBZj93hq26BKkmrnK
+pWKvyOY+ODJcA9PzaPlgnMeyJdykTGuPBsvYtsFYIn6E1Wu56PE+L3n28vpsaOjKAl8BvrGgbPmP
+Rbm4SwZfxJSO9+3r1yFauFZbeGfcQAl82pKj27zQmh2O5snaz1Iff7+W3owsX20ilqNJ+acaIl7/
+6cpyJUC487hUHlrIV1CyiyLmEOyt7aUQlFLU7VtXgskXVPZ03lGrVDTglUY63lUwGhdwL5f2CgYi
+pvqCjochior3gYxSN0w6jQRbNcvzG4N1vl0=</X509Certificate></X509Data><X509Data><X509Certificate>MIIGBzCCA++gAwIBAgIKYRZoNAAAAAAAHDANBgkqhkiG9w0BAQUFADBfMRMwEQYKCZImiZPyLGQB
+GRYDY29tMRkwFwYKCZImiZPyLGQBGRYJbWljcm9zb2Z0MS0wKwYDVQQDEyRNaWNyb3NvZnQgUm9v
+dCBDZXJ0aWZpY2F0ZSBBdXRob3JpdHkwHhcNMDcwNDAzMTI1MzA5WhcNMjEwNDAzMTMwMzA5WjB3
+MQswCQYDVQQGEwJVUzETMBEGA1UECBMKV2FzaGluZ3RvbjEQMA4GA1UEBxMHUmVkbW9uZDEeMBwG
+A1UEChMVTWljcm9zb2Z0IENvcnBvcmF0aW9uMSEwHwYDVQQDExhNaWNyb3NvZnQgVGltZS1TdGFt
+cCBQQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCfoWyx39tIkip8ay4Z4b3i48WZ
+USNQrc7dGE4kD+7Rp9FMrXQwIBHrB9VUlRVJlBtCkq6YXDAm2gBr6Hu97IkHD/cOBJjwicwfyzMk
+h53y9GccLPx754gd6udOo6HBI1PKjfpFzwnQXq/QsEIEovmmbJNn1yjcRlOwhtDlKEYuJ6yGT1VS
+DOQDLPtqkJAwbofzWTCd+n7Wl7PoIZd++NIT8wi3U21StEWQn0gASkdmEScpZqiX5NMGgUqi+YSn
+EUcUCYKfhO1VeP4Bmh1QCIUAEDBG7bfeI0a7xC1Un68eeEExd8yb3zuDk6FhArUdDbH895uyAc4i
+S1T/+QXDwiALAgMBAAGjggGrMIIBpzAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBQjNPjZUkZw
+Cu1A+3b7syuwwzWzDzALBgNVHQ8EBAMCAYYwEAYJKwYBBAGCNxUBBAMCAQAwgZgGA1UdIwSBkDCB
+jYAUDqyCYEBWJ5flJRP8KuEKU5VZ5KShY6RhMF8xEzARBgoJkiaJk/IsZAEZFgNjb20xGTAXBgoJ
+kiaJk/IsZAEZFgltaWNyb3NvZnQxLTArBgNVBAMTJE1pY3Jvc29mdCBSb290IENlcnRpZmljYXRl
+IEF1dGhvcml0eYIQea0WoUqgpa1Mc1j0BxMuZTBQBgNVHR8ESTBHMEWgQ6BBhj9odHRwOi8vY3Js
+Lm1pY3Jvc29mdC5jb20vcGtpL2NybC9wcm9kdWN0cy9taWNyb3NvZnRyb290Y2VydC5jcmwwVAYI
+KwYBBQUHAQEESDBGMEQGCCsGAQUFBzAChjhodHRwOi8vd3d3Lm1pY3Jvc29mdC5jb20vcGtpL2Nl
+cnRzL01pY3Jvc29mdFJvb3RDZXJ0LmNydDATBgNVHSUEDDAKBggrBgEFBQcDCDANBgkqhkiG9w0B
+AQUFAAOCAgEAEJeKw1wDRDbd6bStd9vOeVFNAbEudHFbbQwTq86+e4+4LtQSooxtYrhXAstOIBNQ
+md16QOJXu69YmhzhHQGGrLt48ovQ7DsB7uK+jwoFyI1I4vBTFd1Pq5Lk541q1YDB5pTyBi+FA+mR
+KiQicPv2/OR4mS4N9wficLwYTp2OawpylbihOZxnLcVRDupiXD8WmIsgP+IHGjL5zDFKdjE9K3IL
+yOpwPf+FChPfwgphjvDXuBfrTot/xTUrXqO/67x9C0J71FNyIe4wyrt4ZVxbARcKFA7S2hSY9Ty5
+ZlizLS/n+YWGzFFW6J1wlGysOUzU9nm/qhh6YinvopspNAZ3GmLJPR5tH4LwC8csu89Ds+X57H21
+46SodDW4TsVxIxImdgs8UoxxWkZDFLyzs7BNZ8ifQv+AeSGAnhUwZuhCEl4ayJ4iIdBD6Svpu/RI
+zCzU2DKATCYqSCRfWupW76bemZ3KOm+9gSd0BhHudiG/m4LBJ1S2sWo9iaF2YbRuoROmv6pH8BJv
+/YoybLL+31HIjCPJZr2dHYcSZAI9La9Zj7jkIeW1sMpjtHhUBdRBLlCslLCleKuzoJZ1GtmShxN1
+Ii8yqAhuoFuMJb+g74TKIdbrHk/Jmu5J4PcBZW+JC33Iacjmbuqnl84xKf8OxVtc2E0bodj6L54/
+LlUWa8kTo/0=</X509Certificate></X509Data><CounterSignature xmlns="http://schemas.microsoft.com/xmldsig/timestamp/2003" ts-format="cms-timestamp-message">MIIG0QYJKoZIhvcNAQcCoIIGwjCCBr4CAQMxCzAJBgUrDgMCGgUAMIIBEwYJKoZIhvcNAQcBoIIB
+BASCAQBdreQlA4XWLjpAPgVqLxiMsB3D/DEE4h9EgV7+053OhMtenTMB3i5kFhuLcMmxvh5qx4si
+MZ7Xtb/8r1AGD0FD01z+6styfGrK8Umrs0OsG4UllLxmh2Kwt5+lsRqhlREGvuNBl4UxQVRxpoB1
+P/jPgWx7F/0c2Ua+DsE+vRLHZmmE6E7eNqvtmkw5Bf09dZm8CUr0D64dn8LHTq4c/S2RUEgWhYe4
+S+jKqBAuBMM2rN1XUTwb2MGx+XCZwTIO5FLy6zDb3HY+6mwWFSrcyGBDfy1SxT8bsBYurZ6fm9Ci
+kd79aBpM6Gs9wOwppjoqbEKZKH2RuUym82jB00YFowk6oIIDeqGCA3YwggJeAgEBMIHjoYG5pIG2
 MIGzMQswCQYDVQQGEwJVUzETMBEGA1UECBMKV2FzaGluZ3RvbjEQMA4GA1UEBxMHUmVkbW9uZDEe
 MBwGA1UEChMVTWljcm9zb2Z0IENvcnBvcmF0aW9uMQ0wCwYDVQQLEwRNT1BSMScwJQYDVQQLEx5u
-Q2lwaGVyIERTRSBFU046N0QyRS0zNzgyLUIwRjcxJTAjBgNVBAMTHE1pY3Jvc29mdCBUaW1lLVN0
-YW1wIFNlcnZpY2WiJQoBATAJBgUrDgMCGgUAAxUAwuPcH+PWGUEB9l99yqynWyJ3KRiggcIwgb+k
+Q2lwaGVyIERTRSBFU046MzFDNS0zMEJBLTdDOTExJTAjBgNVBAMTHE1pY3Jvc29mdCBUaW1lLVN0
+YW1wIFNlcnZpY2WiJQoBATAJBgUrDgMCGgUAAxUAnvVqiXzq5/Bf7HUNtyGHSG+z3ZOggcIwgb+k
 gbwwgbkxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpXYXNoaW5ndG9uMRAwDgYDVQQHEwdSZWRtb25k
 MR4wHAYDVQQKExVNaWNyb3NvZnQgQ29ycG9yYXRpb24xDTALBgNVBAsTBE1PUFIxJzAlBgNVBAsT
 Hm5DaXBoZXIgTlRTIEVTTjpCMDI3LUM2RjgtMUQ4ODErMCkGA1UEAxMiTWljcm9zb2Z0IFRpbWUg
-U291cmNlIE1hc3RlciBDbG9jazANBgkqhkiG9w0BAQUFAAIFANOxawgwIhgPMjAxMjA3MTgxNzA0
-MDhaGA8yMDEyMDcxOTE3MDQwOFowdDA6BgorBgEEAYRZCgQBMSwwKjAKAgUA07FrCAIBADAHAgEA
-AgIqijAHAgEAAgIXbjAKAgUA07K8iAIBADA2BgorBgEEAYRZCgQCMSgwJjAMBgorBgEEAYRZCgMB
-oAowCAIBAAIDFuNgoQowCAIBAAIDB6EgMA0GCSqGSIb3DQEBBQUAA4IBAQCsMNwGDvCoC5NRjAiv
-eMUyTkLh8BAUWs79cbTcT4BuGKc8moTaxZEB8ckODTt00Zo+EFS30uLRfb06Ju05XEFPh03BwMwD
-RpBbaa+rkF6obM8cEw7nfu4Y3B/y4/k0Rc+WzfG3tGV+q10N3tuZ7KyADtz8UOoBRmrYe1ps0EF9
-1o+Sx/8IMWsVCveH2PH9fXoNDQjsEBt+2wFDzWVPDzNpy5bejDNkhxJmdnvG0kvjM+TEFdaxQfra
-2F0QXOXTQxT8w3BB/X37WCgs3ZudAAll5fi1EDnFzM3I4Fz5BKrq9llFc0vBoSccg0cPgdLDYJxY
-UE88AvXFmsAnjoDNBCyLMYICDjCCAgoCAQEwgYcweTELMAkGA1UEBhMCVVMxEzARBgNVBAgTCldh
+U291cmNlIE1hc3RlciBDbG9jazANBgkqhkiG9w0BAQUFAAIFANXht44wIhgPMjAxMzA5MTYxNjU5
+NThaGA8yMDEzMDkxNzE2NTk1OFowdDA6BgorBgEEAYRZCgQBMSwwKjAKAgUA1eG3jgIBADAHAgEA
+AgIbPjAHAgEAAgIY3DAKAgUA1eMJDgIBADA2BgorBgEEAYRZCgQCMSgwJjAMBgorBgEEAYRZCgMB
+oAowCAIBAAIDFuNgoQowCAIBAAIDB6EgMA0GCSqGSIb3DQEBBQUAA4IBAQAvMVLBLDe9jnjN0pW6
+O4B5vdBCU6WFpd5q7orbz0XyFk1xyfxZAbw95bnysfcneMO9fLUHZBrn9I0OKnyayf2IJp88hpuW
+AScTMmX6a73nU7iDaXYQA+1ap4tunzxPKbER2qfNHxFta/rdOZDouI5N3IzXVCw2fDL+RDlTfMv9
+MDQSsL+DzuQHU0Mpn4LVaQQj6d/bsjpyaxuwgsyoEjcTKAc6nwnz2ltMqVgD2Lnn/6Gn3XyEFsGe
+rG6EDF6Kpf3YqvYMK74CDep0nb/2F81tllgoGKnBvJLfIPnc+r84ojzdSJcalEaGBtUknbJaJSqR
+L2a3+33JFUglkWXOat4+MYICFTCCAhECAQEwgY4wdzELMAkGA1UEBhMCVVMxEzARBgNVBAgTCldh
 c2hpbmd0b24xEDAOBgNVBAcTB1JlZG1vbmQxHjAcBgNVBAoTFU1pY3Jvc29mdCBDb3Jwb3JhdGlv
-bjEjMCEGA1UEAxMaTWljcm9zb2Z0IFRpbWVzdGFtcGluZyBQQ0ECCmEHg0UAAAAAABAwCQYFKw4D
-AhoFAKBdMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTEyMDcxODE5
-NTYyN1owIwYJKoZIhvcNAQkEMRYEFP856sGhtKqOJ3JpLfD05q6A3ZRtMA0GCSqGSIb3DQEBBQUA
-BIIBAJnf00LjkbZ9jHshifI4zhU0ZKooX65O+DgfCF2M/arpD86z5lntpfo85rJxe6w1Uhi2OXXM
-ixCGVJ84dwRLtIpzhFJ+NMPr+FI8u8v4PqgOyqjeGjyjRV1Bh1R2s4H89ujBv7vdzx5gwhWNMUvH
-CzEggjvQYa7cFN/rLV4utCXyaq4CRFRjjeKD3/CFSKJY797pRyDALbI8sKVkZn4aW7w5+Mr1TTIf
-6EYPzB0uynbGvHm8JI0MsjoVDWZjLwYd30nhNGZ8GUJ0DUMCMF6PKCwtU3Ke9VVohhgXlgblRnbr
-OKVvzy/I+qpzP1q1nS74eY/KBH98+xmsctpGMUkyd/I=</CounterSignature></Object></Signature></doc>
+bjEhMB8GA1UEAxMYTWljcm9zb2Z0IFRpbWUtU3RhbXAgUENBAhMzAAAANSjuYVOSImGRAAAAAAA1
+MAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0x
+MzA5MTYxODE1MDVaMCMGCSqGSIb3DQEJBDEWBBTiSKrzcDx2TmCSdvhd3nczziMncDANBgkqhkiG
+9w0BAQUFAASCAQAqKLvfh/J3KGvdzcJ6OjfDuUO68vFAu3XhmCMqxBd2NpfUTlc3I9Qv4xRWZqot
+M7YurILs+c0yjqIfTTg2QENsYl/rkTb3HOL3F8xn16xr8Evetc/vDpBBCCP87pmRTcXjAQq1Z9Qk
+fG6zFuDwxhmZ3PJ8HGbxSh1cfYL50t1v3GXODKL707Hucz7RqiyZgLoza4+ycG6UMmgAS3FyFZjk
+t8iftvmB3Ox42qnnEM55sILo0GqIq24OHIYeCVH50Z8nrdFedgRWDhRb2F4m41xiKVj9JkDJ/ngg
+aZnZVg5SAHEQwTqc7zBlw9d0NWiRf2us+87uzyCZSNWWfQZwX8aH</CounterSignature></Object></Signature></doc>

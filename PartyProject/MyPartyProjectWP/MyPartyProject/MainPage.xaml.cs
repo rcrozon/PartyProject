@@ -15,13 +15,18 @@ using Newtonsoft.Json;
 using System.Windows.Media.Imaging;
 using System.Diagnostics;
 using System.IO;
+
 using MyPartyProject.Encrypt;
 
 namespace MyPartyProject
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        private int loaded = 0; 
+        
+        private int loaded = 0;
+        private string key = "0123456789abcdef";
+        private string iv = "fedcba9876543210";
+            
         // Constructor
         public MainPage()
         {
@@ -79,17 +84,16 @@ namespace MyPartyProject
             }*/
             string idClient = "2";
             PhoneApplicationService.Current.State["idClient"] = idClient;
-            string pwdEnc = "baded608bb1bbc5caeb40e10e872bc1e";
-            string key = "0123456789abcdef";
-            string iv = "fedcba9876543210";
+            //string key = "0123456789abcdef";
+            //string iv = "fedcba9876543210";
             //string s1 = Encryption.Encrypt("test", System.Text.Encoding.UTF8.GetBytes(key), System.Text.Encoding.UTF8.GetBytes(iv));
             //string s2 = Encryption.DecryptStringFromBytes(Convert.FromBase64String(s1), System.Text.Encoding.UTF8.GetBytes(key), System.Text.Encoding.UTF8.GetBytes(iv));
             //string s = Encryption.EncryptStringFromBytes("test", System.Text.Encoding.UTF8.GetBytes(key), System.Text.Encoding.UTF8.GetBytes(iv));
-            string s1 = Encryption.DecryptRJ256(pwdEnc);
+            //string s1 = Encryption.DecryptRJ256(pwdEnc);
             //MessageBox.Show("ENCRYPT", s, MessageBoxButton.OK);
-            MessageBox.Show("DECRYPT", s1, MessageBoxButton.OK);
+            //MessageBox.Show("DECRYPT", s1, MessageBoxButton.OK);
             //MessageBox.Show("DECRYPT", s2, MessageBoxButton.OK);
-            //updateDatabase(idClient);
+            updateDatabase(idClient);
         }
         public void goToConcerts(){
              NavigationService.Navigate(new Uri("/Concerts.xaml", UriKind.Relative));
@@ -99,9 +103,12 @@ namespace MyPartyProject
         {
             if (e.Error == null)
             {
+                MessageBox.Show("ticket", e.Result, MessageBoxButton.OK);
 
-                MessageBox.Show("Ticket", e.Result, MessageBoxButton.OK);
-                List<Ticket> result = JsonConvert.DeserializeObject<List<Ticket>>(e.Result);
+                string s = Encryption.myDecrypt(e.Result.Trim());
+                string decryptedResultJSON = s;
+                MessageBox.Show("Ticket", decryptedResultJSON, MessageBoxButton.OK);
+                List<Ticket> result = JsonConvert.DeserializeObject<List<Ticket>>(decryptedResultJSON);
                 List<Ticket> tickets = new List<Ticket>();
                 for (int i = 0; i < result.Count; ++i)
                 {
@@ -129,7 +136,12 @@ namespace MyPartyProject
         {
             if (e.Error == null)
             {
-                List<Tariff> result = JsonConvert.DeserializeObject<List<Tariff>>(e.Result);
+                MessageBox.Show("Tariff", e.Result, MessageBoxButton.OK);
+
+                string s = Encryption.myDecrypt(e.Result.Trim());
+                string decryptedResultJSON = s;
+                MessageBox.Show("Tariff", decryptedResultJSON, MessageBoxButton.OK); 
+                List<Tariff> result = JsonConvert.DeserializeObject<List<Tariff>>(decryptedResultJSON);
                 List<Tariff> tariffs = new List<Tariff>();
                 for (int i = 0; i < result.Count; ++i)
                 {
@@ -154,7 +166,10 @@ namespace MyPartyProject
         {
             if (e.Error == null)
             {
-                List<Concert> result = JsonConvert.DeserializeObject<List<Concert>>(e.Result);
+                string s = Encryption.myDecrypt(e.Result.Trim());
+                string decryptedResultJSON = s;
+                MessageBox.Show("Concert", decryptedResultJSON, MessageBoxButton.OK);
+                List<Concert> result = JsonConvert.DeserializeObject<List<Concert>>(decryptedResultJSON);
                 List<Concert> concerts = new List<Concert>();
                 
                 for (int i = 0; i < result.Count; ++i)
