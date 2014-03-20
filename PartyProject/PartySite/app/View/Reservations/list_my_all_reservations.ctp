@@ -4,7 +4,7 @@ table td {
   padding-left: 10px;
 }
 </style>
- 
+ <div class="searchPanel">
    <table style="margin-bottom:15px">
     <tr>
       <td>
@@ -13,7 +13,7 @@ table td {
     <span data-bind="label">All Concerts</span> <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" role="menu">
-      <li name="concert" value="All"><a  href="#">All Concerts</a></li>
+      <li name="concert" value="all"><a  href="#">All Concerts</a></li>
     <?php for($i=0;$i<sizeof($listID);$i++){
      $concert = $this->Concert->getConcertByID($listID[$i]['reservations']['id_concert']);
       echo '<li name="concert" value="'.$concert['Concert']['id'].'"><a href="#">'.$concert['Concert']['name_concert'].'</a></li>';
@@ -28,7 +28,7 @@ table td {
     <span data-bind="label">All</span> <span class="caret"></span>
   </button>
   <ul class="dropdown-menu"  role="menu">
-      <li  name="scan" value="All"><a  href="#">All</a></li>
+      <li  name="scan" value="all"><a  href="#">All</a></li>
     
   <li  name="scan" value="1"><a href="#">Scanned</a></li>
   <li   name="scan" value="0"><a href="#">Not Scanned</a></li>
@@ -51,7 +51,7 @@ table td {
 
 </tr>
 </table>
-
+</div>
 
               
               
@@ -123,8 +123,7 @@ table td {
     </table> 
         </div>
         <script>
-        $( document.body ).on( 'click', '.dropdown-menu li', function( event ) {
- 
+        $( document.body ).on( 'click', '.searchPanel .dropdown-menu li', function( event ) {
    var $target = $( event.currentTarget );
  
    $target.closest( '.btn-group' )

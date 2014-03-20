@@ -17,7 +17,6 @@ class ReservationsController extends AppController{
 		$idClient = AuthComponent::user('id'); 
 		if($this->request->is('post')) {
 			$resultPost = $this->request->data;
-			
 
 			$sql = 'SELECT * FROM `reservations` WHERE id_client = '.$idClient;
 			if ($resultPost['Reservation']['idConcert'] != 'all'){

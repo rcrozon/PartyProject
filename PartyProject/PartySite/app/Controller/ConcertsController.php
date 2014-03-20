@@ -901,8 +901,8 @@ class ConcertsController extends AppController {
                 ";
         /*******************TRAITEMENT PRICE***********************************************/
                 $prices = explode(",", $d['Concert']['price']);
-                $sql .= "AND tarifs.price > ". $prices[0];
-                $sql .= " AND tarifs.price < ". $prices[1];
+                $sql .= "AND tarifs.price >= ". $prices[0];
+                $sql .= " AND tarifs.price <= ". $prices[1];
         /*********************ARTISTS TRAITEMENT********************************************/
                $artists = $d['Concert']['name'];
                 if(!empty($artists)) {

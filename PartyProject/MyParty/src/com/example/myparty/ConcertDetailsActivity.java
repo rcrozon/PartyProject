@@ -52,6 +52,7 @@ OnClickListener, OnMenuItemClickListener {
 	private ScanLayout scanner;
 	private Context context;
 	private DatabaseHandler dataBase;
+	private MenuItem connectedItem;
 
 	private Concert concert;
 	private int idResScan;
@@ -179,6 +180,7 @@ OnClickListener, OnMenuItemClickListener {
 		getMenuInflater().inflate(R.menu.connected, menu);
 		this.decoItem = menu.findItem(R.id.menu_deconect);
 		this.bluetoothItem = menu.findItem(R.id.bluetooth);
+		connectedItem = menu.findItem(R.id.menu_refresh);
 		scanPushItem = menu.findItem(R.id.scanpush);
 		updateItem = menu.findItem(R.id.update); 
 		scanPushItem.setOnMenuItemClickListener(this);
@@ -294,11 +296,11 @@ OnClickListener, OnMenuItemClickListener {
 		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if (ConnectionActivity.item != null){
+				if (connectedItem != null){
 					switch (lighted){
-					case 0: ConnectionActivity.item.setIcon(R.drawable.ic_action_location_found_green);break;
-					case 1: ConnectionActivity.item.setIcon(R.drawable.ic_action_location_found_red);break;
-					default: ConnectionActivity.item.setIcon(R.drawable.ic_action_refresh);break;
+					case 0: connectedItem.setIcon(R.drawable.ic_action_location_found_green);break;
+					case 1: connectedItem.setIcon(R.drawable.ic_action_location_found_red);break;
+					default: connectedItem.setIcon(R.drawable.ic_action_refresh);break;
 					}
 				}
 			}
