@@ -145,7 +145,8 @@ public class BluetoothServer extends Bluetooth {
 		    	}		
 			}
 		});
-		    }
+	    t.start();
+    }
 	// On stoppe l'�coute des connexions et on tue le thread
     public void cancel() {
         try {
