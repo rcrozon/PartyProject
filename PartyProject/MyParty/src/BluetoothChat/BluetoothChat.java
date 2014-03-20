@@ -102,8 +102,6 @@ public class BluetoothChat {
         } else {
             if (mChatService == null) setupChat();
         }
-        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
-        mChatService.connect((BluetoothDevice)pairedDevices.toArray()[0]);
         
         
     }
@@ -111,10 +109,13 @@ public class BluetoothChat {
     private void setupChat() {
         Log.d(TAG, "setupChat()");
 
-        sendMessage("begin");
-        // Initialize the BluetoothChatService to perform bluetooth connections
+        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
         mChatService = new BluetoothChatService(context, mHandler);
-
+        mChatService.connect((BluetoothDevice)pairedDevices.toArray()[0]);
+        // Initialize the BluetoothChatService to perform bluetooth connections
+        
+        sendMessage("begin");
+        
         // Initialize the buffer for outgoing messages
         mOutStringBuffer = new StringBuffer("");
     }

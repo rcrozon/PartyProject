@@ -66,7 +66,7 @@ OnClickListener, OnMenuItemClickListener {
 	private MenuItem scanPushItem;
 	private ProgressBar progressBar;
 	private LinearLayout layoutMain;
-	private ArrayList<BluetoothClient> listBluetoothClient = new ArrayList<BluetoothClient>();
+	//private ArrayList<BluetoothClient> listBluetoothClient = new ArrayList<BluetoothClient>();
 	private BluetoothServer server;
 	private List<Client> clientForConcert;
 	
