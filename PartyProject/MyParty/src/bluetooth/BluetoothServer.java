@@ -109,7 +109,7 @@ public class BluetoothServer extends Bluetooth {
 						}
 	            	}
 				}
-			});
+			}); 
         	read.start();
             // Send the obtained bytes to the UI Activity
         } catch (IOException e) {

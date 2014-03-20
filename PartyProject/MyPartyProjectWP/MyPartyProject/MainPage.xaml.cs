@@ -82,10 +82,13 @@ namespace MyPartyProject
             string pwdEnc = "baded608bb1bbc5caeb40e10e872bc1e";
             string key = "0123456789abcdef";
             string iv = "fedcba9876543210";
-            string s1 = Encryption.Encrypt("test", System.Text.Encoding.UTF8.GetBytes(key), System.Text.Encoding.UTF8.GetBytes(iv));
-            string s2 = Encryption.DecryptStringFromBytes(Convert.FromBase64String(s1), System.Text.Encoding.UTF8.GetBytes(key), System.Text.Encoding.UTF8.GetBytes(iv));
-            MessageBox.Show("ENCRYPT", s1, MessageBoxButton.OK);
-            MessageBox.Show("DECRYPT", s2, MessageBoxButton.OK);
+            //string s1 = Encryption.Encrypt("test", System.Text.Encoding.UTF8.GetBytes(key), System.Text.Encoding.UTF8.GetBytes(iv));
+            //string s2 = Encryption.DecryptStringFromBytes(Convert.FromBase64String(s1), System.Text.Encoding.UTF8.GetBytes(key), System.Text.Encoding.UTF8.GetBytes(iv));
+            string s = Encryption.EncryptStringFromBytes("test", System.Text.Encoding.UTF8.GetBytes(key), System.Text.Encoding.UTF8.GetBytes(iv));
+            string s1 = Encryption.DecryptStringFromBytes(System.Text.Encoding.UTF8.GetBytes(s), System.Text.Encoding.UTF8.GetBytes(key), System.Text.Encoding.UTF8.GetBytes(iv));
+            MessageBox.Show("ENCRYPT", s, MessageBoxButton.OK);
+            MessageBox.Show("DECRYPT", s1, MessageBoxButton.OK);
+            //MessageBox.Show("DECRYPT", s2, MessageBoxButton.OK);
             //updateDatabase(idClient);
         }
         public void goToConcerts(){

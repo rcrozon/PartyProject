@@ -11,7 +11,7 @@ namespace MyPartyProject.Encrypt
 {
     public class Encryption
     {
-
+        /*
         public void test() {
             Chilkat.Crypt2 crypt = new Chilkat.Crypt2();
 
@@ -67,7 +67,7 @@ namespace MyPartyProject.Encrypt
             MessageBox.Show(cipherText);
 
             string test = crypt.DecryptStringENC("baded608bb1bbc5caeb40e10e872bc1e");
-        }
+        }*/
         public static string DecryptStringFromBytes(byte[] cipherText, byte[] Key, byte[] IV)
         {
             
@@ -109,7 +109,7 @@ namespace MyPartyProject.Encrypt
             }
             return plaintext;
         }
-        /*
+       
         public static string EncryptStringFromBytes(string plainText, byte[] Key, byte[] IV)
         {
             string cipherText;
@@ -137,7 +137,7 @@ namespace MyPartyProject.Encrypt
                 // Create the streams used for decryption.
                 using (var memoryStream = new MemoryStream())
                 {
-                    using (var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
+                    using (var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Write))
                     {
                         using (var streamWriter = new StreamWriter(cryptoStream))
                         {
@@ -145,14 +145,14 @@ namespace MyPartyProject.Encrypt
                             streamWriter.Flush();
                         }
                         //cipherText = Convert.ToBase64String(Encoding.UTF8.GetBytes(Encoding.UTF8.GetString(memoryStream.ToArray())));
-                        cipherText = Convert.ToBase64String(memoryStream.ToArray());
+                        cipherText = BitConverter.ToString(memoryStream.ToArray()).Replace("-", string.Empty);
                         //cryptoStream.FlushFinalBlock();
                     }
                 }
             }
-            return plaintext;
+            return cipherText;
         }
-        */
+        
         public static string Encrypt(string plainText, byte[] Key, byte[] IV)
         {
 
