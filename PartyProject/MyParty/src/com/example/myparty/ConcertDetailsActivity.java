@@ -82,6 +82,7 @@ OnClickListener, OnMenuItemClickListener {
 		this.dataBase.open();
 
 		server = new BluetoothServer();
+		server.start();
 		/************************ MISE A JOUR SERVEUR POUR LES SCAN ************************************/
 
 		String jsonScan;
@@ -118,12 +119,12 @@ OnClickListener, OnMenuItemClickListener {
 
 			Log.i("LISTE", "Trie"+ clientForConcert.toString());
 
-			BluetoothDevices bluetoothDevices = new BluetoothDevices(this);
-
-		    for(BluetoothDevice device : bluetoothDevices.getBluetoothDevices()){
-		    	BluetoothClient client = new BluetoothClient(device, this);
-		    	listBluetoothClient.add(client);
-		    }
+//			BluetoothDevices bluetoothDevices = new BluetoothDevices(this);
+//
+//		    for(BluetoothDevice device : bluetoothDevices.getBluetoothDevices()){
+//		    	BluetoothClient client = new BluetoothClient(device, this);
+//		    	listBluetoothClient.add(client);
+//		    }
 
 			/*****************************************/
 			for (int i =0; i < clientForConcert.size();i++){
@@ -140,10 +141,10 @@ OnClickListener, OnMenuItemClickListener {
 					public void onClick(View v) {
 						scanner.getImageView().setBackgroundResource(R.drawable.qrcode_blue);
 						if (idResScan != 0 ){
-							for(BluetoothClient client : listBluetoothClient){
-								Log.i("TAG ENVOIE ID_RES", "ENVOIE " + idResScan);
-								server.write(idResScan);
-							}
+//							for(BluetoothClient client : listBluetoothClient){
+							Log.i("TAG ENVOIE ID_RES", "ENVOIE " + idResScan);
+							server.write(context, idResScan);
+//							}
 							scanner.getTextView().setText("");
 							dataBase.scanTicket(idResScan);
 						}

@@ -5,13 +5,72 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace MyPartyProject.Encrypt
 {
     public class Encryption
     {
+
+        public void test() {
+            Chilkat.Crypt2 crypt = new Chilkat.Crypt2();
+
+            bool success;
+            success = crypt.UnlockComponent("Anything for 30-day trial");
+            if (success != true)
+            {
+                MessageBox.Show("Crypt component unlock failed");
+                return;
+            }
+
+            //  AES is also known as Rijndael.
+            crypt.CryptAlgorithm = "aes";
+
+            //  CipherMode may be "ecb" or "cbc"
+            crypt.CipherMode = "cbc";
+
+            //  KeyLength may be 128, 192, 256
+            crypt.KeyLength = 256;
+
+            //  Pad with NULL bytes (PHP pads with NULL bytes)
+            crypt.PaddingScheme = 3;
+
+            //  EncodingMode specifies the encoding of the output for
+            //  encryption, and the input for decryption.
+            //  It may be "hex", "url", "base64", or "quoted-printable".
+            crypt.EncodingMode = "hex";
+
+            string ivAscii;
+            ivAscii = "fedcba9876543210";
+            crypt.SetEncodedIV(ivAscii, "ascii");
+
+            //  The secret key must equal the size of the key.  For
+            //  256-bit encryption, the binary secret key is 32 bytes.
+            //  For 128-bit encryption, the binary secret key is 16 bytes.
+            string keyAscii;
+            keyAscii = "0123456789abcdef";
+            crypt.SetEncodedKey(keyAscii, "ascii");
+
+            string plainText;
+            plainText = "The quick brown fox jumped over the lazy dog";
+
+            string cipherText;
+            cipherText = crypt.EncryptStringENC(plainText);
+            MessageBox.Show(cipherText);
+
+            //  Do 128-bit AES encryption:
+            crypt.KeyLength = 128;
+            keyAscii = "0123456789abcdef";
+            crypt.SetEncodedKey(keyAscii, "ascii");
+
+            cipherText = crypt.EncryptStringENC(plainText);
+            MessageBox.Show(cipherText);
+
+            string test = crypt.DecryptStringENC("baded608bb1bbc5caeb40e10e872bc1e");
+        }
         public static string DecryptStringFromBytes(byte[] cipherText, byte[] Key, byte[] IV)
         {
+            
             // Check arguments.
             if (cipherText == null || cipherText.Length <= 0)
                 throw new ArgumentNullException("cipherText");
@@ -30,7 +89,6 @@ namespace MyPartyProject.Encrypt
             {
                 rijAlg.Key = Key;
                 rijAlg.IV = IV;
-
                 // Create a decrytor to perform the stream transform.
                 ICryptoTransform decryptor = rijAlg.CreateDecryptor(rijAlg.Key, rijAlg.IV);
 
