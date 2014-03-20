@@ -115,7 +115,7 @@ public class BluetoothChat {
         mChatService.connect((BluetoothDevice)pairedDevices.toArray()[0]);
         // Initialize the BluetoothChatService to perform bluetooth connections
         
-        sendMessage("begin");
+        //sendMessage("begin");
         Log.d(TAG, "setupChat()");
 
         // Initialize the buffer for outgoing messages
@@ -126,7 +126,7 @@ public class BluetoothChat {
      * Sends a message.
      * @param message  A string of text to send.
      */
-    private void sendMessage(String message) {
+    public void sendMessage(String message) {
         // Check that we're actually connected before trying anything
         if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
             Toast.makeText(context, "not connected", Toast.LENGTH_SHORT).show();
@@ -231,4 +231,5 @@ public class BluetoothChat {
         }
     }
 */
+
 }
