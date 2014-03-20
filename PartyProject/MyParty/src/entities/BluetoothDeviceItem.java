@@ -73,7 +73,7 @@ public class BluetoothDeviceItem extends LinearLayout implements Items {
 			@Override
 			public void onClick(View v) {	
 				BluetoothClient client = new BluetoothClient(device, context);
-				client.start();
+				//client.start();
 			}
 		}); 
 	} 

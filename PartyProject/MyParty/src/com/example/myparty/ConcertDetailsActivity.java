@@ -60,7 +60,7 @@ OnClickListener, OnMenuItemClickListener {
 	private ProgressBar progressBar;
 	private LinearLayout layoutMain;
 	private ArrayList<BluetoothClient> listBluetoothClient = new ArrayList<BluetoothClient>();
-
+	private BluetoothServer server;
 	private List<Client> clientForConcert;
 
 	@Override
@@ -81,7 +81,7 @@ OnClickListener, OnMenuItemClickListener {
 		this.dataBase = new DatabaseHandler(this);
 		this.dataBase.open();
 
-
+		server = new BluetoothServer();
 		/************************ MISE A JOUR SERVEUR POUR LES SCAN ************************************/
 
 		String jsonScan;
@@ -122,7 +122,6 @@ OnClickListener, OnMenuItemClickListener {
 
 		    for(BluetoothDevice device : bluetoothDevices.getBluetoothDevices()){
 		    	BluetoothClient client = new BluetoothClient(device, this);
-		    	client.start();
 		    	listBluetoothClient.add(client);
 		    }
 
@@ -143,7 +142,7 @@ OnClickListener, OnMenuItemClickListener {
 						if (idResScan != 0 ){
 							for(BluetoothClient client : listBluetoothClient){
 								Log.i("TAG ENVOIE ID_RES", "ENVOIE " + idResScan);
-								client.write(idResScan);
+								server.write(idResScan);
 							}
 							scanner.getTextView().setText("");
 							dataBase.scanTicket(idResScan);

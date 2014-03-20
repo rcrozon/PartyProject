@@ -47,13 +47,12 @@ public class BluetoothClient extends Bluetooth {
 //	    	    Log.i("TAG UUIDS CLIENT", "UUID: " + uuid.getUuid().toString());
 //	    	}
         	String s = "0000111f-0000-1000-8000-00805f9b34fb";
-        	tmp = device.createInsecureRfcommSocketToServiceRecord(UUID.fromString(s));
+        	blueSocket = device.createInsecureRfcommSocketToServiceRecord(UUID.fromString(s));
         } catch (IOException e) { }
          catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        blueSocket = tmp;
     }
 
     
@@ -63,6 +62,7 @@ public class BluetoothClient extends Bluetooth {
 	            // On se connecte. Cet appel est bloquant jusqu'� la r�ussite ou la lev�e d'une erreur
 	            blueSocket.connect();
 	            Log.i("TAG RUN CLIENT", "connected"); 
+	            manageConnectedSocket(blueSocket);
 	        } catch (IOException e) {
 	            Log.i("TAG RUN CLIENT", "NOT connected");
 				e.printStackTrace();
@@ -77,20 +77,69 @@ public class BluetoothClient extends Bluetooth {
      * Write to the connected OutStream.
      * @param buffer  The bytes to write
      */
-    public boolean write(int id_res) {
-        try {
-            byte[] buff = ByteBuffer.allocate(4).putInt(id_res).array();
-            tmpOut = blueSocket.getOutputStream();
-	        tmpOut.write(buff);
-	        return true;
-            // Share the sent message back to the UI Activity
-        } catch (IOException e) {
-            Log.e("TAG", "Exception during write", e);
-            e.printStackTrace();
-        }
-        return false;
-    }
+/*
+    public void write(final int id_res) {
+    	try {
+			tmpOut = blueSocket.getOutputStream();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    	Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+		            byte[] buff = ByteBuffer.allocate(4).putInt(id_res).array();
+		            blueSocket.connect();
+		            Log.i("TAG RUN CLIENT", "connected"); 
+		            tmpOut.write(buff);
+			        // Share the sent message back to the UI Activity
+		        } catch (IOException e) {
+		            Log.e("TAG", "Exception during write", e);
+		            e.printStackTrace();
+		        }
+				cancel();
+			}
+		});
+    	t.start();
 
+    }*/
+
+
+    private void manageConnectedSocket(BluetoothSocket blueSocket) {
+		Log.i("TAG MANAGE SERVER", "PASSE");
+		// Keep listening to the InputStream while connected
+        try {
+            // Read from the InputStream
+    		tmpIn = blueSocket.getInputStream();
+            //tmpOut = blueSocket.getOutputStream();
+            Log.i("TAG", "BEGIN mConnectedThread");
+//        	Thread read = new Thread(new Runnable() {
+//				@Override
+//				public void run() {
+					byte[] buffer = new byte[1024];
+			        int bytes;
+			        while (true) {
+				        try {
+							Log.i("TAG RECEIVED1","AVANT");
+							bytes = tmpIn.read(buffer);
+							Log.i("TAG RECEIVED2","ID = "+ bytes);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	            	}
+//				}
+//			});
+//        	read.start();
+            // Send the obtained bytes to the UI Activity
+        } catch (IOException e) {
+            Log.e("TAG", "disconnected", e);
+        }
+		//TODO Recup�rer infos et stockage bd
+		
+	}
 	// Annule toute connexion en cours et tue le thread
     public void cancel() {
         try {

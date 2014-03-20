@@ -68,7 +68,7 @@ public class BluetoothActivity extends Activity implements OnClickListener {
 	    	layoutDevices.addView(new BluetoothDeviceItem(this, device));
         }
 	    BluetoothServer server = new BluetoothServer();
-		server.start();
+		//server.start();
 		
 	}
 

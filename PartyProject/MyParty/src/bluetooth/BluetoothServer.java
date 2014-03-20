@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.ByteBuffer;
 import java.util.UUID;
 
 import android.bluetooth.BluetoothAdapter;
@@ -13,7 +14,7 @@ import android.bluetooth.BluetoothSocket;
 import android.os.ParcelUuid;
 import android.util.Log;
 
-public class BluetoothServer extends Bluetooth {
+public class BluetoothServer {
     
 	private BluetoothServerSocket blueServerSocket ;
     private InputStream tmpIn;
@@ -47,7 +48,7 @@ public class BluetoothServer extends Bluetooth {
         
         Log.i("TAG SERVER", "SERVER CONSTRUCTOR");
     }
-
+/*
     public void run() {
         BluetoothSocket blueSocket = null;
         // On attend une erreur ou une connexion entrante
@@ -56,17 +57,23 @@ public class BluetoothServer extends Bluetooth {
             	if (blueServerSocket != null){
 	            	Log.i("TAG INIT", "init connection");
 	                blueSocket = blueServerSocket.accept();
-	            	Log.i("TAG INIT", "connection accepté");
+	                
+	            	Log.i("TAG INIT", "connection acceptï¿½");
             	}else{
-            		Log.i("TAG INIT", "connection accepté");	
+            		Log.i("TAG INIT", "connection pas acceptï¿½");	
             	}
             } catch (IOException e) {
+<<<<<<< HEAD
+            e.printStackTrace();
 	            break;
+=======
+	            e.printStackTrace();
+>>>>>>> d77e790c78b68f5c69576889fa14d371645cb46a
 	        }
-            // Si une connexion est acceptée
+            // Si une connexion est acceptï¿½e
             if (blueSocket != null) {
                 // On fait ce qu'on veut de la connexion (dans un thread sï¿½parï¿½), ï¿½ vous de la crï¿½er
-                manageConnectedSocket(blueSocket);
+//                manageConnectedSocket(blueSocket);
 //                try {
 //					blueServerSocket.close();
 //				} catch (IOException e) {
@@ -78,7 +85,7 @@ public class BluetoothServer extends Bluetooth {
     		Log.i("TAG MANAGE SERVER", "BLUESOCKET NULL");
         }
     }
-
+/*
     private void manageConnectedSocket(BluetoothSocket blueSocket) {
 		Log.i("TAG MANAGE SERVER", "PASSE");
 		// Keep listening to the InputStream while connected
@@ -113,6 +120,27 @@ public class BluetoothServer extends Bluetooth {
 		
 	}
 
+*/
+    public void write(final int id_res) {
+    	BluetoothSocket blueSocket ;
+		try {
+    		blueSocket = blueServerSocket.accept();
+    		tmpOut = blueSocket.getOutputStream();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+            byte[] buff = ByteBuffer.allocate(4).putInt(id_res).array();
+            Log.i("TAG RUN SERVER", "connected"); 
+            tmpOut.write(buff);
+            Log.i("TAG RUN SERVER", "written"); 
+	        // Share the sent message back to the UI Activity
+        } catch (IOException e) {
+            Log.e("TAG", "Exception during write", e);
+            e.printStackTrace();
+        }
+    }
 	// On stoppe l'ï¿½coute des connexions et on tue le thread
     public void cancel() {
         try {
