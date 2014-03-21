@@ -991,16 +991,17 @@ public class DatabaseHandler {
 		return (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected());
 
 	}
-
+	
 	public String decodePassword(String code){
 		MCrypt mcrypt = new MCrypt();
 		String decrypted=null;
 		try {
 			decrypted = new String( mcrypt.decrypt( code ) );
 		} catch (Exception e) {
-			e.printStackTrace();
+			return null;
 		}
 
+		Log.i("DECRYPT", "Crypte = "+ code);
 		/******ON ENLEVE LES CARACTERE SPECIAUX*****/
 
 		byte bytes[] = decrypted.getBytes();
@@ -1018,8 +1019,12 @@ public class DatabaseHandler {
 			}
 		}
 		decrypted = new String(bytes);
-
+		decrypted = decrypted.replaceAll("\\\\","");
+		int taille = decrypted.length();
+		if (decrypted.startsWith("\""))
+			decrypted= decrypted.substring(1, taille-1);
+		
+		Log.i("DECRYPT", "DeCrypte = "+ decrypted);
 		return decrypted;
 	}
-
 }

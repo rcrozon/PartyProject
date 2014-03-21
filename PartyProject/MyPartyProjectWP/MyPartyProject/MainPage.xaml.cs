@@ -82,7 +82,7 @@ namespace MyPartyProject
             IsolatedStorageSettings.ApplicationSettings.Save();
             _pwd = Encryption.EncryptStringFromBytes(pwd.Password);
             _login = login.Text;
-            authentification("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/loginWindows");
+            authentification("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/loginWindows/json:");
             //while ((idClient = loginProcess.getIdResult()) == null) ;
             //TODO verification du login et pwd
             /*
@@ -211,21 +211,55 @@ namespace MyPartyProject
             } 
         }
 
-
+        public void wc1_UploadStringCompleted(object sender, UploadStringCompletedEventArgs e)
+        {
+            string s = e.Result;
+            MessageBox.Show(e.Result);
+            //
+        }
         // Create the web request object 
         public void authentification(string url)
         {
+            /*WebClient wc1 = new WebClient();
+            wc1.UploadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/loginWindows/json:")
+                                    , "POST", "[{\"username\":\"" + _login + "\",\"password\":\"" + _pwd + "\"}]");
+            wc1.UploadStringCompleted += new UploadStringCompletedEventHandler(wc1_UploadStringCompleted);
+            //
+            */
+            
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
-            webRequest.Method = "POST";
+            webRequest.Method = "Post";
+            webRequest.Accept = "text/xml";
+            webRequest.AllowAutoRedirect = true;
 
+            
+            //webRequest.ContentType = "application/x-www-form-urlencoded";
+    
             //webRequest.Headers["Email"] = "abc@xyz.com"; 
             //webRequest.Headers["password"] = "abc123"; 
 
 
-            webRequest.ContentType = "application/json;charset=utf-8";
+            //webRequest.ContentType = "application/json;charset=utf-8";
             //"text/json";// 
             // Start the request 
             webRequest.BeginGetRequestStream(new AsyncCallback(GetRequestStreamCallback), webRequest);
+            /*
+            WebClient client = new WebClient();
+
+            client.Headers[HttpRequestHeader.Accept] = "application/json";
+            client.Headers[HttpRequestHeader.ContentType] = "application/json";
+
+            client.UploadStringCompleted += (object source, UploadStringCompletedEventArgs e) =>
+            {
+                if (e.Error != null || e.Cancelled)
+                {
+                    // Error or cancelled
+                }
+            };
+            var uri = new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/loginWindows", UriKind.Absolute);
+            client.UploadStringAsync(uri, "[{\"username\":\"" + _login + "\",\"password\":\"" + _pwd + "\"}]");  // message is the json content in string
+        */
+        
         }
 
         public void GetRequestStreamCallback(IAsyncResult asynchronousResult)
@@ -255,7 +289,7 @@ namespace MyPartyProject
                 HttpWebRequest webRequest = (HttpWebRequest)asynchronousResult.AsyncState;
                 HttpWebResponse response;
 
-                // End the get response operation 
+                // End the get response operation
                 response = (HttpWebResponse)webRequest.EndGetResponse(asynchronousResult);
                 Stream streamResponse = response.GetResponseStream();
                 StreamReader streamReader = new StreamReader(streamResponse);
