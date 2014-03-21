@@ -16,14 +16,14 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="115*"/>
-            <RowDefinition Height="76*"/>
-            <RowDefinition Height="76*"/>
-            <RowDefinition Height="76*"/>
-            <RowDefinition Height="76"/>
-            <RowDefinition Height="76*"/>
-            <RowDefinition Height="139*"/>
+            <RowDefinition Height="214"/>
+            <RowDefinition Height="70*"/>
+            <RowDefinition Height="77*"/>
+            <RowDefinition Height="70*"/>
+            <RowDefinition Height="77"/>
+            <RowDefinition Height="70*"/>
+            <RowDefinition Height="91*"/>
+            <RowDefinition Height="99*"/>
         </Grid.RowDefinitions>
 
         <!-- LOCALIZATION NOTE:
@@ -46,25 +46,25 @@
          -->
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,108">
             <TextBlock x:Name="title" Text="My Party" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0" Grid.RowSpan="7">
+        <Grid x:Name="ContentPanel" Margin="12,134,12,0" Grid.RowSpan="8">
             <Grid.RowDefinitions>
-                <RowDefinition Height="505*"/>
-                <RowDefinition Height="129*"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            <Button x:Name="Connection" Margin="0,0,0,10" Click="Button_Click_1" Background="#FF07378B" BorderThickness="0" Grid.Row="1" Content="Connection"/>
-            <ProgressBar x:Name="progressBarLogin" Visibility="Collapsed" IsIndeterminate="True" Margin="0,0,0,112" Grid.Row="1"/>
+            <Button x:Name="Connection" Margin="-18,537,-10,0" Click="Button_Click_1" Background="#FF07378B" BorderThickness="0" Content="Connection"/>
+            <ProgressBar x:Name="progressBarLogin" Visibility="Collapsed" IsIndeterminate="True" Margin="10,532,-10,85"/>
+            <TextBlock x:Name="progressText" VerticalAlignment="Center" FontSize="24" Margin="0,487,0,102" TextWrapping="Wrap" Text="" Height="45"/>
         </Grid>
-        <TextBlock x:Name="invalidLogin" Grid.Row="1" Foreground="Red" FontSize="25" TextWrapping="Wrap" Text="Invalid username or password" RenderTransformOrigin="0.118,0.404" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-        <TextBlock Margin="194,10" Grid.Row="2" TextWrapping="Wrap" Text="Login" HorizontalAlignment="Center" FontSize="37.333" Width="92"/>
-        <TextBox x:Name="login"  Margin="10,0,14,4" Grid.Row="3" TextWrapping="Wrap"/>
-        <PasswordBox x:Name="pwd" Margin="12,0,12,4" Grid.Row="5" />
-        <TextBlock Margin="161,10,165,5" TextWrapping="Wrap" Text="Password" Grid.Row="4" HorizontalAlignment="Center" FontSize="37.333" Width="154"/>
-        <CheckBox x:Name="rememberCheckBox" Content="Remember my password" Grid.Row="6" Margin="0,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock x:Name="invalidLogin" Foreground="Red" FontSize="25" TextWrapping="Wrap" Text="Invalid username or password" RenderTransformOrigin="0.118,0.404" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" Height="831" Margin="229,-222,229,60" Grid.RowSpan="7" Width="22"/>
+        <TextBlock Margin="194,10,0,10" Grid.Row="1" TextWrapping="Wrap" Text="Login" HorizontalAlignment="Left" FontSize="37.333" Width="92"/>
+        <TextBox x:Name="login"  Margin="10,0,14,4" Grid.Row="2" TextWrapping="Wrap"/>
+        <PasswordBox x:Name="pwd" Margin="12,0,12,4" Grid.Row="4" />
+        <TextBlock Margin="161,10,165,5" TextWrapping="Wrap" Text="Password" Grid.Row="3" HorizontalAlignment="Center" FontSize="37.333" Width="154"/>
+        <CheckBox x:Name="rememberCheckBox" Content="Remember my password" Grid.Row="5" Margin="84,1,85,0" VerticalAlignment="Top" Height="69"/>
         <Image x:Name="imgConnected" Source="/Images/ic_not_connected.png" Height="30" Margin="450,0,0,0" VerticalAlignment="Top"/>
 
         <!--Uncomment to see an alignment grid to help ensure your controls are

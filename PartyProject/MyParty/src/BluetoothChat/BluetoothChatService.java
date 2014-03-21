@@ -409,7 +409,7 @@ public class BluetoothChatService {
 				} catch (IOException e) {
 					Log.e(TAG, "disconnected", e);
 					connectionLost();
-					break;  
+					break;
 				}
 
 			}

@@ -29,13 +29,18 @@ namespace MyPartyProject
                 imgConnected.Source = imageBitmapNotConnected;
             }
         }
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            PhoneApplicationService.Current.State["idClient"] = -1;
+            e.Cancel = true;
+        }
         //Button AllConcerts
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             PhoneApplicationService.Current.State["ConcertMode"] = 0;
             NavigationService.Navigate(new Uri("/ConcertsList.xaml", UriKind.Relative));
         }
-
+        
         //Button NextConcerts
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {

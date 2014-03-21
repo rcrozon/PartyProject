@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Security;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,63 +23,31 @@ namespace MyPartyProject.Encrypt
                             .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
                             .ToArray();
         }
-          
-        public static String DecryptRJ256(string input)
+
+        public static string myDecrypt(string cipherText)
         {
-            byte[] cypher = StringToByteArray(input);
-            string key = "0123456789abcdef";
-            string iv = "fedcba9876543210";
-            //string res = BitConverter.ToString(cypher).Replace("-", string.Empty);
-            var sRet = "";
-
-            var encoding = new UTF8Encoding();
-            var Key = encoding.GetBytes(key);
-            var IV = encoding.GetBytes(iv);
-
-            using (AesManaged rj = new AesManaged())
-            {
-                try
-                {
-                    rj.Padding = PaddingMode.Zeros;
-                    rj.Mode = CipherMode.CBC;
-                    rj.KeySize = 128;
-                    rj.BlockSize = 128;
-                    rj.Key = Key;
-                    rj.IV = IV;
-                    
-                    var ms = new MemoryStream(cypher);
-
-                    using (var cs = new CryptoStream(ms, rj.CreateDecryptor(Key, IV), CryptoStreamMode.Read))
-                    {
-                        //  cs.Write(cypher, 0, cypher.Length);
-                        //cs.FlushFinalBlock();
-                        //cs.Close();
-                        using (var sr = new StreamReader(cs))
-                        {
-                            sRet = sr.ReadLine();
-                        }
-                    }
-                }
-                finally
-                {
-                    rj.Clear();
-                }
-            }
-            string[] words = sRet.Split('\0');
+            // encryption key... 
+            var key = Encoding.UTF8.GetBytes("0123456789abcdef");
+            var iv = Encoding.UTF8.GetBytes("fedcba9876543210");
+            var cipher = CipherUtilities.GetCipher("AES/CBC/NoPadding");
+            ParametersWithIV par = new ParametersWithIV(new KeyParameter(key), iv);
+            // Initialise the cipher... 
+            cipher.Init(false, par);
+            var bytes = cipher.DoFinal(StringToByteArray(cipherText));
+            string result = Encoding.UTF8.GetString(bytes, 0, bytes.Length); //result is Always \0\0\0\0\0\0\0\0\0\0\0.... 
+            string[] words = result.Split('\0');
             return words[0];
         }
-    
-        public static string EncryptStringFromBytes(string plainText, byte[] Key, byte[] IV)
+
+        public static string EncryptStringFromBytes(string plainText)
         {
             string cipherText;
             // Check arguments.
             //if (cipherText == null || cipherText.Length <= 0)
             //    throw new ArgumentNullException("cipherText");
-            if (Key == null || Key.Length <= 0)
-                throw new ArgumentNullException("Key");
-            if (IV == null || IV.Length <= 0)
-                throw new ArgumentNullException("Key");
-
+            var Key = Encoding.UTF8.GetBytes("0123456789abcdef");
+            var IV = Encoding.UTF8.GetBytes("fedcba9876543210");
+            
             // Declare the string used to hold
             // the decrypted text.
             //RijndaelManaged m;
