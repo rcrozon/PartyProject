@@ -36,16 +36,23 @@ public class ReservationItem extends LinearLayout implements Items{
 		layoutParams.weight = 4;
 		
 		/*********** Si l'image existe on la met sinon, image par défaut **********************/
-		File ftest = new File(Environment.getExternalStorageDirectory() +
-				File.separator + Tables.PATH_REP_IMG +"/detail" + reservation.getConcert().getId()+".png");
-		if (ftest.exists()){
-		
-			BitmapDrawable bm = new BitmapDrawable(getResources(), Environment.getExternalStorageDirectory() +
-					File.separator +  Tables.PATH_REP_IMG+"/detail"+reservation.getConcert().getId()+".png");
-			imgView.setBackground(bm);
-			imgView.setLayoutParams(llp);
-		}
-		else{
+		if (reservation != null){
+			File ftest = new File(Environment.getExternalStorageDirectory() + 
+					File.separator + 
+					Tables.PATH_REP_IMG +"/detail" + 
+					reservation.getConcert().getId()+".png");
+			if (ftest.exists()){
+			
+				BitmapDrawable bm = new BitmapDrawable(getResources(), Environment.getExternalStorageDirectory() +
+						File.separator +  Tables.PATH_REP_IMG+"/detail"+reservation.getConcert().getId()+".png");
+				imgView.setBackground(bm);
+				imgView.setLayoutParams(llp);
+			}
+			else{
+				imgView.setBackgroundResource(R.drawable.party2);
+				imgView.setLayoutParams(llp);
+			}
+		}else{
 			imgView.setBackgroundResource(R.drawable.party2);
 			imgView.setLayoutParams(llp);
 		}

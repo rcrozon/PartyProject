@@ -14,8 +14,10 @@ import entities.ConcertDetailed;
 public class ConcertDetailsActivity extends Activity implements OnMenuItemClickListener {
 
 	private MenuItem decoItem;
+	private MenuItem updateItem;
 	private DatabaseHandler dataBase;
 	private LinearLayout layoutDetails;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +44,11 @@ public class ConcertDetailsActivity extends Activity implements OnMenuItemClickL
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.connected, menu);
 		this.decoItem = menu.findItem(R.id.menu_deconect);
+		//updateItem = menu.findItem(R.id.update); 
+		//updateItem.setOnMenuItemClickListener(this);
 		// decoItem.setIcon(R.drawable.logout);
 		this.decoItem.setOnMenuItemClickListener(this);
+		
 		return true;
 	}
 

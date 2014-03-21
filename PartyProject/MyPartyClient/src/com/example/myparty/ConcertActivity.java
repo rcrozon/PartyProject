@@ -30,6 +30,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	private ViewFlipper view_flipper ;
 	private MenuItem decoItem;
 	private MenuItem connectedItem;
+	private MenuItem updateItem;
 	private int index = 0;
 	private int nextIndex = 0;
 	private DatabaseHandler dataBase;
@@ -41,6 +42,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	private ListLayout listNext ;
 	private ListLayout listNews; 
 	private int idClient ;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -145,9 +147,10 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.connected, menu);
 		decoItem = menu.findItem(R.id.menu_deconect);
+		//updateItem = menu.findItem(R.id.u); 
 		connectedItem = menu.findItem(R.id.menu_refresh);
-		//decoItem.setIcon(R.drawable.logout);
 		decoItem.setOnMenuItemClickListener(this);
+		//updateItem.setOnMenuItemClickListener(this);
 		return true;
 	}
 
@@ -188,8 +191,17 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	@Override
 	public boolean onMenuItemClick(MenuItem item) {
 		Intent intent;
-		intent = new Intent(this, ConnectionActivity.class);
-		this.startActivity(intent);	
+		if (item == decoItem){
+			intent = new Intent(this, ConnectionActivity.class);
+			this.startActivity(intent);
+		}
+		else if(item == updateItem){
+			loadDatabase();
+			//			if(DatabaseHandler.updateAllTables(this)){
+			//				intent = new Intent(this, ConcertActivity.class);
+			//				this.startActivity(intent);
+			//			}
+		}
 		return false;
 	}
 	

@@ -7,9 +7,14 @@
         android:title="@string/menu_refresh" />
     
 	<item
-		android:id="@+id/menu_deconect"
+		android:id="@+id/menu_deconnect"
 		android:icon="@drawable/logout"
 		android:showAsAction="ifRoom"
-		android:title="@string/menu_deconect" />
+		android:title="@string/menu_deconnect" />	
+	
+	<item android:id="@+id/update"  
+	    android:icon="@drawable/update"
+	    android:showAsAction="ifRoom"
+	    android:title="@string/update"/>
 
 </menu>

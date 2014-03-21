@@ -14,6 +14,7 @@ import com.example.myparty.R;
 import com.example.myparty.TicketsActivity;
 
 import databaseHandler.DatabaseHandler;
+import entities.Concert;
 import entities.Reservation;
 import entities.ReservationItem;
 import entities.TicketUnitaire;
