@@ -395,7 +395,7 @@ public class BluetoothChatService {
 			int bytes;
 			// Keep listening to the InputStream while connected
 			while (true) {
-				try {
+				try{
 					//Read from the InputStream
 					Log.i(TAG, "BEGIN READ");
 					bytes = mmInStream.read(buffer);
