@@ -7,9 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
-import android.net.rtp.RtpStream;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,12 +17,9 @@ import android.widget.TextView;
 
 import com.example.myparty.MapActivity;
 import com.example.myparty.R;
-import com.google.android.gms.internal.bu;
 
 import databaseHandler.DatabaseHandler;
 import databaseHandler.Tables;
-import databaseHandler.ThreadBitMap;
-import databaseHandler.ThreadTestServer;
 
 public class ConcertDetailed extends RelativeLayout {
 

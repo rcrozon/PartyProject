@@ -1,40 +1,20 @@
 package entities;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Date;
-import java.util.Formatter.BigDecimalLayoutForm;
 
 import lists.Items;
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.os.Environment;
-import android.text.GetChars;
-import android.util.Log;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.myparty.R;
-import com.google.android.gms.common.data.d;
-import com.google.android.gms.internal.in;
 
 import databaseHandler.Tables;
-import databaseHandler.ThreadBitMap;
-import databaseHandler.ThreadTestServer;
 
 public class ConcertItem extends LinearLayout implements Items{
 
@@ -51,6 +31,7 @@ public class ConcertItem extends LinearLayout implements Items{
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT-50, 
 				LinearLayout.LayoutParams.WRAP_CONTENT);
 		layoutParams.setMargins(20, 0, 20, 0);
+		layoutParams.weight = 4;
 		layoutConcertData.setLayoutParams(layoutParams);
 		ImageView imgView = new ImageView(context);
 		LayoutParams llp = new LayoutParams(140, 250, Gravity.CENTER_HORIZONTAL); 

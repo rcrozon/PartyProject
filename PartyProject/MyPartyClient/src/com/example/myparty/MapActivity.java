@@ -24,7 +24,6 @@ public class MapActivity extends Activity implements LocationListener {
     private LocationManager locationManager;
     private GoogleMap gMap;
     private Marker markerLocation;
-    private Marker markerAddress;
     private long minTime = 2000;
     
     @Override

@@ -30,7 +30,6 @@ public class ReservationItem extends LinearLayout implements Items{
 				   LinearLayout.LayoutParams.WRAP_CONTENT);
 		layoutParams.setMargins(20, 0, 20, 0); 
 		layoutClientData.setLayoutParams(layoutParams);  
-		layoutParams.weight = 1;
 		ImageView imgView = new ImageView(context);
 		LayoutParams llp = new LayoutParams(400, 300, Gravity.CENTER_HORIZONTAL); 
 		layoutParams.weight = 4;
@@ -46,15 +45,12 @@ public class ReservationItem extends LinearLayout implements Items{
 				BitmapDrawable bm = new BitmapDrawable(getResources(), Environment.getExternalStorageDirectory() +
 						File.separator +  Tables.PATH_REP_IMG+"/detail"+reservation.getConcert().getId()+".png");
 				imgView.setBackground(bm);
-				imgView.setLayoutParams(llp);
 			}
 			else{
 				imgView.setBackgroundResource(R.drawable.party2);
-				imgView.setLayoutParams(llp);
 			}
 		}else{
 			imgView.setBackgroundResource(R.drawable.party2);
-			imgView.setLayoutParams(llp);
 		}
 		imgView.setLayoutParams(llp);
 		this.addView(imgView);

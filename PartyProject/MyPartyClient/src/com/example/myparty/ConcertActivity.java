@@ -1,7 +1,6 @@
 package com.example.myparty;
 
 import databaseHandler.DatabaseHandler;
-import entities.Concert;
 import lists.ConcertList;
 import lists.ListLayout;
 import lists.ReservationsList;
@@ -133,9 +132,9 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	
 	private void updateLists(){
 		listReservations = new ListLayout(this, new ReservationsList(this, idClient));
-		listAll = new ListLayout(this, new ConcertList(this, 0));
-		listNext = new ListLayout(this, new ConcertList(this, 1));
-		listNews = new ListLayout(this, new ConcertList(this, 2));
+		listAll = new ListLayout(this, new ConcertList(this, 0, idClient));
+		listNext = new ListLayout(this, new ConcertList(this, 1, idClient));
+		listNews = new ListLayout(this, new ConcertList(this, 2, idClient));
 		this.view_flipper.removeAllViews();
 		this.view_flipper.addView(listReservations); 
 		this.view_flipper.addView(listAll); 
@@ -146,11 +145,11 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.connected, menu);
-		decoItem = menu.findItem(R.id.menu_deconect);
-		//updateItem = menu.findItem(R.id.u); 
+		decoItem = menu.findItem(R.id.menu_deconnect);
+		updateItem = menu.findItem(R.id.update); 
 		connectedItem = menu.findItem(R.id.menu_refresh);
 		decoItem.setOnMenuItemClickListener(this);
-		//updateItem.setOnMenuItemClickListener(this);
+		updateItem.setOnMenuItemClickListener(this);
 		return true;
 	}
 

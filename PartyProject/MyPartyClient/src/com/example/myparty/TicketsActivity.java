@@ -1,20 +1,13 @@
 package com.example.myparty;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
-
-import QRCode.Contents;
-import QRCode.QRCodeEncoder;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -24,7 +17,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -36,30 +28,32 @@ import databaseHandler.DatabaseHandler;
 import databaseHandler.Tables;
 import databaseHandler.ThreadBitMap;
 import entities.Concert;
-import entities.Reservation;
-import entities.TicketUnitaire;
 import entities.TicketItem;
+import entities.TicketUnitaire;
 
 public class TicketsActivity extends Activity implements OnMenuItemClickListener, OnClickListener {
 
 	private MenuItem decoItem;
 	private DatabaseHandler dataBase;
 	private LinearLayout layoutButtons;
-	private LinearLayout layoutInfos;
 	private RelativeLayout layoutMain;
 	private ViewFlipper viewFlipper;
 	private RadioGroup radioGroup ;
 	private TextView textNbTickets;
 	private Button buttonPrev;
 	private Button buttonNext;
+	private MenuItem connectedItem;
 	private int nbTickets ;
 	private int numCurrentTickets = 1 ;
     private float lastX;
+    private int idClient ;
+    private Context context;
     
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		context = this;
 		setContentView(R.layout.activity_tickets);
 		layoutButtons = (LinearLayout)findViewById(R.id.layoutButtons);
 		layoutMain = (RelativeLayout)findViewById(R.id.layoutMain);
@@ -73,7 +67,7 @@ public class TicketsActivity extends Activity implements OnMenuItemClickListener
 		
 		this.dataBase = new DatabaseHandler(this);
 		this.dataBase.open();
-
+		
 		/****************** RECUPERATION DE L'ID DU CONCERT *****************/
 		buttonNext.setOnClickListener(this);
 		buttonPrev.setOnClickListener(this);
@@ -82,7 +76,7 @@ public class TicketsActivity extends Activity implements OnMenuItemClickListener
 		Concert concert = null;
 
         concert = DatabaseHandler.getConcertWithId(b.getInt("idConcert"));
-        int idClient = b.getInt("idClient");
+        idClient = b.getInt("idClient");
         ///////////////////////////////////////////////////
         ArrayList<TicketUnitaire> tickets = dataBase.getTicketClient(idClient, b.getInt("idConcert"));
         ArrayList<TicketItem> ticketsListItem = new ArrayList<TicketItem>();
@@ -195,8 +189,12 @@ public class TicketsActivity extends Activity implements OnMenuItemClickListener
 	@Override 
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.connected, menu);
-		this.decoItem = menu.findItem(R.id.menu_deconect);
+		this.decoItem = menu.findItem(R.id.menu_deconnect);
 		// decoItem.setIcon(R.drawable.logout);
+		this.connectedItem = menu.findItem(R.id.menu_refresh); 
+		if (DatabaseHandler.isNetworkConnected(this)){
+			connectedToServer(0);
+		}
 		this.decoItem.setOnMenuItemClickListener(this);
 		return true;
 	}
@@ -233,5 +231,56 @@ public class TicketsActivity extends Activity implements OnMenuItemClickListener
 		}
     	textNbTickets.setText(numCurrentTickets + " / " + nbTickets);
 		
+	}
+	
+
+	private void loadDatabase(){
+		new Thread(new Runnable() { 
+			@Override
+			public void run() {
+				if (DatabaseHandler.updateAllTables(context, idClient)){
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							connectedToServer(0); 
+						}
+					});
+
+				}else{
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+
+							Context myContext = getApplicationContext();
+							CharSequence text = "ERROR DATABASE PULL!";
+							int duration = Toast.LENGTH_LONG;
+
+							Toast toast = Toast.makeText(myContext, text, duration);
+							toast.show();
+							connectedToServer(1);
+						}
+					});
+				}
+			}
+		}).start();
+	}
+
+	/**
+	 * Change the icon
+	 * @param lighted : 0 if connected, 1 if not, 2 if refreshing
+	 */
+	private void connectedToServer(final int lighted){
+		this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (connectedItem != null){
+					switch (lighted){
+					case 0: connectedItem.setIcon(R.drawable.ic_action_location_found_green);break;
+					case 1: connectedItem.setIcon(R.drawable.ic_action_location_found_red);break;
+					default: connectedItem.setIcon(R.drawable.ic_action_refresh);break;
+					}
+				}
+			}
+		});
 	}
 }

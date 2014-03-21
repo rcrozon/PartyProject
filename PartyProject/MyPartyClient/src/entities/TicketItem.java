@@ -31,6 +31,9 @@ public class TicketItem extends RelativeLayout implements Items{
 	private TextView textBeginDate;
 	private TextView textTitle;
 	private TextView textTariff; 
+
+	private int TEXT_SIZE = 15;
+	private int PADDING_LAYOUT = 30;
 	
 	public TicketItem(Context context, TicketUnitaire ticket, int idClient){
 		super(context);
@@ -49,6 +52,12 @@ public class TicketItem extends RelativeLayout implements Items{
 		textEndDate.setTextColor(Color.WHITE);
 		textTitle.setTextColor(Color.WHITE);
 		textTariff.setTextColor(Color.WHITE);
+        textArtists.setTextSize(TEXT_SIZE);
+        textBeginDate.setTextSize(TEXT_SIZE);
+        textEndDate.setTextSize(TEXT_SIZE);
+        textTariff.setTextSize(TEXT_SIZE);
+        textStyle.setTextSize(TEXT_SIZE);
+        textTitle.setTextSize(TEXT_SIZE);
 		createQRCode(ticket.getConcert(), ticket.getId(), ticket.getIdClient(), ticket.getIdTariff());
 		
 		Concert concert = DatabaseHandler.getConcertWithId(ticket.getIdConcert());
@@ -67,9 +76,10 @@ public class TicketItem extends RelativeLayout implements Items{
         textEndDate.setText("End date : "+ concert.getEndDate());
         textTitle.setText("Title : " + concert.getTitle());
         textTariff.setText("Tariff : " + DatabaseHandler.getLabelById(ticket.getIdTariff()));
-		
         LinearLayout layoutTextViewInfos = new LinearLayout(context);
-        layoutTextViewInfos.setBackgroundColor(Color.LTGRAY);
+        layoutTextViewInfos.setPadding(PADDING_LAYOUT,  PADDING_LAYOUT,  PADDING_LAYOUT, PADDING_LAYOUT);
+        //layoutTextViewInfos.setBackgroundColor(Color.BLACK);
+        layoutTextViewInfos.setBackgroundResource(R.drawable.corners);
         layoutTextViewInfos.setOrientation(LinearLayout.VERTICAL);
         layoutTextViewInfos.addView(textTitle);
         layoutTextViewInfos.addView(textBeginDate);
