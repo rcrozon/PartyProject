@@ -519,7 +519,7 @@ public class DatabaseHandler {
 
 	/***************** TROUVER LE NOMBRE DE RESERVATION POUR UN CONCERT ***************************/
 
-	public int getNumberResForOneConcert(int id_concert){
+	public static int getNumberResForOneConcert(int id_concert){
 
 		Cursor c = bdd.query(Tables.RES_TABLE, 
 				new String[] {Tables.RES_NAME_ID, 
