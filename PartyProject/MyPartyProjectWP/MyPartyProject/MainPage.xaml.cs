@@ -82,7 +82,7 @@ namespace MyPartyProject
             IsolatedStorageSettings.ApplicationSettings.Save();
             _pwd = Encryption.EncryptStringFromBytes(pwd.Password);
             _login = login.Text;
-            authentification("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/login");
+            authentification("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/loginWindows");
             //while ((idClient = loginProcess.getIdResult()) == null) ;
             //TODO verification du login et pwd
             /*
@@ -236,9 +236,9 @@ namespace MyPartyProject
 
             // Create the post data 
 
-            string postData = "[{\"username\":\"" + _login + "\",\"password\":\"" + _pwd + "\"}]";
-            var input = JsonConvert.SerializeObject(postData);
-            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+            string json = "[{\"username\":\"" + _login + "\",\"password\":\"" + _pwd + "\"}]";
+            var input = JsonConvert.SerializeObject(json);
+            byte[] byteArray = Encoding.UTF8.GetBytes(json);
 
             // Add the post data to the web request 
             postStream.Write(byteArray, 0, byteArray.Length);

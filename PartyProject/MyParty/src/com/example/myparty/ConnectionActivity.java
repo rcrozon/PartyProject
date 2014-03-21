@@ -2,10 +2,8 @@ package com.example.myparty;
 
 import java.util.List;
 
-import bluetooth.BluetoothServer;
-
-import com.google.android.gms.internal.ed;
-
+import bluetoothHandler.BluetoothHandler;
+import bluetoothHandler.BluetoothService;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -27,12 +25,13 @@ import databaseHandler.DatabaseHandler;
 import databaseHandler.DatabaseServer;
 import databaseHandler.MCrypt;
 import databaseHandler.MyJsonParser;
-import databaseHandler.ThreadTestServer;
 import entities.Client;
 
 
 public class ConnectionActivity extends Activity implements OnClickListener, OnFocusChangeListener {
 
+	
+	public static BluetoothHandler bluetoothHandler;
 	private Button buttonConnexion ;
 	private EditText editTextLogin ;
 	private EditText editTextPassword ;
@@ -169,9 +168,7 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 							dataBase.updatePassword(logClient.get(0),paswUse);
 						}
 					}
-					//BluetoothServer server = new BluetoothServer();
-					//server.start();
-					
+					bluetoothHandler = new BluetoothHandler(this);
 					Intent intent = new Intent(this, ConcertActivity.class);
 					this.startActivity(intent);
 				}
@@ -201,20 +198,9 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 
 			EditText login = (EditText)findViewById(R.id.loginTextEdit);
 			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
-			Log.i("LOGIN", login.getText().toString() + "  " + pwd.getText().toString());
-			//MCrypt mcryptVerif = new MCrypt();
-			/*String encryptedVerif=null;
-			try {
-				encryptedVerif = MCrypt.bytesToHex( mcryptVerif.encrypt(pwd.getText().toString()) );
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
 			
 			if (dataBase.authentificationAdmin(login.getText().toString(),pwd.getText().toString() )){
-				//BluetoothServer server = new BluetoothServer();
-				//server.start();
-				
+				bluetoothHandler = new BluetoothHandler(this);
 				Intent intent = new Intent(this, ConcertActivity.class);
 				this.startActivity(intent);
 			}

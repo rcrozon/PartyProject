@@ -2,27 +2,16 @@ package com.example.myparty;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import bluetooth.BluetoothClient;
-import bluetooth.BluetoothDevices;
-import bluetooth.BluetoothServer;
 import lists.ClientList;
-import lists.ConcertList;
 import lists.ListLayout;
-import lists.ReservationsList;
 import lists.StatsList;
-import lists.TicketsList;
 import scan.IntentIntegrator;
 import scan.IntentResult;
 import scan.ScanLayout;
-import BluetoothChat.BluetoothChat;
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -30,13 +19,12 @@ import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
+import bluetoothHandler.BluetoothHandler;
 import databaseHandler.DatabaseHandler;
 import databaseHandler.DatabaseServer;
 import databaseHandler.MyJsonParser;
@@ -66,8 +54,6 @@ OnClickListener, OnMenuItemClickListener {
 	private MenuItem scanPushItem;
 	private ProgressBar progressBar;
 	private LinearLayout layoutMain;
-	//private ArrayList<BluetoothClient> listBluetoothClient = new ArrayList<BluetoothClient>();
-	private BluetoothServer server;
 	private List<Client> clientForConcert;
 	
 	//////////////////////////////
@@ -77,8 +63,7 @@ OnClickListener, OnMenuItemClickListener {
 
     // Return Intent extra
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
-    BluetoothChat chat ;
-	//////////////////////////////
+    //////////////////////////////
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +139,6 @@ OnClickListener, OnMenuItemClickListener {
 						+ " Pour "+ concert.getId()+concert.getTitle());
 			}
 		}
-		chat = new BluetoothChat(this);
 		
 		/************************** Traitement du bouton validation scan ***********************************/
 		this.scanner = new ScanLayout(this, this);
@@ -164,22 +148,9 @@ OnClickListener, OnMenuItemClickListener {
 					public void onClick(View v) {
 						scanner.getImageView().setBackgroundResource(R.drawable.qrcode_blue);
 						if (idResScan != 0 ){
-							String s = "25";
-				            byte[] b = s.getBytes();
-				            Log.i("TAG WORD SIZE", "" + b.length);
-				            while(true)
-				            	chat.sendMessage(s);
-				            
-							/*
-//							for(BluetoothClient client : listBluetoothClient){
-							Log.i("TAG ENVOIE ID_RES", "ENVOIE " + idResScan);
-							server.write(context, idResScan);
-//							}
-							scanner.getTextView().setText("");
-							dataBase.scanTicket(idResScan);
-							 */
-						    
-						}
+							String s = String.valueOf(idResScan);
+				            ConnectionActivity.bluetoothHandler.sendMessage(s);
+				        }
 						textButtonValidate("");
 					}
 				});
@@ -345,12 +316,7 @@ OnClickListener, OnMenuItemClickListener {
 			intent = new Intent(this, ConnectionActivity.class);
 			this.startActivity(intent);
 
-		} else if(item == bluetoothItem) {
-			intent = new Intent(this, BluetoothActivity.class);
-			this.startActivity(intent);
-
-		}
-		else if(item == updateItem){
+		}else if(item == updateItem){
 			loadDatabase();
 			//			if(DatabaseHandler.updateAllTables(this)){
 			//				intent = new Intent(this, ConcertActivity.class);
@@ -358,8 +324,6 @@ OnClickListener, OnMenuItemClickListener {
 			//			}
 		}
 		else if (item == scanPushItem){
-
-
 			/*tester la connexion*/
 			progressBar.setVisibility(View.VISIBLE);
 			layoutMain.setVisibility(View.GONE);

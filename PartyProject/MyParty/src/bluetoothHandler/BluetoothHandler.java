@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package BluetoothChat;
+package bluetoothHandler;
 
 import java.util.Set;
 
@@ -45,7 +45,7 @@ import android.widget.Toast;
 /**
  * This is the main Activity that displays the current chat session.
  */
-public class BluetoothChat {
+public class BluetoothHandler {
     // Debugging
     private static final String TAG = "TAG";
     private static final boolean D = true;
@@ -80,11 +80,11 @@ public class BluetoothChat {
     // Local Bluetooth adapter
     private BluetoothAdapter mBluetoothAdapter = null;
     // Member object for the chat services
-    private BluetoothChatService mChatService = null;
+    private BluetoothService mChatService = null;
 
     private Context context;
     
-    public BluetoothChat(Context context) {
+    public BluetoothHandler(Context context) {
         if(D) Log.e(TAG, "+++ ON CREATE +++");
         this.context = context;
         
@@ -111,7 +111,7 @@ public class BluetoothChat {
 
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
         Log.i(TAG + " DEVICE", ((BluetoothDevice)pairedDevices.toArray()[0]).getName());
-        mChatService = new BluetoothChatService(context, mHandler);
+        mChatService = new BluetoothService(context, mHandler);
         mChatService.connect((BluetoothDevice)pairedDevices.toArray()[0]);
         // Initialize the BluetoothChatService to perform bluetooth connections
         
@@ -128,7 +128,7 @@ public class BluetoothChat {
      */
     public void sendMessage(String message) {
         // Check that we're actually connected before trying anything
-        if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
+        if (mChatService.getState() != BluetoothService.STATE_CONNECTED) {
             Toast.makeText(context, "not connected", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -165,12 +165,12 @@ public class BluetoothChat {
             case MESSAGE_STATE_CHANGE:
                 if(D) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
                 switch (msg.arg1) {
-                case BluetoothChatService.STATE_CONNECTED:
+                case BluetoothService.STATE_CONNECTED:
                     break;
-                case BluetoothChatService.STATE_CONNECTING:
+                case BluetoothService.STATE_CONNECTING:
                     break;
-                case BluetoothChatService.STATE_LISTEN:
-                case BluetoothChatService.STATE_NONE:
+                case BluetoothService.STATE_LISTEN:
+                case BluetoothService.STATE_NONE:
                     break;
                 }
                 break;

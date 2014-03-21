@@ -215,14 +215,6 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 				toast.show();
 			}
 		}
-		
-		
-		
-		
-		else{
-			intent = new Intent(this, BluetoothActivity.class);
-			this.startActivity(intent);
-		}
 		return false;
 	}
 
