@@ -150,6 +150,8 @@ OnClickListener, OnMenuItemClickListener {
 						if (idResScan != 0 ){
 							String s = String.valueOf(idResScan);
 				            ConnectionActivity.bluetoothHandler.sendMessage(s);
+				            scanner.getTextView().setText("");
+							dataBase.scanTicket(idResScan);
 				        }
 						textButtonValidate("");
 					}
