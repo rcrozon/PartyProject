@@ -1,11 +1,13 @@
 package entities;
 
 import java.io.File;
+import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
+import android.net.rtp.RtpStream;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.example.myparty.MapActivity;
 import com.example.myparty.R;
 import com.google.android.gms.internal.bu;
 
+import databaseHandler.DatabaseHandler;
 import databaseHandler.Tables;
 import databaseHandler.ThreadBitMap;
 import databaseHandler.ThreadTestServer;
@@ -76,19 +79,50 @@ public class ConcertDetailed extends RelativeLayout {
 			TextView textLocation = new TextView(context);
 			TextView textNbSeets = new TextView(context);
 			TextView textDate = new TextView(context);
+			TextView textArtist = new TextView(context);
 			Button buttonMap = new Button(context);
 
 			textTitle.setTextColor(getResources().getColor(R.color.white));
 			textLocation.setTextColor(getResources().getColor(R.color.white));
 			textNbSeets.setTextColor(getResources().getColor(R.color.white));
 			textDate.setTextColor(getResources().getColor(R.color.white));
+			textArtist.setTextColor(getResources().getColor(R.color.white));
 			buttonMap.setTextColor(getResources().getColor(R.color.white));
 
 			final Concert fConcert = concert;
 			textLocation.setText("Location : " + concert.getLocation());
-			textNbSeets.setText("Number of seets : " + concert.getNbSeets());
-			textDate.setText("Beginning : " + concert.getBeginDate().toString());
-			textTitle.setText(concert.getTitle());
+			textNbSeets.setText("Number of seets taken : "+
+			DatabaseHandler.getNumberResForOneConcert(concert.getId()) +" / " 
+					+concert.getNbSeets());
+			
+			if(DatabaseHandler.getNumberResForOneConcert(concert.getId()) == 
+					concert.getNbSeets())
+				textNbSeets.setText(textNbSeets.getText() + " (FULL)");
+			
+			String all[] = concert.getBeginDate().split(" ");
+			String date[] = all[0].split("-");
+			String hour[] = all[1].split(":");
+			
+
+			textDate.setText("Beginning : " +  date[2] +
+					" "+ getMonthLetter(Integer.parseInt(date[1])) + 
+					" "+ date[0] +" ("+ hour[0]+"H"+hour[1] +")");
+			
+			textTitle.setText("Title : "+ concert.getTitle());
+			
+			List<String> listArt = DatabaseHandler.getArtistsFromConcert(concert.getId());
+			String artist = "";
+			int i=0;
+			for (String s : listArt){
+				if (i!=0)
+					artist+= " / ";
+				artist += s;
+				i++;
+			}
+			textArtist.setText("Artists : "+artist);
+			
+			
+			
 			buttonMap.setText("Afficher sur la carte");
 			buttonMap.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_map, R.color.black, R.color.black, R.color.black);
 			buttonMap.setTextColor(getResources().getColor(R.color.white));
@@ -103,6 +137,7 @@ public class ConcertDetailed extends RelativeLayout {
 			});
 
 			layoutConcertData.addView(textTitle);
+			layoutConcertData.addView(textArtist);
 			layoutConcertData.addView(textDate);
 			layoutConcertData.addView(textLocation);
 			layoutConcertData.addView(textNbSeets);
@@ -117,5 +152,37 @@ public class ConcertDetailed extends RelativeLayout {
 			ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 			return (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected());
 			
+		}
+		
+		public String getMonthLetter(int indice){
+			switch (indice) {
+			case 1:
+				return "Jan";
+			case 2:
+				return "Feb";
+			case 3:
+				return "Mar";
+			case 4:
+				return "Apr";
+			case 5:
+				return "May";
+			case 6:
+				return "Jun";
+			case 7:
+				return "Jul";
+			case 8:
+				return "Aou";
+			case 9:
+				return "Sep";
+			case 10:
+				return "Oct";
+			case 11:
+				return "Nov";
+			case 12:
+				return "Dec";
+				
+			default:
+				return "null";
+			}
 		}
 }
