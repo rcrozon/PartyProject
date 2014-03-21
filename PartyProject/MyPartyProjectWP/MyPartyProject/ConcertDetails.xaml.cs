@@ -56,11 +56,12 @@ namespace MyPartyProject
             {
                 List<Concert> concerts = (List<Concert>)IsolatedStorageSettings.ApplicationSettings["concerts"];
                 List<Reservation> reservations = (List<Reservation>)IsolatedStorageSettings.ApplicationSettings["reservations"];
-
                 for (int i = 0; i < reservations.Count; ++i)
                 {
                     if (reservations[i].id_concert.Equals(concert.id))
                     {
+
+                        reservations[i].nb_seats_reserved = "Number of tickets reserved : " + reservations[i].nb_seats_reserved;
                         reservations[i].image = concert.image;
                         reservations[i].location = concert.location;
                         reservations[i].name_concert = concert.name_concert;
@@ -83,8 +84,8 @@ namespace MyPartyProject
         {
             if (ticketsListBox.SelectedItem == null)
                 return;
-            Reservation currentTicket = (Reservation)ticketsListBox.SelectedItem;
-            PhoneApplicationService.Current.State["Ticket"] = currentTicket;
+            Reservation currentRes= (Reservation)ticketsListBox.SelectedItem;
+            PhoneApplicationService.Current.State["reservation"] = currentRes;
             ticketsListBox.SelectedItem = null;
             NavigationService.Navigate(new Uri("/TicketPage.xaml", UriKind.Relative));
         }

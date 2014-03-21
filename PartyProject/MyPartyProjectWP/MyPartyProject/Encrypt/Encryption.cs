@@ -39,17 +39,15 @@ namespace MyPartyProject.Encrypt
             return words[0];
         }
 
-        public static string EncryptStringFromBytes(string plainText, byte[] Key, byte[] IV)
+        public static string EncryptStringFromBytes(string plainText)
         {
             string cipherText;
             // Check arguments.
             //if (cipherText == null || cipherText.Length <= 0)
             //    throw new ArgumentNullException("cipherText");
-            if (Key == null || Key.Length <= 0)
-                throw new ArgumentNullException("Key");
-            if (IV == null || IV.Length <= 0)
-                throw new ArgumentNullException("Key");
-
+            var Key = Encoding.UTF8.GetBytes("0123456789abcdef");
+            var IV = Encoding.UTF8.GetBytes("fedcba9876543210");
+            
             // Declare the string used to hold
             // the decrypted text.
             //RijndaelManaged m;

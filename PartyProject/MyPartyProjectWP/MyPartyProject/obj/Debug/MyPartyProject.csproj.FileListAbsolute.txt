@@ -161,9 +161,8 @@ C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPa
 C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\obj\Debug\MyPartyProject.dll
 C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\obj\Debug\MyPartyProject.pdb
 C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\obj\Debug\XapCacheFile.xml
-C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\Bin\Debug\zxing.wp8.0.pdb
-C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\Bin\Debug\zxing.wp8.0.xml
 C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\obj\Debug\ReservationsList.g.cs
 C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\Bin\Debug\Microsoft.Advertising.Mobile.dll
 C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\Bin\Debug\Microsoft.Advertising.Mobile.UI.dll
-C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\Bin\Debug\BouncyCastle.Crypto.WP7.pdb
+C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\Bin\Debug\BouncyCastle.Crypto.WP7.dll
+C:\Users\Romain\Documents\GitHub\PartyProject\PartyProject\MyPartyProjectWP\MyPartyProject\Bin\Debug\zxing.wp8.0.dll

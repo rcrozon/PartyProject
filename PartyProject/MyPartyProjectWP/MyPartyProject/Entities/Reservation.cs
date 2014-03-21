@@ -15,7 +15,7 @@ namespace MyPartyProject.Entities
         public string location { get; set; }
         public string end_datetime { get; set; }
         public string start_datetime { get; set; }
-        public int nb_seats_reserved { get; set; }
+        public string nb_seats_reserved { get; set; }
         public string image { get; set; }
         public string nbTickets { get; set; }
         public string id_tarif { get; set; }
@@ -73,7 +73,7 @@ namespace MyPartyProject.Entities
                         start_datetime = ticket.start_datetime,
                         end_datetime = ticket.end_datetime,
                         image = ticket.image,
-                        nb_seats_reserved = cpt,
+                        nb_seats_reserved = cpt.ToString(),
                     });
                     cpt = 1;
                     id_concert = ticket.id_concert;
@@ -89,7 +89,7 @@ namespace MyPartyProject.Entities
                 start_datetime = concert.start_datetime,
                 end_datetime = concert.end_datetime,
                 image = concert.image,
-                nb_seats_reserved = cpt,
+                nb_seats_reserved = cpt.ToString(),
             });
             return resByConcert;
         }
