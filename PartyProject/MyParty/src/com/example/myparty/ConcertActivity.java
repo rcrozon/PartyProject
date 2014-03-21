@@ -29,7 +29,7 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	private Button buttonNews ;
 	private ViewFlipper view_flipper ;
 	private MenuItem decoItem;
-	private MenuItem bluetoothItem;
+	
 	private MenuItem updateItem;
 	private MenuItem scanPushItem;
 	private int index = 0;
@@ -88,13 +88,13 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.connected, menu);
 		decoItem = menu.findItem(R.id.menu_deconect);
-		bluetoothItem = menu.findItem(R.id.bluetooth);
+		
 		updateItem = menu.findItem(R.id.update); 
 		scanPushItem = menu.findItem(R.id.scanpush);
 		connectedItem = menu.findItem(R.id.menu_refresh);
 		//decoItem.setIcon(R.drawable.logout);
 		decoItem.setOnMenuItemClickListener(this);
-		bluetoothItem.setOnMenuItemClickListener(this);
+		
 		updateItem.setOnMenuItemClickListener(this);
 		scanPushItem.setOnMenuItemClickListener(this);
 		return true;

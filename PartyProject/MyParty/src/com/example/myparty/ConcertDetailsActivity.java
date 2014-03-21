@@ -42,7 +42,7 @@ OnClickListener, OnMenuItemClickListener {
 	private Button buttonStats;
 	private ViewFlipper view_flipper;
 	private MenuItem decoItem;
-	private MenuItem bluetoothItem;
+	
 	private ScanLayout scanner;
 	private Context context;
 	private DatabaseHandler dataBase;
@@ -107,7 +107,7 @@ OnClickListener, OnMenuItemClickListener {
 		}
 		if (clientForConcert!=null){
 			/************* TRI ALPHABETIQUE ***********/
-			Log.i("LISTE", "NonTrié"+ clientForConcert.toString());
+			Log.i("LISTE", "NonTri��"+ clientForConcert.toString());
 
 			List<Client> oui = new ArrayList<Client>();
 			while(clientForConcert.size()>0){
@@ -182,7 +182,7 @@ OnClickListener, OnMenuItemClickListener {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.connected, menu);
 		this.decoItem = menu.findItem(R.id.menu_deconect);
-		this.bluetoothItem = menu.findItem(R.id.bluetooth);
+		
 		connectedItem = menu.findItem(R.id.menu_refresh);
 		scanPushItem = menu.findItem(R.id.scanpush);
 		updateItem = menu.findItem(R.id.update); 
@@ -190,7 +190,7 @@ OnClickListener, OnMenuItemClickListener {
 		updateItem.setOnMenuItemClickListener(this);
 		// decoItem.setIcon(R.drawable.logout);
 		this.decoItem.setOnMenuItemClickListener(this);
-		this.bluetoothItem.setOnMenuItemClickListener(this);
+		
 		return true;
 	}
 
@@ -228,7 +228,7 @@ OnClickListener, OnMenuItemClickListener {
 		}
 	}
 
-	/**********************   Récupération des infos du billet      ************************************/
+	/**********************   R��cup��ration des infos du billet      ************************************/
 	/*******id_res;id_concert;id_client;id_tarif********/
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		IntentResult scanResult = IntentIntegrator.parseActivityResult(
@@ -458,7 +458,7 @@ OnClickListener, OnMenuItemClickListener {
 
 		if (clientForConcert!=null){
 			/************* TRI ALPHABETIQUE ***********/
-			Log.i("LISTE", "NonTrié"+ clientForConcert.toString());
+			Log.i("LISTE", "NonTri��"+ clientForConcert.toString());
 
 			List<Client> oui = new ArrayList<Client>();
 			while(clientForConcert.size()>0){
