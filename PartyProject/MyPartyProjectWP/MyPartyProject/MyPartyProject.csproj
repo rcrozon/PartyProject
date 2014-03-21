@@ -99,13 +99,11 @@
     <Compile Include="ConcertsList.xaml.cs">
       <DependentUpon>ConcertsList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Database\Login.cs" />
     <Compile Include="Encrypt\Encryption.cs" />
     <Compile Include="Entities\Ticket.cs" />
     <Compile Include="ReservationsList.xaml.cs">
       <DependentUpon>ReservationsList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Database\DatabaseHandler.cs" />
     <Compile Include="Entities\Concert.cs" />
     <Compile Include="Concerts.xaml.cs">
       <DependentUpon>Concerts.xaml</DependentUpon>

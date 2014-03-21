@@ -8,7 +8,6 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using MyPartyProject.Resources;
-using MyPartyProject.Database;
 using MyPartyProject.Entities;
 using System.IO.IsolatedStorage;
 using Newtonsoft.Json;
@@ -17,6 +16,7 @@ using System.Diagnostics;
 using System.IO;
 
 using MyPartyProject.Encrypt;
+using System.Text;
 
 namespace MyPartyProject
 {
@@ -28,7 +28,9 @@ namespace MyPartyProject
         private string iv = "fedcba9876543210";
         private BitmapImage imageBitmapConnected;
         private BitmapImage imageBitmapDisconnected;
-        string idClient = null;
+        private string idClient = null;
+        private string _pwd = "";
+        private string _login = "";
         // Constructor
         public MainPage()
         {
@@ -78,9 +80,9 @@ namespace MyPartyProject
             else
                 IsolatedStorageSettings.ApplicationSettings["pwd"] = null;
             IsolatedStorageSettings.ApplicationSettings.Save();
-
-            //LoginProcess loginProcess = new LoginProcess("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/login", login.Text, Encryption.EncryptStringFromBytes(pwd.Password));
-            //loginProcess.authentification();
+            _pwd = Encryption.EncryptStringFromBytes(pwd.Password);
+            _login = login.Text;
+            authentification("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/login");
             //while ((idClient = loginProcess.getIdResult()) == null) ;
             //TODO verification du login et pwd
             /*
@@ -92,22 +94,11 @@ namespace MyPartyProject
             {
                 invalidLogin.Visibility = Visibility.Collapsed;    
             }*/
-            idClient = "2";
-            if (idClient != null)
-            {
-                invalidLogin.Visibility = Visibility.Collapsed;    
-                updateDatabase(idClient);
-                PhoneApplicationService.Current.State["idClient"] = idClient;
-            }
-            else
-            {
-                invalidLogin.Visibility = Visibility.Visible;    
-            }
+            
         }
         public void goToConcerts(){
              NavigationService.Navigate(new Uri("/Concerts.xaml", UriKind.Relative));
         }
-
         private void ticket_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             if (e.Error == null)
@@ -218,6 +209,74 @@ namespace MyPartyProject
             {
                 goToConcerts();
             } 
+        }
+
+
+        // Create the web request object 
+        public void authentification(string url)
+        {
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
+            webRequest.Method = "POST";
+
+            //webRequest.Headers["Email"] = "abc@xyz.com"; 
+            //webRequest.Headers["password"] = "abc123"; 
+
+
+            webRequest.ContentType = "application/json;charset=utf-8";
+            //"text/json";// 
+            // Start the request 
+            webRequest.BeginGetRequestStream(new AsyncCallback(GetRequestStreamCallback), webRequest);
+        }
+
+        public void GetRequestStreamCallback(IAsyncResult asynchronousResult)
+        {
+            HttpWebRequest webRequest = (HttpWebRequest)asynchronousResult.AsyncState;
+            // End the stream request operation 
+            Stream postStream = webRequest.EndGetRequestStream(asynchronousResult);
+
+            // Create the post data 
+
+            string postData = "[{\"username\":\"" + _login + "\",\"password\":\"" + _pwd + "\"}]";
+            var input = JsonConvert.SerializeObject(postData);
+            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+
+            // Add the post data to the web request 
+            postStream.Write(byteArray, 0, byteArray.Length);
+            postStream.Close();
+
+            // Start the web request 
+            webRequest.BeginGetResponse(new AsyncCallback(GetResponseCallback), webRequest);
+        }
+        public void GetResponseCallback(IAsyncResult asynchronousResult)
+        {
+            string result = "";
+            try
+            {
+                HttpWebRequest webRequest = (HttpWebRequest)asynchronousResult.AsyncState;
+                HttpWebResponse response;
+
+                // End the get response operation 
+                response = (HttpWebResponse)webRequest.EndGetResponse(asynchronousResult);
+                Stream streamResponse = response.GetResponseStream();
+                StreamReader streamReader = new StreamReader(streamResponse);
+                var Response = streamReader.ReadToEnd();
+                result = Response.ToString();
+                streamResponse.Close();
+                streamReader.Close();
+                response.Close();
+            }
+            catch (WebException e)
+            {
+                string s = "pas cool";
+                // Error treatment 
+                // ... 
+            }
+            idClient = result;
+            if (idClient != null)
+            {
+                updateDatabase(idClient);
+                PhoneApplicationService.Current.State["idClient"] = idClient;
+            }
         }
     }
 }
