@@ -10,7 +10,7 @@ $AssocArtist = new AssocArtist();
                 for ($i = 0; $i < sizeof($results); $i++) {
                     
                     $artists[$i] = $Artist->find('first',array('conditions' => array('Artist.id' => 
-                        $results[$i]['AssocArtist'])));
+                        $results[$i]['AssocArtist']['id_artist'])));
                 }
                 
 		return $artists;

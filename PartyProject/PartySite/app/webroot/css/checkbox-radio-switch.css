@@ -34,14 +34,24 @@ input[type=radio]:checked+.lbl::before{content:"\2022";}
 .tickoff .onoffswitch-switch{border-radius:20px 0 0 20px;padding:0;margin:2px;width:30px;background-color:#aaaaaa;text-align:center;border:none;}
 .tickoff .onoffswitch-switch:before,.tick .onoffswitch-switch:after{font-family:FontAwesome;font-weight:normal;font-style:normal;text-decoration:inherit;-webkit-font-smoothing:antialiased;content:"\f00d";position:absolute;left:0;right:0;color:#fff;line-height:25px;}
 .tickoff .onoffswitch-switch:after{display:none;}
+
+.tickscan .onoffswitch-switch{border-radius:20px 0 0 20px;padding:0;margin:2px;width:30px;background-color:#aaaaaa;text-align:center;border:none;}
+.tickscan .onoffswitch-switch:before,.tick .onoffswitch-switch:after{font-family:FontAwesome;font-weight:normal;font-style:normal;text-decoration:inherit;-webkit-font-smoothing:antialiased;content:"\f00d";position:absolute;left:0;right:0;color:#fff;line-height:25px;}
+.tickscan .onoffswitch-switch:after{display:none;}
+
 .tickoff .onoffswitch-inner:before{content:"ONLINE";}
 .tickoff .onoffswitch-inner:after{content:"OFFLINE";}
+
+.tickscan .onoffswitch-inner:before{content:"SCANNED";}
+.tickscan .onoffswitch-inner:after{content:"NOT SCANNED";}
+
 .tick .onoffswitch-inner:before{content:"FULL";}
 .tick .onoffswitch-inner:after{content:"OPEN";}
 .switch-square .tickswitch-switch{border-radius:5px 0 0 5px;}
 .onoffswitch-checkbox:checked+.onoffswitch-label .onoffswitch-inner{margin-left:0;}
 .onoffswitch-checkbox:checked+.onoffswitch-label .onoffswitch-switch{right:0px;}
 .tick .onoffswitch-checkbox:checked+.onoffswitch-label .onoffswitch-switch:before{content:"\f00c";}
+.tickscan .onoffswitch-checkbox:checked+.onoffswitch-label .onoffswitch-switch:before{content:"\f00c";}
 .tickoff .onoffswitch-checkbox:checked+.onoffswitch-label .onoffswitch-switch:before{content:"\f00c";}
 .onoffswitch-checkbox:checked+.onoffswitch-label .onoffswitch-switch.tickswitch-switch{border-radius:0 20px 20px 0;background-color:#1c7aad;border-color:#1c7aad;background-position:-288px 1px;border-right-width:10px;}
 .warning-switch .onoffswitch-checkbox:checked+.onoffswitch-label .onoffswitch-switch.tickswitch-switch{background-color:#df6e1e;border-color:#df6e1e;}
