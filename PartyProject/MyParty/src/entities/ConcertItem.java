@@ -34,7 +34,7 @@ public class ConcertItem extends LinearLayout implements Items{
 		layoutParams.weight = 4;
 		layoutConcertData.setLayoutParams(layoutParams);
 		ImageView imgView = new ImageView(context);
-		LayoutParams llp = new LayoutParams(140, 250, Gravity.CENTER_HORIZONTAL); 
+		LayoutParams llp = new LayoutParams(300, 250, Gravity.CENTER_HORIZONTAL); 
 
 		/*TODO Si pas de connexion*/
 		//imgView.setBackgroundResource(R.drawable.party2);

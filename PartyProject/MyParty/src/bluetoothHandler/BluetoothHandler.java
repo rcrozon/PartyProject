@@ -135,6 +135,7 @@ public class BluetoothHandler {
 
         // Check that there's actually something to send
         if (message.length() > 0) {
+        	message += "=";
             // Get the message bytes and tell the BluetoothChatService to write
             byte[] send = message.getBytes();
             mChatService.write(send);

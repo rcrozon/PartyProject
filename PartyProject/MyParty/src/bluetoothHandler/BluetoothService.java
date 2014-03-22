@@ -401,8 +401,8 @@ public class BluetoothService {
 					Log.i(TAG, "BEGIN READ");
 					bytes = mmInStream.read(buffer);
 					String res = new String(buffer);
-					Log.i("Bluetooth RESULT", res);
-					DatabaseHandler.scanTicket(Integer.parseInt(res));
+					Log.i("Bluetooth RESULT", res.split("=")[0]);
+					DatabaseHandler.scanTicket(Integer.parseInt(res.split("=")[0]));
 					Log.i(TAG, "END READ");
 
 					// Send the obtained bytes to the UI Activity
