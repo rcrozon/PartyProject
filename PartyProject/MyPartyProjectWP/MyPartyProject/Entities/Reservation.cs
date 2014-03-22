@@ -32,25 +32,6 @@ namespace MyPartyProject.Entities
         public Reservation()
         {
         }
-        /*
-        public static List<Reservation> sortReservationsByConcert(List<Ticket> reservations){
-            List<Reservation> resByConcert = new List<Reservation>();
-            string id_concert = reservations[0].id_concert;
-            int cpt = 0;
-            foreach (Ticket ticket in reservations)
-            {
-                if (ticket.id_concert == id_concert)
-                    cpt++;
-                else
-                {
-                    resByConcert.Add(new Reservation())
-                    cpt = 1;
-                    id_concert = ticket.id_concert;
-                }
-            }
-            resByConcert.Add(id_concert, cpt);
-            return resByConcert;
-        }*/
 
         public static List<Reservation> getListReservationByConcert(List<Ticket> tickets, List<Concert> concerts)
         {
@@ -58,25 +39,26 @@ namespace MyPartyProject.Entities
             string id_concert = tickets[0].id_concert;
             string id_client = tickets[0].id_client;
             int cpt = 0;
-            foreach (Ticket ticket in tickets)
+            for (int i = 0; i < tickets.Count; ++i)
             {
-                if (ticket.id_concert == id_concert)
+                string s = tickets[i].name_concert;
+                if (tickets[i].id_concert == id_concert)
                     cpt++;
                 else
                 {
                     resByConcert.Add(new Reservation
                     {
                         id_client = id_client,
-                        id_concert = ticket.id_concert,
-                        location = ticket.location,
-                        name_concert = ticket.name_concert,
-                        start_datetime = ticket.start_datetime,
-                        end_datetime = ticket.end_datetime,
-                        image = ticket.image,
+                        id_concert = tickets[i-1].id_concert,
+                        location = tickets[i-1].location,
+                        name_concert = tickets[i-1].name_concert,
+                        start_datetime = tickets[i-1].start_datetime,
+                        end_datetime = tickets[i-1].end_datetime,
+                        image = tickets[i-1].image,
                         nb_seats_reserved = cpt.ToString(),
                     });
-                    cpt = 1;
-                    id_concert = ticket.id_concert;
+                    cpt = 0;
+                    id_concert = tickets[i].id_concert;
                 }
             }
             Concert concert = Concert.getConcertFromId(concerts, id_concert);
