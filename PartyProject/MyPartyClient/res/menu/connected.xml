@@ -1,15 +1,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-
-    <item
+	
+	<item android:id="@+id/update"  
+	    android:icon="@drawable/ic_action_refresh"
+	    android:showAsAction="ifRoom"
+	    android:title="@string/update"/>
+    
+	<item
+		android:id="@+id/menu_deconnect"
+		android:icon="@drawable/ac_logout_icon"
+		android:showAsAction="ifRoom"
+		android:title="@string/menu_deconect" />	 
+		
+	<item
         android:id="@+id/menu_refresh"
         android:icon="@drawable/ic_action_location_found_red"
         android:showAsAction="ifRoom"
         android:title="@string/menu_refresh" />
-    
-	<item
-		android:id="@+id/menu_deconect"
-		android:icon="@drawable/logout"
-		android:showAsAction="ifRoom"
-		android:title="@string/menu_deconect" />
 
 </menu>

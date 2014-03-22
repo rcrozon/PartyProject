@@ -104,7 +104,6 @@
     <Compile Include="ReservationsList.xaml.cs">
       <DependentUpon>ReservationsList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Database\DatabaseHandler.cs" />
     <Compile Include="Entities\Concert.cs" />
     <Compile Include="Concerts.xaml.cs">
       <DependentUpon>Concerts.xaml</DependentUpon>
@@ -419,12 +418,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ic_launcher.png" />
-    <Content Include="Images\ic_action_bluetooth.png" />
-    <Content Include="Images\ic_action_bluetooth_connected.png" />
-    <Content Include="Images\ic_action_bluetooth_searching.png" />
-    <Content Include="Images\ic_action_person.png" />
-    <Content Include="Images\ic_action_person_blue.png" />
-    <Content Include="Images\ic_action_refresh.png" />
     <Content Include="Images\ic_action_search.png" />
     <Content Include="Images\ic_connected.png" />
     <Content Include="Images\ic_launcher.png" />
@@ -435,9 +428,6 @@
     <Content Include="Images\party2.jpg" />
     <Content Include="Images\party3.jpg" />
     <Content Include="Images\party4.jpg" />
-    <Content Include="Images\qrcode_blue.png" />
-    <Content Include="Images\qrcode_green.png" />
-    <Content Include="Images\qrcode_red.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.resx">
@@ -447,6 +437,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto.WP7, Version=1.7.4252.29214, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\BouncyCastle.Crypto.WP7.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Advertising.Mobile, Version=6.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Advertising.Mobile.UI, Version=6.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Expression.Controls, Version=3.9.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -471,7 +465,7 @@
     </Reference>
     <Reference Include="System.Windows.Interactivity, Version=3.9.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="zxing.wp8.0">
-      <HintPath>D:\Téléchargements\ZXing.Net.0.12.0.0\wp8.0\zxing.wp8.0.dll</HintPath>
+      <HintPath>.\zxing.wp8.0.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

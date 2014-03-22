@@ -24,7 +24,7 @@ public class ConcertList extends List {
 
 	private DatabaseHandler dataBase;
 
-	public ConcertList(final Context context, int listType) {
+	public ConcertList(final Context context, int listType, int idCLient) {
 		super(context);
 		items = new ArrayList<Items>();
 		
@@ -76,8 +76,9 @@ public class ConcertList extends List {
 				if (concert.getId()!=0){
 					Intent intent = new Intent(context,
 							ConcertDetailsActivity.class);
-				
+
 					intent.putExtra("id", concert.getId());
+					intent.putExtra("idClient", concert.getId());
 					context.startActivity(intent);
 				}
 			}

@@ -45,14 +45,14 @@ public class ClientItem extends LinearLayout implements Items{
 		TextView login = new TextView(context);
 		TextView pwd = new TextView(context);
 		
-		firstName.setText(client.getFirstName());
-		lastName.setText(client.getLastName());
+		firstName.setText("First Name : "+client.getFirstName());
+		lastName.setText("Last Name : "+client.getLastName());
 //		birth.setText(client.getBirth());
-		email.setText(client.getEmail());
+		email.setText("Email : "+client.getEmail());
 		if (concert.getId()!=0 && client.getId()!=0){
 			int nb = database.getNumberResClientForOneConcert(concert, client);
 			int nbScan = database.getNumberResClientForOneConcertScanned(concert, client);
-			nbTicket.setText(""+nbScan+" Scanned / "+nb+ " Tickets");
+			nbTicket.setText("Tickets : "+nbScan+" Scanned / "+nb);
 		}
 		login.setText(client.getLogin());
 		pwd.setText(client.getPassword());

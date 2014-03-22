@@ -8,14 +8,9 @@
     
 	<item
 		android:id="@+id/menu_deconect"
-		android:icon="@drawable/logout"
+		android:icon="@drawable/ac_logout_icon"
 		android:showAsAction="ifRoom"
 		android:title="@string/menu_deconect" />
-		
-	<item android:id="@+id/bluetooth"
-		android:icon="@drawable/ic_action_bluetooth_searching"
-		android:showAsAction="ifRoom"
-	    android:title="@string/bluetooth"  />
 	
 	<item android:id="@+id/update"  
 	    android:icon="@drawable/update"

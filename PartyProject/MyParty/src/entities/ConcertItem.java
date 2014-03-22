@@ -1,27 +1,12 @@
 package entities;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Formatter.BigDecimalLayoutForm;
 
 import lists.Items;
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.os.Environment;
-import android.text.GetChars;
-import android.util.Log;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,8 +15,6 @@ import android.widget.TextView;
 import com.example.myparty.R;
 
 import databaseHandler.Tables;
-import databaseHandler.ThreadBitMap;
-import databaseHandler.ThreadTestServer;
 
 public class ConcertItem extends LinearLayout implements Items{
 
@@ -48,6 +31,7 @@ public class ConcertItem extends LinearLayout implements Items{
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT-50, 
 				LinearLayout.LayoutParams.WRAP_CONTENT);
 		layoutParams.setMargins(20, 0, 20, 0);
+		layoutParams.weight = 4;
 		layoutConcertData.setLayoutParams(layoutParams);
 		ImageView imgView = new ImageView(context);
 		LayoutParams llp = new LayoutParams(140, 250, Gravity.CENTER_HORIZONTAL); 
@@ -80,9 +64,22 @@ public class ConcertItem extends LinearLayout implements Items{
 		TextView begin = new TextView(context);
 		TextView end = new TextView(context);
 
-		title.setText(concert.getTitle());
-		begin.setText(""+concert.getBeginDate());
-		end.setText(""+concert.getEndDate());
+		title.setText("Title : "+concert.getTitle());
+		
+		String all[] = concert.getBeginDate().split(" ");
+		String date[] = all[0].split("-");
+		String hour[] = all[1].split(":");
+		begin.setText("Start : "+ date[2] +
+				" "+ getMonthLetter(Integer.parseInt(date[1])) + 
+				" "+ date[0] +" ("+ hour[0]+"H"+hour[1] +")");
+		
+		
+		String allEnd[] = concert.getEndDate().split(" ");
+		String dateEnd[] = allEnd[0].split("-");
+		String hourEnd[] = allEnd[1].split(":");
+		end.setText("End : "+ dateEnd[2] +
+				" "+ getMonthLetter(Integer.parseInt(dateEnd[1])) + 
+				" "+ dateEnd[0] +" ("+ hourEnd[0]+"H"+hourEnd[1] +")");
 		location.setText("Location : " + concert.getLocation());
 
 		title.setTextColor(getResources().getColor(R.color.white));
@@ -121,6 +118,38 @@ public class ConcertItem extends LinearLayout implements Items{
 		ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		return (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected());
 
+	}
+	
+	public String getMonthLetter(int indice){
+		switch (indice) {
+		case 1:
+			return "Jan";
+		case 2:
+			return "Feb";
+		case 3:
+			return "Mar";
+		case 4:
+			return "Apr";
+		case 5:
+			return "May";
+		case 6:
+			return "Jun";
+		case 7:
+			return "Jul";
+		case 8:
+			return "Aou";
+		case 9:
+			return "Sep";
+		case 10:
+			return "Oct";
+		case 11:
+			return "Nov";
+		case 12:
+			return "Dec";
+			
+		default:
+			return "null";
+		}
 	}
 
 

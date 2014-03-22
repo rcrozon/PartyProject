@@ -8,24 +8,34 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using MyPartyProject.Resources;
-using MyPartyProject.Database;
 using MyPartyProject.Entities;
 using System.IO.IsolatedStorage;
 using Newtonsoft.Json;
 using System.Windows.Media.Imaging;
 using System.Diagnostics;
 using System.IO;
+
 using MyPartyProject.Encrypt;
+using System.Text;
 
 namespace MyPartyProject
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        private int loaded = 0; 
+        
+        private int loaded = 0;
+        private string key = "0123456789abcdef";
+        private string iv = "fedcba9876543210";
+        private BitmapImage imageBitmapConnected;
+        private BitmapImage imageBitmapDisconnected;
+        private string idClient = null;
+        private string _pwd = "";
+        private string _login = "";
         // Constructor
         public MainPage()
         {
             InitializeComponent();
+            invalidLogin.Visibility = Visibility.Collapsed;  
             PhoneApplicationService.Current.State["connected"] = 0;
             try
             {
@@ -39,7 +49,11 @@ namespace MyPartyProject
                 }
             }
             catch (System.Collections.Generic.KeyNotFoundException e) { }
-            
+            Uri imageUri = new Uri("/Images/ic_connected", UriKind.Relative);
+            imageBitmapConnected = new BitmapImage(imageUri);
+            Uri imageUri2 = new Uri("/Images/ic_not_connected", UriKind.Relative);
+            imageBitmapDisconnected = new BitmapImage(imageUri);
+                
             //DatabaseHandler handler = new DatabaseHandler();
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
@@ -66,7 +80,10 @@ namespace MyPartyProject
             else
                 IsolatedStorageSettings.ApplicationSettings["pwd"] = null;
             IsolatedStorageSettings.ApplicationSettings.Save();
-
+            _pwd = Encryption.EncryptStringFromBytes(pwd.Password);
+            _login = login.Text;
+            authentification("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/loginWindows/json:");
+            //while ((idClient = loginProcess.getIdResult()) == null) ;
             //TODO verification du login et pwd
             /*
             if (notValid)
@@ -77,29 +94,22 @@ namespace MyPartyProject
             {
                 invalidLogin.Visibility = Visibility.Collapsed;    
             }*/
-            string idClient = "2";
-            PhoneApplicationService.Current.State["idClient"] = idClient;
-            string pwdEnc = "baded608bb1bbc5caeb40e10e872bc1e";
-            string key = "0123456789abcdef";
-            string iv = "fedcba9876543210";
-            string s1 = Encryption.Encrypt("test", System.Text.Encoding.UTF8.GetBytes(key), System.Text.Encoding.UTF8.GetBytes(iv));
-            string s2 = Encryption.DecryptStringFromBytes(Convert.FromBase64String(s1), System.Text.Encoding.UTF8.GetBytes(key), System.Text.Encoding.UTF8.GetBytes(iv));
-            MessageBox.Show("ENCRYPT", s1, MessageBoxButton.OK);
-            MessageBox.Show("DECRYPT", s2, MessageBoxButton.OK);
-            //updateDatabase(idClient);
+            
         }
         public void goToConcerts(){
              NavigationService.Navigate(new Uri("/Concerts.xaml", UriKind.Relative));
         }
-
         private void ticket_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             if (e.Error == null)
             {
-
-                MessageBox.Show("Ticket", e.Result, MessageBoxButton.OK);
-                List<Ticket> result = JsonConvert.DeserializeObject<List<Ticket>>(e.Result);
+                string s = Encryption.myDecrypt(e.Result.Trim());
+                string decryptedResultJSON = s;
+                List<Ticket> result = JsonConvert.DeserializeObject<List<Ticket>>(decryptedResultJSON);
+                PhoneApplicationService.Current.State["connected"] = 1;
+                imgConnected.Source = imageBitmapConnected;
                 List<Ticket> tickets = new List<Ticket>();
+                progressText.Text = "loading reservations...";
                 for (int i = 0; i < result.Count; ++i)
                 {
                     //if (result[i].id_client.Equals((string)(PhoneApplicationService.Current.State["idClient"])))
@@ -113,6 +123,10 @@ namespace MyPartyProject
                     //}
                 }
                 IsolatedStorageSettings.ApplicationSettings["tickets"] = tickets;
+            }else
+            {
+                PhoneApplicationService.Current.State["connected"] = 0;
+                imgConnected.Source = imageBitmapDisconnected;
             }
             IsolatedStorageSettings.ApplicationSettings.Save();
             loaded += 1;
@@ -120,14 +134,19 @@ namespace MyPartyProject
             {
                 goToConcerts();
             }
-            MessageBox.Show("Ticket" + loaded, "null", MessageBoxButton.OK);
         }
         private void tariff_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             if (e.Error == null)
             {
-                List<Tariff> result = JsonConvert.DeserializeObject<List<Tariff>>(e.Result);
+
+                string s = Encryption.myDecrypt(e.Result.Trim());
+                string decryptedResultJSON = s;
+                List<Tariff> result = JsonConvert.DeserializeObject<List<Tariff>>(decryptedResultJSON);
+                PhoneApplicationService.Current.State["connected"] = 1;
+                imgConnected.Source = imageBitmapConnected;
                 List<Tariff> tariffs = new List<Tariff>();
+                progressText.Text = "loading tariffs...";
                 for (int i = 0; i < result.Count; ++i)
                 {
                     tariffs.Add(new Tariff
@@ -139,9 +158,13 @@ namespace MyPartyProject
                 }
                 IsolatedStorageSettings.ApplicationSettings["tariffs"] = tariffs;
             }
+            else
+            {
+                PhoneApplicationService.Current.State["connected"] = 0;
+                imgConnected.Source = imageBitmapDisconnected;
+            }
             IsolatedStorageSettings.ApplicationSettings.Save();
             loaded += 1;
-            MessageBox.Show("Tariff" + loaded, "null", MessageBoxButton.OK);
             if (loaded == 3)
             {
                 goToConcerts();
@@ -151,28 +174,15 @@ namespace MyPartyProject
         {
             if (e.Error == null)
             {
-                List<Concert> result = JsonConvert.DeserializeObject<List<Concert>>(e.Result);
+                string s = Encryption.myDecrypt(e.Result.Trim());
+                string decryptedResultJSON = s;
+                imgConnected.Source = imageBitmapConnected;
+                List<Concert> result = JsonConvert.DeserializeObject<List<Concert>>(decryptedResultJSON);
+                PhoneApplicationService.Current.State["connected"] = 1;
                 List<Concert> concerts = new List<Concert>();
-                
+                progressText.Text = "loading concerts...";
                 for (int i = 0; i < result.Count; ++i)
                 {
-
-                    MessageBox.Show("Concert" + loaded, "pas null", MessageBoxButton.OK); 
-                    /*Concert.saveImage("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/img/Concerts/", result[i].image);
-                    /////////////////////////
-                    BitmapImage Bit_Img = new BitmapImage();
-                    using (IsolatedStorageFile ISF = IsolatedStorageFile.GetUserStoreForApplication())
-                    {
-                        using (IsolatedStorageFileStream FS = ISF.OpenFile(result[i].image, FileMode.Open, FileAccess.Read))
-                        {
-                            Bit_Img.SetSource(FS);
-                            //this.img2.Height = Bit_Img.PixelHeight;
-                            //this.img2.Width = Bit_Img.PixelWidth;
-                        }
-                    }
-                    //this.img2.Source = Bit_Img;
-                    /////////////////////////
-                    //Concert.loadImage(result[i].image);*/
                     concerts.Add(new Concert
                     {
                         id = result[i].id,
@@ -181,46 +191,126 @@ namespace MyPartyProject
                         start_datetime = "Begin date : " + result[i].start_datetime,
                         end_datetime = "End date :" + result[i].end_datetime,
                         location = result[i].location,
-                        image = result[i].image,
+                        image = "http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/img/Concerts/" + result[i].image,
                         nb_seats = result[i].nb_seats,
                         name_concert = result[i].name_concert,
                     });
                 }
                 IsolatedStorageSettings.ApplicationSettings["concerts"] = concerts;
-                PhoneApplicationService.Current.State["connected"] = 1;
-                Uri imageUri = new Uri("/Images/ic_connected", UriKind.Relative);
-                BitmapImage imageBitmap = new BitmapImage(imageUri);
-                imgConnected.Source = imageBitmap;
             }
             else
             {
                 PhoneApplicationService.Current.State["connected"] = 0;
-                Uri imageUri = new Uri("/Images/ic_not_connected", UriKind.Relative);
-                BitmapImage imageBitmap = new BitmapImage(imageUri);
-                imgConnected.Source = imageBitmap;
+                imgConnected.Source = imageBitmapDisconnected;
             }
             IsolatedStorageSettings.ApplicationSettings.Save();
             loaded += 1;
-            MessageBox.Show("Concert" + loaded, "null", MessageBoxButton.OK);
             if (loaded == 3)
             {
                 goToConcerts();
             } 
         }
-        // Sample code for building a localized ApplicationBar
-        //private void BuildLocalizedApplicationBar()
-        //{
-        //    // Set the page's ApplicationBar to a new instance of ApplicationBar.
-        //    ApplicationBar = new ApplicationBar();
 
-        //    // Create a new button and set the text value to the localized string from AppResources.
-        //    ApplicationBarIconButton appBarButton = new ApplicationBarIconButton(new Uri("/Assets/AppBar/appbar.add.rest.png", UriKind.Relative));
-        //    appBarButton.Text = AppResources.AppBarButtonText;
-        //    ApplicationBar.Buttons.Add(appBarButton);
+        public void wc1_UploadStringCompleted(object sender, UploadStringCompletedEventArgs e)
+        {
+            string s = e.Result;
+            MessageBox.Show(e.Result);
+            //
+        }
+        // Create the web request object 
+        public void authentification(string url)
+        {
+            /*WebClient wc1 = new WebClient();
+            wc1.UploadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/loginWindows/json:")
+                                    , "POST", "[{\"username\":\"" + _login + "\",\"password\":\"" + _pwd + "\"}]");
+            wc1.UploadStringCompleted += new UploadStringCompletedEventHandler(wc1_UploadStringCompleted);
+            //
+            */
+            
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
+            webRequest.Method = "Post";
+            webRequest.Accept = "text/xml";
+            webRequest.AllowAutoRedirect = true;
 
-        //    // Create a new menu item with the localized string from AppResources.
-        //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
-        //    ApplicationBar.MenuItems.Add(appBarMenuItem);
-        //}
+            
+            //webRequest.ContentType = "application/x-www-form-urlencoded";
+    
+            //webRequest.Headers["Email"] = "abc@xyz.com"; 
+            //webRequest.Headers["password"] = "abc123"; 
+
+
+            //webRequest.ContentType = "application/json;charset=utf-8";
+            //"text/json";// 
+            // Start the request 
+            webRequest.BeginGetRequestStream(new AsyncCallback(GetRequestStreamCallback), webRequest);
+            /*
+            WebClient client = new WebClient();
+
+            client.Headers[HttpRequestHeader.Accept] = "application/json";
+            client.Headers[HttpRequestHeader.ContentType] = "application/json";
+
+            client.UploadStringCompleted += (object source, UploadStringCompletedEventArgs e) =>
+            {
+                if (e.Error != null || e.Cancelled)
+                {
+                    // Error or cancelled
+                }
+            };
+            var uri = new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/loginWindows", UriKind.Absolute);
+            client.UploadStringAsync(uri, "[{\"username\":\"" + _login + "\",\"password\":\"" + _pwd + "\"}]");  // message is the json content in string
+        */
+        
+        }
+
+        public void GetRequestStreamCallback(IAsyncResult asynchronousResult)
+        {
+            HttpWebRequest webRequest = (HttpWebRequest)asynchronousResult.AsyncState;
+            // End the stream request operation 
+            Stream postStream = webRequest.EndGetRequestStream(asynchronousResult);
+
+            // Create the post data 
+
+            string json = "[{\"username\":\"" + _login + "\",\"password\":\"" + _pwd + "\"}]";
+            var input = JsonConvert.SerializeObject(json);
+            byte[] byteArray = Encoding.UTF8.GetBytes(json);
+
+            // Add the post data to the web request 
+            postStream.Write(byteArray, 0, byteArray.Length);
+            postStream.Close();
+
+            // Start the web request 
+            webRequest.BeginGetResponse(new AsyncCallback(GetResponseCallback), webRequest);
+        }
+        public void GetResponseCallback(IAsyncResult asynchronousResult)
+        {
+            string result = "";
+            try
+            {
+                HttpWebRequest webRequest = (HttpWebRequest)asynchronousResult.AsyncState;
+                HttpWebResponse response;
+
+                // End the get response operation
+                response = (HttpWebResponse)webRequest.EndGetResponse(asynchronousResult);
+                Stream streamResponse = response.GetResponseStream();
+                StreamReader streamReader = new StreamReader(streamResponse);
+                var Response = streamReader.ReadToEnd();
+                result = Response.ToString();
+                streamResponse.Close();
+                streamReader.Close();
+                response.Close();
+            }
+            catch (WebException e)
+            {
+                string s = "pas cool";
+                // Error treatment 
+                // ... 
+            }
+            idClient = result;
+            if (idClient != null)
+            {
+                updateDatabase(idClient);
+                PhoneApplicationService.Current.State["idClient"] = idClient;
+            }
+        }
     }
 }

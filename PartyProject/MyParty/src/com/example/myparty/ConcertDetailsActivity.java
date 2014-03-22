@@ -3,20 +3,13 @@ package com.example.myparty;
 import java.util.ArrayList;
 import java.util.List;
 
-import bluetooth.BluetoothClient;
-import bluetooth.BluetoothDevices;
-import bluetooth.BluetoothServer;
 import lists.ClientList;
-import lists.ConcertList;
 import lists.ListLayout;
-import lists.ReservationsList;
 import lists.StatsList;
-import lists.TicketsList;
 import scan.IntentIntegrator;
 import scan.IntentResult;
 import scan.ScanLayout;
 import android.app.Activity;
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
+import bluetoothHandler.BluetoothHandler;
 import databaseHandler.DatabaseHandler;
 import databaseHandler.DatabaseServer;
 import databaseHandler.MyJsonParser;
@@ -48,10 +42,11 @@ OnClickListener, OnMenuItemClickListener {
 	private Button buttonStats;
 	private ViewFlipper view_flipper;
 	private MenuItem decoItem;
-	private MenuItem bluetoothItem;
+	
 	private ScanLayout scanner;
 	private Context context;
 	private DatabaseHandler dataBase;
+	private MenuItem connectedItem;
 
 	private Concert concert;
 	private int idResScan;
@@ -59,9 +54,16 @@ OnClickListener, OnMenuItemClickListener {
 	private MenuItem scanPushItem;
 	private ProgressBar progressBar;
 	private LinearLayout layoutMain;
-	private ArrayList<BluetoothClient> listBluetoothClient = new ArrayList<BluetoothClient>();
-	private BluetoothServer server;
 	private List<Client> clientForConcert;
+	
+	//////////////////////////////
+	// Debugging
+    private static final String TAG = "DeviceListActivity";
+    private static final boolean D = true;
+
+    // Return Intent extra
+    public static String EXTRA_DEVICE_ADDRESS = "device_address";
+    //////////////////////////////
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,12 +78,18 @@ OnClickListener, OnMenuItemClickListener {
 		this.buttonStats = (Button) findViewById(R.id.buttonStats);
 		this.view_flipper = (ViewFlipper) findViewById(R.id.view_flipper);
 
+		///////////////////////////////////////////
+		// Set result CANCELED incase the user backs out
+        setResult(Activity.RESULT_CANCELED);
+
+		///////////////////////////////////////////
 		/****************** OUVERTURE BDD ***********************************/
 		lightHandler();
 		this.dataBase = new DatabaseHandler(this);
 		this.dataBase.open();
 
-		server = new BluetoothServer();
+//		server = new BluetoothServer();
+//		server.start();
 		/************************ MISE A JOUR SERVEUR POUR LES SCAN ************************************/
 
 		String jsonScan;
@@ -99,7 +107,7 @@ OnClickListener, OnMenuItemClickListener {
 		}
 		if (clientForConcert!=null){
 			/************* TRI ALPHABETIQUE ***********/
-			Log.i("LISTE", "NonTrié"+ clientForConcert.toString());
+			Log.i("LISTE", "NonTri��"+ clientForConcert.toString());
 
 			List<Client> oui = new ArrayList<Client>();
 			while(clientForConcert.size()>0){
@@ -118,12 +126,12 @@ OnClickListener, OnMenuItemClickListener {
 
 			Log.i("LISTE", "Trie"+ clientForConcert.toString());
 
-			BluetoothDevices bluetoothDevices = new BluetoothDevices(this);
-
-		    for(BluetoothDevice device : bluetoothDevices.getBluetoothDevices()){
-		    	BluetoothClient client = new BluetoothClient(device, this);
-		    	listBluetoothClient.add(client);
-		    }
+//			BluetoothDevices bluetoothDevices = new BluetoothDevices(this);
+//
+//		    for(BluetoothDevice device : bluetoothDevices.getBluetoothDevices()){
+//		    	BluetoothClient client = new BluetoothClient(device, this);
+//		    	listBluetoothClient.add(client);
+//		    }
 
 			/*****************************************/
 			for (int i =0; i < clientForConcert.size();i++){
@@ -131,7 +139,7 @@ OnClickListener, OnMenuItemClickListener {
 						+ " Pour "+ concert.getId()+concert.getTitle());
 			}
 		}
-
+		
 		/************************** Traitement du bouton validation scan ***********************************/
 		this.scanner = new ScanLayout(this, this);
 		this.scanner.getButtonTariff().setOnClickListener(
@@ -140,19 +148,17 @@ OnClickListener, OnMenuItemClickListener {
 					public void onClick(View v) {
 						scanner.getImageView().setBackgroundResource(R.drawable.qrcode_blue);
 						if (idResScan != 0 ){
-							for(BluetoothClient client : listBluetoothClient){
-								Log.i("TAG ENVOIE ID_RES", "ENVOIE " + idResScan);
-								server.write(idResScan);
-							}
-							scanner.getTextView().setText("");
+							String s = String.valueOf(idResScan);
+				            ConnectionActivity.bluetoothHandler.sendMessage(s);
+				            scanner.getTextView().setText("");
 							dataBase.scanTicket(idResScan);
-						}
+				        }
 						textButtonValidate("");
 					}
 				});
 
 
-		/**********************************************************/
+        /**********************************************************/
 
 		this.view_flipper.addView(new ConcertDetailed(this, concert));
 		this.view_flipper.addView(new ListLayout(this, new ClientList(this,
@@ -171,20 +177,22 @@ OnClickListener, OnMenuItemClickListener {
 		this.buttonDetails.setOnClickListener(this);
 		this.buttonScan.setOnClickListener(this);
 		this.buttonStats.setOnClickListener(this);
+		
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.connected, menu);
 		this.decoItem = menu.findItem(R.id.menu_deconect);
-		this.bluetoothItem = menu.findItem(R.id.bluetooth);
+		
+		connectedItem = menu.findItem(R.id.menu_refresh);
 		scanPushItem = menu.findItem(R.id.scanpush);
 		updateItem = menu.findItem(R.id.update); 
 		scanPushItem.setOnMenuItemClickListener(this);
 		updateItem.setOnMenuItemClickListener(this);
 		// decoItem.setIcon(R.drawable.logout);
 		this.decoItem.setOnMenuItemClickListener(this);
-		this.bluetoothItem.setOnMenuItemClickListener(this);
+		
 		return true;
 	}
 
@@ -222,7 +230,7 @@ OnClickListener, OnMenuItemClickListener {
 		}
 	}
 
-	/**********************   Récupération des infos du billet      ************************************/
+	/**********************   R��cup��ration des infos du billet      ************************************/
 	/*******id_res;id_concert;id_client;id_tarif********/
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		IntentResult scanResult = IntentIntegrator.parseActivityResult(
@@ -293,11 +301,11 @@ OnClickListener, OnMenuItemClickListener {
 		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if (ConnectionActivity.item != null){
+				if (connectedItem != null){
 					switch (lighted){
-					case 0: ConnectionActivity.item.setIcon(R.drawable.ic_action_location_found_green);break;
-					case 1: ConnectionActivity.item.setIcon(R.drawable.ic_action_location_found_red);break;
-					default: ConnectionActivity.item.setIcon(R.drawable.ic_action_refresh);break;
+					case 0: connectedItem.setIcon(R.drawable.ic_action_location_found_green);break;
+					case 1: connectedItem.setIcon(R.drawable.ic_action_location_found_red);break;
+					default: connectedItem.setIcon(R.drawable.ic_action_refresh);break;
 					}
 				}
 			}
@@ -310,12 +318,7 @@ OnClickListener, OnMenuItemClickListener {
 			intent = new Intent(this, ConnectionActivity.class);
 			this.startActivity(intent);
 
-		} else if(item == bluetoothItem) {
-			intent = new Intent(this, BluetoothActivity.class);
-			this.startActivity(intent);
-
-		}
-		else if(item == updateItem){
+		}else if(item == updateItem){
 			loadDatabase();
 			//			if(DatabaseHandler.updateAllTables(this)){
 			//				intent = new Intent(this, ConcertActivity.class);
@@ -323,8 +326,6 @@ OnClickListener, OnMenuItemClickListener {
 			//			}
 		}
 		else if (item == scanPushItem){
-
-
 			/*tester la connexion*/
 			progressBar.setVisibility(View.VISIBLE);
 			layoutMain.setVisibility(View.GONE);
@@ -459,7 +460,7 @@ OnClickListener, OnMenuItemClickListener {
 
 		if (clientForConcert!=null){
 			/************* TRI ALPHABETIQUE ***********/
-			Log.i("LISTE", "NonTrié"+ clientForConcert.toString());
+			Log.i("LISTE", "NonTri��"+ clientForConcert.toString());
 
 			List<Client> oui = new ArrayList<Client>();
 			while(clientForConcert.size()>0){

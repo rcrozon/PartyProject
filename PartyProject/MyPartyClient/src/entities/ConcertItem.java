@@ -31,13 +31,10 @@ public class ConcertItem extends LinearLayout implements Items{
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT-50, 
 				LinearLayout.LayoutParams.WRAP_CONTENT);
 		layoutParams.setMargins(20, 0, 20, 0);
+		layoutParams.weight = 4;
 		layoutConcertData.setLayoutParams(layoutParams);
 		ImageView imgView = new ImageView(context);
-		LayoutParams llp = new LayoutParams(140, 250, Gravity.CENTER_HORIZONTAL); 
-
-		/*TODO Si pas de connexion*/
-		//imgView.setBackgroundResource(R.drawable.party2);
-		//imgView.setLayoutParams(llp);
+		LayoutParams llp = new LayoutParams(400, 250, Gravity.CENTER_HORIZONTAL); 
 
 		/*********** Si l'image existe on la met sinon, image par défaut **********************/
 		File ftest = new File(Environment.getExternalStorageDirectory() +
@@ -47,12 +44,11 @@ public class ConcertItem extends LinearLayout implements Items{
 			BitmapDrawable bm = new BitmapDrawable(getResources(), Environment.getExternalStorageDirectory() +
 					File.separator +  Tables.PATH_REP_IMG+"/detail"+concert.getId()+".png");
 			imgView.setBackground(bm);
-			imgView.setLayoutParams(llp);
 		}
 		else{
 			imgView.setBackgroundResource(R.drawable.party2);
-			imgView.setLayoutParams(llp);
 		}
+		imgView.setLayoutParams(llp);
 
 		/***********************************************************/
 
