@@ -52,34 +52,32 @@ namespace MyPartyProject
             textLocation.Text = concert.location;
             textNbSeets.Text = "Number of seats " + concert.nb_seats;
             textTitle.Text = concert.name_concert;
+            /*
             try
             {
                 List<Concert> concerts = (List<Concert>)IsolatedStorageSettings.ApplicationSettings["concerts"];
-                List<Reservation> reservations = (List<Reservation>)IsolatedStorageSettings.ApplicationSettings["reservations"];
-                for (int i = 0; i < reservations.Count; ++i)
+                List<Ticket> tickets = (List<Ticket>)IsolatedStorageSettings.ApplicationSettings["tickets"];
+                foreach (Ticket ticket in tickets)
                 {
-                    if (reservations[i].id_concert.Equals(concert.id))
-                    {
-
-                        reservations[i].nb_seats_reserved = "Number of tickets reserved : " + reservations[i].nb_seats_reserved;
-                        reservations[i].image = concert.image;
-                        reservations[i].location = concert.location;
-                        reservations[i].name_concert = concert.name_concert;
-                        reservations[i].start_datetime = concert.start_datetime;
-                        reservations[i].end_datetime = concert.end_datetime;
-                    }
+                    Concert currentConcert = Concert.getConcertFromId(concerts, ticket.id_concert);
+                    ticket.location = currentConcert.location;
+                    ticket.name_concert = currentConcert.name_concert;
+                    ticket.start_datetime = currentConcert.start_datetime;
+                    ticket.end_datetime = currentConcert.end_datetime;
+                    ticket.image = currentConcert.image;
                 }
-                ticketsListBox.ItemsSource = reservations;
+                List<Reservation> resByConcert = Reservation.getListReservationByConcert(tickets, concerts);
+                ticketsListBox.ItemsSource = resByConcert;
             }
-            catch (System.Collections.Generic.KeyNotFoundException e) { } 
-            
+            catch (System.Collections.Generic.KeyNotFoundException e) { }
+            */
             /********************** Affichage des tickets *******************************/
             
             //geoWatcher = new GeoCoordinateWatcher();
             //geoWatcher.StatusChanged += geoWatcher_StatusChanged;
             //geoWatcher.Start();*/
         }
-        
+        /*
         private void ticketsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ticketsListBox.SelectedItem == null)
@@ -88,7 +86,7 @@ namespace MyPartyProject
             PhoneApplicationService.Current.State["reservation"] = currentRes;
             ticketsListBox.SelectedItem = null;
             NavigationService.Navigate(new Uri("/TicketPage.xaml", UriKind.Relative));
-        }
+        }*/
 
         private void geoWatcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
@@ -127,6 +125,11 @@ namespace MyPartyProject
                     // le GPS est activé et disponible
                     break;
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
         }
 
 

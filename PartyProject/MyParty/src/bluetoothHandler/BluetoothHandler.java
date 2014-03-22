@@ -93,7 +93,7 @@ public class BluetoothHandler {
 
         // If the adapter is null, then Bluetooth is not supported
         if (mBluetoothAdapter == null) {
-            Toast.makeText(context, "Bluetooth is not available", Toast.LENGTH_LONG).show();
+//            Toast.makeText(context, "Bluetooth is not available", Toast.LENGTH_LONG).show();
             return;
         }
         if (!mBluetoothAdapter.isEnabled()) { 
@@ -129,7 +129,7 @@ public class BluetoothHandler {
     public void sendMessage(String message) {
         // Check that we're actually connected before trying anything
         if (mChatService.getState() != BluetoothService.STATE_CONNECTED) {
-            Toast.makeText(context, "not connected", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "not connected", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -189,12 +189,12 @@ public class BluetoothHandler {
             case MESSAGE_DEVICE_NAME:
                 // save the connected device's name
                 mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
-                Toast.makeText(context, "Connected to "
-                               + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "Connected to "
+//                               + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                 break;
             case MESSAGE_TOAST:
-                Toast.makeText(context, msg.getData().getString(TOAST),
-                               Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, msg.getData().getString(TOAST),
+//                               Toast.LENGTH_SHORT).show();
                 break;
             }
         }

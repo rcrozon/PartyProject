@@ -29,10 +29,9 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="562*"/>
-                <RowDefinition Height="45*"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            <ListBox x:Name="reservationsListBox" SelectionChanged="reservationsListBox_SelectionChanged">
+            <ListBox x:Name="reservationsListBox" SelectionChanged="reservationsListBox_SelectionChanged" Margin="0,0,0,10">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="0,2">
@@ -54,10 +53,18 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <TextBox x:Name="research"  Margin="-10,552,44,-10" TextWrapping="Wrap" Grid.RowSpan="2" TextChanged="research_TextChanged"/>
-            <Image Source="/Images/ic_action_search.png" HorizontalAlignment="Left" Height="45" Margin="412,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="44"/>
         </Grid>
         <Image x:Name="imgConnected" Source="/Images/ic_not_connected.png" Height="30" Margin="450,0,0,0" VerticalAlignment="Top"/>
+        <Button Content="" Margin="398,-10,32,121" RenderTransformOrigin="-1.314,0.431" BorderThickness="0" Padding="0" Click="Button_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="/Images/logout_icon.png"/>
+            </Button.Background>
+        </Button>
+        <Button Content="" Margin="352,-10,78,121" RenderTransformOrigin="-1.314,0.431" BorderThickness="0" Padding="0" Click="Button_Click_update">
+            <Button.Background>
+                <ImageBrush ImageSource="/Images/ic_action_refresh.png"/>
+            </Button.Background>
+        </Button>
     </Grid>
 
 </phone:PhoneApplicationPage>

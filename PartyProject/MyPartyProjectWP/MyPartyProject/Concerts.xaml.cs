@@ -60,5 +60,10 @@ namespace MyPartyProject
         {
             NavigationService.Navigate(new Uri("/ReservationsList.xaml", UriKind.Relative));
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+        }
     }
 }

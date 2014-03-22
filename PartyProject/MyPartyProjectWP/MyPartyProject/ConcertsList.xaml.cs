@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO.IsolatedStorage;
 using System.Windows.Media.Imaging;
+using MyPartyProject.Encrypt;
 
 namespace MyPartyProject
 {
@@ -56,17 +57,159 @@ namespace MyPartyProject
             NavigationService.Navigate(new Uri("/ConcertDetails.xaml", UriKind.Relative));
         }
 
-        private void research_TextChanged(object sender, TextChangedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            List<Concert> list = (List<Concert>)IsolatedStorageSettings.ApplicationSettings["concerts"];
-            for(int i = 0; i < list.Count; ++i)
+            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+        }
+
+        private void Button_Click_update(object sender, System.Windows.RoutedEventArgs e)
+        {
+            progressBarUpdate.Visibility = System.Windows.Visibility.Visible;
+            WebClient webClientConcert = new WebClient();
+            webClientConcert.DownloadStringCompleted += concert_DownloadStringCompleted;
+            webClientConcert.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllConcerts"));
+            WebClient webClientTicket = new WebClient();
+            webClientTicket.DownloadStringCompleted += ticket_DownloadStringCompleted;
+            webClientTicket.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getReservationsByCLient/id:" + (string)(PhoneApplicationService.Current.State["idClient"])));
+            WebClient webClientTariff = new WebClient();
+            webClientTariff.DownloadStringCompleted += tariff_DownloadStringCompleted;
+            webClientTariff.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllTariffs"));
+            /*     WebClient webClientStyles = new WebClient();
+                 webClientStyles.DownloadStringCompleted += styles_DownloadStringCompleted;
+                 webClientStyles.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllStyles"));
+            */
+            WebClient webClientArtist = new WebClient();
+            webClientArtist.DownloadStringCompleted += artists_DownloadStringCompleted;
+            webClientArtist.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllArtists"));
+            /*     WebClient webClientAssocTarifs = new WebClient();
+                 webClientArtist.DownloadStringCompleted += artists_DownloadStringCompleted;
+                 webClientArtist.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllAssocTarifs"));
+                 WebClient webClientAssocArtists = new WebClient();
+                 webClientArtist.DownloadStringCompleted += artists_DownloadStringCompleted;
+                 webClientArtist.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllAssocArtists"));
+                 WebClient webClientAssocStyles = new WebClient();
+                 webClientArtist.DownloadStringCompleted += artists_DownloadStringCompleted;
+                 webClientArtist.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllAssocStyles"));
+             */
+            progressBarUpdate.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void ticket_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            if (e.Error == null)
             {
-                if (!list[i].name_concert.Contains(research.Text))
+                string s = Encryption.myDecrypt(e.Result.Trim());
+                string decryptedResultJSON = s;
+                List<Ticket> result = JsonConvert.DeserializeObject<List<Ticket>>(decryptedResultJSON);
+                List<Ticket> tickets = new List<Ticket>();
+                for (int i = 0; i < result.Count; ++i)
                 {
-                    list.RemoveAt(i);
-                }    
+                    if (result[i].id_client.Equals((string)(PhoneApplicationService.Current.State["idClient"])))
+                    {
+                        string s3 = result[i].concertLabel;
+                        tickets.Add(new Ticket
+                        {
+                            id = result[i].id,
+                            id_client = result[i].id_client,
+                            id_concert = result[i].id_concert,
+                        });
+                    }
+                }
+                IsolatedStorageSettings.ApplicationSettings["tickets"] = tickets;
             }
-            concertsListBox.ItemsSource = list;
+            IsolatedStorageSettings.ApplicationSettings.Save();
+        }
+        private void tariff_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+
+                string s = Encryption.myDecrypt(e.Result.Trim());
+                string decryptedResultJSON = s;
+                List<Tariff> result = JsonConvert.DeserializeObject<List<Tariff>>(decryptedResultJSON);
+                List<Tariff> tariffs = new List<Tariff>();
+                for (int i = 0; i < result.Count; ++i)
+                {
+                    tariffs.Add(new Tariff
+                    {
+                        id = result[i].id,
+                        label = result[i].label,
+                        price = result[i].price,
+                    });
+                }
+                IsolatedStorageSettings.ApplicationSettings["tariffs"] = tariffs;
+            }
+            IsolatedStorageSettings.ApplicationSettings.Save();
+        }
+
+        private void artists_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+
+                string s = Encryption.myDecrypt(e.Result.Trim());
+                string decryptedResultJSON = s;
+                List<Artist> result = JsonConvert.DeserializeObject<List<Artist>>(decryptedResultJSON);
+                List<Artist> artists = new List<Artist>();
+                for (int i = 0; i < result.Count; ++i)
+                {
+                    artists.Add(new Artist
+                    {
+                        id = result[i].id,
+                        name = result[i].name,
+                    });
+                }
+                IsolatedStorageSettings.ApplicationSettings["artist"] = artists;
+            }
+            IsolatedStorageSettings.ApplicationSettings.Save();
+        }
+        private void styles_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+
+                string s = Encryption.myDecrypt(e.Result.Trim());
+                string decryptedResultJSON = s;
+                List<Artist> result = JsonConvert.DeserializeObject<List<Artist>>(decryptedResultJSON);
+                List<Artist> artists = new List<Artist>();
+                for (int i = 0; i < result.Count; ++i)
+                {
+                    artists.Add(new Artist
+                    {
+                        id = result[i].id,
+                        name = result[i].name,
+                    });
+                }
+                IsolatedStorageSettings.ApplicationSettings["artist"] = artists;
+            }
+            IsolatedStorageSettings.ApplicationSettings.Save();
+        }
+        private void concert_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                string s = Encryption.myDecrypt(e.Result.Trim());
+                string decryptedResultJSON = s;
+                List<Concert> result = JsonConvert.DeserializeObject<List<Concert>>(decryptedResultJSON);
+                List<Concert> concerts = new List<Concert>();
+                for (int i = 0; i < result.Count; ++i)
+                {
+                    concerts.Add(new Concert
+                    {
+                        id = result[i].id,
+                        id_creator = result[i].id_creator,
+                        id_tarif = result[i].id_tarif,
+                        start_datetime = "Begin date : " + result[i].start_datetime,
+                        end_datetime = "End date :" + result[i].end_datetime,
+                        location = result[i].location,
+                        image = "http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/img/Concerts/" + result[i].image,
+                        nb_seats = result[i].nb_seats,
+                        name_concert = result[i].name_concert,
+                    });
+                }
+                IsolatedStorageSettings.ApplicationSettings["concerts"] = concerts;
+            }
+            IsolatedStorageSettings.ApplicationSettings.Save();
         }
     }
 }

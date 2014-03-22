@@ -67,13 +67,13 @@ namespace MyPartyProject
             WebClient webClientTariff = new WebClient();
             webClientTariff.DownloadStringCompleted += tariff_DownloadStringCompleted;
             webClientTariff.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllTariffs"));
-            WebClient webClientStyles = new WebClient();
+       /*     WebClient webClientStyles = new WebClient();
             webClientStyles.DownloadStringCompleted += styles_DownloadStringCompleted;
             webClientStyles.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllStyles"));
-            WebClient webClientArtist = new WebClient();
+       */     WebClient webClientArtist = new WebClient();
             webClientArtist.DownloadStringCompleted += artists_DownloadStringCompleted;
             webClientArtist.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllArtists"));
-            WebClient webClientAssocTarifs = new WebClient();
+       /*     WebClient webClientAssocTarifs = new WebClient();
             webClientArtist.DownloadStringCompleted += artists_DownloadStringCompleted;
             webClientArtist.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllAssocTarifs"));
             WebClient webClientAssocArtists = new WebClient();
@@ -82,6 +82,7 @@ namespace MyPartyProject
             WebClient webClientAssocStyles = new WebClient();
             webClientArtist.DownloadStringCompleted += artists_DownloadStringCompleted;
             webClientArtist.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllAssocStyles"));
+        */
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {

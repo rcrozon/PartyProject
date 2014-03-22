@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO.IsolatedStorage;
 using System.Windows.Media.Imaging;
+using MyPartyProject.Encrypt;
 
 namespace MyPartyProject
 {
@@ -62,17 +63,45 @@ namespace MyPartyProject
             NavigationService.Navigate(new Uri("/TicketPage.xaml", UriKind.Relative));
         }
 
-        private void research_TextChanged(object sender, TextChangedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            List<Reservation> list = (List<Reservation>)IsolatedStorageSettings.ApplicationSettings["reservations"];
-            for(int i = 0; i < list.Count; ++i)
+            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+        }
+
+        private void Button_Click_update(object sender, System.Windows.RoutedEventArgs e)
+        {
+            WebClient webClientTicket = new WebClient();
+            webClientTicket.DownloadStringCompleted += ticket_DownloadStringCompleted;
+            webClientTicket.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getReservationsByCLient/id:" + (string)(PhoneApplicationService.Current.State["idClient"])));
+            
+        }
+
+        private void ticket_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            if (e.Error == null)
             {
-                if (!list[i].name_concert.Contains(research.Text))
+                string s = Encryption.myDecrypt(e.Result.Trim());
+                string decryptedResultJSON = s;
+                List<Ticket> result = JsonConvert.DeserializeObject<List<Ticket>>(decryptedResultJSON);
+                List<Ticket> tickets = new List<Ticket>();
+                for (int i = 0; i < result.Count; ++i)
                 {
-                    list.RemoveAt(i);
-                }    
+                    if (result[i].id_client.Equals((string)(PhoneApplicationService.Current.State["idClient"])))
+                    {
+                        string s3 = result[i].concertLabel;
+                        tickets.Add(new Ticket
+                        {
+                            id = result[i].id,
+                            id_client = result[i].id_client,
+                            id_concert = result[i].id_concert,
+                        });
+                    }
+                }
+                IsolatedStorageSettings.ApplicationSettings["tickets"] = tickets;
             }
-            reservationsListBox.ItemsSource = list;
+            IsolatedStorageSettings.ApplicationSettings.Save();
+            NavigationService.Navigate(new Uri("/ReservationsList.xaml", UriKind.Relative));
         }
     }
+
 }

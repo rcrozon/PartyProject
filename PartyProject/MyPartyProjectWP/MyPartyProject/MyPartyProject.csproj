@@ -100,6 +100,7 @@
       <DependentUpon>ConcertsList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Encrypt\Encryption.cs" />
+    <Compile Include="Entities\Artist.cs" />
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\Ticket.cs" />
     <Compile Include="ReservationsList.xaml.cs">
@@ -419,12 +420,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ic_launcher.png" />
+    <Content Include="Images\ic_action_refresh.png" />
     <Content Include="Images\ic_action_search.png" />
     <Content Include="Images\ic_connected.png" />
     <Content Include="Images\ic_launcher.png" />
     <Content Include="Images\ic_map.png" />
     <Content Include="Images\ic_not_connected.png" />
-    <Content Include="Images\logout.png" />
+    <Content Include="Images\logout_icon.png" />
     <Content Include="Images\party1.jpg" />
     <Content Include="Images\party2.jpg" />
     <Content Include="Images\party3.jpg" />

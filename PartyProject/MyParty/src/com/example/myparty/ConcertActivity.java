@@ -180,16 +180,16 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 									CharSequence text = "PUSH OK!";
 									int duration = Toast.LENGTH_LONG;
 
-									Toast toast = Toast.makeText(myContext, text, duration);
-									toast.show();
+//									Toast toast = Toast.makeText(myContext, text, duration);
+//									toast.show();
 								}
 								else{
 									Log.i("ScanJson", "ON A PAAAAASSSSSS REUSSI");
 									CharSequence text = "PUSH NOT OK!";
 									int duration = Toast.LENGTH_LONG;
 
-									Toast toast = Toast.makeText(myContext, text, duration);
-									toast.show();
+//									Toast toast = Toast.makeText(myContext, text, duration);
+//									toast.show();
 								}
 								
 								progressBar.setVisibility(View.GONE);
@@ -211,8 +211,8 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 				CharSequence text = "ERROR DATABASE PUSH!";
 				int duration = Toast.LENGTH_LONG;
 
-				Toast toast = Toast.makeText(myContext, text, duration);
-				toast.show();
+//				Toast toast = Toast.makeText(myContext, text, duration);
+//				toast.show();
 			}
 		}
 		return false;
@@ -244,8 +244,8 @@ public class ConcertActivity extends Activity implements OnClickListener, OnMenu
 							CharSequence text = "ERROR DATABASE PULL!";
 							int duration = Toast.LENGTH_LONG;
 
-							Toast toast = Toast.makeText(myContext, text, duration);
-							toast.show();
+//							Toast toast = Toast.makeText(myContext, text, duration);
+//							toast.show();
 							connectedToServer(1);
  
 							updateLists();

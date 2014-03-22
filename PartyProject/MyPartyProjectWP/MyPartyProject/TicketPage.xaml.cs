@@ -101,5 +101,15 @@ namespace MyPartyProject
             
 
         }
+
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+        }
+
+        private void Button_Click_update(object sender, System.Windows.RoutedEventArgs e)
+        {
+            //NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+        }
     }
 }
