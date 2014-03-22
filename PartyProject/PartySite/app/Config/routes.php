@@ -44,6 +44,7 @@ Router::connect('/page/:id',array('controller'=>'Reservations','action'=>'listMy
 
 Router::connect('/page/:id',array('controller'=>'Mobile','action'=>'getTariffByID'),array('pass'=> array('id'), 'id'=>'[0-9]+'));
 Router::connect('/page/:id',array('controller'=>'Mobile','action'=>'getReservationsByCLient'),array('pass'=> array('id'), 'id'=>'[0-9]+'));
+Router::connect('/page/:json',array('controller'=>'Mobile','action'=>'loginWindows'),array('pass'=> array('json'), 'json'=>'[a-z0-9\-]+'));
 
 Router::connect('/page/:id',array('controller'=>'TicketInfosController','action'=>'admin_editTicket'),array('pass'=> array('id'), 'id'=>'[0-9]+'));
 

@@ -37,23 +37,42 @@ class MobilesController  extends AppController{
 	}
 
 	 function test(){
-	 	$results = $this->Concert->find('all',array(
-            'conditions' => array('Concert.online' => 1)));
-			 	$table=array();
 
+	$message = json_decode('[{"username":"test","password":"D3AE539C514DC101518CF664EA5F25BB"}]',true);
+	$username =	$message[0]['username'];
+	$password = $message[0]['password'];
+		
+	debug($username);
+	debug($message);
+	$mcrypt = new MCrypt();
+	$decrypted = $mcrypt->decrypt($message[0]['password']);
 
+	$results = $this->Client->find('first',array(
+            'conditions' => array('Client.username' => $username)));
+	if ($results == null){
+		return new CakeResponse(array('body' => json_encode('Invalid Login'))); 
+	}
+	$decryptedPassword = $mcrypt->decrypt($results['Client']['password']);
+	debug($decryptedPassword);
+	debug($decrypted);
 
-
-		for($i=0;$i<sizeof($results);$i++){
-			$d = $results[$i]['Concert'];
-			$table[$i] = $d;
-		}
+	if (strcmp ($decryptedPassword ,$decrypted)){
+		$d = $results['Client'];
+		$table = json_encode($d);
+		$table = '['.$table.']';
 		$mcrypt = new MCrypt();
+		
 		$encrypted = $mcrypt->encrypt(json_encode($table));
-	 	$decrypted = $mcrypt->decrypt($encrypted);
-		return new CakeResponse(array('body' =>$decrypted ));
+		return new CakeResponse(array('body' =>($encrypted) ));
+	}
+	else{
+
+		return new CakeResponse(array('body' => json_encode('Invalid password'))); 
 
 	}
+  }    
+
+	
 
 	function getReservationsByCLient(){
 		$idClient = $this->params['named']['id'];
@@ -268,6 +287,7 @@ class MobilesController  extends AppController{
 		return new CakeResponse(array('body' => $data)); 
 
 }
+
 	public function login(){
 
 	$data = $this->request->data['json'];
@@ -299,6 +319,41 @@ class MobilesController  extends AppController{
 		return new CakeResponse(array('body' => json_encode('Invalid password'))); 
 
 	}
-  }    
+  } 
+
+  	public function loginWindows(){
+
+	$data = $this->request->data['json'];
+	echo "DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATTTTTTTTTTTTTTTTTTTTTTTAAAAAAAAAAAAAAAAAAAA";
+	debug($data);
+	return new CakeResponse(array('body' => json_decode($data,true)));
+	/*$message = json_decode($data,true);
+	$username =	$message[0]['username'];
+	$password = $message[0]['password'];
+	$mcrypt = new MCrypt();
+	$decrypted = $mcrypt->decrypt($message[0]['password']);
+
+	$results = $this->Client->find('first',array(
+            'conditions' => array('Client.username' => $username)));
+	if ($results == null){
+		return new CakeResponse(array('body' => json_encode('Invalid Login'))); 
+	}
+	$decryptedPassword = $mcrypt->decrypt($results['Client']['password']);
+	
+	if (strcmp($decryptedPassword,$decrypted)){
+		$d = $results['Client'];
+		$table = json_encode($d);
+		$table = '['.$table.']';
+		$mcrypt = new MCrypt();
+		
+		$encrypted = $mcrypt->encrypt(json_encode($table));
+		return new CakeResponse(array('body' =>($encrypted) ));
+	}
+	else{
+
+		return new CakeResponse(array('body' => json_encode('Invalid password'))); 
+
+	}*/
+  }   
 
 }

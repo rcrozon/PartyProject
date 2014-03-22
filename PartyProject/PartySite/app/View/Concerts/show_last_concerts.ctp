@@ -195,17 +195,17 @@ require('../webroot/date/dateConverter.php');
 			}
 
 			$resultArtists = $this->Artist->getArtistsByIDConcert($d['id']);
+
 			$artists =  'Artist(s): ';
-			for($j=0;$j<sizeof($resultArtists);$j++){
-				if($j==sizeof($resultArtists)-1){
-					$artists .= $resultArtists[$j]['Artist']['name'];
+			for($v=0;$v<sizeof($resultArtists);$v++){
+				if($v==sizeof($resultArtists)-1){
+					$artists .= $resultArtists[$v]['Artist']['name'];
 				}
 				else{
-						$artists .= $resultArtists[$j]['Artist']['name'].', ';
+						$artists .= $resultArtists[$v]['Artist']['name'].', ';
 				}
 		
 			}
-
 		  $dateBegin = getDateOfDateTime($d['start_datetime']);
 
             $dateEnd = getDateOfDateTime($d['end_datetime']);
