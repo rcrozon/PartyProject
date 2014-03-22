@@ -200,13 +200,9 @@ public class ConnectionActivity extends Activity implements OnClickListener, OnF
 			EditText pwd = (EditText)findViewById(R.id.pwdTextEdit);
 			
 			if (dataBase.authentificationAdmin(login.getText().toString(),pwd.getText().toString() )){
-				bluetoothHandler = new BluetoothHandler(this);
 				Intent intent = new Intent(this, ConcertActivity.class);
 				this.startActivity(intent);
-			}
-
-
-			else{
+			}else{
 				/*** ERREUR *************/
 				Context myContext = getApplicationContext();
 				CharSequence text = "ERROR LOGIN OR PASSWORD !";

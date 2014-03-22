@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
+import databaseHandler.DatabaseHandler;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
@@ -399,7 +400,9 @@ public class BluetoothService {
 					//Read from the InputStream
 					Log.i(TAG, "BEGIN READ");
 					bytes = mmInStream.read(buffer);
-					Log.i("Bluetooth RESULT", new String(buffer));
+					String res = new String(buffer);
+					Log.i("Bluetooth RESULT", res);
+					DatabaseHandler.scanTicket(Integer.parseInt(res));
 					Log.i(TAG, "END READ");
 
 					// Send the obtained bytes to the UI Activity

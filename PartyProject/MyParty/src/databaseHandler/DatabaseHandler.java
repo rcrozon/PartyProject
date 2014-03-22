@@ -96,7 +96,7 @@ public class DatabaseHandler {
 
 	/***************** INSERER UNE RESERVATION MISE A JOUR DANS LA BDD ***************************/
 
-	public long insertResMAJ(int id_res,int  id_concert,int id_client ,int id_tarif,int scan){
+	public static long insertResMAJ(int id_res,int  id_concert,int id_client ,int id_tarif,int scan){
 		ContentValues values = new ContentValues();
 		values.put(Tables.RESMAJ_NAME_ID,id_res);
 		values.put(Tables.RESMAJ_NAME_ID_CONCERT,id_concert);
@@ -591,7 +591,7 @@ public class DatabaseHandler {
 
 	/*********************** Mise a jour du SCAN avec ID **************************************/
 
-	public void scanTicket(int id_res){
+	public static void scanTicket(int id_res){
 
 		Cursor c = bdd.query(Tables.RES_TABLE, 
 				new String[] {Tables.RES_NAME_ID, 

@@ -64,7 +64,8 @@ OnClickListener, OnMenuItemClickListener {
     // Return Intent extra
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
     //////////////////////////////
-
+    private BluetoothHandler bluetoothHandler;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -139,6 +140,7 @@ OnClickListener, OnMenuItemClickListener {
 						+ " Pour "+ concert.getId()+concert.getTitle());
 			}
 		}
+		bluetoothHandler = new BluetoothHandler(this);
 		
 		/************************** Traitement du bouton validation scan ***********************************/
 		this.scanner = new ScanLayout(this, this);
@@ -149,7 +151,7 @@ OnClickListener, OnMenuItemClickListener {
 						scanner.getImageView().setBackgroundResource(R.drawable.qrcode_blue);
 						if (idResScan != 0 ){
 							String s = String.valueOf(idResScan);
-				            ConnectionActivity.bluetoothHandler.sendMessage(s);
+				            bluetoothHandler.sendMessage(s);
 				            scanner.getTextView().setText("");
 							dataBase.scanTicket(idResScan);
 				        }

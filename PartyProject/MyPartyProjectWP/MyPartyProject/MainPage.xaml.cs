@@ -67,6 +67,9 @@ namespace MyPartyProject
             WebClient webClientTariff = new WebClient();
             webClientTariff.DownloadStringCompleted += tariff_DownloadStringCompleted;
             webClientTariff.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllTariffs"));
+            WebClient webClientArtist = new WebClient();
+            webClientArtist.DownloadStringCompleted += artists_DownloadStringCompleted;
+            webClientArtist.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllArtists"));
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
@@ -168,7 +171,7 @@ namespace MyPartyProject
             }
             IsolatedStorageSettings.ApplicationSettings.Save();
             loaded += 1;
-            if (loaded == 3)
+            if (loaded == 4)
             {
                 goToConcerts();
             }
@@ -202,7 +205,41 @@ namespace MyPartyProject
             }
             IsolatedStorageSettings.ApplicationSettings.Save();
             loaded += 1;
-            if (loaded == 3)
+            if (loaded == 4)
+            {
+                goToConcerts();
+            }
+        }
+        
+        private void artists_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+
+                string s = Encryption.myDecrypt(e.Result.Trim());
+                string decryptedResultJSON = s;
+                List<Artist> result = JsonConvert.DeserializeObject<List<Artist>>(decryptedResultJSON);
+                imgConnected.Source = imageBitmapConnected;
+                List<Artist> artists = new List<Artist>();
+                progressText.Text = "loading artists...";
+                for (int i = 0; i < result.Count; ++i)
+                {
+                    artists.Add(new Artist
+                    {
+                        id = result[i].id,
+                        name = result[i].name,
+                    });
+                }
+                IsolatedStorageSettings.ApplicationSettings["artist"] = artists;
+            }
+            else
+            {
+                PhoneApplicationService.Current.State["connected"] = 0;
+                imgConnected.Source = imageBitmapDisconnected;
+            }
+            IsolatedStorageSettings.ApplicationSettings.Save();
+            loaded += 1;
+            if (loaded == 4)
             {
                 goToConcerts();
             } 
@@ -241,7 +278,7 @@ namespace MyPartyProject
             }
             IsolatedStorageSettings.ApplicationSettings.Save();
             loaded += 1;
-            if (loaded == 3)
+            if (loaded == 4)
             {
                 goToConcerts();
             } 
