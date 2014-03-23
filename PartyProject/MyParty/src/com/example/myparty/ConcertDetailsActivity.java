@@ -85,12 +85,10 @@ OnClickListener, OnMenuItemClickListener {
 
 		///////////////////////////////////////////
 		/****************** OUVERTURE BDD ***********************************/
-		lightHandler();
+        lightHandler();
 		this.dataBase = new DatabaseHandler(this);
 		this.dataBase.open();
 
-//		server = new BluetoothServer();
-//		server.start();
 		/************************ MISE A JOUR SERVEUR POUR LES SCAN ************************************/
 
 		String jsonScan;
@@ -188,6 +186,7 @@ OnClickListener, OnMenuItemClickListener {
 		this.decoItem = menu.findItem(R.id.menu_deconect);
 		
 		connectedItem = menu.findItem(R.id.menu_refresh);
+		connectedItem.setIcon(R.drawable.ic_action_location_found_green);
 		scanPushItem = menu.findItem(R.id.scanpush);
 		updateItem = menu.findItem(R.id.update); 
 		scanPushItem.setOnMenuItemClickListener(this);
@@ -361,16 +360,16 @@ OnClickListener, OnMenuItemClickListener {
 									CharSequence text = "PUSH OK!";
 									int duration = Toast.LENGTH_LONG;
 
-//									Toast toast = Toast.makeText(myContext, text, duration);
-//									toast.show();
+									Toast toast = Toast.makeText(myContext, text, duration);
+									toast.show();
 								}
 								else{
 									Log.i("ScanJson", "ON A PAAAAASSSSSS REUSSI");
 									CharSequence text = "PUSH NOT OK!";
 									int duration = Toast.LENGTH_LONG;
 
-//									Toast toast = Toast.makeText(myContext, text, duration);
-//									toast.show();
+									Toast toast = Toast.makeText(myContext, text, duration);
+									toast.show();
 								}
 
 								progressBar.setVisibility(View.GONE);
@@ -392,8 +391,8 @@ OnClickListener, OnMenuItemClickListener {
 				CharSequence text = "ERROR DATABASE PUSH!";
 				int duration = Toast.LENGTH_LONG;
 
-//				Toast toast = Toast.makeText(myContext, text, duration);
-//				toast.show();
+				Toast toast = Toast.makeText(myContext, text, duration);
+				toast.show();
 			}
 		}
 		return false;

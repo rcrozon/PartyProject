@@ -13,7 +13,7 @@
 		android:title="@string/menu_deconect" />
 	
 	<item android:id="@+id/update"  
-	    android:icon="@drawable/update"
+	    android:icon="@drawable/ic_action_refresh"
 	    android:showAsAction="ifRoom"
 	    android:title="@string/update"/>
 	
