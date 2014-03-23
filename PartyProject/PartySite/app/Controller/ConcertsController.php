@@ -500,6 +500,10 @@ class ConcertsController extends AppController {
 
         $this->Session->setFlash('The party has been successfully deleted', 'notif',array('type'=>'success'));
         $this->Concert->delete($id);
+
+       /* $reservation = $this->Reservation->find('all',array('conditions'=>array('Reservation.id_concert'=>$id)));
+        debug($reservation);*/
+
         $this->redirect($this->referer());
     }
 

@@ -1,7 +1,8 @@
 
 
 <?php
- 
+ require('../webroot/date/dateConverter.php');
+
 App::import('Vendor','xtcpdf');
  $width = 490;
  $height = 168;
@@ -15,6 +16,24 @@ $pdf->AddPage();
 $pdf->SetFont('helvetica', '', 10);
     $pdf->SetTextColor(255,255,255);
     $pdf->Text(50, 66, 'Scale');
+    $resultArtists = $this->Artist->getArtistsByIDConcert($concert['Concert']['id']);
+
+            $artists =  'Artist(s): ';
+            for($v=0;$v<sizeof($resultArtists);$v++){
+                if($v==sizeof($resultArtists)-1){
+                    $artists .= $resultArtists[$v]['Artist']['name'];
+                }
+                else{
+                        $artists .= $resultArtists[$v]['Artist']['name'].', ';
+                }
+        
+            }
+
+  $dateBegin = getDateOfDateTime($concert['Concert']['start_datetime']);
+
+
+
+            $timeBegin = getTimeOfDateTime($concert['Concert']['start_datetime']);
 
 $html = '<style>
 h1{
@@ -23,12 +42,14 @@ h1{
 p{
     color:'.$ticketInfo['TicketInfo']['colorFont'].';
     font-weight:bolder;
+     line-height: 75%
 }
  </style><h1>'.$concert['Concert']['name_concert'].'</h1>'
-
+.'<p>'. $artists.'</p>' 
+.'<p>'.$dateBegin.' - '.$timeBegin.'</p>'
 .'<p>Location: '.$concert['Concert']['location'].'</p>'
 .'<p>'.$concert['Concert']['start_datetime'].'</p>'
-.'<p>'.$client['Client']['first_name']." ".$client['Client']['last_name'].'</p>'
+.'<p> Client: '.$client['Client']['first_name']." ".$client['Client']['last_name'].'</p>'
 
 
 ;
