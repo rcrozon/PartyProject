@@ -25,12 +25,11 @@ CREATE TABLE IF NOT EXISTS concerts (
   end_datetime datetime NOT NULL,
   location varchar(50) NOT NULL,
   image varchar(500) NOT NULL,
-  id_tarif int(11) NOT NULL,
   nb_seats int(11) NOT NULL,
-  full tinyint(1) NOT NULL,
+  full tinyint(1) DEFAULT 0,
   id_creator int(11) NOT NULL,
   name_concert varchar(255) NOT NULL,
-  online tinyint(1) NOT NULL,
+  online tinyint(1) DEFAULT 0,
   created datetime NOT NULL,
   PRIMARY KEY (`id`)
 );
@@ -97,7 +96,7 @@ CREATE TABLE IF NOT EXISTS reservations (
 		REFERENCES concerts (id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS ticket_Infos (
+CREATE TABLE IF NOT EXISTS ticket_infos (
   id int(11) NOT NULL AUTO_INCREMENT,
   colorFont varchar(30) NOT NULL,
   image varchar(500) NOT NULL,
