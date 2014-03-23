@@ -51,20 +51,21 @@ namespace MyPartyProject
                 TextBlock textBlockLocation = new TextBlock();
                 TextBlock textBlockStartTime = new TextBlock();
                 TextBlock textBlockEndTime = new TextBlock();
-                TextBlock textBlockArtist = new TextBlock();
+                //TextBlock textBlockArtist = new TextBlock();
                 TextBlock textBlockStyle = new TextBlock();
                 TextBlock textBlockTariff = new TextBlock();
                 textBlockTitle.Text = ticket.name_concert;
                 textBlockLocation.Text = ticket.location;
                 textBlockStartTime.Text = ticket.start_datetime;
                 textBlockEndTime.Text = ticket.end_datetime;
-                textBlockArtist.Text = "Artists :";
-                textBlockStyle.Text = "Style :";
-                textBlockTariff.Text = "Tariff : " + ticket.id_tariff;
+                //textBlockArtist.Text = "Artists :" + Artist.getArtistsFromConcert(ticket.id_concert);
+                textBlockStyle.Text = "Style :" + Styles.getStylesFromConcert(ticket.id_concert);
+                textBlockTariff.Text = "Tariff : " + Tariff.getLabelTariffFromId((List<Tariff>)IsolatedStorageSettings.ApplicationSettings["tariffs"], ticket.id_tarif);
                 
                 Image i = new Image();
                 BarcodeWriter writer = new BarcodeWriter { Format = BarcodeFormat.QR_CODE };
-                string code = ticket.id + ";" + ticket.id_concert + ";" + ticket.id_client + ";" + ticket.id_tariff;
+                string s = ticket.id_tarif;
+                string code = ticket.id + ";" + ticket.id_concert + ";" + ticket.id_client + ";" + ticket.id_tarif;
                 WriteableBitmap writeableBitmap = writer.Write(code);
                 i.Source = writeableBitmap;
                 i.MaxHeight = 200;
@@ -75,7 +76,7 @@ namespace MyPartyProject
                 stack.Children.Add(textBlockLocation);
                 stack.Children.Add(textBlockStartTime);
                 stack.Children.Add(textBlockEndTime);
-                stack.Children.Add(textBlockArtist);
+                //stack.Children.Add(textBlockArtist);
                 stack.Children.Add(textBlockStyle);
                 stack.Children.Add(textBlockTariff);
                 pivotItem.Content = stack;

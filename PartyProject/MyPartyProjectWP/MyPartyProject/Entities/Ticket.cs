@@ -11,7 +11,7 @@ namespace MyPartyProject.Entities
         public string id { get; set; }
         public string id_client { get; set; }
         public string id_concert { get; set; }
-        public string id_tariff { get; set; }
+        public string id_tarif { get; set; }
         public string name_concert { get; set; }
         public string location { get; set; }
         public string end_datetime { get; set; }

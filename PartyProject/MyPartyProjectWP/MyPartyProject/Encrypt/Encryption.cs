@@ -13,8 +13,6 @@ namespace MyPartyProject.Encrypt
 {
     public class Encryption
     {
-        string key = "0123456789abcdef";
-        string iv = "fedcba9876543210";
             
         public static byte[] StringToByteArray(string hex)
         {

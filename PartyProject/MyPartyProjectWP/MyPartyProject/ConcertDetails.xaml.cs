@@ -50,49 +50,19 @@ namespace MyPartyProject
             textBeginDate.Text = concert.start_datetime;
             textEndDate.Text = concert.end_datetime;
             textLocation.Text = concert.location;
-            textNbSeets.Text = "Number of seats " + concert.nb_seats;
+            textNbSeets.Text = "Number of seats : " + concert.nb_seats;
             textTitle.Text = concert.name_concert;
-            /*
-            try
-            {
-                List<Concert> concerts = (List<Concert>)IsolatedStorageSettings.ApplicationSettings["concerts"];
-                List<Ticket> tickets = (List<Ticket>)IsolatedStorageSettings.ApplicationSettings["tickets"];
-                foreach (Ticket ticket in tickets)
-                {
-                    Concert currentConcert = Concert.getConcertFromId(concerts, ticket.id_concert);
-                    ticket.location = currentConcert.location;
-                    ticket.name_concert = currentConcert.name_concert;
-                    ticket.start_datetime = currentConcert.start_datetime;
-                    ticket.end_datetime = currentConcert.end_datetime;
-                    ticket.image = currentConcert.image;
-                }
-                List<Reservation> resByConcert = Reservation.getListReservationByConcert(tickets, concerts);
-                ticketsListBox.ItemsSource = resByConcert;
-            }
-            catch (System.Collections.Generic.KeyNotFoundException e) { }
-            */
-            /********************** Affichage des tickets *******************************/
             
-            //geoWatcher = new GeoCoordinateWatcher();
-            //geoWatcher.StatusChanged += geoWatcher_StatusChanged;
-            //geoWatcher.Start();*/
+            geoWatcher = new GeoCoordinateWatcher();
+            geoWatcher.StatusChanged += geoWatcher_StatusChanged;
+            geoWatcher.Start();
         }
-        /*
-        private void ticketsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (ticketsListBox.SelectedItem == null)
-                return;
-            Reservation currentRes= (Reservation)ticketsListBox.SelectedItem;
-            PhoneApplicationService.Current.State["reservation"] = currentRes;
-            ticketsListBox.SelectedItem = null;
-            NavigationService.Navigate(new Uri("/TicketPage.xaml", UriKind.Relative));
-        }*/
 
         private void geoWatcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
-            map.Center = e.Position.Location;
+            /*map.Center = e.Position.Location;
             
-            /*Dispatcher.BeginInvoke(() =>
+            Dispatcher.BeginInvoke(() =>
             {
             
                 if (map.Children.OfType<Pushpin>().Any())

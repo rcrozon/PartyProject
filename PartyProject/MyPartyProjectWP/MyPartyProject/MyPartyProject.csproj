@@ -101,7 +101,10 @@
     </Compile>
     <Compile Include="Encrypt\Encryption.cs" />
     <Compile Include="Entities\Artist.cs" />
+    <Compile Include="Entities\AssocArtist.cs" />
+    <Compile Include="Entities\AssocStyle.cs" />
     <Compile Include="Entities\Client.cs" />
+    <Compile Include="Entities\Styles.cs" />
     <Compile Include="Entities\Ticket.cs" />
     <Compile Include="ReservationsList.xaml.cs">
       <DependentUpon>ReservationsList.xaml</DependentUpon>
@@ -420,8 +423,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ic_launcher.png" />
+    <Content Include="Images\ic_action_event.png" />
     <Content Include="Images\ic_action_refresh.png" />
+    <Content Include="Images\ic_action_reply.png" />
     <Content Include="Images\ic_action_search.png" />
+    <Content Include="Images\ic_action_storage.png" />
     <Content Include="Images\ic_connected.png" />
     <Content Include="Images\ic_launcher.png" />
     <Content Include="Images\ic_map.png" />

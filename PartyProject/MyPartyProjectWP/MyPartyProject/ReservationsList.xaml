@@ -48,6 +48,7 @@
                                 <TextBlock Text="{Binding name_concert}" />
                                 <TextBlock Text="{Binding start_datetime}" />
                                 <TextBlock Text="{Binding end_datetime}" />
+                                <TextBlock Text="{Binding nb_seats_reserved}" />
                             </StackPanel>
                         </Grid>
                     </DataTemplate>

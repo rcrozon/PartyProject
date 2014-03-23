@@ -55,7 +55,7 @@ namespace MyPartyProject.Entities
                         start_datetime = tickets[i-1].start_datetime,
                         end_datetime = tickets[i-1].end_datetime,
                         image = tickets[i-1].image,
-                        nb_seats_reserved = cpt.ToString(),
+                        nb_seats_reserved = "Tickets reserved : " + cpt.ToString(),
                     });
                     cpt = 0;
                     id_concert = tickets[i].id_concert;

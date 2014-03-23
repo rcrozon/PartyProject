@@ -32,6 +32,7 @@ namespace MyPartyProject
         private string idClient = null;
         private string _pwd = "";
         private string _login = "";
+        private int NB_LOADING = 8;
         // Constructor
         public MainPage()
         {
@@ -56,33 +57,48 @@ namespace MyPartyProject
             imageBitmapDisconnected = new BitmapImage(imageUri);
         }
 
-        private void updateDatabase(string idClient)
+        private void updateDatabase(string idClient, int pos)
         {
-            WebClient webClientConcert = new WebClient();
-            webClientConcert.DownloadStringCompleted += concert_DownloadStringCompleted;
-            webClientConcert.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllConcerts"));
-            WebClient webClientTicket = new WebClient();
-            webClientTicket.DownloadStringCompleted += ticket_DownloadStringCompleted;
-            webClientTicket.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getReservationsByCLient/id:" + idClient));
-            WebClient webClientTariff = new WebClient();
-            webClientTariff.DownloadStringCompleted += tariff_DownloadStringCompleted;
-            webClientTariff.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllTariffs"));
-       /*     WebClient webClientStyles = new WebClient();
-            webClientStyles.DownloadStringCompleted += styles_DownloadStringCompleted;
-            webClientStyles.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllStyles"));
-       */     WebClient webClientArtist = new WebClient();
-            webClientArtist.DownloadStringCompleted += artists_DownloadStringCompleted;
-            webClientArtist.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllArtists"));
-       /*     WebClient webClientAssocTarifs = new WebClient();
-            webClientArtist.DownloadStringCompleted += artists_DownloadStringCompleted;
-            webClientArtist.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllAssocTarifs"));
-            WebClient webClientAssocArtists = new WebClient();
-            webClientArtist.DownloadStringCompleted += artists_DownloadStringCompleted;
-            webClientArtist.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllAssocArtists"));
-            WebClient webClientAssocStyles = new WebClient();
-            webClientArtist.DownloadStringCompleted += artists_DownloadStringCompleted;
-            webClientArtist.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllAssocStyles"));
-        */
+            switch (pos)
+            {
+                case 1 :
+                    WebClient webClientConcert = new WebClient();
+                    webClientConcert.DownloadStringCompleted += concert_DownloadStringCompleted;
+                    webClientConcert.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllConcerts"));
+                    break;
+                case 2: 
+                    WebClient webClientTicket = new WebClient();
+                    webClientTicket.DownloadStringCompleted += ticket_DownloadStringCompleted;
+                    webClientTicket.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getReservationsByCLient/id:" + idClient));
+                    break; 
+                case 3 : 
+                    WebClient webClientTariff = new WebClient();
+                    webClientTariff.DownloadStringCompleted += tariff_DownloadStringCompleted;
+                    webClientTariff.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllTariffs"));
+                    break;
+                case 4 : 
+                    WebClient webClientStyles = new WebClient();
+                    webClientStyles.DownloadStringCompleted += styles_DownloadStringCompleted;
+                    webClientStyles.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllStyles"));
+                    break;
+                case 5: 
+                    WebClient webClientAssocStyles = new WebClient();
+                    webClientAssocStyles.DownloadStringCompleted += assocstyles_DownloadStringCompleted;
+                    webClientAssocStyles.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllAssocStyles"));
+                    break;
+                case 6: 
+                    WebClient webClientArtist = new WebClient();
+                    webClientArtist.DownloadStringCompleted += artists_DownloadStringCompleted;
+                    webClientArtist.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllArtists"));
+                    break;
+                /*
+                case 8: 
+                    WebClient webClientAssocArtists = new WebClient();
+                    webClientAssocArtists.DownloadStringCompleted += assocartists_DownloadStringCompleted;
+                    webClientAssocArtists.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllAssocArtists"));
+                    break;*/
+            }
+            
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
@@ -100,12 +116,20 @@ namespace MyPartyProject
             webClientClients.DownloadStringAsync(new Uri("http://anthony.flavigny.emi.u-bordeaux1.fr/PartySite/Mobiles/getAllClients"));
         }
         public void goToConcerts(){
-             NavigationService.Navigate(new Uri("/Concerts.xaml", UriKind.Relative));
+            if (PhoneApplicationService.Current.State["connected"].Equals(1))
+            {
+                NavigationService.Navigate(new Uri("/Concerts.xaml", UriKind.Relative));
+            }
+            else
+            {
+                invalidLogin.Visibility = System.Windows.Visibility.Visible;
+                progressBarLogin.Visibility = System.Windows.Visibility.Collapsed;
+            }
         }
 
         private void clients_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            progressText.Text = "Authentification...";
+            progressText.Text = "Loading...";
             List<Client> clients = new List<Client>();
             if (e.Error == null)
             {
@@ -120,7 +144,8 @@ namespace MyPartyProject
                             s4.Equals(IsolatedStorageSettings.ApplicationSettings["pwd"])) {
                         PhoneApplicationService.Current.State["connected"] = 1;
                         PhoneApplicationService.Current.State["idClient"] = result[i].id;
-                        updateDatabase(result[i].id);
+                        idClient = result[i].id;
+                        updateDatabase(result[i].id, 1);
                     }
                     clients.Add(new Client
                     {
@@ -130,10 +155,12 @@ namespace MyPartyProject
                     });
                 }
                 IsolatedStorageSettings.ApplicationSettings["clients"] = clients;
+                IsolatedStorageSettings.ApplicationSettings.Save();
             }
             else
             {
                 clients = (List<Client>)IsolatedStorageSettings.ApplicationSettings["clients"];
+                imgConnected.Source = imageBitmapDisconnected;
                 foreach (Client client in clients)
                 {
                     if (client.username.Equals(IsolatedStorageSettings.ApplicationSettings["login"]) &&
@@ -141,18 +168,16 @@ namespace MyPartyProject
                     {
                         PhoneApplicationService.Current.State["connected"] = 1;
                         PhoneApplicationService.Current.State["idClient"] = client.id;
-                        updateDatabase(client.id);
+                        updateDatabase(client.id, 1);
                     }
                 }
                 if (PhoneApplicationService.Current.State["connected"].Equals(0))
                 {
                     progressText.Visibility = System.Windows.Visibility.Collapsed;
-                    imgConnected.Source = imageBitmapDisconnected;
                     invalidLogin.Visibility = System.Windows.Visibility.Visible;
                     progressBarLogin.Visibility = System.Windows.Visibility.Collapsed;
                 }
             }
-            IsolatedStorageSettings.ApplicationSettings.Save();
         }
         private void ticket_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
@@ -163,31 +188,24 @@ namespace MyPartyProject
                 List<Ticket> result = JsonConvert.DeserializeObject<List<Ticket>>(decryptedResultJSON);
                 imgConnected.Source = imageBitmapConnected;
                 List<Ticket> tickets = new List<Ticket>();
-                progressText.Text = "loading reservations...";
                 for (int i = 0; i < result.Count; ++i)
                 {
                     if (result[i].id_client.Equals((string)(PhoneApplicationService.Current.State["idClient"])))
                     {
-                        string s3 = result[i].concertLabel;
+                        string s7 = result[i].id_tarif;
                         tickets.Add(new Ticket
                         {
                             id = result[i].id,
                             id_client = result[i].id_client,
                             id_concert = result[i].id_concert,
+                            id_tarif = result[i].id_tarif,
                         });
                     }
                 }
                 IsolatedStorageSettings.ApplicationSettings["tickets"] = tickets;
-            }else{
-                PhoneApplicationService.Current.State["connected"] = 0;
-                imgConnected.Source = imageBitmapDisconnected;
             }
             IsolatedStorageSettings.ApplicationSettings.Save();
-            loaded += 1;
-            if (loaded == 4)
-            {
-                goToConcerts();
-            }
+            updateDatabase(idClient, 3);
         }
         private void tariff_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
@@ -199,7 +217,6 @@ namespace MyPartyProject
                 List<Tariff> result = JsonConvert.DeserializeObject<List<Tariff>>(decryptedResultJSON);
                 imgConnected.Source = imageBitmapConnected;
                 List<Tariff> tariffs = new List<Tariff>();
-                progressText.Text = "loading tariffs...";
                 for (int i = 0; i < result.Count; ++i)
                 {
                     tariffs.Add(new Tariff
@@ -211,24 +228,14 @@ namespace MyPartyProject
                 }
                 IsolatedStorageSettings.ApplicationSettings["tariffs"] = tariffs;
             }
-            else
-            {
-                PhoneApplicationService.Current.State["connected"] = 0;
-                imgConnected.Source = imageBitmapDisconnected;
-            }
             IsolatedStorageSettings.ApplicationSettings.Save();
-            loaded += 1;
-            if (loaded == 4)
-            {
-                goToConcerts();
-            }
+            updateDatabase(idClient, 4);
         }
-
+        
         private void artists_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
-        {
+        {/*
             if (e.Error == null)
             {
-
                 string s = Encryption.myDecrypt(e.Result.Trim());
                 string decryptedResultJSON = s;
                 List<Artist> result = JsonConvert.DeserializeObject<List<Artist>>(decryptedResultJSON);
@@ -245,18 +252,10 @@ namespace MyPartyProject
                 }
                 IsolatedStorageSettings.ApplicationSettings["artist"] = artists;
             }
-            else
-            {
-                PhoneApplicationService.Current.State["connected"] = 0;
-                imgConnected.Source = imageBitmapDisconnected;
-            }
             IsolatedStorageSettings.ApplicationSettings.Save();
-            loaded += 1;
-            if (loaded == 4)
-            {
-                goToConcerts();
-            }
+            updateDatabase(idClient, 7);*/
         }
+
         private void styles_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             if (e.Error == null)
@@ -264,31 +263,21 @@ namespace MyPartyProject
 
                 string s = Encryption.myDecrypt(e.Result.Trim());
                 string decryptedResultJSON = s;
-                List<Artist> result = JsonConvert.DeserializeObject<List<Artist>>(decryptedResultJSON);
+                List<Styles> result = JsonConvert.DeserializeObject<List<Styles>>(decryptedResultJSON);
                 imgConnected.Source = imageBitmapConnected;
-                List<Artist> artists = new List<Artist>();
-                progressText.Text = "loading artists...";
+                List<Styles> styles = new List<Styles>();
                 for (int i = 0; i < result.Count; ++i)
                 {
-                    artists.Add(new Artist
+                    styles.Add(new Styles
                     {
                         id = result[i].id,
                         name = result[i].name,
                     });
                 }
-                IsolatedStorageSettings.ApplicationSettings["artist"] = artists;
-            }
-            else
-            {
-                PhoneApplicationService.Current.State["connected"] = 0;
-                imgConnected.Source = imageBitmapDisconnected;
+                IsolatedStorageSettings.ApplicationSettings["styles"] = styles;
             }
             IsolatedStorageSettings.ApplicationSettings.Save();
-            loaded += 1;
-            if (loaded == 4)
-            {
-                goToConcerts();
-            } 
+            updateDatabase(idClient, 5);
         }
         private void concert_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
@@ -299,7 +288,6 @@ namespace MyPartyProject
                 imgConnected.Source = imageBitmapConnected;
                 List<Concert> result = JsonConvert.DeserializeObject<List<Concert>>(decryptedResultJSON);
                 List<Concert> concerts = new List<Concert>();
-                progressText.Text = "loading concerts...";
                 for (int i = 0; i < result.Count; ++i)
                 {
                     concerts.Add(new Concert
@@ -317,17 +305,65 @@ namespace MyPartyProject
                 }
                 IsolatedStorageSettings.ApplicationSettings["concerts"] = concerts;
             }
-            else
+            IsolatedStorageSettings.ApplicationSettings.Save();
+            updateDatabase(idClient, 2);
+        }
+        
+        private void assocstyles_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            if (e.Error == null)
             {
-                PhoneApplicationService.Current.State["connected"] = 0;
-                imgConnected.Source = imageBitmapDisconnected;
+                string s = Encryption.myDecrypt(e.Result.Trim());
+                string decryptedResultJSON = s;
+                imgConnected.Source = imageBitmapConnected;
+                List<AssocStyle> result = JsonConvert.DeserializeObject<List<AssocStyle>>(decryptedResultJSON);
+                List<AssocStyle> styles = new List<AssocStyle>();
+                for (int i = 0; i < result.Count; ++i)
+                {
+                    styles.Add(new AssocStyle
+                    {
+                        id = result[i].id,
+                        id_concert = result[i].id_concert,
+                        id_style = result[i].id_style,
+                    });
+                }
+                IsolatedStorageSettings.ApplicationSettings["assocstyles"] = styles;
             }
             IsolatedStorageSettings.ApplicationSettings.Save();
-            loaded += 1;
-            if (loaded == 4)
+            goToConcerts();
+       
+        }
+        private void assocartists_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {/*
+            if (e.Error == null)
+            {
+                string s = Encryption.myDecrypt(e.Result.Trim());
+                string decryptedResultJSON = s;
+                imgConnected.Source = imageBitmapConnected;
+                List<AssocArtist> result = JsonConvert.DeserializeObject<List<AssocArtist>>(decryptedResultJSON);
+                List<AssocArtist> artists = new List<AssocArtist>();
+                progressText.Text = "loading artists...";
+                for (int i = 0; i < result.Count; ++i)
+                {
+                    artists.Add(new AssocArtist
+                    {
+                        id = result[i].id,
+                        id_artist = result[i].id_artist,
+                        id_concert = result[i].id_concert,
+                    });
+                }
+                IsolatedStorageSettings.ApplicationSettings["assocartists"] = artists;
+            }
+            else
+            {
+                imgConnected.Source = imageBitmapDisconnected;
+            }
+            loaded++;
+            if (loaded == NB_LOADING)
             {
                 goToConcerts();
-            } 
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            }*/
         }
     }
 }

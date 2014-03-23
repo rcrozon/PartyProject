@@ -100,7 +100,6 @@ namespace MyPartyProject
                 IsolatedStorageSettings.ApplicationSettings["tickets"] = tickets;
             }
             IsolatedStorageSettings.ApplicationSettings.Save();
-            NavigationService.Navigate(new Uri("/ReservationsList.xaml", UriKind.Relative));
         }
     }
 
