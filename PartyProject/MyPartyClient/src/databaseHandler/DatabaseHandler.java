@@ -181,7 +181,7 @@ public class DatabaseHandler {
 			/*On decrypt le mot de passe contenu dans la table*/
 			String decrypted = decodePassword(c.getString(2));
 
-
+			Log.i("PWD", "pwd : " + pwd + "  dec " + decrypted);
 			/*On compare le mdp rentré et celui de la table*/
 			if (pwd.equals(decrypted)){
 				return c.getInt(0);
@@ -827,6 +827,7 @@ public class DatabaseHandler {
 			MyJsonParser parser = new MyJsonParser(context);
 
 			String concertString = dbbs.getRequest("getAllConcerts");
+			String clientString = dbbs.getRequest("getAllClients");
 			String reservationString = dbbs.getRequest("getReservationsByCLient/id:" + idClient);
 			String tarrifString = dbbs.getRequest("getAllTariffs");
 			String tarrifAssocString = dbbs.getRequest("getAllAssocTarifs");
@@ -835,7 +836,7 @@ public class DatabaseHandler {
 			String artistsString = dbbs.getRequest("getAllArtists");
 			String artistsAssocString = dbbs.getRequest("getAllAssocArtists");
 
-			if (parser.reponseIsJson(concertString) && parser.reponseIsJson(reservationString) 
+			if (parser.reponseIsJson(clientString)&& parser.reponseIsJson(concertString) && parser.reponseIsJson(reservationString) 
 					&& parser.reponseIsJson(tarrifString)
 					&& parser.reponseIsJson(tarrifAssocString) && parser.reponseIsJson(stylesAssocString)
 					&& parser.reponseIsJson(stylesString) && parser.reponseIsJson(artistsString)
@@ -843,6 +844,7 @@ public class DatabaseHandler {
 				Log.i("DBB", "ON VIDE");
 				deleteAllTable();
 				List<Concert> concertlist = parser.getConcertFromJson(concertString);
+				List<Client> clientList = parser.getClientFromJson(clientString);
 
 				/*On insere les concerts dans bdd*/
 				if (concertlist != null){
@@ -851,7 +853,13 @@ public class DatabaseHandler {
 						insertConcert(c);
 					}
 				}
-
+				/*On insere les clients dans bdd*/
+				if (clientList != null){
+					for (int i=0 ; i< clientList.size() ; i++){
+						Client c = clientList.get(i);
+						insertClient(c);
+					}
+				}
 				/*On insere les reservations*/
 
 				parser.getReservationAndInsert(reservationString);

@@ -189,12 +189,12 @@ public class BluetoothHandler {
             case MESSAGE_DEVICE_NAME:
                 // save the connected device's name
                 mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
-//                Toast.makeText(context, "Connected to "
-//                               + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Connected to "
+                               + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                 break;
             case MESSAGE_TOAST:
-//                Toast.makeText(context, msg.getData().getString(TOAST),
-//                               Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, msg.getData().getString(TOAST),
+                               Toast.LENGTH_SHORT).show();
                 break;
             }
         }

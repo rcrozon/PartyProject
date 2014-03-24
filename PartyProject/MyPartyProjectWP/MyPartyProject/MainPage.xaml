@@ -59,7 +59,11 @@
             <ProgressBar x:Name="progressBarLogin" Visibility="Collapsed" IsIndeterminate="True" Margin="10,532,-10,85"/>
             <TextBlock x:Name="progressText" VerticalAlignment="Center" FontSize="24" Margin="0,487,0,102" TextWrapping="Wrap" Text="" Height="45"/>
         </Grid>
-        <TextBlock x:Name="invalidLogin" Foreground="Red" FontSize="25" TextWrapping="Wrap" Text="Invalid username or password" RenderTransformOrigin="0.118,0.404" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" Height="831" Margin="229,-222,229,60" Grid.RowSpan="7" Width="22"/>
+        <TextBlock x:Name="invalidLogin" Foreground="Red" FontSize="25" TextWrapping="Wrap" Text="Invalid username or password" RenderTransformOrigin="0.118,0.404" VerticalAlignment="Center" Visibility="Collapsed" Height="34.06" Margin="75,179.944,76,69.996" UseLayoutRounding="False" d:LayoutRounding="Auto" Grid.RowSpan="2">
+            <TextBlock.RenderTransform>
+                <CompositeTransform Rotation="-0.043"/>
+            </TextBlock.RenderTransform>
+        </TextBlock>
         <TextBlock Margin="194,10,0,10" Grid.Row="1" TextWrapping="Wrap" Text="Login" HorizontalAlignment="Left" FontSize="37.333" Width="92"/>
         <TextBox x:Name="login"  Margin="10,0,14,4" Grid.Row="2" TextWrapping="Wrap"/>
         <PasswordBox x:Name="pwd" Margin="12,0,12,4" Grid.Row="4" />
